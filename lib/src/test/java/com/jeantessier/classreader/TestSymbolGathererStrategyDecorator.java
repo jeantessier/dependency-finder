@@ -32,24 +32,19 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
 
 public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
-    private SymbolGathererStrategy mockStrategy;
+    private final SymbolGathererStrategy mockStrategy = mock(SymbolGathererStrategy.class);
 
-    private SymbolGathererStrategyDecorator sut;
+    private final SymbolGathererStrategyDecorator sut = new SymbolGathererStrategyDecorator(mockStrategy);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockStrategy = mock(SymbolGathererStrategy.class);
-
-        sut = new SymbolGathererStrategyDecorator(mockStrategy);
-    }
-
-    public void testIsMatching_class() {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testIsMatching_class() {
+        var mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockClassfile);
@@ -58,8 +53,9 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_field() {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testIsMatching_field() {
+        var mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockField);
@@ -68,8 +64,9 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_method() {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testIsMatching_method() {
+        var mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockMethod);
@@ -78,8 +75,9 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_local() {
-        final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+    @Test
+    void testIsMatching_local() {
+        var mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockLocalVariable);
@@ -88,8 +86,9 @@ public class TestSymbolGathererStrategyDecorator extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_innerClass() {
-        final InnerClass mockInnerClass = mock(InnerClass.class);
+    @Test
+    void testIsMatching_innerClass() {
+        var mockInnerClass = mock(InnerClass.class);
 
         checking(new Expectations() {{
             oneOf (mockStrategy).isMatching(mockInnerClass);

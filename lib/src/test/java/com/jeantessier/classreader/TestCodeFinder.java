@@ -32,10 +32,15 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.integration.junit3.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCodeFinder extends MockObjectTestCase {
-    public void testVisitCode_attribute() {
+    @Test
+    void testVisitCode_attribute() {
         Code_attribute mockCode_attribute = mock(Code_attribute.class);
 
         CodeFinder sut = new CodeFinder();

@@ -32,20 +32,17 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.Expectations;
-import org.jmock.Sequence;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Consumer;
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestTextPrinter extends MockObjectTestCase {
     private static final int ICONST_1_INSTRUCTION = 0x04; // iconst_1
@@ -63,31 +60,19 @@ public class TestTextPrinter extends MockObjectTestCase {
     private static final int VALUE = 4;
     private static final String DESCRIPTOR = "i";
 
-    private ConstantPoolEntry mockConstantPoolEntry;
-    private Instruction mockInstruction;
-    private LocalVariable mockLocalVariable;
-    private StringWriter out;
+    private final ConstantPoolEntry mockConstantPoolEntry = mock(ConstantPoolEntry.class);
+    private final Instruction mockInstruction = mock(Instruction.class);
+    private final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+    private final StringWriter out = new StringWriter();
 
-    private TextPrinter sut;
+    private final TextPrinter sut = new TextPrinter(new PrintWriter(out));
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Test
+    void testVisitClassfiles_TwoClassfiles_ResetConstantPoolIndices() {
+        var mockClassfile1 = mock(Classfile.class, "classfile 1");
+        var mockClassfile2 = mock(Classfile.class, "classfile 2");
 
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
-        mockConstantPoolEntry = mock(ConstantPoolEntry.class);
-        mockInstruction = mock(Instruction.class);
-        mockLocalVariable = mock(LocalVariable.class);
-        out = new StringWriter();
-
-        sut = new TextPrinter(new PrintWriter(out));
-    }
-
-    public void testVisitClassfiles_TwoClassfiles_ResetConstantPoolIndices() throws IOException {
-        final Classfile mockClassfile1 = mock(Classfile.class, "classfile 1");
-        final Classfile mockClassfile2 = mock(Classfile.class, "classfile 2");
-
-        List<Classfile> classfiles = new LinkedList<Classfile>();
+        List<Classfile> classfiles = new LinkedList<>();
         classfiles.add(mockClassfile1);
         classfiles.add(mockClassfile2);
 
@@ -101,10 +86,11 @@ public class TestTextPrinter extends MockObjectTestCase {
         assertOut();
     }
 
-    public void testVisitMethod_info_AbstractMethodDoesNotCallToCode_attribute() throws IOException {
-        final String methodDeclaration = "int foo()";
+    @Test
+    void testVisitMethod_info_AbstractMethodDoesNotCallToCode_attribute() {
+        var methodDeclaration = "int foo()";
 
-        final Method_info mockMethod = mock(Method_info.class);
+        var mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             oneOf (mockMethod).getDeclaration();
@@ -123,10 +109,11 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitMethod_info_NativeMethodDoesNotCallsToCode_attribute() throws IOException {
-        final String methodDeclaration = "int foo()";
+    @Test
+    void testVisitMethod_info_NativeMethodDoesNotCallsToCode_attribute() {
+        var methodDeclaration = "int foo()";
 
-        final Method_info mockMethod = mock(Method_info.class);
+        var mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             oneOf (mockMethod).getDeclaration();
@@ -147,11 +134,12 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitMethod_info_CallsToCode_attribute() throws IOException {
-        final String methodDeclaration = "int foo()";
+    @Test
+    void testVisitMethod_info_CallsToCode_attribute() {
+        var methodDeclaration = "int foo()";
 
-        final Method_info mockMethod = mock(Method_info.class);
-        final Code_attribute mockCode = mock(Code_attribute.class);
+        var mockMethod = mock(Method_info.class);
+        var mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
             oneOf (mockMethod).getDeclaration();
@@ -175,11 +163,12 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitMethod_info_StaticInitializer() throws IOException {
-        final String methodDeclaration = "static {}";
+    @Test
+    void testVisitMethod_info_StaticInitializer() {
+        var methodDeclaration = "static {}";
 
-        final Method_info mockMethod = mock(Method_info.class);
-        final Code_attribute mockCode = mock(Code_attribute.class);
+        var mockMethod = mock(Method_info.class);
+        var mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
             oneOf (mockMethod).getDeclaration();
@@ -203,8 +192,9 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitCode_attribute_WithoutExceptionHandlers() throws IOException {
-        final Code_attribute mockCode = mock(Code_attribute.class);
+    @Test
+    void testVisitCode_attribute_WithoutExceptionHandlers() {
+        var mockCode = mock(Code_attribute.class);
 
         checking(new Expectations() {{
             oneOf (mockCode).forEach(with(any(Consumer.class)));
@@ -219,9 +209,10 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitCode_attribute_WithExceptionHandlers() throws IOException {
-        final Code_attribute mockCode = mock(Code_attribute.class);
-        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+    @Test
+    void testVisitCode_attribute_WithExceptionHandlers() {
+        var mockCode = mock(Code_attribute.class);
+        var mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
             oneOf (mockCode).forEach(with(any(Consumer.class)));
@@ -238,7 +229,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_iinc_WithLocalVariableAndIndexAndValue() throws IOException {
+    @Test
+    void testVisitInstruction_iinc_WithLocalVariableAndIndexAndValue() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(IINC_INSTRUCTION));
@@ -269,7 +261,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_iconst_1_WithNothing() throws IOException {
+    @Test
+    void testVisitInstruction_iconst_1_WithNothing() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ICONST_1_INSTRUCTION));
@@ -288,7 +281,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_goto_WithNegativeOffset() throws IOException {
+    @Test
+    void testVisitInstruction_goto_WithNegativeOffset() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GOTO_INSTRUCTION));
@@ -310,7 +304,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_goto_WithOffsetOfZero() throws IOException {
+    @Test
+    void testVisitInstruction_goto_WithOffsetOfZero() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GOTO_INSTRUCTION));
@@ -332,7 +327,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_goto_WithPositiveOffset() throws IOException {
+    @Test
+    void testVisitInstruction_goto_WithPositiveOffset() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GOTO_INSTRUCTION));
@@ -354,7 +350,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_iload_WithLocalVariableAndIndex() throws IOException {
+    @Test
+    void testVisitInstruction_iload_WithLocalVariableAndIndex() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_INSTRUCTION));
@@ -382,7 +379,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_iload_1_WithLocalVariableButNoIndex() throws IOException {
+    @Test
+    void testVisitInstruction_iload_1_WithLocalVariableButNoIndex() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_1_INSTRUCTION));
@@ -407,7 +405,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_iload_1_WithMissingLocalVariableAndNoIndex() throws IOException {
+    @Test
+    void testVisitInstruction_iload_1_WithMissingLocalVariableAndNoIndex() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(ILOAD_1_INSTRUCTION));
@@ -429,7 +428,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_getfield_WithConstantPoolEntry() throws IOException {
+    @Test
+    void testVisitInstruction_getfield_WithConstantPoolEntry() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(GETFIELD_INSTRUCTION));
@@ -452,7 +452,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_wide_iinc_WithLocalVariableAndIndexAndValue() throws IOException {
+    @Test
+    void testVisitInstruction_wide_iinc_WithLocalVariableAndIndexAndValue() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(WIDE_INSTRUCTION));
@@ -486,7 +487,8 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitInstruction_wide_iload_WithLocalVariableAndIndex() throws IOException {
+    @Test
+    void testVisitInstruction_wide_iload_WithLocalVariableAndIndex() {
         checking(new Expectations() {{
             atLeast(1).of (mockInstruction).getOpcode();
                 will(returnValue(WIDE_INSTRUCTION));
@@ -517,13 +519,14 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitExceptionHandler_WithCatchType() throws IOException {
-        final int startPc = 1;
-        final int endPc = 2;
-        final int handlerPc = 3;
-        final String catchType = "foo";
+    @Test
+    void testVisitExceptionHandler_WithCatchType() {
+        var startPc = 1;
+        var endPc = 2;
+        var handlerPc = 3;
+        var catchType = "foo";
 
-        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+        var mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
             oneOf (mockExceptionHandler).getStartPC();
@@ -548,12 +551,13 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    public void testVisitExceptionHandler_WithoutCatchType() throws IOException {
-        final int startPc = 1;
-        final int endPc = 2;
-        final int handlerPc = 3;
+    @Test
+    void testVisitExceptionHandler_WithoutCatchType() {
+        var startPc = 1;
+        var endPc = 2;
+        var handlerPc = 3;
 
-        final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
+        var mockExceptionHandler = mock(ExceptionHandler.class);
 
         checking(new Expectations() {{
             oneOf (mockExceptionHandler).getStartPC();
@@ -576,14 +580,7 @@ public class TestTextPrinter extends MockObjectTestCase {
         );
     }
 
-    private void assertOut(String ...expectedLines) throws IOException {
-        int            lineNumber = 0;
-        BufferedReader in         = new BufferedReader(new StringReader(out.toString()));
-
-        for (String expectedLine : expectedLines) {
-            assertEquals("line " + ++lineNumber, expectedLine, in.readLine());
-        }
-
-        assertEquals("End of file", null, in.readLine());
+    private void assertOut(String ...expectedLines) {
+        assertLinesMatch(Stream.of(expectedLines), out.toString().lines());
     }
 }

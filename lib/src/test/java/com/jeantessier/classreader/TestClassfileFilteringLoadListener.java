@@ -34,31 +34,23 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-import org.jmock.integration.junit3.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+
+import com.jeantessier.MockObjectTestCase;
 
 public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
-    private LoadListener mockDelegate;
-    private Classfile mockClassfile;
+    private final LoadListener mockDelegate = mock(LoadListener.class);
+    private final Classfile mockClassfile = mock(Classfile.class);
 
-    private List<String> includes;
-    private List<String> excludes;
+    private final List<String> includes = new LinkedList<>();
+    private final List<String> excludes = new LinkedList<>();
 
-    public LoadListener sut;
+    private final LoadListener sut = new ClassfileFilteringLoadListener(mockDelegate, includes, excludes);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockDelegate = mock(LoadListener.class);
-        mockClassfile = mock(Classfile.class);
-
-        includes = new LinkedList<String>();
-        excludes = new LinkedList<String>();
-
-        sut = new ClassfileFilteringLoadListener(mockDelegate, includes, excludes);
-    }
-
-    public void testMatchingClassfile() {
+    @Test
+    void testMatchingClassfile() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Foo.class", mockClassfile);
 
@@ -71,7 +63,8 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         sut.endClassfile(testEvent);
     }
 
-    public void testMatchingClassfileOnSecondRE() {
+    @Test
+    void testMatchingClassfileOnSecondRE() {
         includes.add("/Foo/");
         includes.add("/Bar/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", mockClassfile);
@@ -85,7 +78,8 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         sut.endClassfile(testEvent);
     }
 
-    public void testNonMatchingClassfile() {
+    @Test
+    void testNonMatchingClassfile() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", mockClassfile);
 
@@ -98,7 +92,8 @@ public class TestClassfileFilteringLoadListener extends MockObjectTestCase {
         sut.endClassfile(testEvent);
     }
 
-    public void testExcludingClassfile() {
+    @Test
+    void testExcludingClassfile() {
         includes.add("/Foo/");
         excludes.add("/Bar/");
         final LoadEvent testEvent = new LoadEvent(this, "", "FooBar.class", mockClassfile);

@@ -34,29 +34,21 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-import org.jmock.integration.junit3.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
 
 public class TestGroupFilteringLoadListener extends MockObjectTestCase {
-    private LoadListener mockDelegate;
+    private final LoadListener mockDelegate = mock(LoadListener.class);
 
-    private List<String> includes;
-    private List<String> excludes;
+    private final List<String> includes = new LinkedList<>();
+    private final List<String> excludes = new LinkedList<>();
 
-    public LoadListener sut;
+    private final LoadListener sut = new GroupFilteringLoadListener(mockDelegate, includes, excludes);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockDelegate = mock(LoadListener.class);
-
-        includes = new LinkedList<String>();
-        excludes = new LinkedList<String>();
-
-        sut = new GroupFilteringLoadListener(mockDelegate, includes, excludes);
-    }
-
-    public void testBeginGroupWithMatchingGroupName() {
+    @Test
+    void testBeginGroupWithMatchingGroupName() {
         includes.add("/foo/");
         final LoadEvent testEvent = new LoadEvent(this, "foo", 0);
 
@@ -67,7 +59,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.beginGroup(testEvent);
     }
 
-    public void testBeginGroupMatchingGroupNameOnSecondRE() {
+    @Test
+    void testBeginGroupMatchingGroupNameOnSecondRE() {
         includes.add("/foo/");
         includes.add("/bar/");
         final LoadEvent testEvent = new LoadEvent(this, "bar", 0);
@@ -79,7 +72,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.beginGroup(testEvent);
     }
 
-    public void testBeginGroupNonMatchingGroupName() {
+    @Test
+    void testBeginGroupNonMatchingGroupName() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "bar", 0);
 
@@ -90,7 +84,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.beginGroup(testEvent);
     }
 
-    public void testBeginGroupExcludingGroupName() {
+    @Test
+    void testBeginGroupExcludingGroupName() {
         includes.add("/foo/");
         excludes.add("/bar/");
         final LoadEvent testEvent = new LoadEvent(this, "foobar", 0);
@@ -102,7 +97,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.beginGroup(testEvent);
     }
 
-    public void testEndGroupWithMatchingGroupName() {
+    @Test
+    void testEndGroupWithMatchingGroupName() {
         includes.add("/foo/");
         final LoadEvent testEvent = new LoadEvent(this, "foo", 0);
 
@@ -113,7 +109,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.endGroup(testEvent);
     }
 
-    public void testEndGroupMatchingGroupNameOnSecondRE() {
+    @Test
+    void testEndGroupMatchingGroupNameOnSecondRE() {
         includes.add("/foo/");
         includes.add("/bar/");
         final LoadEvent testEvent = new LoadEvent(this, "bar", 0);
@@ -125,7 +122,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.endGroup(testEvent);
     }
 
-    public void testEndGroupNonMatchingGroupName() {
+    @Test
+    void testEndGroupNonMatchingGroupName() {
         includes.add("/foo/");
         final LoadEvent testEvent = new LoadEvent(this, "bar", 0);
 
@@ -136,7 +134,8 @@ public class TestGroupFilteringLoadListener extends MockObjectTestCase {
         sut.endGroup(testEvent);
     }
 
-    public void testEndGroupExcludingGroupName() {
+    @Test
+    void testEndGroupExcludingGroupName() {
         includes.add("/foo/");
         excludes.add("/bar/");
         final LoadEvent testEvent = new LoadEvent(this, "foobar", 0);

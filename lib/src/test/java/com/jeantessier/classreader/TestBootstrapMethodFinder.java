@@ -32,23 +32,28 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBootstrapMethodFinder extends MockObjectTestCase {
     private static final int BOOTSTRAP_METHOD_INDEX = 1;
 
     BootstrapMethodFinder sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
         sut = new BootstrapMethodFinder(BOOTSTRAP_METHOD_INDEX);
     }
 
-    public void testVisitBootstrapMethods_attribute() {
+    @Test
+    void testVisitBootstrapMethods_attribute() {
         BootstrapMethods_attribute mockAttribute = mock(BootstrapMethods_attribute.class);
         BootstrapMethod otherBootstrapMethod = mock(BootstrapMethod.class, "other bootstrap method");
         BootstrapMethod targetBootstrapMethod = mock(BootstrapMethod.class, "target bootstrap method");
@@ -62,7 +67,8 @@ public class TestBootstrapMethodFinder extends MockObjectTestCase {
         sut.visitBootstrapMethods_attribute(mockAttribute);
     }
 
-    public void testVisitBootstrapMethod() {
+    @Test
+    void testVisitBootstrapMethod() {
         BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
 
         sut.visitBootstrapMethod(mockBootstrapMethod);

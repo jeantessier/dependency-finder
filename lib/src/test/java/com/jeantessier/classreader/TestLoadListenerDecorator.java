@@ -32,25 +32,21 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.integration.junit3.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLoadListenerDecorator extends MockObjectTestCase {
-    public LoadEvent testEvent;
-    public LoadListener mockDelegate;
+    private final LoadEvent testEvent = new LoadEvent(this, null, 0);
+    private final LoadListener mockDelegate = mock(LoadListener.class);
 
-    public LoadListener sut;
+    private final LoadListener sut = new LoadListenerDecorator(mockDelegate);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        testEvent = new LoadEvent(this, null, 0);
-        mockDelegate = mock(LoadListener.class);
-
-        sut = new LoadListenerDecorator(mockDelegate);
-    }
-
-    public void testBeginSession() {
+    @Test
+    void testBeginSession() {
         checking(new Expectations() {{
             oneOf (mockDelegate).beginSession(testEvent);
         }});
@@ -58,7 +54,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.beginSession(testEvent);
     }
 
-    public void testBeginGroup() {
+    @Test
+    void testBeginGroup() {
         checking(new Expectations() {{
             oneOf (mockDelegate).beginGroup(testEvent);
         }});
@@ -66,7 +63,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.beginGroup(testEvent);
     }
 
-    public void testBeginFile() {
+    @Test
+    void testBeginFile() {
         checking(new Expectations() {{
             oneOf (mockDelegate).beginFile(testEvent);
         }});
@@ -74,7 +72,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.beginFile(testEvent);
     }
 
-    public void testBeginClassfile() {
+    @Test
+    void testBeginClassfile() {
         checking(new Expectations() {{
             oneOf (mockDelegate).beginClassfile(testEvent);
         }});
@@ -82,7 +81,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.beginClassfile(testEvent);
     }
 
-    public void testEndClassfile() {
+    @Test
+    void testEndClassfile() {
         checking(new Expectations() {{
             oneOf (mockDelegate).endClassfile(testEvent);
         }});
@@ -90,7 +90,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.endClassfile(testEvent);
     }
 
-    public void testEndFile() {
+    @Test
+    void testEndFile() {
         checking(new Expectations() {{
             oneOf (mockDelegate).endFile(testEvent);
         }});
@@ -98,7 +99,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.endFile(testEvent);
     }
 
-    public void testEndGroup() {
+    @Test
+    void testEndGroup() {
         checking(new Expectations() {{
             oneOf (mockDelegate).endGroup(testEvent);
         }});
@@ -106,7 +108,8 @@ public class TestLoadListenerDecorator extends MockObjectTestCase {
         sut.endGroup(testEvent);
     }
 
-    public void testEndSession() {
+    @Test
+    void testEndSession() {
         checking(new Expectations() {{
             oneOf (mockDelegate).endSession(testEvent);
         }});

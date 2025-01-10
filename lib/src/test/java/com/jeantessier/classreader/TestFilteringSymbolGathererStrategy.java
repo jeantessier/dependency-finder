@@ -33,11 +33,14 @@
 package com.jeantessier.classreader;
 
 import org.apache.oro.text.MalformedCachePatternException;
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
     private static final String SOME_PACKAGE_NAME = "some.package";
@@ -53,35 +56,22 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
     private static final String ANOTHER_LOCAL_VARIABLE_NAME = "anotherLocalVariable";
     private static final String ANOTHER_INNER_CLASS_NAME = ANOTHER_CLASS_NAME + "$AnotherInnerClass";
 
-    private Classfile mockClassfile;
-    private Field_info mockField;
-    private Method_info mockMethod;
-    private LocalVariable mockLocalVariable;
-    private InnerClass mockInnerClass;
-    private SymbolGathererStrategy mockStrategy;
+    private final Classfile mockClassfile = mock(Classfile.class);
+    private final Field_info mockField = mock(Field_info.class);
+    private final Method_info mockMethod = mock(Method_info.class);
+    private final LocalVariable mockLocalVariable = mock(LocalVariable.class);
+    private final InnerClass mockInnerClass = mock(InnerClass.class);
+    private final SymbolGathererStrategy mockStrategy = mock(SymbolGathererStrategy.class);
 
-    private List<String> noMatch;
-    private List<String> allMatch;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockClassfile = mock(Classfile.class);
-        mockField = mock(Field_info.class);
-        mockMethod = mock(Method_info.class);
-        mockLocalVariable = mock(LocalVariable.class);
-        mockInnerClass = mock(InnerClass.class);
-        mockStrategy = mock(SymbolGathererStrategy.class);
-
-        noMatch = Collections.emptyList();
-        allMatch = Collections.singletonList("//");
-    }
+    private final List<String> noMatch = Collections.emptyList();
+    private final List<String> allMatch = Collections.singletonList("//");
 
     /*
      * Classes
      */
 
-    public void testIsMatching_class_matchingincludes() {
+    @Test
+    void testIsMatching_class_matchingincludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -92,7 +82,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_class_notmatchingincludes() {
+    @Test
+    void testIsMatching_class_notmatchingincludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(ANOTHER_CLASS_NAME));
@@ -102,7 +93,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_matchingincludeslist() {
+    @Test
+    void testIsMatching_class_matchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -113,7 +105,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_class_partialmatchingincludeslist() {
+    @Test
+    void testIsMatching_class_partialmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -123,7 +116,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_notmatchingincludeslist() {
+    @Test
+    void testIsMatching_class_notmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(ANOTHER_CLASS_NAME));
@@ -133,7 +127,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_nullmatchingincludeslist() {
+    @Test
+    void testIsMatching_class_nullmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -143,7 +138,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_noincludes() {
+    @Test
+    void testIsMatching_class_noincludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
         }});
@@ -152,7 +148,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_badincludes() {
+    @Test
+    void testIsMatching_class_badincludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
         }});
@@ -166,7 +163,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         }
     }
 
-    public void testIsMatching_class_matchingexcludes() {
+    @Test
+    void testIsMatching_class_matchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -176,7 +174,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_notmatchingexcludes() {
+    @Test
+    void testIsMatching_class_notmatchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(ANOTHER_CLASS_NAME));
@@ -187,7 +186,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_class_matchingexcludeslist() {
+    @Test
+    void testIsMatching_class_matchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -197,7 +197,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_partialmatchingexcludeslist() {
+    @Test
+    void testIsMatching_class_partialmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -208,7 +209,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_class_notmatchingexcludeslist() {
+    @Test
+    void testIsMatching_class_notmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(ANOTHER_CLASS_NAME));
@@ -219,7 +221,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_class_nullmatchingexcludeslist() {
+    @Test
+    void testIsMatching_class_nullmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
             will(returnValue(SOME_CLASS_NAME));
@@ -230,7 +233,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockClassfile);
     }
 
-    public void testIsMatching_class_badexcludes() {
+    @Test
+    void testIsMatching_class_badexcludes() {
         checking(new Expectations() {{
             oneOf (mockClassfile).getClassName();
         }});
@@ -248,7 +252,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
      * Fields
      */
 
-    public void testIsMatching_field_matchingincludes() {
+    @Test
+    void testIsMatching_field_matchingincludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -259,7 +264,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_field_notmatchingincludes() {
+    @Test
+    void testIsMatching_field_notmatchingincludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(ANOTHER_FIELD_SIGNATURE));
@@ -269,7 +275,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_matchingincludeslist() {
+    @Test
+    void testIsMatching_field_matchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -280,7 +287,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_field_partialmatchingincludeslist() {
+    @Test
+    void testIsMatching_field_partialmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -290,7 +298,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_notmatchingincludeslist() {
+    @Test
+    void testIsMatching_field_notmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(ANOTHER_FIELD_SIGNATURE));
@@ -300,7 +309,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_nullmatchingincludeslist() {
+    @Test
+    void testIsMatching_field_nullmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -310,7 +320,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_noincludes() {
+    @Test
+    void testIsMatching_field_noincludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
         }});
@@ -319,7 +330,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_badincludes() {
+    @Test
+    void testIsMatching_field_badincludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
         }});
@@ -333,7 +345,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         }
     }
 
-    public void testIsMatching_field_matchingexcludes() {
+    @Test
+    void testIsMatching_field_matchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -343,7 +356,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_notmatchingexcludes() {
+    @Test
+    void testIsMatching_field_notmatchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(ANOTHER_FIELD_SIGNATURE));
@@ -354,7 +368,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_field_matchingexcludeslist() {
+    @Test
+    void testIsMatching_field_matchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -364,7 +379,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_field_partialmatchingexcludeslist() {
+    @Test
+    void testIsMatching_field_partialmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(ANOTHER_FIELD_SIGNATURE));
@@ -375,7 +391,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_field_notmatchingexcludeslist() {
+    @Test
+    void testIsMatching_field_notmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(ANOTHER_FIELD_SIGNATURE));
@@ -386,7 +403,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_field_nullmatchingexcludeslist() {
+    @Test
+    void testIsMatching_field_nullmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
             will(returnValue(SOME_FIELD_SIGNATURE));
@@ -397,7 +415,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockField);
     }
 
-    public void testIsMatching_field_badexcludes() {
+    @Test
+    void testIsMatching_field_badexcludes() {
         checking(new Expectations() {{
             oneOf (mockField).getFullSignature();
         }});
@@ -415,7 +434,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
      * Methods
      */
 
-    public void testIsMatching_method_matchingincludes() {
+    @Test
+    void testIsMatching_method_matchingincludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -426,7 +446,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_method_notmatchingincludes() {
+    @Test
+    void testIsMatching_method_notmatchingincludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(ANOTHER_METHOD_SIGNATURE));
@@ -436,7 +457,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_matchingincludeslist() {
+    @Test
+    void testIsMatching_method_matchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -447,7 +469,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_method_partialmatchingincludeslist() {
+    @Test
+    void testIsMatching_method_partialmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -457,7 +480,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_notmatchingincludeslist() {
+    @Test
+    void testIsMatching_method_notmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(ANOTHER_METHOD_SIGNATURE));
@@ -467,7 +491,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_nullmatchingincludeslist() {
+    @Test
+    void testIsMatching_method_nullmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -477,7 +502,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_noincludes() {
+    @Test
+    void testIsMatching_method_noincludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
         }});
@@ -486,7 +512,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_badincludes() {
+    @Test
+    void testIsMatching_method_badincludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
         }});
@@ -500,7 +527,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         }
     }
 
-    public void testIsMatching_method_matchingexcludes() {
+    @Test
+    void testIsMatching_method_matchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -510,7 +538,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_notmatchingexcludes() {
+    @Test
+    void testIsMatching_method_notmatchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(ANOTHER_METHOD_SIGNATURE));
@@ -521,7 +550,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_method_matchingexcludeslist() {
+    @Test
+    void testIsMatching_method_matchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -531,7 +561,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_partialmatchingexcludeslist() {
+    @Test
+    void testIsMatching_method_partialmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -542,7 +573,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_method_notmatchingexcludeslist() {
+    @Test
+    void testIsMatching_method_notmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(ANOTHER_METHOD_SIGNATURE));
@@ -553,7 +585,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_method_nullmatchingexcludeslist() {
+    @Test
+    void testIsMatching_method_nullmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
             will(returnValue(SOME_METHOD_SIGNATURE));
@@ -564,7 +597,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockMethod);
     }
 
-    public void testIsMatching_method_badexcludes() {
+    @Test
+    void testIsMatching_method_badexcludes() {
         checking(new Expectations() {{
             oneOf (mockMethod).getFullSignature();
         }});
@@ -582,7 +616,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
      * Local variables
      */
 
-    public void testIsMatching_local_matchingincludes() {
+    @Test
+    void testIsMatching_local_matchingincludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -593,7 +628,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_local_notmatchingincludes() {
+    @Test
+    void testIsMatching_local_notmatchingincludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(ANOTHER_LOCAL_VARIABLE_NAME));
@@ -603,7 +639,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_matchingincludeslist() {
+    @Test
+    void testIsMatching_local_matchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -614,7 +651,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_local_partialmatchingincludeslist() {
+    @Test
+    void testIsMatching_local_partialmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -624,7 +662,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_notmatchingincludeslist() {
+    @Test
+    void testIsMatching_local_notmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(ANOTHER_LOCAL_VARIABLE_NAME));
@@ -634,7 +673,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_nullmatchingincludeslist() {
+    @Test
+    void testIsMatching_local_nullmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -644,7 +684,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_noincludes() {
+    @Test
+    void testIsMatching_local_noincludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
         }});
@@ -653,7 +694,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_badincludes() {
+    @Test
+    void testIsMatching_local_badincludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
         }});
@@ -667,7 +709,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         }
     }
 
-    public void testIsMatching_local_matchingexcludes() {
+    @Test
+    void testIsMatching_local_matchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -677,7 +720,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_notmatchingexcludes() {
+    @Test
+    void testIsMatching_local_notmatchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(ANOTHER_LOCAL_VARIABLE_NAME));
@@ -688,7 +732,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_local_matchingexcludeslist() {
+    @Test
+    void testIsMatching_local_matchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -698,7 +743,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_local_partialmatchingexcludeslist() {
+    @Test
+    void testIsMatching_local_partialmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -709,7 +755,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_local_notmatchingexcludeslist() {
+    @Test
+    void testIsMatching_local_notmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(ANOTHER_LOCAL_VARIABLE_NAME));
@@ -720,7 +767,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_local_nullmatchingexcludeslist() {
+    @Test
+    void testIsMatching_local_nullmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
             will(returnValue(SOME_LOCAL_VARIABLE_NAME));
@@ -731,7 +779,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockLocalVariable);
     }
 
-    public void testIsMatching_local_badexcludes() {
+    @Test
+    void testIsMatching_local_badexcludes() {
         checking(new Expectations() {{
             oneOf (mockLocalVariable).getName();
         }});
@@ -749,7 +798,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
      * Inner Classes
      */
 
-    public void testIsMatching_innerClass_matchingincludes() {
+    @Test
+    void testIsMatching_innerClass_matchingincludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -760,7 +810,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockInnerClass);
     }
 
-    public void testIsMatching_innerClass_notmatchingincludes() {
+    @Test
+    void testIsMatching_innerClass_notmatchingincludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(ANOTHER_INNER_CLASS_NAME));
@@ -770,7 +821,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_matchingincludeslist() {
+    @Test
+    void testIsMatching_innerClass_matchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -781,7 +833,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockInnerClass);
     }
 
-    public void testIsMatching_innerClass_partialmatchingincludeslist() {
+    @Test
+    void testIsMatching_innerClass_partialmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -791,7 +844,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_notmatchingincludeslist() {
+    @Test
+    void testIsMatching_innerClass_notmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(ANOTHER_INNER_CLASS_NAME));
@@ -801,7 +855,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_nullmatchingincludeslist() {
+    @Test
+    void testIsMatching_innerClass_nullmatchingincludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -811,7 +866,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_noincludes() {
+    @Test
+    void testIsMatching_innerClass_noincludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
         }});
@@ -820,7 +876,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_badincludes() {
+    @Test
+    void testIsMatching_innerClass_badincludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
         }});
@@ -834,7 +891,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         }
     }
 
-    public void testIsMatching_innerClass_matchingexcludes() {
+    @Test
+    void testIsMatching_innerClass_matchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -844,7 +902,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_notmatchingexcludes() {
+    @Test
+    void testIsMatching_innerClass_notmatchingexcludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(ANOTHER_INNER_CLASS_NAME));
@@ -855,7 +914,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockInnerClass);
     }
 
-    public void testIsMatching_innerClass_matchingexcludeslist() {
+    @Test
+    void testIsMatching_innerClass_matchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -865,7 +925,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         assertFalse(sut.isMatching(mockInnerClass));
     }
 
-    public void testIsMatching_innerClass_partialmatchingexcludeslist() {
+    @Test
+    void testIsMatching_innerClass_partialmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -876,7 +937,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockInnerClass);
     }
 
-    public void testIsMatching_innerClass_notmatchingexcludeslist() {
+    @Test
+    void testIsMatching_innerClass_notmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(ANOTHER_INNER_CLASS_NAME));
@@ -887,7 +949,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockInnerClass);
     }
 
-    public void testIsMatching_innerClass_nullmatchingexcludeslist() {
+    @Test
+    void testIsMatching_innerClass_nullmatchingexcludeslist() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
             will(returnValue(SOME_INNER_CLASS_NAME));
@@ -898,7 +961,8 @@ public class TestFilteringSymbolGathererStrategy extends MockObjectTestCase {
         sut.isMatching(mockInnerClass);
     }
 
-    public void testIsMatching_innerClass_badexcludes() {
+    @Test
+    void testIsMatching_innerClass_badexcludes() {
         checking(new Expectations() {{
             oneOf (mockInnerClass).getInnerClassInfo();
         }});

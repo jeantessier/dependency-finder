@@ -32,27 +32,24 @@
 
 package com.jeantessier.classreader;
 
-import java.io.*;
-
 import org.jmock.*;
-import org.jmock.integration.junit3.*;
+import org.junit.jupiter.api.*;
+
+import java.io.*;
+import java.util.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
-    private ClassfileLoaderDispatcher delegateDispatcher;
-    private ClassfileLoaderDispatcher sut;
+    private final ClassfileLoaderDispatcher delegateDispatcher = mock(ClassfileLoaderDispatcher.class);
+    private final ClassfileLoaderDispatcher sut = new ModifiedOnlyDispatcher(delegateDispatcher);
 
-    private String testFilename;
+    private String testFilename = "no_such_file.txt";
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        delegateDispatcher = mock(ClassfileLoaderDispatcher.class);
-        sut = new ModifiedOnlyDispatcher(delegateDispatcher);
-
-        testFilename = "no_such_file.txt";
-    }
-
-    public void testDispatchNonExistingFile() {
+    @Test
+    void testDispatchNonExistingFile() {
         // Given
         checking(new Expectations() {{
             oneOf (delegateDispatcher).dispatch(testFilename);
@@ -63,10 +60,11 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         var actualAction = sut.dispatch(testFilename);
 
         // Then
-        assertEquals("dispatch action", ClassfileLoaderAction.CLASS, actualAction);
+        assertEquals(ClassfileLoaderAction.CLASS, actualAction, "dispatch action");
     }
 
-    public void testDispatchNewClassFile() throws IOException {
+    @Test
+    void testDispatchNewClassFile() throws IOException {
         // Given
         createFile();
 
@@ -80,10 +78,11 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         var actualAction = sut.dispatch(testFilename);
 
         // Then
-        assertEquals("dispatch action", ClassfileLoaderAction.CLASS, actualAction);
+        assertEquals(ClassfileLoaderAction.CLASS, actualAction, "dispatch action");
     }
     
-    public void testDispatchIdenticalClassFile() throws IOException {
+    @Test
+    void testDispatchIdenticalClassFile() throws IOException {
         // Given
         createFile();
 
@@ -102,11 +101,12 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         var actualAction = sut.dispatch(testFilename);
 
         // Then
-        assertEquals("dispatch action", ClassfileLoaderAction.CLASS, primingAction);
-        assertEquals("repeat dispatch action", ClassfileLoaderAction.IGNORE, actualAction);
+        assertEquals(ClassfileLoaderAction.CLASS, primingAction, "dispatch action");
+        assertEquals(ClassfileLoaderAction.IGNORE, actualAction, "repeat dispatch action");
     }
 
-    public void testDispatchModifiedClassFile() throws IOException {
+    @Test
+    void testDispatchModifiedClassFile() throws IOException {
         // Given
         createFile();
 
@@ -130,10 +130,11 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         // When
         var actualAction = sut.dispatch(testFilename);
 
-        assertEquals("repeat dispatch action", ClassfileLoaderAction.CLASS, actualAction);
+        assertEquals(ClassfileLoaderAction.CLASS, actualAction, "repeat dispatch action");
     }
 
-    public void testDispatchDirectory() {
+    @Test
+    void testDispatchDirectory() {
         // Given
         checking(new Expectations() {{
             exactly(2).of (delegateDispatcher).dispatch(testFilename);
@@ -147,11 +148,12 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         var actualAction = sut.dispatch(testFilename);
 
         // Then
-        assertEquals("dispatch action", ClassfileLoaderAction.DIRECTORY, primingAction);
-        assertEquals("repeat dispatch action", ClassfileLoaderAction.DIRECTORY, actualAction);
+        assertEquals(ClassfileLoaderAction.DIRECTORY, primingAction, "dispatch action");
+        assertEquals(ClassfileLoaderAction.DIRECTORY, actualAction, "repeat dispatch action");
     }
 
-    public void testDispatchIdenticalZipFile() throws IOException {
+    @Test
+    void testDispatchIdenticalZipFile() throws IOException {
         // Given
         createFile();
 
@@ -168,11 +170,12 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         var actualAction = sut.dispatch(testFilename);
 
         // Then
-        assertEquals("dispatch action", ClassfileLoaderAction.ZIP, primingAction);
-        assertEquals("repeat dispatch action", ClassfileLoaderAction.ZIP, actualAction);
+        assertEquals(ClassfileLoaderAction.ZIP, primingAction, "dispatch action");
+        assertEquals(ClassfileLoaderAction.ZIP, actualAction, "repeat dispatch action");
     }
 
-    public void testDispatchIdenticalJarFile() throws IOException {
+    @Test
+    void testDispatchIdenticalJarFile() throws IOException {
         // Given
         createFile();
 
@@ -189,12 +192,12 @@ public class TestModifiedOnlyDispatcher extends MockObjectTestCase {
         var actualAction = sut.dispatch(testFilename);
 
         // Then
-        assertEquals("dispatch action", ClassfileLoaderAction.JAR, primingAction);
-        assertEquals("repeat dispatch action", ClassfileLoaderAction.JAR, actualAction);
+        assertEquals(ClassfileLoaderAction.JAR, primingAction, "dispatch action");
+        assertEquals(ClassfileLoaderAction.JAR, actualAction, "repeat dispatch action");
     }
 
     private void createFile() throws IOException {
-        var tempFile = File.createTempFile(getClass() + "." + getName(), ".txt");
+        var tempFile = File.createTempFile(getClass().getSimpleName() + new Random().nextInt(1_000), ".txt");
         tempFile.deleteOnExit();
         testFilename = tempFile.getAbsolutePath();
     }

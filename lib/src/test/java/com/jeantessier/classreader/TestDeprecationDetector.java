@@ -35,16 +35,17 @@ package com.jeantessier.classreader;
 import java.util.*;
 
 import org.jmock.*;
-import org.jmock.integration.junit3.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDeprecationDetector extends MockObjectTestCase {
-    private DeprecationDetector sut;
+    private final DeprecationDetector sut = new DeprecationDetector();
 
-    protected void setUp() throws Exception {
-        sut = new DeprecationDetector();
-    }
-
-    public void testVisitClassfile() {
+    @Test
+    void testVisitClassfile() {
         final Classfile mockClassfile = mock(Classfile.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
@@ -58,7 +59,8 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         assertFalse(sut.isDeprecated());
     }
 
-    public void testVisitField_info() {
+    @Test
+    void testVisitField_info() {
         final Field_info mockField = mock(Field_info.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
@@ -72,7 +74,8 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         assertFalse(sut.isDeprecated());
     }
 
-    public void testVisitMethod_info() {
+    @Test
+    void testVisitMethod_info() {
         final Method_info mockMethod = mock(Method_info.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
@@ -86,13 +89,15 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         assertFalse(sut.isDeprecated());
     }
 
-    public void testVisitDeprecated_attribute() {
+    @Test
+    void testVisitDeprecated_attribute() {
         Deprecated_attribute mockDeprecated = mock(Deprecated_attribute.class);
         sut.visitDeprecated_attribute(mockDeprecated);
         assertTrue(sut.isDeprecated());
     }
 
-    public void testVisitAnnotation_Deprecated() {
+    @Test
+    void testVisitAnnotation_Deprecated() {
         final Annotation mockAnnotation = mock(Annotation.class);
 
         checking(new Expectations() {{
@@ -101,10 +106,11 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         }});
 
         sut.visitAnnotation(mockAnnotation);
-        assertTrue("Should be deprecated after seeing @Deprecated", sut.isDeprecated());
+        assertTrue(sut.isDeprecated(), "Should be deprecated after seeing @Deprecated");
     }
 
-    public void testVisitAnnotation_DeprecatedIsSticky() {
+    @Test
+    void testVisitAnnotation_DeprecatedIsSticky() {
         final Annotation mockDeprecatedAnnotation = mock(Annotation.class, "@Deprecated");
         final Annotation mockOtherAnnotation = mock(Annotation.class);
 
@@ -116,10 +122,11 @@ public class TestDeprecationDetector extends MockObjectTestCase {
 
         sut.visitAnnotation(mockDeprecatedAnnotation);
         sut.visitAnnotation(mockOtherAnnotation);
-        assertTrue("Should be deprecated after having seen @Deprecated", sut.isDeprecated());
+        assertTrue(sut.isDeprecated(), "Should be deprecated after having seen @Deprecated");
     }
 
-    public void testVisitAnnotation_NotDeprecated() {
+    @Test
+    void testVisitAnnotation_NotDeprecated() {
         final Annotation mockAnnotation = mock(Annotation.class);
 
         checking(new Expectations() {{
@@ -128,6 +135,6 @@ public class TestDeprecationDetector extends MockObjectTestCase {
         }});
 
         sut.visitAnnotation(mockAnnotation);
-        assertFalse("Should not be deprecated after seeing random annotation", sut.isDeprecated());
+        assertFalse(sut.isDeprecated(), "Should not be deprecated after seeing random annotation");
     }
 }

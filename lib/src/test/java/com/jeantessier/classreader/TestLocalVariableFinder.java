@@ -32,17 +32,22 @@
 
 package com.jeantessier.classreader;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import org.jmock.*;
-import org.jmock.integration.junit3.*;
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLocalVariableFinder extends MockObjectTestCase {
     private static final int LOCAL_VARIABLE_INDEX = 1;
     private static final int START_PC = 3;
     private static final int LENGTH = 5;
 
-    public void testVisitCode_attribute() {
+    @Test
+    void testVisitCode_attribute() {
         final Code_attribute mockCode_attribute = mock(Code_attribute.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
@@ -57,7 +62,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         sut.visitCode_attribute(mockCode_attribute);
     }
 
-    public void testVisitLocalVariable_MatchingIndexMatchingPcRange() {
+    @Test
+    void testVisitLocalVariable_MatchingIndexMatchingPcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -74,7 +80,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         assertSame(mockLocalVariable, sut.getLocalVariable());
     }
 
-    public void testVisitLocalVariable_NotMatchingIndex() {
+    @Test
+    void testVisitLocalVariable_NotMatchingIndex() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -87,7 +94,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         assertNull(sut.getLocalVariable());
     }
 
-    public void testVisitLocalVariable_InstructionIsBeforeValidRange() {
+    @Test
+    void testVisitLocalVariable_InstructionIsBeforeValidRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -102,7 +110,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         assertNull(sut.getLocalVariable());
     }
 
-    public void testVisitLocalVariable_InstructionIsAtBeginningOfValidRange() {
+    @Test
+    void testVisitLocalVariable_InstructionIsAtBeginningOfValidRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -119,7 +128,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         assertSame(mockLocalVariable, sut.getLocalVariable());
     }
 
-    public void testVisitLocalVariable_InstructionIsAtBeginningOfValidRangeOfLengthZero() {
+    @Test
+    void testVisitLocalVariable_InstructionIsAtBeginningOfValidRangeOfLengthZero() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -136,7 +146,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         assertSame(mockLocalVariable, sut.getLocalVariable());
     }
 
-    public void testVisitLocalVariable_InstructionIsJustAfterPcRange() {
+    @Test
+    void testVisitLocalVariable_InstructionIsJustAfterPcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{
@@ -153,7 +164,8 @@ public class TestLocalVariableFinder extends MockObjectTestCase {
         assertNull(sut.getLocalVariable());
     }
 
-    public void testVisitLocalVariable_InstructionIsWellAfterPcRange() {
+    @Test
+    void testVisitLocalVariable_InstructionIsWellAfterPcRange() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
         checking(new Expectations() {{

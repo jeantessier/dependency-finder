@@ -32,46 +32,48 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCase {
-    private NonPrivateFieldSymbolGathererStrategy sut;
+    private final NonPrivateFieldSymbolGathererStrategy sut = new NonPrivateFieldSymbolGathererStrategy();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        sut = new NonPrivateFieldSymbolGathererStrategy();
-    }
-
-    public void testIsMatching_class() {
+    @Test
+    void testIsMatching_class() {
         Classfile mockClassfile = mock(Classfile.class);
-        assertFalse("Should not match classes", sut.isMatching(mockClassfile));
+        assertFalse(sut.isMatching(mockClassfile), "Should not match classes");
     }
 
-    public void testIsMatching_field_privatenormal() {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testIsMatching_field_privatenormal() {
+        var mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             oneOf (mockField).isPrivate(); will(returnValue(true));
         }});
 
-        assertFalse("Should not match normal, private fields", sut.isMatching(mockField));
+        assertFalse(sut.isMatching(mockField), "Should not match normal, private fields");
     }
 
-    public void testIsMatching_field_publicstatic() {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testIsMatching_field_publicstatic() {
+        var mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             oneOf (mockField).isPrivate(); will(returnValue(false));
             oneOf (mockField).isStatic(); will(returnValue(true));
         }});
 
-        assertFalse("Should not match public static fields", sut.isMatching(mockField));
+        assertFalse(sut.isMatching(mockField), "Should not match public static fields");
     }
 
-    public void testIsMatching_field_synthetic() {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testIsMatching_field_synthetic() {
+        var mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             oneOf (mockField).isPrivate(); will(returnValue(false));
@@ -79,11 +81,12 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
             oneOf (mockField).isSynthetic(); will(returnValue(true));
         }});
 
-        assertFalse("Should not match synthetic fields", sut.isMatching(mockField));
+        assertFalse(sut.isMatching(mockField), "Should not match synthetic fields");
     }
 
-    public void testIsMatching_field_publicnormal() {
-        final Field_info mockField = mock(Field_info.class);
+    @Test
+    void testIsMatching_field_publicnormal() {
+        var mockField = mock(Field_info.class);
 
         checking(new Expectations() {{
             oneOf (mockField).isPrivate(); will(returnValue(false));
@@ -91,21 +94,24 @@ public class TestNonPrivateFieldSymbolGathererStrategy extends MockObjectTestCas
             oneOf (mockField).isSynthetic(); will(returnValue(false));
         }});
 
-        assertTrue("Should have matched public normal fields", sut.isMatching(mockField));
+        assertTrue(sut.isMatching(mockField), "Should have matched public normal fields");
     }
 
-    public void testIsMatching_method() {
+    @Test
+    void testIsMatching_method() {
         Method_info mockMethod = mock(Method_info.class);
-        assertFalse("Should not match methods", sut.isMatching(mockMethod));
+        assertFalse(sut.isMatching(mockMethod), "Should not match methods");
     }
 
-    public void testIsMatching_local() {
+    @Test
+    void testIsMatching_local() {
         LocalVariable mockLocalVariable = mock(LocalVariable.class);
-        assertFalse("Should not match local variables", sut.isMatching(mockLocalVariable));
+        assertFalse(sut.isMatching(mockLocalVariable), "Should not match local variables");
     }
 
-    public void testIsMatching_innerClass() {
+    @Test
+    void testIsMatching_innerClass() {
         InnerClass mockInnerClass = mock(InnerClass.class);
-        assertFalse("Should not match inner classes", sut.isMatching(mockInnerClass));
+        assertFalse(sut.isMatching(mockInnerClass), "Should not match inner classes");
     }
 }

@@ -32,20 +32,19 @@
 
 package com.jeantessier.classreader;
 
-import org.jmock.Expectations;
-import org.jmock.integration.junit3.MockObjectTestCase;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTestCase {
-    private FinalMethodOrClassSymbolGathererStrategy sut;
+    private final FinalMethodOrClassSymbolGathererStrategy sut = new FinalMethodOrClassSymbolGathererStrategy();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        sut = new FinalMethodOrClassSymbolGathererStrategy();
-    }
-
-    public void testIsMatching_class_notfinal() {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testIsMatching_class_notfinal() {
+        var mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             oneOf (mockClassfile).isFinal();
@@ -55,8 +54,9 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_final() {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testIsMatching_class_final() {
+        var mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             oneOf (mockClassfile).isFinal();
@@ -70,8 +70,9 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertTrue(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_enum() {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testIsMatching_class_enum() {
+        var mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             oneOf (mockClassfile).isFinal();
@@ -83,8 +84,9 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_class_anonymous() {
-        final Classfile mockClassfile = mock(Classfile.class);
+    @Test
+    void testIsMatching_class_anonymous() {
+        var mockClassfile = mock(Classfile.class);
 
         checking(new Expectations() {{
             oneOf (mockClassfile).isFinal();
@@ -98,13 +100,15 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockClassfile));
     }
 
-    public void testIsMatching_field() {
+    @Test
+    void testIsMatching_field() {
         final Field_info mockField = mock(Field_info.class);
         assertFalse(sut.isMatching(mockField));
     }
 
-    public void testIsMatching_method_notfinal() {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testIsMatching_method_notfinal() {
+        var mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             oneOf (mockMethod).isFinal();
@@ -114,8 +118,9 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertFalse(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_method_final() {
-        final Method_info mockMethod = mock(Method_info.class);
+    @Test
+    void testIsMatching_method_final() {
+        var mockMethod = mock(Method_info.class);
 
         checking(new Expectations() {{
             oneOf (mockMethod).isFinal();
@@ -125,12 +130,14 @@ public class TestFinalMethodOrClassSymbolGathererStrategy extends MockObjectTest
         assertTrue(sut.isMatching(mockMethod));
     }
 
-    public void testIsMatching_local() {
+    @Test
+    void testIsMatching_local() {
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
         assertFalse(sut.isMatching(mockLocalVariable));
     }
 
-    public void testIsMatching_innerClass() {
+    @Test
+    void testIsMatching_innerClass() {
         final InnerClass mockInnerClass = mock(InnerClass.class);
         assertFalse(sut.isMatching(mockInnerClass));
     }

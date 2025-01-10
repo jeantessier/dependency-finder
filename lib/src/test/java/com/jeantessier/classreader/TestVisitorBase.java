@@ -38,31 +38,34 @@ import java.util.stream.*;
 
 import org.jmock.*;
 import org.jmock.api.*;
-import org.jmock.integration.junit3.*;
 import org.jmock.lib.action.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestVisitorBase extends MockObjectTestCase {
-    private VisitorBase sut;
+    private final VisitorBase sut = new VisitorBase() {};
 
-    protected void setUp() throws Exception {
-        sut = new VisitorBase() {};
-    }
-
-    public void testIncrementIndex() {
+    @Test
+    void testIncrementIndex() {
         int oldValue = sut.currentIndex();
         sut.incrementIndex();
         int newValue = sut.currentIndex();
-        assertEquals("index", oldValue + 1, newValue);
+        assertEquals(oldValue + 1, newValue, "index");
     }
 
-    public void testResetIndex() {
+    @Test
+    void testResetIndex() {
         sut.incrementIndex();
-        assertTrue("index should not be the starting index", sut.currentIndex() != sut.STARTING_INDEX);
+        assertNotEquals(VisitorBase.STARTING_INDEX, sut.currentIndex(), "index should not be the starting index");
         sut.resetIndex();
-        assertEquals("index", 1, sut.currentIndex());
+        assertEquals(1, sut.currentIndex(), "index");
     }
 
-    public void testVisitConstantPool() {
+    @Test
+    void testVisitConstantPool() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -73,10 +76,11 @@ public class TestVisitorBase extends MockObjectTestCase {
         }});
 
         sut.visitConstantPool(mockConstantPool);
-        assertEquals("current index", sut.STARTING_INDEX + 1, sut.currentIndex());
+        assertEquals(VisitorBase.STARTING_INDEX + 1, sut.currentIndex(), "current index");
     }
 
-    public void testVisitConstantPool_ResetIndexBetweenCalls() {
+    @Test
+    void testVisitConstantPool_ResetIndexBetweenCalls() {
         final ConstantPool mockConstantPool = mock(ConstantPool.class);
         final ConstantPoolEntry mockEntry = mock(ConstantPoolEntry.class);
 
@@ -92,10 +96,11 @@ public class TestVisitorBase extends MockObjectTestCase {
 
         sut.visitConstantPool(mockConstantPool);
         sut.visitConstantPool(mockConstantPool);
-        assertEquals("current index", sut.STARTING_INDEX + 1, sut.currentIndex());
+        assertEquals(VisitorBase.STARTING_INDEX + 1, sut.currentIndex(), "current index");
     }
 
-    public void testVisitClassfiles() {
+    @Test
+    void testVisitClassfiles() {
         final Classfile mockClassfile1 = mock(Classfile.class, "classfile1");
         final Classfile mockClassfile2 = mock(Classfile.class, "classfile2");
 
@@ -111,7 +116,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitClassfiles(classfiles);
     }
 
-    public void testVisitClassfile() {
+    @Test
+    void testVisitClassfile() {
         final Classfile mockClassfile = mock(Classfile.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
         final Field_info mockField = mock(Field_info.class);
@@ -132,92 +138,110 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitClassfile(mockClassfile);
     }
 
-    public void testVisitClass_info() {
+    @Test
+    void testVisitClass_info() {
         Class_info mockClass = mock(Class_info.class);
         sut.visitClass_info(mockClass);
     }
 
-    public void testVisitFieldRef_info() {
+    @Test
+    void testVisitFieldRef_info() {
         FieldRef_info mockFieldRef = mock(FieldRef_info.class);
         sut.visitFieldRef_info(mockFieldRef);
     }
 
-    public void testVisitMethodRef_info() {
+    @Test
+    void testVisitMethodRef_info() {
         MethodRef_info mockMethodRef = mock(MethodRef_info.class);
         sut.visitMethodRef_info(mockMethodRef);
     }
 
-    public void testVisitInterfaceMethodRef_info() {
+    @Test
+    void testVisitInterfaceMethodRef_info() {
         InterfaceMethodRef_info mockInterfaceMethodRef = mock(InterfaceMethodRef_info.class);
         sut.visitInterfaceMethodRef_info(mockInterfaceMethodRef);
     }
 
-    public void testVisitString_info() {
+    @Test
+    void testVisitString_info() {
         String_info mockString = mock(String_info.class);
         sut.visitString_info(mockString);
     }
 
-    public void testVisitInteger_info() {
+    @Test
+    void testVisitInteger_info() {
         Integer_info mockInteger = mock(Integer_info.class);
         sut.visitInteger_info(mockInteger);
     }
 
-    public void testVisitFloat_info() {
+    @Test
+    void testVisitFloat_info() {
         Float_info mockFloat = mock(Float_info.class);
         sut.visitFloat_info(mockFloat);
     }
 
-    public void testVisitLong_info() {
+    @Test
+    void testVisitLong_info() {
         Long_info mockLong = mock(Long_info.class);
         sut.visitLong_info(mockLong);
     }
 
-    public void testVisitDouble_info() {
+    @Test
+    void testVisitDouble_info() {
         Double_info mockDouble = mock(Double_info.class);
         sut.visitDouble_info(mockDouble);
     }
 
-    public void testVisitNameAndType_info() {
+    @Test
+    void testVisitNameAndType_info() {
         NameAndType_info mockNameAndType = mock(NameAndType_info.class);
         sut.visitNameAndType_info(mockNameAndType);
     }
 
-    public void testVisitUTF8_info() {
+    @Test
+    void testVisitUTF8_info() {
         UTF8_info mockUTF8 = mock(UTF8_info.class);
         sut.visitUTF8_info(mockUTF8);
     }
 
-    public void testVisitMethodHandle_info() {
+    @Test
+    void testVisitMethodHandle_info() {
         MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
         sut.visitMethodHandle_info(mockMethodHandle);
     }
 
-    public void testVisitMethodType_info() {
+    @Test
+    void testVisitMethodType_info() {
         MethodType_info mockMethodType = mock(MethodType_info.class);
         sut.visitMethodType_info(mockMethodType);
     }
 
-    public void testVisitDynamic_info() {
+    @Test
+    void testVisitDynamic_info() {
         Dynamic_info mockDynamic = mock(Dynamic_info.class);
         sut.visitDynamic_info(mockDynamic);
     }
 
-    public void testVisitInvokeDynamic_info() {
+    @Test
+    void testVisitInvokeDynamic_info() {
         InvokeDynamic_info mockInvokeDynamic = mock(InvokeDynamic_info.class);
         sut.visitInvokeDynamic_info(mockInvokeDynamic);
     }
 
-    public void testVisitModule_info() {
+    @Test
+    void testVisitModule_info() {
         Module_info mockModule = mock(Module_info.class);
         sut.visitModule_info(mockModule);
     }
 
-    public void testVisitPackage_info() {
+    @Test
+    void testVisitPackage_info() {
         Package_info mockPackage = mock(Package_info.class);
         sut.visitPackage_info(mockPackage);
     }
 
-    public void testVisitField_info() {
+    @Test
+    void testVisitField_info() {
         final Field_info mockField = mock(Field_info.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
@@ -230,7 +254,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitField_info(mockField);
     }
 
-    public void testVisitMethod_info() {
+    @Test
+    void testVisitMethod_info() {
         final Method_info mockMethod = mock(Method_info.class);
         final Attribute_info mockAttribute = mock(Attribute_info.class);
 
@@ -243,12 +268,14 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitMethod_info(mockMethod);
     }
 
-    public void testVisitConstantValue_attribute() {
+    @Test
+    void testVisitConstantValue_attribute() {
         ConstantValue_attribute mockConstantValue = mock(ConstantValue_attribute.class);
         sut.visitConstantValue_attribute(mockConstantValue);
     }
 
-    public void testVisitCode_attribute() {
+    @Test
+    void testVisitCode_attribute() {
         final Code_attribute mockCode = mock(Code_attribute.class);
         final Instruction mockInstruction = mock(Instruction.class);
         final ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
@@ -269,7 +296,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitCode_attribute(mockCode);
     }
 
-    public void testVisitStackMapTable_attribute() {
+    @Test
+    void testVisitStackMapTable_attribute() {
         final StackMapTable_attribute mockStackMapTable = mock(StackMapTable_attribute.class);
         final StackMapFrame mockStackMapFrame = mock(StackMapFrame.class);
 
@@ -282,7 +310,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitStackMapTable_attribute(mockStackMapTable);
     }
 
-    public void testVisitExceptions_attribute() {
+    @Test
+    void testVisitExceptions_attribute() {
         final Exceptions_attribute mockExceptions = mock(Exceptions_attribute.class);
         final Class_info mockClass = mock(Class_info.class);
 
@@ -295,7 +324,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitExceptions_attribute(mockExceptions);
     }
 
-    public void testVisitInnerClasses_attribute() {
+    @Test
+    void testVisitInnerClasses_attribute() {
         final InnerClasses_attribute mockInnerClasses = mock(InnerClasses_attribute.class);
         final InnerClass mockInnerClass = mock(InnerClass.class);
 
@@ -308,32 +338,38 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitInnerClasses_attribute(mockInnerClasses);
     }
 
-    public void testVisitEnclosingMethod_attribute() {
+    @Test
+    void testVisitEnclosingMethod_attribute() {
         EnclosingMethod_attribute mockEnclosingMethod = mock(EnclosingMethod_attribute.class);
         sut.visitEnclosingMethod_attribute(mockEnclosingMethod);
     }
 
-    public void testVisitSynthetic_attribute() {
+    @Test
+    void testVisitSynthetic_attribute() {
         Synthetic_attribute mockSynthetic = mock(Synthetic_attribute.class);
         sut.visitSynthetic_attribute(mockSynthetic);
     }
 
-    public void testVisitSignature_attribute() {
+    @Test
+    void testVisitSignature_attribute() {
         Signature_attribute mockSignature = mock(Signature_attribute.class);
         sut.visitSignature_attribute(mockSignature);
     }
 
-    public void testVisitSourceFile_attribute() {
+    @Test
+    void testVisitSourceFile_attribute() {
         SourceFile_attribute mockSourceFile = mock(SourceFile_attribute.class);
         sut.visitSourceFile_attribute(mockSourceFile);
     }
 
-    public void testVisitSourceDebugExtension_attribute() {
+    @Test
+    void testVisitSourceDebugExtension_attribute() {
         SourceDebugExtension_attribute mockSourceDebugExtension = mock(SourceDebugExtension_attribute.class);
         sut.visitSourceDebugExtension_attribute(mockSourceDebugExtension);
     }
 
-    public void testVisitLineNumberTable_attribute() {
+    @Test
+    void testVisitLineNumberTable_attribute() {
         final LineNumberTable_attribute mockLineNumberTable = mock(LineNumberTable_attribute.class);
         final LineNumber mockLineNumber = mock(LineNumber.class);
 
@@ -346,7 +382,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitLineNumberTable_attribute(mockLineNumberTable);
     }
 
-    public void testVisitLocalVariableTable_attribute() {
+    @Test
+    void testVisitLocalVariableTable_attribute() {
         final LocalVariableTable_attribute mockLocalVariableTable = mock(LocalVariableTable_attribute.class);
         final LocalVariable mockLocalVariable = mock(LocalVariable.class);
 
@@ -359,7 +396,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitLocalVariableTable_attribute(mockLocalVariableTable);
     }
 
-    public void testVisitLocalVariableTypeTable_attribute() {
+    @Test
+    void testVisitLocalVariableTypeTable_attribute() {
         final LocalVariableTypeTable_attribute mockLocalVariableTypeTable = mock(LocalVariableTypeTable_attribute.class);
         final LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
 
@@ -372,12 +410,14 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitLocalVariableTypeTable_attribute(mockLocalVariableTypeTable);
     }
 
-    public void testVisitDeprecated_attribute() {
+    @Test
+    void testVisitDeprecated_attribute() {
         Deprecated_attribute mockDeprecated = mock(Deprecated_attribute.class);
         sut.visitDeprecated_attribute(mockDeprecated);
     }
 
-    public void testVisitRuntimeVisibleAnnotations_attribute() {
+    @Test
+    void testVisitRuntimeVisibleAnnotations_attribute() {
         final RuntimeVisibleAnnotations_attribute mockRuntimeVisibleAnnotations = mock(RuntimeVisibleAnnotations_attribute.class);
         final Annotation mockAnnotation = mock(Annotation.class);
 
@@ -390,7 +430,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeVisibleAnnotations_attribute(mockRuntimeVisibleAnnotations);
     }
 
-    public void testVisitRuntimeInvisibleAnnotations_attribute() {
+    @Test
+    void testVisitRuntimeInvisibleAnnotations_attribute() {
         final RuntimeInvisibleAnnotations_attribute mockRuntimeInvisibleAnnotations = mock(RuntimeInvisibleAnnotations_attribute.class);
         final Annotation mockAnnotation = mock(Annotation.class);
 
@@ -403,7 +444,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeInvisibleAnnotations_attribute(mockRuntimeInvisibleAnnotations);
     }
 
-    public void testVisitRuntimeVisibleParameterAnnotations_attribute() {
+    @Test
+    void testVisitRuntimeVisibleParameterAnnotations_attribute() {
         final RuntimeVisibleParameterAnnotations_attribute mockRuntimeVisibleParameterAnnotations = mock(RuntimeVisibleParameterAnnotations_attribute.class);
         final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
 
@@ -416,7 +458,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeVisibleParameterAnnotations_attribute(mockRuntimeVisibleParameterAnnotations);
     }
 
-    public void testVisitRuntimeInvisibleParameterAnnotations_attribute() {
+    @Test
+    void testVisitRuntimeInvisibleParameterAnnotations_attribute() {
         final RuntimeInvisibleParameterAnnotations_attribute mockRuntimeInvisibleParameterAnnotations = mock(RuntimeInvisibleParameterAnnotations_attribute.class);
         final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
 
@@ -429,7 +472,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeInvisibleParameterAnnotations_attribute(mockRuntimeInvisibleParameterAnnotations);
     }
 
-    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithoutAnnotations() {
+    @Test
+    void testVisitRuntimeVisibleTypeAnnotations_attribute_WithoutAnnotations() {
         final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
 
         checking(new Expectations() {{
@@ -439,7 +483,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
     }
 
-    public void testVisitRuntimeVisibleTypeAnnotations_attribute_WithAnAnnotation() {
+    @Test
+    void testVisitRuntimeVisibleTypeAnnotations_attribute_WithAnAnnotation() {
         final RuntimeVisibleTypeAnnotations_attribute attribute = mock(RuntimeVisibleTypeAnnotations_attribute.class);
         final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
 
@@ -452,7 +497,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeVisibleTypeAnnotations_attribute(attribute);
     }
 
-    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithoutParameterAnnotations() {
+    @Test
+    void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithoutParameterAnnotations() {
         final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
 
         checking(new Expectations() {{
@@ -462,7 +508,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
     }
 
-    public void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithAParameterAnnotation() {
+    @Test
+    void testVisitRuntimeInvisibleTypeAnnotations_attribute_WithAParameterAnnotation() {
         final RuntimeInvisibleTypeAnnotations_attribute attribute = mock(RuntimeInvisibleTypeAnnotations_attribute.class);
         final TypeAnnotation typeAnnotation = mock(TypeAnnotation.class);
 
@@ -475,7 +522,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRuntimeInvisibleTypeAnnotations_attribute(attribute);
     }
 
-    public void testVisitAnnotationDefault_attribute() {
+    @Test
+    void testVisitAnnotationDefault_attribute() {
         final AnnotationDefault_attribute mockAnnotationDefault = mock(AnnotationDefault_attribute.class);
         final ElementValue mockElementValue = mock(ElementValue.class);
 
@@ -488,7 +536,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitAnnotationDefault_attribute(mockAnnotationDefault);
     }
 
-    public void testVisitBootstrapMethods_attribute() {
+    @Test
+    void testVisitBootstrapMethods_attribute() {
         final BootstrapMethods_attribute mockBootstrapMethods = mock(BootstrapMethods_attribute.class);
         final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
 
@@ -501,7 +550,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitBootstrapMethods_attribute(mockBootstrapMethods);
     }
 
-    public void testVisitMethodParameters_attribute_noMethodParameters() {
+    @Test
+    void testVisitMethodParameters_attribute_noMethodParameters() {
         final MethodParameters_attribute mockAttribute = mock(MethodParameters_attribute.class);
 
         checking(new Expectations() {{
@@ -512,7 +562,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitMethodParameters_attribute(mockAttribute);
     }
 
-    public void testVisitMethodParameters_attribute_oneMethodParameter() {
+    @Test
+    void testVisitMethodParameters_attribute_oneMethodParameter() {
         final MethodParameters_attribute mockAttribute = mock(MethodParameters_attribute.class);
         final MethodParameter mockMethodParameter = mock(MethodParameter.class);
 
@@ -525,7 +576,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitMethodParameters_attribute(mockAttribute);
     }
 
-    public void testVisitModule_attribute() {
+    @Test
+    void testVisitModule_attribute() {
         final Module_attribute mockAttribute = mock(Module_attribute.class);
 
         checking(new Expectations() {{
@@ -544,7 +596,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
-    public void testVisitModule_attributeWithRequires() {
+    @Test
+    void testVisitModule_attributeWithRequires() {
         final Module_attribute mockAttribute = mock(Module_attribute.class);
         final ModuleRequires mockRequires = mock(ModuleRequires.class);
 
@@ -565,7 +618,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
-    public void testVisitModule_attributeWithExports() {
+    @Test
+    void testVisitModule_attributeWithExports() {
         final Module_attribute mockAttribute = mock(Module_attribute.class);
         final ModuleExports mockExports = mock(ModuleExports.class);
 
@@ -586,7 +640,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
-    public void testVisitModule_attributeWithOpens() {
+    @Test
+    void testVisitModule_attributeWithOpens() {
         final Module_attribute mockAttribute = mock(Module_attribute.class);
         final ModuleOpens mockOpens = mock(ModuleOpens.class);
 
@@ -607,7 +662,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
-    public void testVisitModule_attributeWithUses() {
+    @Test
+    void testVisitModule_attributeWithUses() {
         final Module_attribute mockAttribute = mock(Module_attribute.class);
         final ModuleUses mockUses = mock(ModuleUses.class);
 
@@ -628,7 +684,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
-    public void testVisitModule_attributeWithProvides() {
+    @Test
+    void testVisitModule_attributeWithProvides() {
         final Module_attribute mockAttribute = mock(Module_attribute.class);
         final ModuleProvides mockProvides = mock(ModuleProvides.class);
 
@@ -649,7 +706,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModule_attribute(mockAttribute);
     }
 
-    public void testVisitModulePackages_attribute() {
+    @Test
+    void testVisitModulePackages_attribute() {
         final ModulePackages_attribute mockAttribute = mock(ModulePackages_attribute.class);
 
         checking(new Expectations() {{
@@ -660,7 +718,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModulePackages_attribute(mockAttribute);
     }
 
-    public void testVisitModulePackages_attributeWithModulePackage() {
+    @Test
+    void testVisitModulePackages_attributeWithModulePackage() {
         final ModulePackages_attribute mockAttribute = mock(ModulePackages_attribute.class);
         final ModulePackage mockPackage = mock(ModulePackage.class);
 
@@ -673,17 +732,20 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModulePackages_attribute(mockAttribute);
     }
 
-    public void testVisitModuleMainClass_attribute() {
+    @Test
+    void testVisitModuleMainClass_attribute() {
         final ModuleMainClass_attribute mockAttribute = mock(ModuleMainClass_attribute.class);
         sut.visitModuleMainClass_attribute(mockAttribute);
     }
 
-    public void testVisitNestHost_attribute() {
+    @Test
+    void testVisitNestHost_attribute() {
         final NestHost_attribute mockAttribute = mock(NestHost_attribute.class);
         sut.visitNestHost_attribute(mockAttribute);
     }
 
-    public void testVisitNestMembers_attribute() {
+    @Test
+    void testVisitNestMembers_attribute() {
         final NestMembers_attribute mockAttribute = mock(NestMembers_attribute.class);
 
         checking(new Expectations() {{
@@ -694,7 +756,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitNestMembers_attribute(mockAttribute);
     }
 
-    public void testVisitNestMembers_attributeWithNestMember() {
+    @Test
+    void testVisitNestMembers_attributeWithNestMember() {
         final NestMembers_attribute mockAttribute = mock(NestMembers_attribute.class);
         final NestMember mockMember = mock(NestMember.class);
 
@@ -707,7 +770,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitNestMembers_attribute(mockAttribute);
     }
 
-    public void testVisitRecord_attribute() {
+    @Test
+    void testVisitRecord_attribute() {
         final Record_attribute mockAttribute = mock(Record_attribute.class);
 
         checking(new Expectations() {{
@@ -718,7 +782,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRecord_attribute(mockAttribute);
     }
 
-    public void testVisitRecord_attributeWithRecordComponent() {
+    @Test
+    void testVisitRecord_attributeWithRecordComponent() {
         final Record_attribute mockAttribute = mock(Record_attribute.class);
         final RecordComponent_info mockRecordComponent = mock(RecordComponent_info.class);
 
@@ -731,7 +796,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRecord_attribute(mockAttribute);
     }
 
-    public void testVisitPermittedSubclasses_attribute() {
+    @Test
+    void testVisitPermittedSubclasses_attribute() {
         final PermittedSubclasses_attribute mockAttribute = mock(PermittedSubclasses_attribute.class);
 
         checking(new Expectations() {{
@@ -742,7 +808,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitPermittedSubclasses_attribute(mockAttribute);
     }
 
-    public void testVisitPermittedSubclasses_attributeWithPermittedSubclass() {
+    @Test
+    void testVisitPermittedSubclasses_attributeWithPermittedSubclass() {
         final PermittedSubclasses_attribute mockAttribute = mock(PermittedSubclasses_attribute.class);
         final PermittedSubclass mockPermittedSubclass = mock(PermittedSubclass.class);
 
@@ -755,42 +822,50 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitPermittedSubclasses_attribute(mockAttribute);
     }
 
-    public void testVisitCustom_attribute() {
+    @Test
+    void testVisitCustom_attribute() {
         Custom_attribute mockCustom = mock(Custom_attribute.class);
         sut.visitCustom_attribute(mockCustom);
     }
 
-    public void testVisitInstruction() {
+    @Test
+    void testVisitInstruction() {
         Instruction mockInstruction = mock(Instruction.class);
         sut.visitInstruction(mockInstruction);
     }
 
-    public void testVisitExceptionHandler() {
+    @Test
+    void testVisitExceptionHandler() {
         ExceptionHandler mockExceptionHandler = mock(ExceptionHandler.class);
         sut.visitExceptionHandler(mockExceptionHandler);
     }
 
-    public void testVisitInnerClass() {
+    @Test
+    void testVisitInnerClass() {
         InnerClass mockInnerClass = mock(InnerClass.class);
         sut.visitInnerClass(mockInnerClass);
     }
 
-    public void testVisitLineNumber() {
+    @Test
+    void testVisitLineNumber() {
         LineNumber mockLineNumber = mock(LineNumber.class);
         sut.visitLineNumber(mockLineNumber);
     }
 
-    public void testVisitLocalVariable() {
+    @Test
+    void testVisitLocalVariable() {
         LocalVariable mockLocalVariable = mock(LocalVariable.class);
         sut.visitLocalVariable(mockLocalVariable);
     }
 
-    public void testVisitLocalVariableType() {
+    @Test
+    void testVisitLocalVariableType() {
         LocalVariableType mockLocalVariableType = mock(LocalVariableType.class);
         sut.visitLocalVariableType(mockLocalVariableType);
     }
 
-    public void testVisitBootstrapMethod() {
+    @Test
+    void testVisitBootstrapMethod() {
         final BootstrapMethod mockBootstrapMethod = mock(BootstrapMethod.class);
         final MethodHandle_info mockMethodHandle = mock(MethodHandle_info.class);
         final ConstantPoolEntry mockArgument = mock(Integer_info.class);
@@ -807,17 +882,20 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitBootstrapMethod(mockBootstrapMethod);
     }
 
-    public void testVisitMethodParameter() {
+    @Test
+    void testVisitMethodParameter() {
         final MethodParameter mockMethodParameter = mock(MethodParameter.class);
         sut.visitMethodParameter(mockMethodParameter);
     }
 
-    public void testVisitModuleRequires() {
+    @Test
+    void testVisitModuleRequires() {
         final ModuleRequires mockRequires = mock(ModuleRequires.class);
         sut.visitModuleRequires(mockRequires);
     }
 
-    public void testVisitModuleExports_noExportsTos() {
+    @Test
+    void testVisitModuleExports_noExportsTos() {
         final ModuleExports mockExports = mock(ModuleExports.class);
 
         checking(new Expectations() {{
@@ -828,7 +906,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleExports(mockExports);
     }
 
-    public void testVisitModuleExports_oneExportsTo() {
+    @Test
+    void testVisitModuleExports_oneExportsTo() {
         final ModuleExports mockExports = mock(ModuleExports.class);
         final ModuleExportsTo mockExportsTo = mock(ModuleExportsTo.class);
 
@@ -841,12 +920,14 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleExports(mockExports);
     }
 
-    public void testVisitModuleExportsTo() {
+    @Test
+    void testVisitModuleExportsTo() {
         final ModuleExportsTo mockExportsTo = mock(ModuleExportsTo.class);
         sut.visitModuleExportsTo(mockExportsTo);
     }
 
-    public void testVisitModuleOpens_noOpensTos() {
+    @Test
+    void testVisitModuleOpens_noOpensTos() {
         final ModuleOpens mockOpens = mock(ModuleOpens.class);
 
         checking(new Expectations() {{
@@ -857,7 +938,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleOpens(mockOpens);
     }
 
-    public void testVisitModuleOpens_oneOpensTo() {
+    @Test
+    void testVisitModuleOpens_oneOpensTo() {
         final ModuleOpens mockOpens = mock(ModuleOpens.class);
         final ModuleOpensTo mockOpensTo = mock(ModuleOpensTo.class);
 
@@ -870,17 +952,20 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleOpens(mockOpens);
     }
 
-    public void testVisitModuleOpensTo() {
+    @Test
+    void testVisitModuleOpensTo() {
         final ModuleOpensTo mockOpensTo = mock(ModuleOpensTo.class);
         sut.visitModuleOpensTo(mockOpensTo);
     }
 
-    public void testVisitModuleUses() {
+    @Test
+    void testVisitModuleUses() {
         final ModuleUses mockUses = mock(ModuleUses.class);
         sut.visitModuleUses(mockUses);
     }
 
-    public void testVisitModuleProvides_noProvidesWiths() {
+    @Test
+    void testVisitModuleProvides_noProvidesWiths() {
         final ModuleProvides mockProvides = mock(ModuleProvides.class);
 
         checking(new Expectations() {{
@@ -891,7 +976,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleProvides(mockProvides);
     }
 
-    public void testVisitModuleProvides_oneProvidesWith() {
+    @Test
+    void testVisitModuleProvides_oneProvidesWith() {
         final ModuleProvides mockProvides = mock(ModuleProvides.class);
         final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
 
@@ -904,22 +990,26 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitModuleProvides(mockProvides);
     }
 
-    public void testVisitModuleProvidesWith() {
+    @Test
+    void testVisitModuleProvidesWith() {
         final ModuleProvidesWith mockProvidesWith = mock(ModuleProvidesWith.class);
         sut.visitModuleProvidesWith(mockProvidesWith);
     }
 
-    public void testVisitModulePackage() {
+    @Test
+    void testVisitModulePackage() {
         final ModulePackage mockPackage = mock(ModulePackage.class);
         sut.visitModulePackage(mockPackage);
     }
 
-    public void testVisitNestMember() {
+    @Test
+    void testVisitNestMember() {
         final NestMember mockMember = mock(NestMember.class);
         sut.visitNestMember(mockMember);
     }
 
-    public void testVisitRecordComponent_info() {
+    @Test
+    void testVisitRecordComponent_info() {
         final RecordComponent_info mockRecordComponent = mock(RecordComponent_info.class);
 
         checking(new Expectations() {{
@@ -930,7 +1020,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRecordComponent_info(mockRecordComponent);
     }
 
-    public void testVisitRecordComponent_infoWithRecordComponent() {
+    @Test
+    void testVisitRecordComponent_infoWithRecordComponent() {
         final RecordComponent_info mockAttribute = mock(RecordComponent_info.class);
         final Attribute_info mockRecordComponentAttribute = mock(Attribute_info.class);
 
@@ -943,12 +1034,14 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitRecordComponent_info(mockAttribute);
     }
 
-    public void testVisitPermittedSubclass() {
+    @Test
+    void testVisitPermittedSubclass() {
         final PermittedSubclass mockSubclass = mock(PermittedSubclass.class);
         sut.visitPermittedSubclass(mockSubclass);
     }
 
-    public void testVisitAnnotation() {
+    @Test
+    void testVisitAnnotation() {
         final Annotation mockAnnotation = mock(Annotation.class);
         final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
 
@@ -961,7 +1054,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitAnnotation(mockAnnotation);
     }
 
-    public void testVisitParameterAnnotation() {
+    @Test
+    void testVisitParameterAnnotation() {
         final ParameterAnnotation mockParameterAnnotation = mock(ParameterAnnotation.class);
         final Annotation mockAnnotation = mock(Annotation.class);
 
@@ -974,7 +1068,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitParameterAnnotation(mockParameterAnnotation);
     }
 
-    public void testVisitTypePath_noEntries() {
+    @Test
+    void testVisitTypePath_noEntries() {
         final TypePath typePath = mock(TypePath.class);
 
         checking(new Expectations() {{
@@ -985,7 +1080,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitTypePath(typePath);
     }
 
-    public void testVisitTypePath_oneEntry() {
+    @Test
+    void testVisitTypePath_oneEntry() {
         final TypePath typePath = mock(TypePath.class);
         final TypePathEntry mockTypePathEntry = mock(TypePathEntry.class);
 
@@ -998,7 +1094,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitTypePath(typePath);
     }
 
-    public void testVisitElementValuePair() {
+    @Test
+    void testVisitElementValuePair() {
         final ElementValuePair mockElementValuePair = mock(ElementValuePair.class);
         final ElementValue mockElementValue = mock(ElementValue.class);
 
@@ -1011,62 +1108,74 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitElementValuePair(mockElementValuePair);
     }
 
-    public void testVisitByteConstantElementValue() {
+    @Test
+    void testVisitByteConstantElementValue() {
         ByteConstantElementValue mockConstantElementValue = mock(ByteConstantElementValue.class);
         sut.visitByteConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitCharConstantElementValue() {
+    @Test
+    void testVisitCharConstantElementValue() {
         CharConstantElementValue mockConstantElementValue = mock(CharConstantElementValue.class);
         sut.visitCharConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitDoubleConstantElementValue() {
+    @Test
+    void testVisitDoubleConstantElementValue() {
         DoubleConstantElementValue mockConstantElementValue = mock(DoubleConstantElementValue.class);
         sut.visitDoubleConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitFloatConstantElementValue() {
+    @Test
+    void testVisitFloatConstantElementValue() {
         FloatConstantElementValue mockConstantElementValue = mock(FloatConstantElementValue.class);
         sut.visitFloatConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitIntegerConstantElementValue() {
+    @Test
+    void testVisitIntegerConstantElementValue() {
         IntegerConstantElementValue mockConstantElementValue = mock(IntegerConstantElementValue.class);
         sut.visitIntegerConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitLongConstantElementValue() {
+    @Test
+    void testVisitLongConstantElementValue() {
         LongConstantElementValue mockConstantElementValue = mock(LongConstantElementValue.class);
         sut.visitLongConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitShortConstantElementValue() {
+    @Test
+    void testVisitShortConstantElementValue() {
         ShortConstantElementValue mockConstantElementValue = mock(ShortConstantElementValue.class);
         sut.visitShortConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitBooleanConstantElementValue() {
+    @Test
+    void testVisitBooleanConstantElementValue() {
         BooleanConstantElementValue mockConstantElementValue = mock(BooleanConstantElementValue.class);
         sut.visitBooleanConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitStringConstantElementValue() {
+    @Test
+    void testVisitStringConstantElementValue() {
         StringConstantElementValue mockConstantElementValue = mock(StringConstantElementValue.class);
         sut.visitStringConstantElementValue(mockConstantElementValue);
     }
 
-    public void testVisitEnumElementValue() {
+    @Test
+    void testVisitEnumElementValue() {
         EnumElementValue mockEnumElementValue = mock(EnumElementValue.class);
         sut.visitEnumElementValue(mockEnumElementValue);
     }
 
-    public void testVisitClassElementValue() {
+    @Test
+    void testVisitClassElementValue() {
         ClassElementValue mockClassElementValue = mock(ClassElementValue.class);
         sut.visitClassElementValue(mockClassElementValue);
     }
 
-    public void testVisitAnnotationElementValue() {
+    @Test
+    void testVisitAnnotationElementValue() {
         final AnnotationElementValue mockAnnotationElementValue = mock(AnnotationElementValue.class);
         final Annotation mockAnnotation = mock(Annotation.class);
 
@@ -1079,7 +1188,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitAnnotationElementValue(mockAnnotationElementValue);
     }
 
-    public void testVisitArrayElementValue() {
+    @Test
+    void testVisitArrayElementValue() {
         final ArrayElementValue mockArrayElementValue = mock(ArrayElementValue.class);
         final ElementValue mockElementValue= mock(ElementValue.class);
 
@@ -1092,12 +1202,14 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitArrayElementValue(mockArrayElementValue);
     }
 
-    public void testVisitSameFrame() {
+    @Test
+    void testVisitSameFrame() {
         final SameFrame mockSameFrame = mock(SameFrame.class);
         sut.visitSameFrame(mockSameFrame);
     }
 
-    public void testVisitSameLocals1StackItemFrame() {
+    @Test
+    void testVisitSameLocals1StackItemFrame() {
         final SameLocals1StackItemFrame mockSameLocals1StackItemFrame = mock(SameLocals1StackItemFrame.class);
         final VerificationTypeInfo mockVerificationTypeInfo = mock(VerificationTypeInfo.class);
 
@@ -1110,7 +1222,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitSameLocals1StackItemFrame(mockSameLocals1StackItemFrame);
     }
 
-    public void testVisitSameLocals1StackItemFrameExtended() {
+    @Test
+    void testVisitSameLocals1StackItemFrameExtended() {
         final SameLocals1StackItemFrameExtended mockSameLocals1StackItemFrameExtended = mock(SameLocals1StackItemFrameExtended.class);
         final VerificationTypeInfo mockVerificationTypeInfo = mock(VerificationTypeInfo.class);
 
@@ -1123,17 +1236,20 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitSameLocals1StackItemFrameExtended(mockSameLocals1StackItemFrameExtended);
     }
 
-    public void testVisitChopFrame() {
+    @Test
+    void testVisitChopFrame() {
         final ChopFrame mockChopFrame = mock(ChopFrame.class);
         sut.visitChopFrame(mockChopFrame);
     }
 
-    public void testVisitSameFrameExtended() {
+    @Test
+    void testVisitSameFrameExtended() {
         final SameFrameExtended mockSameFrameExtended = mock(SameFrameExtended.class);
         sut.visitSameFrameExtended(mockSameFrameExtended);
     }
 
-    public void testVisitAppendFrame() {
+    @Test
+    void testVisitAppendFrame() {
         final AppendFrame mockAppendFrame = mock(AppendFrame.class);
         final VerificationTypeInfo mockVerificationTypeInfo = mock(VerificationTypeInfo.class);
 
@@ -1146,7 +1262,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitAppendFrame(mockAppendFrame);
     }
 
-    public void testVisitFullFrame() {
+    @Test
+    void testVisitFullFrame() {
         final FullFrame mockFullFrame = mock(FullFrame.class);
         final VerificationTypeInfo mockLocals = mock(VerificationTypeInfo.class, "locals");
         final VerificationTypeInfo mockStack = mock(VerificationTypeInfo.class, "stack");
@@ -1163,42 +1280,50 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitFullFrame(mockFullFrame);
     }
 
-    public void testVisitTopVariableInfo() {
+    @Test
+    void testVisitTopVariableInfo() {
         final TopVariableInfo mockTopVariableInfo = mock(TopVariableInfo.class);
         sut.visitTopVariableInfo(mockTopVariableInfo);
     }
 
-    public void testVisitIntegerVariableInfo() {
+    @Test
+    void testVisitIntegerVariableInfo() {
         final IntegerVariableInfo mockIntegerVariableInfo = mock(IntegerVariableInfo.class);
         sut.visitIntegerVariableInfo(mockIntegerVariableInfo);
     }
 
-    public void testVisitFloatVariableInfo() {
+    @Test
+    void testVisitFloatVariableInfo() {
         final FloatVariableInfo mockFloatVariableInfo = mock(FloatVariableInfo.class);
         sut.visitFloatVariableInfo(mockFloatVariableInfo);
     }
 
-    public void testVisitLongVariableInfo() {
+    @Test
+    void testVisitLongVariableInfo() {
         final LongVariableInfo mockLongVariableInfo = mock(LongVariableInfo.class);
         sut.visitLongVariableInfo(mockLongVariableInfo);
     }
 
-    public void testVisitDoubleVariableInfo() {
+    @Test
+    void testVisitDoubleVariableInfo() {
         final DoubleVariableInfo mockDoubleVariableInfo = mock(DoubleVariableInfo.class);
         sut.visitDoubleVariableInfo(mockDoubleVariableInfo);
     }
 
-    public void testVisitNullVariableInfo() {
+    @Test
+    void testVisitNullVariableInfo() {
         final NullVariableInfo mockNullVariableInfo = mock(NullVariableInfo.class);
         sut.visitNullVariableInfo(mockNullVariableInfo);
     }
 
-    public void testVisitUninitializedThisVariableInfo() {
+    @Test
+    void testVisitUninitializedThisVariableInfo() {
         final UninitializedThisVariableInfo mockUninitializedThisVariableInfo = mock(UninitializedThisVariableInfo.class);
         sut.visitUninitializedThisVariableInfo(mockUninitializedThisVariableInfo);
     }
 
-    public void testVisitObjectVariableInfo() {
+    @Test
+    void testVisitObjectVariableInfo() {
         final ObjectVariableInfo mockObjectVariableInfo = mock(ObjectVariableInfo.class);
         final Class_info mockClassInfo = mock(Class_info.class);
 
@@ -1211,7 +1336,8 @@ public class TestVisitorBase extends MockObjectTestCase {
         sut.visitObjectVariableInfo(mockObjectVariableInfo);
     }
 
-    public void testVisitUninitializedVariableInfo() {
+    @Test
+    void testVisitUninitializedVariableInfo() {
         final UninitializedVariableInfo mockUninitializedVariableInfo = mock(UninitializedVariableInfo.class);
         sut.visitUninitializedVariableInfo(mockUninitializedVariableInfo);
     }

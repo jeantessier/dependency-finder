@@ -33,38 +33,45 @@
 package com.jeantessier.classreader;
 
 import org.jmock.*;
-import org.jmock.integration.junit3.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
 
 public class TestLoadListenerVisitorAdapter extends MockObjectTestCase {
-    public void testBeginSession() {
+    @Test
+    void testBeginSession() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
         adapter.beginSession(new LoadEvent(this, null, null, null));
     }
 
-    public void testBeginGroup() {
+    @Test
+    void testBeginGroup() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
         adapter.beginGroup(new LoadEvent(this, null, null, null));
     }
 
-    public void testBeginFile() {
+    @Test
+    void testBeginFile() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
         adapter.beginFile(new LoadEvent(this, null, null, null));
     }
 
-    public void testBeginClassfile() {
+    @Test
+    void testBeginClassfile() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
         adapter.beginClassfile(new LoadEvent(this, null, null, null));
     }
 
-    public void testEndClassfile() {
+    @Test
+    void testEndClassfile() {
         final Visitor visitor = mock(Visitor.class);
         final Classfile classfile = mock(Classfile.class);
 
@@ -77,21 +84,24 @@ public class TestLoadListenerVisitorAdapter extends MockObjectTestCase {
         adapter.endClassfile(new LoadEvent(this, null, null, classfile));
     }
 
-    public void testEndFile() {
+    @Test
+    void testEndFile() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
         adapter.endFile(new LoadEvent(this, null, null, null));
     }
 
-    public void testEndGroup() {
+    @Test
+    void testEndGroup() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);
         adapter.endGroup(new LoadEvent(this, null, null, null));
     }
 
-    public void testEndSession() {
+    @Test
+    void testEndSession() {
         final Visitor visitor = mock(Visitor.class);
 
         LoadListenerVisitorAdapter adapter = new LoadListenerVisitorAdapter(visitor);

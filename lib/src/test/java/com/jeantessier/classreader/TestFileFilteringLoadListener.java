@@ -34,29 +34,21 @@ package com.jeantessier.classreader;
 
 import java.util.*;
 
-import org.jmock.integration.junit3.*;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import com.jeantessier.MockObjectTestCase;
 
 public class TestFileFilteringLoadListener extends MockObjectTestCase {
-    private LoadListener mockDelegate;
+    private final LoadListener mockDelegate = mock(LoadListener.class);
 
-    private List<String> includes;
-    private List<String> excludes;
+    private final List<String> includes = new LinkedList<>();
+    private final List<String> excludes = new LinkedList<>();
 
-    public LoadListener sut;
+    private final LoadListener sut = new FileFilteringLoadListener(mockDelegate, includes, excludes);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        mockDelegate = mock(LoadListener.class);
-
-        includes = new LinkedList<String>();
-        excludes = new LinkedList<String>();
-
-        sut = new FileFilteringLoadListener(mockDelegate, includes, excludes);
-    }
-
-    public void testBeginFileWithMatchingFileName() {
+    @Test
+    void testBeginFileWithMatchingFileName() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Foo.class", null);
 
@@ -67,7 +59,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.beginFile(testEvent);
     }
 
-    public void testBeginFileMatchingFileNameOnSecondRE() {
+    @Test
+    void testBeginFileMatchingFileNameOnSecondRE() {
         includes.add("/Foo/");
         includes.add("/Bar/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", null);
@@ -79,7 +72,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.beginFile(testEvent);
     }
 
-    public void testBeginFileNonMatchingFileName() {
+    @Test
+    void testBeginFileNonMatchingFileName() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", null);
 
@@ -90,7 +84,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.beginFile(testEvent);
     }
 
-    public void testBeginFileExcludingFileName() {
+    @Test
+    void testBeginFileExcludingFileName() {
         includes.add("/Foo/");
         excludes.add("/Bar/");
         final LoadEvent testEvent = new LoadEvent(this, "", "FooBar.class", null);
@@ -102,7 +97,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.beginFile(testEvent);
     }
 
-    public void testEndFileWithMatchingFileName() {
+    @Test
+    void testEndFileWithMatchingFileName() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Foo.class", null);
 
@@ -113,7 +109,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.endFile(testEvent);
     }
 
-    public void testEndFileMatchingFileNameOnSecondRE() {
+    @Test
+    void testEndFileMatchingFileNameOnSecondRE() {
         includes.add("/Foo/");
         includes.add("/Bar/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", null);
@@ -125,7 +122,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.endFile(testEvent);
     }
 
-    public void testEndFileNonMatchingFileName() {
+    @Test
+    void testEndFileNonMatchingFileName() {
         includes.add("/Foo/");
         final LoadEvent testEvent = new LoadEvent(this, "", "Bar.class", null);
 
@@ -136,7 +134,8 @@ public class TestFileFilteringLoadListener extends MockObjectTestCase {
         sut.endFile(testEvent);
     }
 
-    public void testEndFileExcludingFileName() {
+    @Test
+    void testEndFileExcludingFileName() {
         includes.add("/Foo/");
         excludes.add("/Bar/");
         final LoadEvent testEvent = new LoadEvent(this, "", "FooBar.class", null);
