@@ -1,0 +1,7 @@
+Converting more unit tests to JUnit Jupiter.  I migrated all tests to jMock
+with JUnit Jupiter.  I migrated all JUnit 4 parameterized tests to JUnit
+Jupiter parameterized tests.  I migrated all JUnit 4 tests to JUnit Jupiter.
+I used a Perl script to do some of the more tedious conversions, but I still
+had to manually inspect hundreds of files.  All I have left are a bunch of
+JUnit 3 tests in =com.jeantessier.dependency=, and then I'll be all on the most
+up-to-date JUnit.
