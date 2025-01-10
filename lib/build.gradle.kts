@@ -67,7 +67,6 @@ testing {
 
                 // jMock
                 implementation(libs.byte.buddy)
-                implementation(libs.jmock.junit3)
                 implementation(libs.jmock.junit4)
                 implementation(libs.jmock.junit5)
                 implementation(libs.jmock.imposters)
