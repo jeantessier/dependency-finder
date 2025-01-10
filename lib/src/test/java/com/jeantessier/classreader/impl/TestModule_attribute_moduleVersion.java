@@ -32,52 +32,71 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitable;
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import com.jeantessier.classreader.Visitable;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestModule_attribute_moduleVersion {
-    @Parameters(name="Module {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"without version", 0, false, null},
-                {"with version", 789, true, "version information"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("without version", 0, false, null),
+                arguments("with version", 789, true, "version information")
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int moduleVersionIndex;
-
-    @Parameter(2)
-    public boolean hasModuleVersion;
-
-    @Parameter(3)
-    public String moduleVersion;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private UTF8_info mockUtf8_info;
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="moduleVersionIndex for {0} should be {1}")
+    @MethodSource("dataProvider")
+    public void testGetModuleVersionIndex(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+        var sut = createSut(moduleVersionIndex, moduleVersion);
+        assertEquals(moduleVersionIndex, sut.getModuleVersionIndex());
+    }
 
-    private Module_attribute sut;
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="hasModuleVersion for {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testHasModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+        var sut = createSut(moduleVersionIndex, moduleVersion);
+        assertEquals(hasModuleVersion, sut.hasModuleVersion());
+    }
 
-    @Before
-    public void setUp() throws IOException {
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="raw moduleVersion for {0} should be present if {2}")
+    @MethodSource("dataProvider")
+    public void testGetRawModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+        var sut = createSut(moduleVersionIndex, moduleVersion);
+
+        var actualRawModuleVersion = Optional.ofNullable(sut.getRawModuleVersion());
+        assertEquals(hasModuleVersion, actualRawModuleVersion.isPresent());
+    }
+
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="moduleVersion for {0} should be {3}")
+    @MethodSource("dataProvider")
+    public void testGetModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+        var sut = createSut(moduleVersionIndex, moduleVersion);
+        assertEquals(moduleVersion, sut.getModuleVersion());
+    }
+
+    private Module_attribute createSut(int moduleVersionIndex, String moduleVersion) throws IOException {
         final int moduleNameIndex = 123;
         final String moduleName = "abc";
         final int moduleFlags = 456;
@@ -87,7 +106,7 @@ public class TestModule_attribute_moduleVersion {
         final DataInput mockIn = context.mock(DataInput.class);
         final Module_info mockModule_info = context.mock(Module_info.class);
 
-        mockUtf8_info = moduleVersionIndex != 0 ? context.mock(UTF8_info.class) : null;
+        var mockUtf8_info = moduleVersionIndex != 0 ? context.mock(UTF8_info.class) : null;
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readInt();
@@ -116,26 +135,6 @@ public class TestModule_attribute_moduleVersion {
                 will(returnValue(0));
         }});
 
-        sut = new Module_attribute(mockConstantPool, mockOwner, mockIn);
-    }
-
-    @Test
-    public void testGetModuleVersionIndex() {
-        assertEquals(label, moduleVersionIndex, sut.getModuleVersionIndex());
-    }
-
-    @Test
-    public void testHasModuleVersion() {
-        assertEquals(label, hasModuleVersion, sut.hasModuleVersion());
-    }
-
-    @Test
-    public void testGetRawModuleVersion() {
-        assertEquals(label, mockUtf8_info, sut.getRawModuleVersion());
-    }
-
-    @Test
-    public void testGetModuleVersion() {
-        assertEquals(label, moduleVersion, sut.getModuleVersion());
+        return new Module_attribute(mockConstantPool, mockOwner, mockIn);
     }
 }

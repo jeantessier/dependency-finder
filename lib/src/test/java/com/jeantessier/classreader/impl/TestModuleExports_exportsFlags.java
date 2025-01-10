@@ -34,54 +34,55 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestModuleExports_exportsFlags {
-    @Parameters(name="Module exports with exports flags {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"SYNTHETIC", 0x1000, true, false},
-                {"MANDATED", 0x8000, false, true},
-                {"all of them", 0x9060, true, true},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("SYNTHETIC", 0x1000, true, false),
+                arguments("MANDATED", 0x8000, false, true),
+                arguments("all of them", 0x9060, true, true)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int exportsFlags;
-
-    @Parameter(2)
-    public boolean isSynthetic;
-
-    @Parameter(3)
-    public boolean isMandated;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private ModuleExports sut;
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="isSynthetic for {0} should be {2}")
+    @MethodSource("dataProvider")
+    void testIsSynthetic(String variation, int exportsFlags, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(exportsFlags);
+        assertEquals(isSynthetic, sut.isSynthetic());
+    }
 
-    @Before
-    public void setUp() throws IOException {
-        final int exportsIndex = 123;
-        final String exports = "abc";
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="isMandated for {0} should be {3}")
+    @MethodSource("dataProvider")
+    void testIsMandated(String variation, int exportsFlags, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(exportsFlags);
+        assertEquals(isMandated, sut.isMandated());
+    }
 
-        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
-        final DataInput mockIn = context.mock(DataInput.class);
-        final Package_info mockPackage_info = context.mock(Package_info.class);
+    private ModuleExports createSut(int exportsFlags) throws IOException {
+        var exportsIndex = 123;
+        var exports = "abc";
+
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
+        var mockPackage_info = context.mock(Package_info.class);
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
@@ -98,16 +99,6 @@ public class TestModuleExports_exportsFlags {
                 will(returnValue(0));
         }});
 
-        sut = new ModuleExports(mockConstantPool, mockIn);
-    }
-
-    @Test
-    public void testIsSynthetic() {
-        assertEquals(label, isSynthetic, sut.isSynthetic());
-    }
-
-    @Test
-    public void testIsMandated() {
-        assertEquals(label, isMandated, sut.isMandated());
+        return new ModuleExports(mockConstantPool, mockIn);
     }
 }

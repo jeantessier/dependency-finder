@@ -34,56 +34,60 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestMethodParameter_accessFlags {
-    @Parameters(name="Method parameter with access flags {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"FINAL", 0x0010, true, false, false},
-                {"SYNTHETIC", 0x1000, false, true, false},
-                {"MANDATED", 0x8000, false, false, true},
-                {"all of them", 0x9010, true, true, true},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("FINAL", 0x0010, true, false, false),
+                arguments("SYNTHETIC", 0x1000, false, true, false),
+                arguments("MANDATED", 0x8000, false, false, true),
+                arguments("all of them", 0x9010, true, true, true)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int accessFlags;
-
-    @Parameter(2)
-    public boolean isFinal;
-
-    @Parameter(3)
-    public boolean isSynthetic;
-
-    @Parameter(4)
-    public boolean isMandated;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private DataInput mockIn;
+    @DisplayName("MethodParameter")
+    @ParameterizedTest(name="isFinal with access flags {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testIsFinal(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(accessFlags);
+        assertEquals(isFinal, sut.isFinal());
+    }
 
-    private MethodParameter sut;
+    @DisplayName("MethodParameter")
+    @ParameterizedTest(name="isSynthetic with access flags {0} should be {3}")
+    @MethodSource("dataProvider")
+    public void testIsSynthetic(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(accessFlags);
+        assertEquals(isSynthetic, sut.isSynthetic());
+    }
 
-    @Before
-    public void setUp() throws IOException {
+    @DisplayName("MethodParameter")
+    @ParameterizedTest(name="isMandated with access flags {0} should be {4}")
+    @MethodSource("dataProvider")
+    public void testIsMandated(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(accessFlags);
+        assertEquals(isMandated, sut.isMandated());
+    }
+
+    private MethodParameter createSut(int accessFlags) throws IOException {
         var mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
+        var mockIn = context.mock(DataInput.class);
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
@@ -92,21 +96,6 @@ public class TestMethodParameter_accessFlags {
                 will(returnValue(accessFlags));
         }});
 
-        sut = new MethodParameter(mockConstantPool, mockIn);
-    }
-
-    @Test
-    public void testIsFinal() {
-        assertEquals(label, isFinal, sut.isFinal());
-    }
-
-    @Test
-    public void testIsSynthetic() {
-        assertEquals(label, isSynthetic, sut.isSynthetic());
-    }
-
-    @Test
-    public void testIsMandated() {
-        assertEquals(label, isMandated, sut.isMandated());
+        return new MethodParameter(mockConstantPool, mockIn);
     }
 }

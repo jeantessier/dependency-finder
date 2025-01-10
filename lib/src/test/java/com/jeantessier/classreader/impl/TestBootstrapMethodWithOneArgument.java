@@ -34,67 +34,52 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestBootstrapMethodWithOneArgument {
-    @Parameters(name="BootstrapMethod with {0} argument")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"an integer", 123, 1, com.jeantessier.classreader.Integer_info.class},
-                {"a float", 234, 2, com.jeantessier.classreader.Float_info.class},
-                {"a long", 345, 3, com.jeantessier.classreader.Long_info.class},
-                {"a double", 456, 4, com.jeantessier.classreader.Double_info.class},
-                {"a Class", 567, 5, com.jeantessier.classreader.Class_info.class},
-                {"a String", 678, 6, com.jeantessier.classreader.String_info.class},
-                {"a MethodHandle", 789, 7, com.jeantessier.classreader.MethodHandle_info.class},
-                {"a MethodType", 890, 8, com.jeantessier.classreader.MethodType_info.class},
-                {"a Dynamic", 909, 9, com.jeantessier.classreader.Dynamic_info.class},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("an integer", 123, 1, com.jeantessier.classreader.Integer_info.class),
+                arguments("a float", 234, 2, com.jeantessier.classreader.Float_info.class),
+                arguments("a long", 345, 3, com.jeantessier.classreader.Long_info.class),
+                arguments("a double", 456, 4, com.jeantessier.classreader.Double_info.class),
+                arguments("a Class", 567, 5, com.jeantessier.classreader.Class_info.class),
+                arguments("a String", 678, 6, com.jeantessier.classreader.String_info.class),
+                arguments("a MethodHandle", 789, 7, com.jeantessier.classreader.MethodHandle_info.class),
+                arguments("a MethodType", 890, 8, com.jeantessier.classreader.MethodType_info.class),
+                arguments("a Dynamic", 909, 9, com.jeantessier.classreader.Dynamic_info.class)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int bootstrapMethodRef;
-
-    @Parameter(2)
-    public int argumentIndex;
-
-    @Parameter(3)
-    public Class<? extends ConstantPoolEntry> argumentClass;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private ConstantPool mockConstantPool;
-    private DataInput mockIn;
-    private com.jeantessier.classreader.ConstantPoolEntry mockArgument;
+    @DisplayName("getArguments")
+    @ParameterizedTest(name="with {0} argument")
+    @MethodSource("dataProvider")
+    void testGetArguments(String variation, int bootstrapMethodRef, int argumentIndex, Class<? extends ConstantPoolEntry> argumentClass) throws Exception {
+        // Given
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
+        com.jeantessier.classreader.ConstantPoolEntry mockArgument = context.mock(argumentClass);
 
-    private BootstrapMethods_attribute mockBootstrapMethods;
-
-    private BootstrapMethod sut;
-
-    @Before
-    public void setUp() throws IOException {
-        mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
-        mockArgument = context.mock(argumentClass);
-
+        // and
         var mockBootstrapMethods = context.mock(BootstrapMethods_attribute.class);
         var mockBootstrapMethod = context.mock(MethodHandle_info.class, "bootstrap method");
 
+        // and
         context.checking(new Expectations() {{
             allowing (mockBootstrapMethods).getConstantPool();
                 will(returnValue(mockConstantPool));
@@ -113,12 +98,11 @@ public class TestBootstrapMethodWithOneArgument {
                 will(returnValue(mockArgument));
         }});
 
-        sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
-    }
+        // When
+        var sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
 
-    @Test
-    public void testGetArguments() {
-        assertEquals("num arguments", 1, sut.getArguments().size());
-        assertSame("argument", mockArgument, sut.getArguments().stream().findFirst().orElseThrow());
+        // Then
+        assertEquals(1, sut.getArguments().size(),"num arguments");
+        assertSame(mockArgument, sut.getArguments().stream().findFirst().orElseThrow(), "argument");
     }
 }

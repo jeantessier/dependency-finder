@@ -50,7 +50,7 @@ public class TestClass_info {
     private static final String FULL_CLASS_NAME = PACKAGE_NAME + "." + SIMPLE_CLASS_NAME;
 
     @RegisterExtension
-    public JUnit5Mockery context = new JUnit5Mockery() {{
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 

@@ -34,65 +34,76 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestModuleRequires_requiresFlags {
-    @Parameters(name="Module requires with requires flags {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"TRANSTIVE", 0x0020, true, false, false, false},
-                {"STATIC_PHASE", 0x0040, false, true, false, false},
-                {"SYNTHETIC", 0x1000, false, false, true, false},
-                {"MANDATED", 0x8000, false, false, false, true},
-                {"all of them", 0x9060, true, true, true, true},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("TRANSTIVE", 0x0020, true, false, false, false),
+                arguments("STATIC_PHASE", 0x0040, false, true, false, false),
+                arguments("SYNTHETIC", 0x1000, false, false, true, false),
+                arguments("MANDATED", 0x8000, false, false, false, true),
+                arguments("all of them", 0x9060, true, true, true, true)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int requiresFlags;
-
-    @Parameter(2)
-    public boolean isTransitive;
-
-    @Parameter(3)
-    public boolean isStaticPhase;
-
-    @Parameter(4)
-    public boolean isSynthetic;
-
-    @Parameter(5)
-    public boolean isMandated;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private ModuleRequires sut;
+    @DisplayName("ModuleRequires")
+    @ParameterizedTest(name="isTransitive for {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testIsTransitive(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(requiresFlags);
+        assertEquals(isTransitive, sut.isTransitive());
+    }
 
-    @Before
-    public void setUp() throws IOException {
-        final int requiresIndex = 123;
-        final String requires = "abc";
-        final int requiresVersionIndex = 465;
-        final String requiresVersion = "blah";
+    @DisplayName("ModuleRequires")
+    @ParameterizedTest(name="isStaticPhase for {0} should be {3}")
+    @MethodSource("dataProvider")
+    public void testIsStaticPhase(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(requiresFlags);
+        assertEquals(isStaticPhase, sut.isStaticPhase());
+    }
 
-        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
-        final DataInput mockIn = context.mock(DataInput.class);
-        final Module_info mockModule_info = context.mock(Module_info.class);
-        final UTF8_info mockUtf8_info = context.mock(UTF8_info.class);
+    @DisplayName("ModuleRequires")
+    @ParameterizedTest(name="isSynthetic for {0} should be {4}")
+    @MethodSource("dataProvider")
+    public void testIsSynthetic(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(requiresFlags);
+        assertEquals(isSynthetic, sut.isSynthetic());
+    }
+
+    @DisplayName("ModuleRequires")
+    @ParameterizedTest(name="isMandated for {0} should be {5}")
+    @MethodSource("dataProvider")
+    public void testIsMandated(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(requiresFlags);
+        assertEquals(isMandated, sut.isMandated());
+    }
+
+    private ModuleRequires createSut(int requiresFlags) throws IOException {
+        var requiresIndex = 123;
+        var requires = "abc";
+        var requiresVersionIndex = 465;
+        var requiresVersion = "blah";
+
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
+        var mockModule_info = context.mock(Module_info.class);
+        var mockUtf8_info = context.mock(UTF8_info.class);
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
@@ -113,26 +124,6 @@ public class TestModuleRequires_requiresFlags {
                 will(returnValue(requiresVersion));
         }});
 
-        sut = new ModuleRequires(mockConstantPool, mockIn);
-    }
-
-    @Test
-    public void testIsTransitive() {
-        assertEquals(label, isTransitive, sut.isTransitive());
-    }
-
-    @Test
-    public void testIsStaticPhase() {
-        assertEquals(label, isStaticPhase, sut.isStaticPhase());
-    }
-
-    @Test
-    public void testIsSynthetic() {
-        assertEquals(label, isSynthetic, sut.isSynthetic());
-    }
-
-    @Test
-    public void testIsMandated() {
-        assertEquals(label, isMandated, sut.isMandated());
+        return new ModuleRequires(mockConstantPool, mockIn);
     }
 }

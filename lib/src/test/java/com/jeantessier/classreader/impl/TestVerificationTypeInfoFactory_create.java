@@ -34,68 +34,53 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestVerificationTypeInfoFactory_create {
-    @Parameters(name="VerificationType from tag {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"ITEM_Top", 0, null, null, TopVariableInfo.class},
-                {"ITEM_Integer", 1, null, null, IntegerVariableInfo.class},
-                {"ITEM_Float", 2, null, null, FloatVariableInfo.class},
-                {"ITEM_Null", 5, null, null, NullVariableInfo.class},
-                {"ITEM_UninitializedThis", 6, null, null, UninitializedThisVariableInfo.class},
-                {"ITEM_Object", 7, 123, Class_info.class, ObjectVariableInfo.class},
-                {"ITEM_Uninitialized", 8, 456, null, UninitializedVariableInfo.class},
-                {"ITEM_Long", 4, null, null, LongVariableInfo.class},
-                {"ITEM_Double", 3, null, null, DoubleVariableInfo.class},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("ITEM_Top", 0, null, null, TopVariableInfo.class),
+                arguments("ITEM_Integer", 1, null, null, IntegerVariableInfo.class),
+                arguments("ITEM_Float", 2, null, null, FloatVariableInfo.class),
+                arguments("ITEM_Null", 5, null, null, NullVariableInfo.class),
+                arguments("ITEM_UninitializedThis", 6, null, null, UninitializedThisVariableInfo.class),
+                arguments("ITEM_Object", 7, 123, Class_info.class, ObjectVariableInfo.class),
+                arguments("ITEM_Uninitialized", 8, 456, null, UninitializedVariableInfo.class),
+                arguments("ITEM_Long", 4, null, null, LongVariableInfo.class),
+                arguments("ITEM_Double", 3, null, null, DoubleVariableInfo.class)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int tag;
-
-    @Parameter(2)
-    public Integer indexOrOffset;
-
-    @Parameter(3)
-    public Class<? extends ConstantPoolEntry> constantPoolEntryClass;
-
-    @Parameter(4)
-    public Class<? extends VerificationTypeInfo> expectedClass;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private ConstantPool mockConstantPool;
-    private DataInput mockIn;
+    @DisplayName("VerificationTypeInfoFactory")
+    @ParameterizedTest(name="for {0} should be {4} with tag {1}")
+    @MethodSource("dataProvider")
+    public void testCreate(String variation, int tag, Integer indexOrOffset, Class<? extends ConstantPoolEntry> constantPoolEntryClass, Class<? extends VerificationTypeInfo> expectedClass) throws IOException {
+        // Given
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
 
-    private final VerificationTypeInfoFactory sut = new VerificationTypeInfoFactory();
-
-    @Before
-    public void setUp() throws IOException {
-        mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
-
+        // and
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedByte();
                 will(returnValue(tag));
         }});
 
+        // and
         // for ObjectVariableInfo's cpool_index and UninitializedVariableInfo's offset
         if (indexOrOffset != null) {
             context.checking(new Expectations() {{
@@ -104,6 +89,7 @@ public class TestVerificationTypeInfoFactory_create {
             }});
         }
 
+        // and
         // for ObjectVariableInfo's cpool_index
         if (constantPoolEntryClass != null) {
             final ConstantPoolEntry mockConstantPoolEntry = context.mock(constantPoolEntryClass);
@@ -112,13 +98,15 @@ public class TestVerificationTypeInfoFactory_create {
                     will(returnValue(mockConstantPoolEntry));
             }});
         }
-    }
 
-    @Test
-    public void testCreate() throws IOException {
+        // and
+        var sut = new VerificationTypeInfoFactory();
+
+        // When
         var actualVerificationTypeInfo = sut.create(mockConstantPool, mockIn);
 
-        assertEquals(label, expectedClass, actualVerificationTypeInfo.getClass());
-        assertEquals(label, tag, actualVerificationTypeInfo.getTag());
+        // Then
+        assertEquals(expectedClass, actualVerificationTypeInfo.getClass());
+        assertEquals(tag, actualVerificationTypeInfo.getTag());
     }
 }

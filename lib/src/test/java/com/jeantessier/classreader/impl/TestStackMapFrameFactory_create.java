@@ -34,131 +34,110 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestStackMapFrameFactory_create {
-    @Parameters(name="Stack Map Frame from tag {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"SAME (min)", 0, null, null, Collections.emptyList(), null, Collections.emptyList(), SameFrame.class},
-                {"SAME (max)", 63, null, null, Collections.emptyList(), null, Collections.emptyList(), SameFrame.class},
-                {"SAME_LOCALS_1_STACK_ITEM (min)", 64, null, null, Collections.emptyList(), null, Collections.singleton("TOP"), SameLocals1StackItemFrame.class},
-                {"SAME_LOCALS_1_STACK_ITEM (max)", 127, null, null, Collections.emptyList(), null, Collections.singleton("TOP"), SameLocals1StackItemFrame.class},
-                {"SAME_LOCALS_1_STACK_ITEM_EXTENDED", 247, 456, null, Collections.emptyList(), null, Collections.singleton("TOP"), SameLocals1StackItemFrameExtended.class},
-                {"CHOP (min)", 248, 456, null, Collections.emptyList(), null, Collections.emptyList(), ChopFrame.class},
-                {"CHOP (min)", 250, 456, null, Collections.emptyList(), null, Collections.emptyList(), ChopFrame.class},
-                {"SAME_FRAME_EXTENDED", 251, 456, null, Collections.emptyList(), null, Collections.emptyList(), SameFrameExtended.class},
-                {"APPEND (252 - 251 = 1)", 252, 456, null, List.of("TOP1"), null, Collections.emptyList(), AppendFrame.class},
-                {"APPEND (253 - 251 = 2)", 253, 456, null, List.of("TOP1", "TOP2"), null, Collections.emptyList(), AppendFrame.class},
-                {"APPEND (253 - 251 = 3)", 254, 456, null, List.of("TOP1", "TOP2", "TOP3"), null, Collections.emptyList(), AppendFrame.class},
-                {"FULL_FRAME (empties)", 255, 456, 0, Collections.emptyList(), 0, Collections.emptyList(), FullFrame.class},
-                {"FULL_FRAME (locals only)", 255, 456, 2, List.of("TOP1", "TOP2"), 0, Collections.emptyList(), FullFrame.class},
-                {"FULL_FRAME (stack only)", 255, 456, 0, Collections.emptyList(), 3, List.of("TOP3", "TOP4", "TOP5"), FullFrame.class},
-                {"FULL_FRAME (locals and stack)", 255, 456, 2, List.of("TOP1", "TOP2"), 3, List.of("TOP3", "TOP4", "TOP5"), FullFrame.class},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("SAME (min)", 0, null, null, Collections.emptyList(), null, Collections.emptyList(), SameFrame.class),
+                arguments("SAME (max)", 63, null, null, Collections.emptyList(), null, Collections.emptyList(), SameFrame.class),
+                arguments("SAME_LOCALS_1_STACK_ITEM (min)", 64, null, null, Collections.emptyList(), null, Collections.singleton("TOP"), SameLocals1StackItemFrame.class),
+                arguments("SAME_LOCALS_1_STACK_ITEM (max)", 127, null, null, Collections.emptyList(), null, Collections.singleton("TOP"), SameLocals1StackItemFrame.class),
+                arguments("SAME_LOCALS_1_STACK_ITEM_EXTENDED", 247, 456, null, Collections.emptyList(), null, Collections.singleton("TOP"), SameLocals1StackItemFrameExtended.class),
+                arguments("CHOP (min)", 248, 456, null, Collections.emptyList(), null, Collections.emptyList(), ChopFrame.class),
+                arguments("CHOP (min)", 250, 456, null, Collections.emptyList(), null, Collections.emptyList(), ChopFrame.class),
+                arguments("SAME_FRAME_EXTENDED", 251, 456, null, Collections.emptyList(), null, Collections.emptyList(), SameFrameExtended.class),
+                arguments("APPEND (252 - 251 = 1)", 252, 456, null, List.of("TOP1"), null, Collections.emptyList(), AppendFrame.class),
+                arguments("APPEND (253 - 251 = 2)", 253, 456, null, List.of("TOP1", "TOP2"), null, Collections.emptyList(), AppendFrame.class),
+                arguments("APPEND (253 - 251 = 3)", 254, 456, null, List.of("TOP1", "TOP2", "TOP3"), null, Collections.emptyList(), AppendFrame.class),
+                arguments("FULL_FRAME (empties)", 255, 456, 0, Collections.emptyList(), 0, Collections.emptyList(), FullFrame.class),
+                arguments("FULL_FRAME (locals only)", 255, 456, 2, List.of("TOP1", "TOP2"), 0, Collections.emptyList(), FullFrame.class),
+                arguments("FULL_FRAME (stack only)", 255, 456, 0, Collections.emptyList(), 3, List.of("TOP3", "TOP4", "TOP5"), FullFrame.class),
+                arguments("FULL_FRAME (locals and stack)", 255, 456, 2, List.of("TOP1", "TOP2"), 3, List.of("TOP3", "TOP4", "TOP5"), FullFrame.class)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int frameType;
-
-    @Parameter(2)
-    public Integer offsetDelta;
-
-    @Parameter(3)
-    public Integer numberOfLocals;
-
-    @Parameter(4)
-    public Collection<String> locals;
-
-    @Parameter(5)
-    public Integer numberOfStackItems;
-
-    @Parameter(6)
-    public Collection<String> stacks;
-
-    @Parameter(7)
-    public Class<? extends StackMapFrame> expectedClass;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private VerificationTypeInfoFactory mockVerificationTypeInfoFactory;
-    private ConstantPool mockConstantPool;
-    private DataInput mockIn;
+    @DisplayName("StackMapFrameFactory")
+    @ParameterizedTest(name="for {0} should be {7} with type {1}")
+    @MethodSource("dataProvider")
+    public void testCreate(String variation, int frameType, Integer offsetDelta, Integer numberOfLocals, Collection<String> locals, Integer numberOfStackItems, Collection<String> stacks, Class<? extends StackMapFrame> expectedClass) throws IOException {
+        // Given
+        var mockVerificationTypeInfoFactory = context.mock(VerificationTypeInfoFactory.class);
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
 
-    private StackMapFrameFactory sut;
-
-    @Before
-    public void setUp() throws IOException {
-        mockVerificationTypeInfoFactory = context.mock(VerificationTypeInfoFactory.class);
-        mockConstantPool = context.mock(ConstantPool.class);
-        mockIn = context.mock(DataInput.class);
-
+        // and
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedByte();
-                will(returnValue(frameType));
+            will(returnValue(frameType));
         }});
 
+        // and
         if (offsetDelta != null) {
             context.checking(new Expectations() {{
                 oneOf (mockIn).readUnsignedShort();
-                    will(returnValue(offsetDelta));
+                will(returnValue(offsetDelta));
             }});
         }
 
+        // and
         if (numberOfLocals != null) {
             context.checking(new Expectations() {{
                 oneOf (mockIn).readUnsignedShort();
-                    will(returnValue(numberOfLocals));
+                will(returnValue(numberOfLocals));
             }});
         }
 
+        // and
         for (String localName : locals) {
             final VerificationTypeInfo mockVerificationTypeInfo = context.mock(VerificationTypeInfo.class, localName);
             context.checking(new Expectations() {{
                 oneOf (mockVerificationTypeInfoFactory).create(mockConstantPool, mockIn);
-                    will(returnValue(mockVerificationTypeInfo));
+                will(returnValue(mockVerificationTypeInfo));
             }});
         }
 
+        // and
         if (numberOfStackItems != null) {
             context.checking(new Expectations() {{
                 oneOf (mockIn).readUnsignedShort();
-                    will(returnValue(numberOfStackItems));
+                will(returnValue(numberOfStackItems));
             }});
         }
 
+        // and
         for (String stackName : stacks) {
             final VerificationTypeInfo mockVerificationTypeInfo = context.mock(VerificationTypeInfo.class, stackName);
             context.checking(new Expectations() {{
                 oneOf (mockVerificationTypeInfoFactory).create(mockConstantPool, mockIn);
-                    will(returnValue(mockVerificationTypeInfo));
+                will(returnValue(mockVerificationTypeInfo));
             }});
         }
 
-        sut = new StackMapFrameFactory(mockVerificationTypeInfoFactory);
-    }
+        // and
+        var sut = new StackMapFrameFactory(mockVerificationTypeInfoFactory);
 
-    @Test
-    public void testCreate() throws IOException {
+        // When
         var actualStackMapFrame = sut.create(mockConstantPool, mockIn);
 
-        assertEquals(label, expectedClass, actualStackMapFrame.getClass());
-        assertEquals(label, frameType, actualStackMapFrame.getFrameType());
+        // Then
+        assertEquals(expectedClass, actualStackMapFrame.getClass());
+        assertEquals(frameType, actualStackMapFrame.getFrameType());
     }
 }

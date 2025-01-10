@@ -34,69 +34,93 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestMethodRef_info_NameAndType {
     private static final int CLASS_INDEX = 2;
-    private static final String CLASS = "abc";
+    private static final String CLASS = "Abc";
     private static final int NAME_AND_TYPE_INDEX = 3;
 
-    @Parameters(name="MethodRef_info to {0} " + CLASS + ".{1} with type \"{2}\"")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"void method", "foo", "(I)V", "foo(int)", "void", "foo(int): void", CLASS + ".foo(int): void"},
-                {"regular method", "foo", "(Ljava/lang/String;)Ljava/lang/Object;", "foo(java.lang.String)", "java.lang.Object", "foo(java.lang.String): java.lang.Object", CLASS + ".foo(java.lang.String): java.lang.Object"},
-                {"constructor", "<init>", "()V", CLASS + "()", "void", CLASS + "()", CLASS + "." + CLASS + "()"},
-                {"static initializer", "<clinit>", "()V", "static {}", "void", "static {}", CLASS + ".static {}"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("void method", "foo", "(I)V", "foo(int)", "void", "foo(int): void", CLASS + ".foo(int): void"),
+                arguments("regular method", "foo", "(Ljava/lang/String;)Ljava/lang/Object;", "foo(java.lang.String)", "java.lang.Object", "foo(java.lang.String): java.lang.Object", CLASS + ".foo(java.lang.String): java.lang.Object"),
+                arguments("constructor", "<init>", "()V", CLASS + "()", "void", CLASS + "()", CLASS + "." + CLASS + "()"),
+                arguments("static initializer", "<clinit>", "()V", "static {}", "void", "static {}", CLASS + ".static {}")
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public String name;
-
-    @Parameter(2)
-    public String type;
-
-    @Parameter(3)
-    public String expectedSignature;
-
-    @Parameter(4)
-    public String expectedReturnType;
-
-    @Parameter(5)
-    public String expectedUniqueName;
-
-    @Parameter(6)
-    public String expectedFullUniqueName;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private MethodRef_info sut;
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="class for {0} should be " + CLASS)
+    @MethodSource("dataProvider")
+    void testGetClass(String variation, String name, String type, String expectedSignature, String expectedReturnType, String expectedUniqueName, String expectedFullUniqueName) throws IOException {
+        var sut = createSut(name, type);
+        assertEquals(CLASS, sut.getClassName());
+    }
 
-    @Before
-    public void setUp() throws IOException {
-        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
-        final DataInput mockIn = context.mock(DataInput.class);
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="signature for {0} should be {3}")
+    @MethodSource("dataProvider")
+    void testGetSignature(String variation, String name, String type, String expectedSignature, String expectedReturnType, String expectedUniqueName, String expectedFullUniqueName) throws IOException {
+        var sut = createSut(name, type);
+        assertEquals(expectedSignature, sut.getSignature());
+    }
 
-        final Class_info mockClass_info = context.mock(Class_info.class);
-        final NameAndType_info mockNameAndType_info = context.mock(NameAndType_info.class);
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="full signature for {0} should be " + CLASS + ".{3}")
+    @MethodSource("dataProvider")
+    void testGetFullSignature(String variation, String name, String type, String expectedSignature, String expectedReturnType, String expectedUniqueName, String expectedFullUniqueName) throws IOException {
+        var sut = createSut(name, type);
+        assertEquals(CLASS + "." + expectedSignature, sut.getFullSignature());
+    }
 
-        final Sequence dataReads = context.sequence("dataReads");
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="return type for {0} should be {4}")
+    @MethodSource("dataProvider")
+    void testGetReturnType(String variation, String name, String type, String expectedSignature, String expectedReturnType, String expectedUniqueName, String expectedFullUniqueName) throws IOException {
+        var sut = createSut(name, type);
+        assertEquals(expectedReturnType, sut.getReturnType());
+    }
+
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="unique name for {0} should be {5}")
+    @MethodSource("dataProvider")
+    void testGetUniqueName(String variation, String name, String type, String expectedSignature, String expectedReturnType, String expectedUniqueName, String expectedFullUniqueName) throws IOException {
+        var sut = createSut(name, type);
+        assertEquals(expectedUniqueName, sut.getUniqueName());
+    }
+
+    @DisplayName("MethodRef_info")
+    @ParameterizedTest(name="full unique name for {0} should be {6}")
+    @MethodSource("dataProvider")
+    void testGetFullUniqueName(String variation, String name, String type, String expectedSignature, String expectedReturnType, String expectedUniqueName, String expectedFullUniqueName) throws IOException {
+        var sut = createSut(name, type);
+        assertEquals(expectedFullUniqueName, sut.getFullUniqueName());
+    }
+
+    private MethodRef_info createSut(String name, String type) throws IOException {
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
+
+        var mockClass_info = context.mock(Class_info.class);
+        var mockNameAndType_info = context.mock(NameAndType_info.class);
+
+        var dataReads = context.sequence("dataReads");
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
@@ -121,36 +145,6 @@ public class TestMethodRef_info_NameAndType {
                 will(returnValue(type));
         }});
 
-        sut = new MethodRef_info(mockConstantPool, mockIn);
-    }
-
-    @Test
-    public void testGetClass() {
-        assertEquals(CLASS, sut.getClassName());
-    }
-
-    @Test
-    public void testGetSignature() {
-        assertEquals(expectedSignature, sut.getSignature());
-    }
-
-    @Test
-    public void testGetFullSignature() {
-        assertEquals(CLASS + "." + expectedSignature, sut.getFullSignature());
-    }
-
-    @Test
-    public void testGetReturnType() {
-        assertEquals(expectedReturnType, sut.getReturnType());
-    }
-
-    @Test
-    public void testGetUniqueName() {
-        assertEquals(expectedUniqueName, sut.getUniqueName());
-    }
-
-    @Test
-    public void testGetFullUniqueName() {
-        assertEquals(expectedFullUniqueName, sut.getFullUniqueName());
+        return new MethodRef_info(mockConstantPool, mockIn);
     }
 }

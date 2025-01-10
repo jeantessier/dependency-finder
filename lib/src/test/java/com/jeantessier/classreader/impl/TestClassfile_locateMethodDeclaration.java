@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClassfile_locateMethodDeclaration {
     @RegisterExtension
-    public JUnit5Mockery context = new JUnit5Mockery() {{
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 

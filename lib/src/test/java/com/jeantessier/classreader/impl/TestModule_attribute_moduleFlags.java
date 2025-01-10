@@ -32,65 +32,72 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitable;
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import com.jeantessier.classreader.Visitable;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestModule_attribute_moduleFlags {
-    @Parameters(name="Module with module flags {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"OPEN", 0x0020, true, false, false},
-                {"SYNTHETIC", 0x1000, false, true, false},
-                {"MANDATED", 0x8000, false, false, true},
-                {"all of them", 0x9020, true, true, true},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("OPEN", 0x0020, true, false, false),
+                arguments("SYNTHETIC", 0x1000, false, true, false),
+                arguments("MANDATED", 0x8000, false, false, true),
+                arguments("all of them", 0x9020, true, true, true)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int moduleFlags;
-
-    @Parameter(2)
-    public boolean isOpen;
-
-    @Parameter(3)
-    public boolean isSynthetic;
-
-    @Parameter(4)
-    public boolean isMandated;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private Module_attribute sut;
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="isOpen for {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testIsOpen(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(moduleFlags);
+        assertEquals(isOpen, sut.isOpen());
+    }
 
-    @Before
-    public void setUp() throws IOException {
-        final int moduleNameIndex = 123;
-        final String moduleName = "abc";
-        final int moduleVersionIndex = 465;
-        final String moduleVersion = "blah";
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="isSynthetic for {0} should be {3}")
+    @MethodSource("dataProvider")
+    public void testIsSynthetic(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(moduleFlags);
+        assertEquals(isSynthetic, sut.isSynthetic());
+    }
 
-        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
-        final Visitable mockOwner = context.mock(Visitable.class);
-        final DataInput mockIn = context.mock(DataInput.class);
-        final Module_info mockModule_info = context.mock(Module_info.class);
-        final UTF8_info mockUtf8_info = context.mock(UTF8_info.class);
+    @DisplayName("Module_attribute")
+    @ParameterizedTest(name="isMandated for {0} should be {4}")
+    @MethodSource("dataProvider")
+    public void testIsMandated(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
+        var sut = createSut(moduleFlags);
+        assertEquals(isMandated, sut.isMandated());
+    }
+
+    private Module_attribute createSut(int moduleFlags) throws IOException {
+        var moduleNameIndex = 123;
+        var moduleName = "abc";
+        var moduleVersionIndex = 465;
+        var moduleVersion = "blah";
+
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockOwner = context.mock(Visitable.class);
+        var mockIn = context.mock(DataInput.class);
+        var mockModule_info = context.mock(Module_info.class);
+        var mockUtf8_info = context.mock(UTF8_info.class);
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readInt();
@@ -117,21 +124,6 @@ public class TestModule_attribute_moduleFlags {
                 will(returnValue(0));
         }});
 
-        sut = new Module_attribute(mockConstantPool, mockOwner, mockIn);
-    }
-
-    @Test
-    public void testIsOpen() {
-        assertEquals(label, isOpen, sut.isOpen());
-    }
-
-    @Test
-    public void testIsSynthetic() {
-        assertEquals(label, isSynthetic, sut.isSynthetic());
-    }
-
-    @Test
-    public void testIsMandated() {
-        assertEquals(label, isMandated, sut.isMandated());
+        return new Module_attribute(mockConstantPool, mockOwner, mockIn);
     }
 }

@@ -34,58 +34,76 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestModuleRequires_requiresVersion {
-    @Parameters(name="Module requires {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"without version", 0, false, null},
-                {"with version", 789, true, "version information"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("without version", 0, false, null),
+                arguments("with version", 789, true, "version information")
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int requiresVersionIndex;
-
-    @Parameter(2)
-    public boolean hasRequiresVersion;
-
-    @Parameter(3)
-    public String requiresVersion;
-
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
-    private UTF8_info mockUtf8_info;
+    @DisplayName("MethodRequires")
+    @ParameterizedTest(name="requiresVersionIndex for {0} should be {1}")
+    @MethodSource("dataProvider")
+    public void testGetRequiresVersionIndex(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+        var sut = createSut(requiresVersionIndex, requiresVersion);
+        assertEquals(requiresVersionIndex, sut.getRequiresVersionIndex());
+    }
 
-    private ModuleRequires sut;
+    @DisplayName("MethodRequires")
+    @ParameterizedTest(name="hasRequiresVersion for {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testHasRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+        var sut = createSut(requiresVersionIndex, requiresVersion);
+        assertEquals(hasRequiresVersion, sut.hasRequiresVersion());
+    }
 
-    @Before
-    public void setUp() throws IOException {
-        final int requiresIndex = 123;
-        final String requires = "abc";
-        final int requiresFlags = 456;
+    @DisplayName("MethodRequires")
+    @ParameterizedTest(name="raw requiresVersion for {0} should be present if {2}")
+    @MethodSource("dataProvider")
+    public void testGetRawRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+        var sut = createSut(requiresVersionIndex, requiresVersion);
 
-        final ConstantPool mockConstantPool = context.mock(ConstantPool.class);
-        final DataInput mockIn = context.mock(DataInput.class);
-        final Module_info mockModule_info = context.mock(Module_info.class);
+        var actualRawRequiresVersion = Optional.ofNullable(sut.getRawRequiresVersion());
+        assertEquals(hasRequiresVersion, actualRawRequiresVersion.isPresent());
+    }
 
-        mockUtf8_info = requiresVersionIndex != 0 ? context.mock(UTF8_info.class) : null;
+    @DisplayName("MethodRequires")
+    @ParameterizedTest(name="requiresVersion for {0} should be {3}")
+    @MethodSource("dataProvider")
+    public void testGetRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+        var sut = createSut(requiresVersionIndex, requiresVersion);
+        assertEquals(requiresVersion, sut.getRequiresVersion());
+    }
+
+    private ModuleRequires createSut(int requiresVersionIndex, String requiresVersion) throws IOException {
+        var requiresIndex = 123;
+        var requires = "abc";
+        var requiresFlags = 456;
+
+        var mockConstantPool = context.mock(ConstantPool.class);
+        var mockIn = context.mock(DataInput.class);
+        var mockModule_info = context.mock(Module_info.class);
+
+        var mockUtf8_info = requiresVersionIndex != 0 ? context.mock(UTF8_info.class) : null;
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
@@ -108,26 +126,6 @@ public class TestModuleRequires_requiresVersion {
             }
         }});
 
-        sut = new ModuleRequires(mockConstantPool, mockIn);
-    }
-
-    @Test
-    public void testGetRequiresVersionIndex() {
-        assertEquals(label, requiresVersionIndex, sut.getRequiresVersionIndex());
-    }
-
-    @Test
-    public void testHasRequiresVersion() {
-        assertEquals(label, hasRequiresVersion, sut.hasRequiresVersion());
-    }
-
-    @Test
-    public void testGetRawRequiresVersion() {
-        assertEquals(label, mockUtf8_info, sut.getRawRequiresVersion());
-    }
-
-    @Test
-    public void testGetRequiresVersion() {
-        assertEquals(label, requiresVersion, sut.getRequiresVersion());
+        return new ModuleRequires(mockConstantPool, mockIn);
     }
 }

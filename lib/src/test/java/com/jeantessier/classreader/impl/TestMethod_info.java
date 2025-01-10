@@ -52,7 +52,7 @@ public class TestMethod_info {
     private static final int TEST_NB_ATTRIBUTES = 0;
 
     @RegisterExtension
-    public JUnit5Mockery context = new JUnit5Mockery() {{
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 

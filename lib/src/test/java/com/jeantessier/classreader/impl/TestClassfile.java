@@ -51,7 +51,7 @@ public class TestClassfile {
     private static final String TEST_METHOD_SIGNATURE = TEST_CLASS_NAME + ".foo()";
 
     @RegisterExtension
-    public JUnit5Mockery context = new JUnit5Mockery() {{
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
