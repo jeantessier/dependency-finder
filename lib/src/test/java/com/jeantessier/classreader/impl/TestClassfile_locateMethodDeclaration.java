@@ -35,17 +35,18 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.ClassfileLoader;
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 import java.util.function.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClassfile_locateMethodDeclaration {
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    public JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
@@ -53,15 +54,15 @@ public class TestClassfile_locateMethodDeclaration {
     private ConstantPool constantPool;
     private Predicate<com.jeantessier.classreader.Method_info> filter;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         loader = context.mock(ClassfileLoader.class);
         constantPool = context.mock(ConstantPool.class);
         filter = context.mock(Predicate.class);
     }
 
     @Test
-    public void testLocateMethodDeclaration_fromInterface() {
+    void testLocateMethodDeclaration_fromInterface() {
         final Class_info classInfo = context.mock(Class_info.class, "class info");
         final String implementedInterfaceName = "interface";
         final Classfile implementedInterface = context.mock(Classfile.class, "interface");
@@ -82,12 +83,12 @@ public class TestClassfile_locateMethodDeclaration {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 0, Collections.singleton(classInfo), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         var actualDeclarations = sut.locateMethodDeclarations(filter);
-        assertEquals("nb of declarations from interface", 1, actualDeclarations.size());
-        assertEquals("declarations from interface", expectedMethod, actualDeclarations.stream().findFirst().orElseThrow());
+        assertEquals(1, actualDeclarations.size(), "nb of declarations from interface");
+        assertEquals(expectedMethod, actualDeclarations.stream().findFirst().orElseThrow(), "declarations from interface");
     }
 
     @Test
-    public void testLocateMethodDeclaration_fromSuperclass() {
+    void testLocateMethodDeclaration_fromSuperclass() {
         final String superclassName = "superclass";
         final Classfile superclass = context.mock(Classfile.class, "superclass");
         final Method_info expectedMethod = context.mock(Method_info.class, "method");
@@ -105,12 +106,12 @@ public class TestClassfile_locateMethodDeclaration {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         var actualDeclarations = sut.locateMethodDeclarations(filter);
-        assertEquals("nb of method from superclass", 1, actualDeclarations.size());
-        assertEquals("method from superclass", expectedMethod, actualDeclarations.stream().findFirst().orElseThrow());
+        assertEquals(1, actualDeclarations.size(), "nb of method from superclass");
+        assertEquals(expectedMethod, actualDeclarations.stream().findFirst().orElseThrow(), "method from superclass");
     }
 
     @Test
-    public void testLocateMethodDeclaration_fromClass() {
+    void testLocateMethodDeclaration_fromClass() {
         final Method_info expectedMethod = context.mock(Method_info.class, "method");
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 0, Collections.emptyList(), Collections.emptyList(), Collections.singleton(expectedMethod), Collections.emptyList());
@@ -123,12 +124,12 @@ public class TestClassfile_locateMethodDeclaration {
         }});
 
         var actualDeclarations = sut.locateMethodDeclarations(filter);
-        assertEquals("nb of method from class itself", 1, actualDeclarations.size());
-        assertEquals("method from class itself", expectedMethod, actualDeclarations.stream().findFirst().orElseThrow());
+        assertEquals(1, actualDeclarations.size(), "nb of method from class itself");
+        assertEquals(expectedMethod, actualDeclarations.stream().findFirst().orElseThrow(), "method from class itself");
     }
 
     @Test
-    public void testLocateMethodDeclaration_failure() {
+    void testLocateMethodDeclaration_failure() {
         context.checking(new Expectations() {{
             allowing (loader).getClassfile("");
                 will(returnValue(null));
@@ -137,7 +138,7 @@ public class TestClassfile_locateMethodDeclaration {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 0, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         var actualDeclarations = sut.locateMethodDeclarations(filter);
-        assertEquals("nb of missing method", 0, actualDeclarations.size());
+        assertEquals(0, actualDeclarations.size(), "nb of missing method");
     }
 
     private void expectClassNameLookup(final int index, final String value) {

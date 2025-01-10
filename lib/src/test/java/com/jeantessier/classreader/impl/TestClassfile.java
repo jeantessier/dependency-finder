@@ -35,13 +35,14 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.ClassfileLoader;
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
 import java.util.function.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClassfile {
     private static final String TEST_PACKAGE_NAME = "foo";
@@ -49,23 +50,23 @@ public class TestClassfile {
     private static final String TEST_FIELD_NAME = TEST_CLASS_NAME + ".foo";
     private static final String TEST_METHOD_SIGNATURE = TEST_CLASS_NAME + ".foo()";
 
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    public JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
     private ClassfileLoader loader;
     private ConstantPool constantPool;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         loader = context.mock(ClassfileLoader.class);
         constantPool = context.mock(ConstantPool.class);
     }
 
     @Test
-    public void testGetPackageName() {
-        final Class_info classInfo = context.mock(Class_info.class);
+    void testGetPackageName() {
+        var classInfo = context.mock(Class_info.class);
 
         context.checking(new Expectations() {{
             oneOf (constantPool).get(1);
@@ -77,12 +78,12 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         String actualValue = sut.getPackageName();
-        assertEquals("package name", actualValue, TEST_PACKAGE_NAME);
+        assertEquals(TEST_PACKAGE_NAME, actualValue, "package name");
     }
 
     @Test
-    public void testLocateField_localField_succeed() {
-        final Field_info expectedField = context.mock(Field_info.class, "located field");
+    void testLocateField_localField_succeed() {
+        var expectedField = context.mock(Field_info.class, "located field");
 
         Collection<Field_info> fields = Collections.singletonList(expectedField);
 
@@ -94,14 +95,14 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), fields, Collections.emptyList(), Collections.emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
-        assertEquals("local field", actualField, expectedField);
+        assertEquals(expectedField, actualField, "local field");
     }
 
     @Test
-    public void testLocateField_publicInheritedField_succeed() {
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Field_info expectedField = context.mock(Field_info.class, "located field");
+    void testLocateField_publicInheritedField_succeed() {
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedField = context.mock(Field_info.class, "located field");
 
         expectClassNameLookup(2, superclassName);
 
@@ -117,14 +118,14 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
-        assertEquals("public field", actualField, expectedField);
+        assertEquals(expectedField, actualField, "public field");
     }
 
     @Test
-    public void testLocateField_protectedInheritedField_succeed() {
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Field_info expectedField = context.mock(Field_info.class, "located field");
+    void testLocateField_protectedInheritedField_succeed() {
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedField = context.mock(Field_info.class, "located field");
 
         expectClassNameLookup(2, superclassName);
 
@@ -142,17 +143,17 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
-        assertEquals("protected field", actualField, expectedField);
+        assertEquals(expectedField, actualField, "protected field");
     }
 
     @Test
-    public void testLocateField_packageInheritedField_succeed() {
-        final Class_info classInfo = context.mock(Class_info.class, "class info");
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Field_info expectedField = context.mock(Field_info.class, "located field");
+    void testLocateField_packageInheritedField_succeed() {
+        var classInfo = context.mock(Class_info.class, "class info");
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedField = context.mock(Field_info.class, "located field");
 
-        final Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        var sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         expectClassNameLookup(2, superclassName);
 
@@ -178,17 +179,17 @@ public class TestClassfile {
         }});
 
         Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
-        assertEquals("package field", actualField, expectedField);
+        assertEquals(expectedField, actualField, "package field");
     }
 
     @Test
-    public void testLocateField_packageInheritedField_fail() {
-        final Class_info classInfo = context.mock(Class_info.class, "class info");
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Field_info expectedField = context.mock(Field_info.class, "located field");
+    void testLocateField_packageInheritedField_fail() {
+        var classInfo = context.mock(Class_info.class, "class info");
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedField = context.mock(Field_info.class, "located field");
 
-        final Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        var sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         expectClassNameLookup(2, superclassName);
 
@@ -214,14 +215,14 @@ public class TestClassfile {
         }});
 
         Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
-        assertNull("package field", actualField);
+        assertNull(actualField, "package field");
     }
 
     @Test
-    public void testLocateField_privateInheritedField_fail() {
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Field_info expectedField = context.mock(Field_info.class, "located field");
+    void testLocateField_privateInheritedField_fail() {
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedField = context.mock(Field_info.class, "located field");
 
         expectClassNameLookup(2, superclassName);
 
@@ -241,12 +242,12 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         Field_info actualField = (Field_info) sut.locateField(field -> field.getName().equals(TEST_FIELD_NAME));
-        assertNull("local field", actualField);
+        assertNull(actualField, "local field");
     }
 
     @Test
-    public void testLocateMethod_localMethod_succeed() {
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
+    void testLocateMethod_localMethod_succeed() {
+        var expectedMethod = context.mock(Method_info.class, "located method");
 
         Collection<Method_info> methods = Collections.singletonList(expectedMethod);
 
@@ -258,14 +259,14 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), methods, Collections.emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
-        assertEquals("local method", actualMethod, expectedMethod);
+        assertEquals(expectedMethod, actualMethod, "local method");
     }
 
     @Test
-    public void testLocateMethod_publicInheritedMethod_succeed() {
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
+    void testLocateMethod_publicInheritedMethod_succeed() {
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedMethod = context.mock(Method_info.class, "located method");
 
         expectClassNameLookup(2, superclassName);
 
@@ -281,14 +282,14 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
-        assertEquals("public method", actualMethod, expectedMethod);
+        assertEquals(expectedMethod, actualMethod, "public method");
     }
 
     @Test
-    public void testLocateMethod_protectedInheritedMethod_succeed() {
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
+    void testLocateMethod_protectedInheritedMethod_succeed() {
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedMethod = context.mock(Method_info.class, "located method");
 
         expectClassNameLookup(2, superclassName);
 
@@ -306,17 +307,17 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
-        assertEquals("protected method", actualMethod, expectedMethod);
+        assertEquals(expectedMethod, actualMethod, "protected method");
     }
 
     @Test
-    public void testLocateMethod_packageInheritedMethod_succeed() {
-        final Class_info classInfo = context.mock(Class_info.class, "class info");
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
+    void testLocateMethod_packageInheritedMethod_succeed() {
+        var classInfo = context.mock(Class_info.class, "class info");
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedMethod = context.mock(Method_info.class, "located method");
 
-        final Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        var sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         expectClassNameLookup(2, superclassName);
 
@@ -342,17 +343,17 @@ public class TestClassfile {
         }});
 
         Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
-        assertEquals("package method", actualMethod, expectedMethod);
+        assertEquals(expectedMethod, actualMethod, "package method");
     }
 
     @Test
-    public void testLocateMethod_packageInheritedMethod_fail() {
-        final Class_info classInfo = context.mock(Class_info.class, "class info");
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
+    void testLocateMethod_packageInheritedMethod_fail() {
+        var classInfo = context.mock(Class_info.class, "class info");
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedMethod = context.mock(Method_info.class, "located method");
 
-        final Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+        var sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         expectClassNameLookup(2, superclassName);
 
@@ -378,14 +379,14 @@ public class TestClassfile {
         }});
 
         Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
-        assertNull("package method", actualMethod);
+        assertNull(actualMethod, "package method");
     }
 
     @Test
-    public void testLocateMethod_privateInheritedMethod_fail() {
-        final String superclassName = "superclass";
-        final Classfile superclass = context.mock(Classfile.class, "superclass");
-        final Method_info expectedMethod = context.mock(Method_info.class, "located method");
+    void testLocateMethod_privateInheritedMethod_fail() {
+        var superclassName = "superclass";
+        var superclass = context.mock(Classfile.class, "superclass");
+        var expectedMethod = context.mock(Method_info.class, "located method");
 
         expectClassNameLookup(2, superclassName);
 
@@ -405,13 +406,13 @@ public class TestClassfile {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
         Method_info actualMethod = (Method_info) sut.locateMethod(method -> method.getSignature().equals(TEST_METHOD_SIGNATURE));
-        assertNull("private method", actualMethod);
+        assertNull(actualMethod, "private method");
     }
 
     @Test
-    public void testIsInnerClass_matchingInnerClassInfo_returnsTrue() {
-        final InnerClasses_attribute innerClasses_attribute = context.mock(InnerClasses_attribute.class);
-        final InnerClass innerClass = context.mock(InnerClass.class);
+    void testIsInnerClass_matchingInnerClassInfo_returnsTrue() {
+        var innerClasses_attribute = context.mock(InnerClasses_attribute.class);
+        var innerClass = context.mock(InnerClass.class);
 
         expectClassNameLookup(1, TEST_CLASS_NAME);
 
@@ -424,13 +425,13 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.singleton(innerClasses_attribute));
 
-        assertTrue("inner class", sut.isInnerClass());
+        assertTrue(sut.isInnerClass(), "inner class");
     }
 
     @Test
-    public void testIsInnerClass_emptyInnerClassInfo_returnsFalse() {
-        final InnerClasses_attribute innerClasses_attribute = context.mock(InnerClasses_attribute.class);
-        final InnerClass innerClass = context.mock(InnerClass.class);
+    void testIsInnerClass_emptyInnerClassInfo_returnsFalse() {
+        var innerClasses_attribute = context.mock(InnerClasses_attribute.class);
+        var innerClass = context.mock(InnerClass.class);
 
         expectClassNameLookup(1, TEST_CLASS_NAME);
 
@@ -443,18 +444,18 @@ public class TestClassfile {
 
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.singleton(innerClasses_attribute));
 
-        assertFalse("inner class", sut.isInnerClass());
+        assertFalse(sut.isInnerClass(), "inner class");
     }
 
     @Test
-    public void testIsInnerClass_noInnerClassInfo_returnsFalse() {
+    void testIsInnerClass_noInnerClassInfo_returnsFalse() {
         Classfile sut = new Classfile(loader, constantPool, 0x0, 1, 2, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
 
-        assertFalse("inner class", sut.isInnerClass());
+        assertFalse(sut.isInnerClass(), "inner class");
     }
 
-    private void expectClassNameLookup(final int index, final String value) {
-        final Class_info class_info = context.mock(Class_info.class);
+    private void expectClassNameLookup(int index, String value) {
+        var class_info = context.mock(Class_info.class);
 
         context.checking(new Expectations() {{
             oneOf (constantPool).get(index);

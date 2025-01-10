@@ -34,8 +34,9 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
@@ -48,8 +49,8 @@ public class TestClass_info {
     private static final String ENCODED_FULL_CLASS_NAME = "L" + PACKAGE_NAME + "/" + SIMPLE_CLASS_NAME + ";";
     private static final String FULL_CLASS_NAME = PACKAGE_NAME + "." + SIMPLE_CLASS_NAME;
 
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    public JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
@@ -57,15 +58,15 @@ public class TestClass_info {
 
     private Class_info sut;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         constantPool = context.mock(ConstantPool.class);
 
         sut = new Class_info(constantPool, CLASS_NAME_INDEX);
     }
 
     @Test
-    public void testGetName_defaultPackage() {
+    void testGetName_defaultPackage() {
         expectClassNameLookup(CLASS_NAME_INDEX, ENCODED_SIMPLE_CLASS_NAME);
 
         String actualValue = sut.getName();
@@ -73,7 +74,7 @@ public class TestClass_info {
     }
 
     @Test
-    public void testGetName_withPackageName() {
+    void testGetName_withPackageName() {
         expectClassNameLookup(CLASS_NAME_INDEX, ENCODED_FULL_CLASS_NAME);
 
         String actualValue = sut.getName();
@@ -81,7 +82,7 @@ public class TestClass_info {
     }
 
     @Test
-    public void testGetPackageName_defaultPackage() {
+    void testGetPackageName_defaultPackage() {
         expectClassNameLookup(CLASS_NAME_INDEX, ENCODED_SIMPLE_CLASS_NAME);
 
         String actualValue = sut.getPackageName();
@@ -89,7 +90,7 @@ public class TestClass_info {
     }
 
     @Test
-    public void testGetPackageName_withPackageName() {
+    void testGetPackageName_withPackageName() {
         expectClassNameLookup(CLASS_NAME_INDEX, ENCODED_FULL_CLASS_NAME);
 
         String actualValue = sut.getPackageName();
@@ -97,7 +98,7 @@ public class TestClass_info {
     }
 
     @Test
-    public void testGetSimpleName_defaultPackage() {
+    void testGetSimpleName_defaultPackage() {
         expectClassNameLookup(CLASS_NAME_INDEX, ENCODED_SIMPLE_CLASS_NAME);
 
         String actualValue = sut.getSimpleName();
@@ -105,7 +106,7 @@ public class TestClass_info {
     }
 
     @Test
-    public void testGetSimpleName_withPackageName() {
+    void testGetSimpleName_withPackageName() {
         expectClassNameLookup(CLASS_NAME_INDEX, ENCODED_FULL_CLASS_NAME);
 
         String actualValue = sut.getSimpleName();

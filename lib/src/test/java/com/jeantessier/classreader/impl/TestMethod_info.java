@@ -34,8 +34,9 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 import java.util.*;
@@ -50,8 +51,8 @@ public class TestMethod_info {
     private static final int TEST_SIGNATURE_INDEX = 456;
     private static final int TEST_NB_ATTRIBUTES = 0;
 
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    public JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
 
@@ -60,8 +61,8 @@ public class TestMethod_info {
 
     private Sequence dataReads;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         mockIn = context.mock(DataInput.class);
         mockConstantPool = context.mock(ConstantPool.class);
 
@@ -69,7 +70,7 @@ public class TestMethod_info {
     }
 
     @Test
-    public void testDeclarationForStaticInitializer() throws IOException {
+    void testDeclarationForStaticInitializer() throws IOException {
         final Classfile mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
@@ -89,7 +90,7 @@ public class TestMethod_info {
     }
 
     @Test
-    public void testLocateMethodDeclarations_delegatesToClassfile() throws IOException {
+    void testLocateMethodDeclarations_delegatesToClassfile() throws IOException {
         final Classfile mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
