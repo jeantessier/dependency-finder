@@ -28,26 +28,26 @@
         </class>
         <class confirmed="yes">
             <name>p1.C1</name>
+            <outbound type="class" confirmed="no">p1.C3</outbound>
+            <outbound type="class" confirmed="no">p3.C5</outbound>
             <inbound type="class" confirmed="yes">p1.C2</inbound>
             <inbound type="feature" confirmed="yes">p1.C2.f4</inbound>
             <inbound type="class" confirmed="yes">p2.C4</inbound>
             <inbound type="feature" confirmed="yes">p2.C4.f6</inbound>
-            <outbound type="class" confirmed="no">p1.C3</outbound>
-            <outbound type="class" confirmed="no">p3.C5</outbound>
             <feature confirmed="yes">
                 <name>p1.C1.f2</name>
                 <outbound type="feature" confirmed="yes">p1.C1.f1</outbound>
             </feature>
             <feature confirmed="yes">
                 <name>p1.C1.f1</name>
-                <inbound type="feature" confirmed="yes">p1.C1.f2</inbound>
-                <inbound type="feature" confirmed="yes">p1.C2.f4</inbound>
-                <inbound type="feature" confirmed="yes">p2.C4.f6</inbound>
                 <outbound type="feature" confirmed="yes">p1.C1.f3</outbound>
                 <outbound type="class" confirmed="no">p1.C3</outbound>
                 <outbound type="feature" confirmed="no">p1.C3.f5</outbound>
                 <outbound type="class" confirmed="no">p3.C5</outbound>
                 <outbound type="feature" confirmed="no">p3.C5.f7</outbound>
+                <inbound type="feature" confirmed="yes">p1.C1.f2</inbound>
+                <inbound type="feature" confirmed="yes">p1.C2.f4</inbound>
+                <inbound type="feature" confirmed="yes">p2.C4.f6</inbound>
             </feature>
             <feature confirmed="yes">
                 <name>p1.C1.f3</name>
