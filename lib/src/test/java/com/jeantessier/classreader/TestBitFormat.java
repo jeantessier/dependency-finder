@@ -32,81 +32,88 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestBitFormat extends TestCase {
-    public void testDefault() {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestBitFormat {
+    @Test
+    void testDefault() {
         BitFormat format = new BitFormat();
 
-        assertEquals("0",                 "00000000 00000000 00000000 00000000", format.format(0));
-        assertEquals("1",                 "00000000 00000000 00000000 00000001", format.format(1));
-        assertEquals("-1",                "11111111 11111111 11111111 11111111", format.format(-1));
-        assertEquals("20",                "00000000 00000000 00000000 00010100", format.format(20));
-        assertEquals("Byte.MAX_VALUE",    "00000000 00000000 00000000 01111111", format.format(Byte.MAX_VALUE));
-        assertEquals("Byte.MIN_VALUE",    "11111111 11111111 11111111 10000000", format.format(Byte.MIN_VALUE));
-        assertEquals("Short.MAX_VALUE",   "00000000 00000000 01111111 11111111", format.format(Short.MAX_VALUE));
-        assertEquals("Short.MIN_VALUE",   "11111111 11111111 10000000 00000000", format.format(Short.MIN_VALUE));
-        assertEquals("Integer.MAX_VALUE", "01111111 11111111 11111111 11111111", format.format(Integer.MAX_VALUE));
-        assertEquals("Integer.MIN_VALUE", "10000000 00000000 00000000 00000000", format.format(Integer.MIN_VALUE));
+        assertEquals("00000000 00000000 00000000 00000000", format.format(0), "0");
+        assertEquals("00000000 00000000 00000000 00000001", format.format(1), "1");
+        assertEquals("11111111 11111111 11111111 11111111", format.format(-1), "-1");
+        assertEquals("00000000 00000000 00000000 00010100", format.format(20), "20");
+        assertEquals("00000000 00000000 00000000 01111111", format.format(Byte.MAX_VALUE), "Byte.MAX_VALUE");
+        assertEquals("11111111 11111111 11111111 10000000", format.format(Byte.MIN_VALUE), "Byte.MIN_VALUE");
+        assertEquals("00000000 00000000 01111111 11111111", format.format(Short.MAX_VALUE), "Short.MAX_VALUE");
+        assertEquals("11111111 11111111 10000000 00000000", format.format(Short.MIN_VALUE), "Short.MIN_VALUE");
+        assertEquals("01111111 11111111 11111111 11111111", format.format(Integer.MAX_VALUE), "Integer.MAX_VALUE");
+        assertEquals("10000000 00000000 00000000 00000000", format.format(Integer.MIN_VALUE), "Integer.MIN_VALUE");
     }
 
-    public void testLength4() {
+    @Test
+    void testLength4() {
         BitFormat format = new BitFormat(4);
 
-        assertEquals("0",                 "0000", format.format(0));
-        assertEquals("1",                 "0001", format.format(1));
-        assertEquals("-1",                "1111", format.format(-1));
-        assertEquals("20",                "0100", format.format(20));
-        assertEquals("Byte.MAX_VALUE",    "1111", format.format(Byte.MAX_VALUE));
-        assertEquals("Byte.MIN_VALUE",    "0000", format.format(Byte.MIN_VALUE));
-        assertEquals("Short.MAX_VALUE",   "1111", format.format(Short.MAX_VALUE));
-        assertEquals("Short.MIN_VALUE",   "0000", format.format(Short.MIN_VALUE));
-        assertEquals("Integer.MAX_VALUE", "1111", format.format(Integer.MAX_VALUE));
-        assertEquals("Integer.MIN_VALUE", "0000", format.format(Integer.MIN_VALUE));
+        assertEquals("0000", format.format(0), "0");
+        assertEquals("0001", format.format(1), "1");
+        assertEquals("1111", format.format(-1), "-1");
+        assertEquals("0100", format.format(20), "20");
+        assertEquals("1111", format.format(Byte.MAX_VALUE), "Byte.MAX_VALUE");
+        assertEquals("0000", format.format(Byte.MIN_VALUE), "Byte.MIN_VALUE");
+        assertEquals("1111", format.format(Short.MAX_VALUE), "Short.MAX_VALUE");
+        assertEquals("0000", format.format(Short.MIN_VALUE), "Short.MIN_VALUE");
+        assertEquals("1111", format.format(Integer.MAX_VALUE), "Integer.MAX_VALUE");
+        assertEquals("0000", format.format(Integer.MIN_VALUE), "Integer.MIN_VALUE");
     }
 
-    public void testLength16() {
+    @Test
+    void testLength16() {
         BitFormat format = new BitFormat(16);
 
-        assertEquals("0",                 "00000000 00000000", format.format(0));
-        assertEquals("1",                 "00000000 00000001", format.format(1));
-        assertEquals("-1",                "11111111 11111111", format.format(-1));
-        assertEquals("20",                "00000000 00010100", format.format(20));
-        assertEquals("Byte.MAX_VALUE",    "00000000 01111111", format.format(Byte.MAX_VALUE));
-        assertEquals("Byte.MIN_VALUE",    "11111111 10000000", format.format(Byte.MIN_VALUE));
-        assertEquals("Short.MAX_VALUE",   "01111111 11111111", format.format(Short.MAX_VALUE));
-        assertEquals("Short.MIN_VALUE",   "10000000 00000000", format.format(Short.MIN_VALUE));
-        assertEquals("Integer.MAX_VALUE", "11111111 11111111", format.format(Integer.MAX_VALUE));
-        assertEquals("Integer.MIN_VALUE", "00000000 00000000", format.format(Integer.MIN_VALUE));
+        assertEquals("00000000 00000000", format.format(0), "0");
+        assertEquals("00000000 00000001", format.format(1), "1");
+        assertEquals("11111111 11111111", format.format(-1), "-1");
+        assertEquals("00000000 00010100", format.format(20), "20");
+        assertEquals("00000000 01111111", format.format(Byte.MAX_VALUE), "Byte.MAX_VALUE");
+        assertEquals("11111111 10000000", format.format(Byte.MIN_VALUE), "Byte.MIN_VALUE");
+        assertEquals("01111111 11111111", format.format(Short.MAX_VALUE), "Short.MAX_VALUE");
+        assertEquals("10000000 00000000", format.format(Short.MIN_VALUE), "Short.MIN_VALUE");
+        assertEquals("11111111 11111111", format.format(Integer.MAX_VALUE), "Integer.MAX_VALUE");
+        assertEquals("00000000 00000000", format.format(Integer.MIN_VALUE), "Integer.MIN_VALUE");
     }
 
-    public void testGroups8() {
+    @Test
+    void testGroups8() {
         BitFormat format = new BitFormat(BitFormat.DEFAULT_MAX_LENGTH, 4);
 
-        assertEquals("0",                 "0000 0000 0000 0000 0000 0000 0000 0000", format.format(0));
-        assertEquals("1",                 "0000 0000 0000 0000 0000 0000 0000 0001", format.format(1));
-        assertEquals("-1",                "1111 1111 1111 1111 1111 1111 1111 1111", format.format(-1));
-        assertEquals("20",                "0000 0000 0000 0000 0000 0000 0001 0100", format.format(20));
-        assertEquals("Byte.MAX_VALUE",    "0000 0000 0000 0000 0000 0000 0111 1111", format.format(Byte.MAX_VALUE));
-        assertEquals("Byte.MIN_VALUE",    "1111 1111 1111 1111 1111 1111 1000 0000", format.format(Byte.MIN_VALUE));
-        assertEquals("Short.MAX_VALUE",   "0000 0000 0000 0000 0111 1111 1111 1111", format.format(Short.MAX_VALUE));
-        assertEquals("Short.MIN_VALUE",   "1111 1111 1111 1111 1000 0000 0000 0000", format.format(Short.MIN_VALUE));
-        assertEquals("Integer.MAX_VALUE", "0111 1111 1111 1111 1111 1111 1111 1111", format.format(Integer.MAX_VALUE));
-        assertEquals("Integer.MIN_VALUE", "1000 0000 0000 0000 0000 0000 0000 0000", format.format(Integer.MIN_VALUE));
+        assertEquals("0000 0000 0000 0000 0000 0000 0000 0000", format.format(0), "0");
+        assertEquals("0000 0000 0000 0000 0000 0000 0000 0001", format.format(1), "1");
+        assertEquals("1111 1111 1111 1111 1111 1111 1111 1111", format.format(-1), "-1");
+        assertEquals("0000 0000 0000 0000 0000 0000 0001 0100", format.format(20), "20");
+        assertEquals("0000 0000 0000 0000 0000 0000 0111 1111", format.format(Byte.MAX_VALUE), "Byte.MAX_VALUE");
+        assertEquals("1111 1111 1111 1111 1111 1111 1000 0000", format.format(Byte.MIN_VALUE), "Byte.MIN_VALUE");
+        assertEquals("0000 0000 0000 0000 0111 1111 1111 1111", format.format(Short.MAX_VALUE), "Short.MAX_VALUE");
+        assertEquals("1111 1111 1111 1111 1000 0000 0000 0000", format.format(Short.MIN_VALUE), "Short.MIN_VALUE");
+        assertEquals("0111 1111 1111 1111 1111 1111 1111 1111", format.format(Integer.MAX_VALUE), "Integer.MAX_VALUE");
+        assertEquals("1000 0000 0000 0000 0000 0000 0000 0000", format.format(Integer.MIN_VALUE), "Integer.MIN_VALUE");
     }
 
-    public void testSeparator() {
+    @Test
+    void testSeparator() {
         BitFormat format = new BitFormat(BitFormat.DEFAULT_MAX_LENGTH, BitFormat.DEFAULT_GROUP_SIZE, '-');
 
-        assertEquals("0",                 "00000000-00000000-00000000-00000000", format.format(0));
-        assertEquals("1",                 "00000000-00000000-00000000-00000001", format.format(1));
-        assertEquals("-1",                "11111111-11111111-11111111-11111111", format.format(-1));
-        assertEquals("20",                "00000000-00000000-00000000-00010100", format.format(20));
-        assertEquals("Byte.MAX_VALUE",    "00000000-00000000-00000000-01111111", format.format(Byte.MAX_VALUE));
-        assertEquals("Byte.MIN_VALUE",    "11111111-11111111-11111111-10000000", format.format(Byte.MIN_VALUE));
-        assertEquals("Short.MAX_VALUE",   "00000000-00000000-01111111-11111111", format.format(Short.MAX_VALUE));
-        assertEquals("Short.MIN_VALUE",   "11111111-11111111-10000000-00000000", format.format(Short.MIN_VALUE));
-        assertEquals("Integer.MAX_VALUE", "01111111-11111111-11111111-11111111", format.format(Integer.MAX_VALUE));
-        assertEquals("Integer.MIN_VALUE", "10000000-00000000-00000000-00000000", format.format(Integer.MIN_VALUE));
+        assertEquals("00000000-00000000-00000000-00000000", format.format(0), "0");
+        assertEquals("00000000-00000000-00000000-00000001", format.format(1), "1");
+        assertEquals("11111111-11111111-11111111-11111111", format.format(-1), "-1");
+        assertEquals("00000000-00000000-00000000-00010100", format.format(20), "20");
+        assertEquals("00000000-00000000-00000000-01111111", format.format(Byte.MAX_VALUE), "Byte.MAX_VALUE");
+        assertEquals("11111111-11111111-11111111-10000000", format.format(Byte.MIN_VALUE), "Byte.MIN_VALUE");
+        assertEquals("00000000-00000000-01111111-11111111", format.format(Short.MAX_VALUE), "Short.MAX_VALUE");
+        assertEquals("11111111-11111111-10000000-00000000", format.format(Short.MIN_VALUE), "Short.MIN_VALUE");
+        assertEquals("01111111-11111111-11111111-11111111", format.format(Integer.MAX_VALUE), "Integer.MAX_VALUE");
+        assertEquals("10000000-00000000-00000000-00000000", format.format(Integer.MIN_VALUE), "Integer.MIN_VALUE");
     }
 }

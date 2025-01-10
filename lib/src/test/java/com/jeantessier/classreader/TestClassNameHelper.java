@@ -32,10 +32,14 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
 
-public class TestClassNameHelper extends TestCase {
-    public void testPath2ClassName() {
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestClassNameHelper {
+    @Test
+    void testPath2ClassName() {
         assertEquals("I", ClassNameHelper.path2ClassName("I"));
         assertEquals("L", ClassNameHelper.path2ClassName("L"));
         assertEquals("V", ClassNameHelper.path2ClassName("V"));
@@ -43,7 +47,8 @@ public class TestClassNameHelper extends TestCase {
         assertEquals("package.Class", ClassNameHelper.path2ClassName("package/Class"));
     }
 
-    public void testConvertClassName() {
+    @Test
+    void testConvertClassName() {
         assertEquals("I", ClassNameHelper.convertClassName("I"));
         assertEquals("I[]", ClassNameHelper.convertClassName("[I"));
         assertEquals("package.Class", ClassNameHelper.convertClassName("package/Class"));

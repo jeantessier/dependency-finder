@@ -32,45 +32,55 @@
 
 package com.jeantessier.classreader;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-public class TestPermissiveDispatcher extends TestCase {
-    private ClassfileLoaderDispatcher dispatcher;
-    
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        dispatcher = new PermissiveDispatcher();
+import java.util.stream.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
+public class TestPermissiveDispatcher {
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("foo.class", ClassfileLoaderAction.CLASS),
+
+                arguments("src", ClassfileLoaderAction.DIRECTORY),
+
+                arguments("MANIFEST.MF", ClassfileLoaderAction.IGNORE),
+                arguments("foo.bat", ClassfileLoaderAction.IGNORE),
+                arguments("foo.css", ClassfileLoaderAction.IGNORE),
+                arguments("foo.dtd", ClassfileLoaderAction.IGNORE),
+                arguments("foo.gif", ClassfileLoaderAction.IGNORE),
+                arguments("foo.htm", ClassfileLoaderAction.IGNORE),
+                arguments("foo.html", ClassfileLoaderAction.IGNORE),
+                arguments("foo.java", ClassfileLoaderAction.IGNORE),
+                arguments("foo.jpeg", ClassfileLoaderAction.IGNORE),
+                arguments("foo.jpg", ClassfileLoaderAction.IGNORE),
+                arguments("foo.js", ClassfileLoaderAction.IGNORE),
+                arguments("foo.jsp", ClassfileLoaderAction.IGNORE),
+                arguments("foo.properties", ClassfileLoaderAction.IGNORE),
+                arguments("foo.ps", ClassfileLoaderAction.IGNORE),
+                arguments("foo.txt", ClassfileLoaderAction.IGNORE),
+                arguments("foo.xml", ClassfileLoaderAction.IGNORE),
+                arguments("foo.xsl", ClassfileLoaderAction.IGNORE),
+                arguments("foo/", ClassfileLoaderAction.IGNORE),
+
+                arguments("foo.jar", ClassfileLoaderAction.JAR),
+
+                arguments("foo.zip", ClassfileLoaderAction.ZIP),
+
+                arguments("foo.foo", ClassfileLoaderAction.ZIP)
+        );
     }
-    
-    public void testDispatch() {
-        assertEquals("foo.class",      ClassfileLoaderAction.CLASS,     dispatcher.dispatch("foo.class"));
-        
-        assertEquals("src",            ClassfileLoaderAction.DIRECTORY, dispatcher.dispatch("src"));
 
-        assertEquals("MANIFEST.MF",    ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("MANIFEST.MF"));
-        assertEquals("foo.bat",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.bat"));
-        assertEquals("foo.css",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.css"));
-        assertEquals("foo.dtd",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.dtd"));
-        assertEquals("foo.gif",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.gif"));
-        assertEquals("foo.htm",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.htm"));
-        assertEquals("foo.html",       ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.html"));
-        assertEquals("foo.java",       ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.java"));
-        assertEquals("foo.jpeg",       ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.jpeg"));
-        assertEquals("foo.jpg",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.jpg"));
-        assertEquals("foo.js",         ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.js"));
-        assertEquals("foo.jsp",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.jsp"));
-        assertEquals("foo.properties", ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.properties"));
-        assertEquals("foo.ps",         ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.ps"));
-        assertEquals("foo.txt",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.txt"));
-        assertEquals("foo.xml",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.xml"));
-        assertEquals("foo.xsl",        ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo.xsl"));
-        assertEquals("foo/",           ClassfileLoaderAction.IGNORE,    dispatcher.dispatch("foo/"));
-        
-        assertEquals("foo.jar",        ClassfileLoaderAction.JAR,       dispatcher.dispatch("foo.jar"));
+    private final ClassfileLoaderDispatcher dispatcher = new PermissiveDispatcher();
 
-        assertEquals("foo.zip",        ClassfileLoaderAction.ZIP,       dispatcher.dispatch("foo.zip"));
-
-        assertEquals("foo.foo",        ClassfileLoaderAction.ZIP,       dispatcher.dispatch("foo.foo"));
+    @DisplayName("ClassfileLoaderDispatcher")
+    @ParameterizedTest(name="file \"{0}\" should be {1}")
+    @MethodSource("dataProvider")
+    void testDispatch(String filename, ClassfileLoaderAction expectedAction) {
+        assertEquals(expectedAction, dispatcher.dispatch(filename));
     }
 }
