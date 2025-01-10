@@ -41,13 +41,13 @@ import junit.framework.*;
 import org.xml.sax.*;
 import org.apache.oro.text.perl.*;
 
-public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
+public class TestXMLCyclePrinter extends TestCase {
     private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
     private XMLReader reader;
-    private Perl5Util perl;
-    private StringWriter out;
+    private final Perl5Util perl = new Perl5Util();
+    private final StringWriter out = new StringWriter();
 
     private Node a_package;
     private Node b_package;
@@ -59,12 +59,8 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-        reader.setErrorHandler(this);
-
-        perl = new Perl5Util();
 
         var factory = new NodeFactory();
-        out = new StringWriter();
 
         a_package = factory.createPackage("a");
         b_package = factory.createPackage("b");
@@ -257,17 +253,5 @@ public class TestXMLCyclePrinter extends TestCase implements ErrorHandler {
         assertEquals("line " + ++lineNumber, "</cycles>", in.readLine());
 
         assertEquals("End of file", null, in.readLine());
-    }
-
-    public void error(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void fatalError(SAXParseException ex) {
-        // Ignore
-    }
-
-    public void warning(SAXParseException ex) {
-        // Ignore
     }
 }

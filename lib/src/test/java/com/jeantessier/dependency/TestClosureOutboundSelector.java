@@ -32,12 +32,14 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestClosureOutboundSelector extends TestCase {
-    private NodeFactory localFactory;
+public class TestClosureOutboundSelector {
+    private final NodeFactory localFactory = new NodeFactory();
 
     private PackageNode a;
     private ClassNode a_A;
@@ -51,11 +53,8 @@ public class TestClosureOutboundSelector extends TestCase {
     private ClassNode c_C;
     private FeatureNode c_C_c;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        localFactory = new NodeFactory();
-
+    @BeforeEach
+    void setUp() throws Exception {
         NodeFactory factory = new NodeFactory();
 
         a = factory.createPackage("a");
@@ -74,64 +73,65 @@ public class TestClosureOutboundSelector extends TestCase {
         b_B_b.addDependency(c_C_c);
     }
 
-    public void testFactory() {
+    @Test
+    void testFactory() {
         var selector = new ClosureOutboundSelector();
 
         selector.setFactory(localFactory);
 
-        assertEquals("factory", localFactory, selector.getFactory());
+        assertEquals(localFactory, selector.getFactory(), "factory");
     }
 
-    public void testCoverage() {
+    @Test
+    void testCoverage() {
         Collection<Node> coverage = new ArrayList<>();
 
         var selector = new ClosureOutboundSelector();
 
         selector.setCoverage(coverage);
 
-        assertEquals("coverage", coverage, selector.getCoverage());
+        assertEquals(coverage, selector.getCoverage(), "coverage");
     }
 
-    public void testOneSelectedNode() {
+    @Test
+    void testOneSelectedNode() {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
-        assertEquals("c.C.c in selection", c_C_c, selector.getSelectedNodes().iterator().next());
-        assertSame("c.C.c in selection", c_C_c, selector.getSelectedNodes().iterator().next());
+        assertIterableEquals(List.of(c_C_c), selector.getSelectedNodes());
     }
 
-    public void testOneCopiedNode() {
+    @Test
+    void testOneCopiedNode() {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("packages in scope", 2, localFactory.getPackages().size());
-        assertEquals("classes in scope" , 2, localFactory.getClasses().size());
-        assertEquals("features in scope", 2, localFactory.getFeatures().size());
+        assertEquals(2, localFactory.getPackages().size(), "packages in scope");
+        assertEquals(2, localFactory.getClasses().size(), "classes in scope" );
+        assertEquals(2, localFactory.getFeatures().size(), "features in scope");
 
-        assertEquals("package b in scope"    , b,     localFactory.getPackages().get("b"));
-        assertEquals("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
-        assertEquals("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
-        assertEquals("package c in scope"    , c,     localFactory.getPackages().get("c"));
-        assertEquals("class c.C in scope"    , c_C,   localFactory.getClasses().get("c.C"));
-        assertEquals("feature c.C.c in scope", c_C_c, localFactory.getFeatures().get("c.C.c"));
+        assertEquals(b, localFactory.getPackages().get("b"), "package b in scope"    );
+        assertEquals(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope"    );
+        assertEquals(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
+        assertEquals(c, localFactory.getPackages().get("c"), "package c in scope"    );
+        assertEquals(c_C, localFactory.getClasses().get("c.C"), "class c.C in scope"    );
+        assertEquals(c_C_c, localFactory.getFeatures().get("c.C.c"), "feature c.C.c in scope");
 
-        assertNotSame("package b in scope"    , b,     localFactory.getPackages().get("b"));
-        assertNotSame("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
-        assertNotSame("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
-        assertNotSame("package c in scope"    , c,     localFactory.getPackages().get("c"));
-        assertNotSame("class c.C in scope"    , c_C,   localFactory.getClasses().get("c.C"));
-        assertNotSame("feature c.C.c in scope", c_C_c, localFactory.getFeatures().get("c.C.c"));
+        assertNotSame(b, localFactory.getPackages().get("b"), "package b in scope");
+        assertNotSame(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope");
+        assertNotSame(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
+        assertNotSame(c, localFactory.getPackages().get("c"), "package c in scope");
+        assertNotSame(c_C, localFactory.getClasses().get("c.C"), "class c.C in scope");
+        assertNotSame(c_C_c, localFactory.getFeatures().get("c.C.c"), "feature c.C.c in scope");
 
-        assertEquals("nodes in selection", 1, selector.getCopiedNodes().size());
-        assertEquals("c.C.c in selection", c_C_c, selector.getCopiedNodes().iterator().next());
-        assertNotSame("c.C.c in selection", c_C_c, selector.getCopiedNodes().iterator().next());
-        assertSame("c.C.c in selection", localFactory.getFeatures().get("c.C.c"), selector.getCopiedNodes().iterator().next());
-        assertEquals("c.C.c's inbounds",  1, selector.getCopiedNodes().iterator().next().getInboundDependencies().size());
-        assertEquals("c.C.c's outbounds", 0, selector.getCopiedNodes().iterator().next().getOutboundDependencies().size());
+        assertIterableEquals(List.of(c_C_c), selector.getCopiedNodes());
+
+        assertEquals(1, selector.getCopiedNodes().iterator().next().getInboundDependencies().size(), "c.C.c's inbounds");
+        assertEquals(0, selector.getCopiedNodes().iterator().next().getOutboundDependencies().size(), "c.C.c's outbounds");
     }
 
-    public void testThreeSelectedNodesFromPackage() {
+    @Test
+    void testThreeSelectedNodesFromPackage() {
         b.addDependency(c);
         b.addDependency(c_C);
         b.addDependency(c_C_c);
@@ -139,13 +139,11 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
-        assertTrue("c in selection",     selector.getSelectedNodes().contains(c));
-        assertTrue("c.C in selection",   selector.getSelectedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getSelectedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C, c_C_c), selector.getSelectedNodes());
     }
 
-    public void testThreeSelectedNodesFromClass() {
+    @Test
+    void testThreeSelectedNodesFromClass() {
         b_B.addDependency(c);
         b_B.addDependency(c_C);
         b_B.addDependency(c_C_c);
@@ -153,13 +151,11 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
-        assertTrue("c in selection",     selector.getSelectedNodes().contains(c));
-        assertTrue("c.C in selection",   selector.getSelectedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getSelectedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C, c_C_c), selector.getSelectedNodes());
     }
 
-    public void testThreeSelectedNodesFromFeature() {
+    @Test
+    void testThreeSelectedNodesFromFeature() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -167,13 +163,11 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 3, selector.getSelectedNodes().size());
-        assertTrue("c in selection",     selector.getSelectedNodes().contains(c));
-        assertTrue("c.C in selection",   selector.getSelectedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getSelectedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C, c_C_c), selector.getSelectedNodes());
     }
 
-    public void testThreeCopiedNodesFromPackage() {
+    @Test
+    void testThreeCopiedNodesFromPackage() {
         b.addDependency(c);
         b.addDependency(c_C);
         b.addDependency(c_C_c);
@@ -181,15 +175,13 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
-        assertTrue("c in selection",     selector.getCopiedNodes().contains(c));
-        assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C, c_C_c), selector.getCopiedNodes());
 
-        assertEquals("b's outbounds", 3, localFactory.createPackage("b").getOutboundDependencies().size());
+        assertEquals(3, localFactory.createPackage("b").getOutboundDependencies().size(), "b's outbounds");
     }
 
-    public void testThreeCopiedNodesFromClass() {
+    @Test
+    void testThreeCopiedNodesFromClass() {
         b_B.addDependency(c);
         b_B.addDependency(c_C);
         b_B.addDependency(c_C_c);
@@ -197,15 +189,13 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
-        assertTrue("c in selection",     selector.getCopiedNodes().contains(c));
-        assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C, c_C_c), selector.getCopiedNodes());
 
-        assertEquals("b.B's outbounds", 3, localFactory.createClass("b.B").getOutboundDependencies().size());
+        assertEquals(3, localFactory.createClass("b.B").getOutboundDependencies().size(), "b.B's outbounds");
     }
 
-    public void testThreeCopiedNodesFromFeature() {
+    @Test
+    void testThreeCopiedNodesFromFeature() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -213,15 +203,13 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 3, selector.getCopiedNodes().size());
-        assertTrue("c in selection",     selector.getCopiedNodes().contains(c));
-        assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C, c_C_c), selector.getCopiedNodes());
 
-        assertEquals("b.B.b's outbounds", 3, localFactory.createFeature("b.B.b").getOutboundDependencies().size());
+        assertEquals(3, localFactory.createFeature("b.B.b").getOutboundDependencies().size(), "b.B.b's outbounds");
     }
 
-    public void testTwoSelectedNodeWithPackageInCoverage() {
+    @Test
+    void testTwoSelectedNodeWithPackageInCoverage() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -229,12 +217,11 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.singleton(c));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 2, selector.getSelectedNodes().size());
-        assertTrue("c.C in selection",   selector.getSelectedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getSelectedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c_C, c_C_c), selector.getSelectedNodes());
     }
 
-    public void testTwoSelectedNodeWithClassInCoverage() {
+    @Test
+    void testTwoSelectedNodeWithClassInCoverage() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -242,12 +229,11 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.singleton(c_C));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 2, selector.getSelectedNodes().size());
-        assertTrue("c in selection",     selector.getSelectedNodes().contains(c));
-        assertTrue("c.C.c in selection", selector.getSelectedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C_c), selector.getSelectedNodes());
     }
 
-    public void testTwoSelectedNodeWithFeatureInCoverage() {
+    @Test
+    void testTwoSelectedNodeWithFeatureInCoverage() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -255,12 +241,11 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.singleton(c_C_c));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 2, selector.getSelectedNodes().size());
-        assertTrue("c in selection",   selector.getSelectedNodes().contains(c));
-        assertTrue("c.C in selection", selector.getSelectedNodes().contains(c_C));
+        assertIterableEqualsAnyOrder(List.of(c, c_C), selector.getSelectedNodes());
     }
 
-    public void testTwoCopiedNodeWithPackageInCoverage() {
+    @Test
+    void testTwoCopiedNodeWithPackageInCoverage() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -268,14 +253,13 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.singleton(c));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 2, selector.getCopiedNodes().size());
-        assertTrue("c.C in selection",   selector.getCopiedNodes().contains(c_C));
-        assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c_C, c_C_c), selector.getCopiedNodes());
 
-        assertEquals("b.B.b's outbounds", 2, localFactory.createFeature("b.B.b").getOutboundDependencies().size());
+        assertEquals(2, localFactory.createFeature("b.B.b").getOutboundDependencies().size(), "b.B.b's outbounds");
     }
 
-    public void testTwoCopiedNodeWithClassInCoverage() {
+    @Test
+    void testTwoCopiedNodeWithClassInCoverage() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -283,14 +267,13 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.singleton(c_C));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 2, selector.getCopiedNodes().size());
-        assertTrue("c in selection",     selector.getCopiedNodes().contains(c));
-        assertTrue("c.C.c in selection", selector.getCopiedNodes().contains(c_C_c));
+        assertIterableEqualsAnyOrder(List.of(c, c_C_c), selector.getCopiedNodes());
 
-        assertEquals("b.B.b's outbounds", 2, localFactory.createFeature("b.B.b").getOutboundDependencies().size());
+        assertEquals(2, localFactory.createFeature("b.B.b").getOutboundDependencies().size(), "b.B.b's outbounds");
     }
 
-    public void testTwoCopiedNodeWithFeatureInCoverage() {
+    @Test
+    void testTwoCopiedNodeWithFeatureInCoverage() {
         b_B_b.addDependency(c);
         b_B_b.addDependency(c_C);
         b_B_b.addDependency(c_C_c);
@@ -298,130 +281,145 @@ public class TestClosureOutboundSelector extends TestCase {
         var selector = new ClosureOutboundSelector(localFactory, Collections.singleton(c_C_c));
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 2, selector.getCopiedNodes().size());
-        assertTrue("c in selection",   selector.getCopiedNodes().contains(c));
-        assertTrue("c.C in selection", selector.getCopiedNodes().contains(c_C));
+        assertIterableEqualsAnyOrder(List.of(c, c_C), selector.getCopiedNodes());
 
-        assertEquals("b.B.b's outbounds", 2, localFactory.createFeature("b.B.b").getOutboundDependencies().size());
+        assertEquals(2, localFactory.createFeature("b.B.b").getOutboundDependencies().size(), "b.B.b's outbounds");
     }
 
-    public void testReset() {
+    @Test
+    void testReset() {
         NodeFactory localFactory  = new NodeFactory();
 
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
-        assertEquals("copied nodes",       1, selector.getCopiedNodes().size());
+        assertEquals(1, selector.getSelectedNodes().size(), "nodes in selection");
+        assertEquals(1, selector.getCopiedNodes().size(), "copied nodes");
 
         selector.reset();
         
-        assertEquals("nodes in selection", 0, selector.getSelectedNodes().size());
-        assertEquals("copied nodes",       0, selector.getCopiedNodes().size());
+        assertEquals(0, selector.getSelectedNodes().size(), "nodes in selection");
+        assertEquals(0, selector.getCopiedNodes().size(), "copied nodes");
     }
 
-    public void testVisitInferredPackage() {
+    @Test
+    void testVisitInferredPackage() {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
+        assertEquals(b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed(), "package.isConfirmed()");
     }
 
-    public void testVisitConfirmedPackage() {
+    @Test
+    void testVisitConfirmedPackage() {
         b.setConfirmed(true);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
+        assertEquals(b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed(), "package.isConfirmed()");
     }
 
-    public void testFollowToInferredPackage() {
+    @Test
+    void testFollowToInferredPackage() {
         b.addDependency(c);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", c.isConfirmed(), localFactory.getPackages().get(c.getName()).isConfirmed());
+        assertEquals(c.isConfirmed(), localFactory.getPackages().get(c.getName()).isConfirmed(), "package.isConfirmed()");
     }
 
-    public void testFollowToConfirmedPackage() {
+    @Test
+    void testFollowToConfirmedPackage() {
         b.addDependency(c);
         c.setConfirmed(true);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", c.isConfirmed(), localFactory.getPackages().get(c.getName()).isConfirmed());
+        assertEquals(c.isConfirmed(), localFactory.getPackages().get(c.getName()).isConfirmed(), "package.isConfirmed()");
     }
 
-    public void testVisitInferredClass() {
+    @Test
+    void testVisitInferredClass() {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
+        assertEquals(b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed(), "class.isConfirmed()");
     }
 
-    public void testVisitConfirmedClass() {
+    @Test
+    void testVisitConfirmedClass() {
         b_B.setConfirmed(true);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
+        assertEquals(b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed(), "class.isConfirmed()");
     }
 
-    public void testFollowToInferredClass() {
+    @Test
+    void testFollowToInferredClass() {
         b_B.addDependency(c_C);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", c_C.isConfirmed(), localFactory.getClasses().get(c_C.getName()).isConfirmed());
+        assertEquals(c_C.isConfirmed(), localFactory.getClasses().get(c_C.getName()).isConfirmed(), "class.isConfirmed()");
     }
 
-    public void testFollowToConfirmedClass() {
+    @Test
+    void testFollowToConfirmedClass() {
         b_B.addDependency(c_C);
         c_C.setConfirmed(true);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", c_C.isConfirmed(), localFactory.getClasses().get(c_C.getName()).isConfirmed());
+        assertEquals(c_C.isConfirmed(), localFactory.getClasses().get(c_C.getName()).isConfirmed(), "class.isConfirmed()");
     }
 
-    public void testVisitInferredFeature() {
+    @Test
+    void testVisitInferredFeature() {
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
+        assertEquals(b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed(), "feature.isConfirmed()");
     }
 
-    public void testVisitConfirmedFeature() {
+    @Test
+    void testVisitConfirmedFeature() {
         b_B_b.setConfirmed(true);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
+        assertEquals(b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed(), "feature.isConfirmed()");
     }
 
-    public void testFollowToInferredFeature() {
+    @Test
+    void testFollowToInferredFeature() {
         b_B_b.addDependency(c_C_c);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", c_C_c.isConfirmed(), localFactory.getFeatures().get(c_C_c.getName()).isConfirmed());
+        assertEquals(c_C_c.isConfirmed(), localFactory.getFeatures().get(c_C_c.getName()).isConfirmed(), "feature.isConfirmed()");
     }
 
-    public void testFollowToConfirmedFeature() {
+    @Test
+    void testFollowToConfirmedFeature() {
         b_B_b.addDependency(c_C_c);
         c_C_c.setConfirmed(true);
         
         var selector = new ClosureOutboundSelector(localFactory, Collections.emptySet());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", c_C_c.isConfirmed(), localFactory.getFeatures().get(c_C_c.getName()).isConfirmed());
+        assertEquals(c_C_c.isConfirmed(), localFactory.getFeatures().get(c_C_c.getName()).isConfirmed(), "feature.isConfirmed()");
+    }
+
+    private static void assertIterableEqualsAnyOrder(Collection<Node> expectedNodes, Collection<Node> actualNodes) {
+        assertIterableEquals(expectedNodes, actualNodes.stream().sorted().toList());
     }
 }
