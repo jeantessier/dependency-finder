@@ -33,31 +33,36 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestInnerClasses_attribute extends TestAttributeBase {
     private InnerClasses_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(2);
         expectReadU2(0);
 
         sut = new InnerClasses_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetInnerClasses() {
+    @Test
+    void testGetInnerClasses() {
         assertEquals(0, sut.getInnerClasses().size());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.INNER_CLASSES.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitInnerClasses_attribute(sut);

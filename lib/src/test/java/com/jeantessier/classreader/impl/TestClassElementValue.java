@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClassElementValue extends TestAnnotationsBase {
     private static final int CLASS_INFO_INDEX = 2;
@@ -43,33 +46,36 @@ public class TestClassElementValue extends TestAnnotationsBase {
 
     private ClassElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CLASS_INFO_INDEX);
         expectLookupUtf8(CLASS_INFO_INDEX, ENCODED_CLASS_INFO, "lookup during construction");
 
         sut = new ClassElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetTypeName() {
+    @Test
+    void testGetTypeName() {
         expectLookupUtf8(CLASS_INFO_INDEX, ENCODED_CLASS_INFO);
 
         assertEquals(CLASS_INFO, sut.getClassInfo());
     }
 
-    public void testGetTypeName_void() {
+    @Test
+    void testGetTypeName_void() {
         expectLookupUtf8(CLASS_INFO_INDEX, "V");
 
         assertEquals("void", sut.getClassInfo());
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.CLASS.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitClassElementValue(sut);

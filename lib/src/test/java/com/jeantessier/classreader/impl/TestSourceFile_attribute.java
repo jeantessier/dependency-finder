@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSourceFile_attribute extends TestAttributeBase {
     private static final int SOURCE_FILE_INDEX = 2;
@@ -42,9 +45,8 @@ public class TestSourceFile_attribute extends TestAttributeBase {
 
     private SourceFile_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(2);
         expectReadU2(SOURCE_FILE_INDEX);
         expectLookupUtf8(SOURCE_FILE_INDEX, SOURCE_FILE, "lookup during construction");
@@ -52,17 +54,20 @@ public class TestSourceFile_attribute extends TestAttributeBase {
         sut = new SourceFile_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetSourceFile() {
+    @Test
+    void testGetSourceFile() {
         expectLookupUtf8(SOURCE_FILE_INDEX, SOURCE_FILE);
         assertEquals(SOURCE_FILE, sut.getSourceFile());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.SOURCE_FILE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitSourceFile_attribute(sut);

@@ -32,6 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModule_attributeWithModuleExports extends TestAttributeBase {
     private static final int MODULE_NAME_INDEX = 123;
     private static final String MODULE_NAME = "abc";
@@ -43,7 +47,8 @@ public class TestModule_attributeWithModuleExports extends TestAttributeBase {
     private static final int USES_COUNT = 0;
     private static final int PROVIDES_COUNT = 0;
 
-    public void testOneExports() throws Exception {
+    @Test
+    void testOneExports() throws Exception {
         // Given
         expectReadAttributeLength(22);
         expectReadU2(MODULE_NAME_INDEX);
@@ -78,17 +83,11 @@ public class TestModule_attributeWithModuleExports extends TestAttributeBase {
         var actualExports = sut.getExports();
 
         //Then
-        assertEquals("number of exports", exportsCount, actualExports.size());
-        assertEquals(
-                "exports",
-                exportsIndex,
-                actualExports.stream()
-                        .mapToInt(ModuleExports::getExportsIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {exportsIndex}, actualExports.stream().mapToInt(ModuleExports::getExportsIndex).toArray());
     }
 
-    public void testMultipleExports() throws Exception {
+    @Test
+    void testMultipleExports() throws Exception {
         // Given
         expectReadAttributeLength(28);
         expectReadU2(MODULE_NAME_INDEX);
@@ -132,21 +131,6 @@ public class TestModule_attributeWithModuleExports extends TestAttributeBase {
         var actualExports = sut.getExports();
 
         //Then
-        assertEquals("number of exports", exportsCount, actualExports.size());
-        assertEquals(
-                "first exports",
-                exportsIndex1,
-                actualExports.stream()
-                        .mapToInt(ModuleExports::getExportsIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second exports",
-                exportsIndex2,
-                actualExports.stream()
-                        .skip(1)
-                        .mapToInt(ModuleExports::getExportsIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {exportsIndex1, exportsIndex2}, actualExports.stream().mapToInt(ModuleExports::getExportsIndex).toArray());
     }
 }

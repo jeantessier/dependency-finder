@@ -35,17 +35,23 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestArrayElementValueWithContent extends TestAnnotationsBase {
-    public void testConstructorWithNoValues() throws Exception {
+    @Test
+    void testConstructorWithNoValues() throws Exception {
         doTestConstructorWithValues(0);
     }
 
-    public void testConstructorWithASingleValue() throws Exception {
+    @Test
+    void testConstructorWithASingleValue() throws Exception {
         doTestConstructorWithValues(1);
     }
 
-    public void testConstructorWithMultipleValues() throws Exception {
+    @Test
+    void testConstructorWithMultipleValues() throws Exception {
         doTestConstructorWithValues(2);
     }
 
@@ -57,6 +63,6 @@ public class TestArrayElementValueWithContent extends TestAnnotationsBase {
         }});
 
         ArrayElementValue sut = new ArrayElementValue(mockConstantPool, mockIn, mockElementValueFactory);
-        assertEquals("Num values", numValues, sut.getValues().size());
+        assertEquals(numValues, sut.getValues().size(), "Num values");
     }
 }

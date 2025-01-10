@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestElementValuePair extends TestAnnotationsBase {
     private static final int ELEMENT_NAME_INDEX = 2;
@@ -44,9 +47,8 @@ public class TestElementValuePair extends TestAnnotationsBase {
 
     private ElementValuePair sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         mockElementValue = mock(ElementValue.class);
 
         expectReadU2(ELEMENT_NAME_INDEX);
@@ -60,17 +62,20 @@ public class TestElementValuePair extends TestAnnotationsBase {
         sut = new ElementValuePair(mockConstantPool, mockIn, mockElementValueFactory);
     }
 
-    public void testGetElementName() throws Exception {
+    @Test
+    void testGetElementName() {
         expectLookupUtf8(ELEMENT_NAME_INDEX, ELEMENT_NAME);
-        assertSame("Element name", ELEMENT_NAME, sut.getElementName());
+        assertSame(ELEMENT_NAME, sut.getElementName());
     }
 
-    public void testGetElementValue() throws Exception {
-        assertSame("Element value", mockElementValue, sut.getElementValue());
+    @Test
+    void testGetElementValue() {
+        assertSame(mockElementValue, sut.getElementValue());
     }
 
-    public void testAccept() throws Exception {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitElementValuePair(sut);

@@ -32,17 +32,20 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBootstrapMethod extends TestAttributeBase {
     private static final int BOOTSTRAP_METHOD_REF = 123;
 
     private BootstrapMethod sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         var mockBootstrapMethods = mock(BootstrapMethods_attribute.class);
         var mockBootstrapMethod = mock(MethodHandle_info.class);
 
@@ -59,12 +62,14 @@ public class TestBootstrapMethod extends TestAttributeBase {
         sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
     }
 
-    public void testGetArguments() {
-        assertEquals("arguments", 0, sut.getArguments().size());
+    @Test
+    void testGetArguments() {
+        assertEquals(0, sut.getArguments().size(), "arguments");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitBootstrapMethod(sut);

@@ -32,15 +32,20 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestRecord_attributeWithRecordComponents extends TestAttributeBase {
-    public void testWithOneRecordComponent() throws Exception {
+    @Test
+    void testWithOneRecordComponent() throws Exception {
         // Given
         final int nameIndex = 123;
         final String name = "Abc";
         final int descriptorIndex = 456;
         final String descriptor = "I";
 
-        // And
+        // and
         expectReadAttributeLength(8);
         expectReadU2(1);
         expectReadU2(nameIndex);
@@ -49,37 +54,31 @@ public class TestRecord_attributeWithRecordComponents extends TestAttributeBase 
         allowingLookupUtf8(descriptorIndex, descriptor, "record component descriptor");
         expectReadU2(0);
 
-        // And
+        // and
         final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
 
         // When
         var sut = new Record_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
 
         // Then
-        assertEquals("num record components", 1, sut.getRecordComponents().size());
-        assertEquals(
-                "record component name index",
-                nameIndex,
-                sut.getRecordComponents().stream()
-                        .mapToInt(RecordComponent_info::getNameIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {nameIndex}, sut.getRecordComponents().stream().mapToInt(RecordComponent_info::getNameIndex).toArray());
     }
 
-    public void testWithMultipleRecordComponents() throws Exception {
+    @Test
+    void testWithMultipleRecordComponents() throws Exception {
         // Given
         final int nameIndex1 = 123;
         final String name1 = "Abc";
         final int descriptorIndex1 = 456;
         final String descriptor1 = "I";
 
-        // And
+        // and
         final int nameIndex2 = 789;
         final String name2 = "Def";
         final int descriptorIndex2 = 987;
         final String descriptor2 = "Ljava/lang/String;";
 
-        // And
+        // and
         expectReadAttributeLength(14);
         expectReadU2(2);
         expectReadU2(nameIndex1);
@@ -93,28 +92,13 @@ public class TestRecord_attributeWithRecordComponents extends TestAttributeBase 
         allowingLookupUtf8(descriptorIndex2, descriptor2, "second record component descriptor");
         expectReadU2(0);
 
-        // And
+        // and
         final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
 
         // When
         var sut = new Record_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
 
         // Then
-        assertEquals("num record components", 2, sut.getRecordComponents().size());
-        assertEquals(
-                "name index",
-                nameIndex1,
-                sut.getRecordComponents().stream()
-                        .mapToInt(RecordComponent_info::getNameIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "name index",
-                nameIndex2,
-                sut.getRecordComponents().stream()
-                        .skip(1)
-                        .mapToInt(RecordComponent_info::getNameIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {nameIndex1, nameIndex2}, sut.getRecordComponents().stream().mapToInt(RecordComponent_info::getNameIndex).toArray());
     }
 }

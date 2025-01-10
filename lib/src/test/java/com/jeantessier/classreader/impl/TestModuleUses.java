@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModuleUses extends TestAttributeBase {
     private static final int USES_INDEX = 123;
@@ -41,30 +45,33 @@ public class TestModuleUses extends TestAttributeBase {
 
     private ModuleUses sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(USES_INDEX);
         allowingLookupClass(USES_INDEX, CLASS_NAME, "lookup during construction");
 
         sut = new ModuleUses(mockConstantPool, mockIn);
     }
 
-    public void testGetUsesIndex() {
-        assertEquals("uses index", USES_INDEX, sut.getUsesIndex());
+    @Test
+    void testGetUsesIndex() {
+        assertEquals(USES_INDEX, sut.getUsesIndex(), "uses index");
     }
 
-    public void testGetRawUses() {
+    @Test
+    void testGetRawUses() {
         allowingLookupClass(USES_INDEX, CLASS_NAME);
-        assertNotNull("raw uses", sut.getRawUses());
+        assertNotNull(sut.getRawUses());
     }
 
-    public void testGetUses() {
+    @Test
+    void testGetUses() {
         expectLookupClass(USES_INDEX, CLASS_NAME);
-        assertEquals("uses", CLASS_NAME, sut.getUses());
+        assertEquals(CLASS_NAME, sut.getUses(), "uses");
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

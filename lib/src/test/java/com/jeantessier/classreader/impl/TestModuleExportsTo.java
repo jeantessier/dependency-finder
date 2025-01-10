@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModuleExportsTo extends TestAttributeBase {
     private static final int EXPORTS_TO_INDEX = 123;
@@ -41,31 +45,34 @@ public class TestModuleExportsTo extends TestAttributeBase {
 
     private ModuleExportsTo sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(EXPORTS_TO_INDEX);
         allowingLookupModule(EXPORTS_TO_INDEX, MODULE_NAME, "exports to lookup during construction");
 
         sut = new ModuleExportsTo(mockConstantPool, mockIn);
     }
 
-    public void testGetExportsToIndex() {
-        assertEquals("exports to index", EXPORTS_TO_INDEX, sut.getExportsToIndex());
+    @Test
+    void testGetExportsToIndex() {
+        assertEquals(EXPORTS_TO_INDEX, sut.getExportsToIndex(), "exports to index");
     }
 
-    public void testGetRawExportsTo() {
+    @Test
+    void testGetRawExportsTo() {
         allowingLookupModule(EXPORTS_TO_INDEX, MODULE_NAME);
-        assertNotNull("raw exports to", sut.getRawExportsTo());
+        assertNotNull(sut.getRawExportsTo());
     }
 
-    public void testGetExportsTo() {
+    @Test
+    void testGetExportsTo() {
         expectLookupModule(EXPORTS_TO_INDEX, MODULE_NAME);
-        assertEquals("exports to", MODULE_NAME, sut.getExportsTo());
+        assertEquals(MODULE_NAME, sut.getExportsTo(), "exports to");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitModuleExportsTo(sut);

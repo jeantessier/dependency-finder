@@ -35,14 +35,18 @@ package com.jeantessier.classreader.impl;
 import com.jeantessier.classreader.Visitor;
 import org.jmock.Expectations;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModuleMainClass_attribute extends TestAttributeBase {
     private static final int MAIN_CLASS_INDEX = 123;
     private static final String MAIN_CLASS_NAME = "Abc";
 
     private ModuleMainClass_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
         expectReadAttributeLength(2);
         expectReadU2(MAIN_CLASS_INDEX);
@@ -51,20 +55,24 @@ public class TestModuleMainClass_attribute extends TestAttributeBase {
         sut = new ModuleMainClass_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetMainClassIndex() {
-        assertEquals("main class index", MAIN_CLASS_INDEX, sut.getMainClassIndex());
+    @Test
+    void testGetMainClassIndex() {
+        assertEquals(MAIN_CLASS_INDEX, sut.getMainClassIndex(), "main class index");
     }
 
-    public void testGetMainClass() {
+    @Test
+    void testGetMainClass() {
         expectLookupClass(MAIN_CLASS_INDEX, MAIN_CLASS_NAME);
-        assertEquals("main class", MAIN_CLASS_NAME, sut.getMainClass());
+        assertEquals(MAIN_CLASS_NAME, sut.getMainClass(), "main class");
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.MODULE_MAIN_CLASS.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

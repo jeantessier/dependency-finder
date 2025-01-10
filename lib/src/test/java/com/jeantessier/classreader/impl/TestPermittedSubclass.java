@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestPermittedSubclass extends TestAttributeBase {
     private static final int SUBCLASS_INDEX = 123;
@@ -41,26 +45,28 @@ public class TestPermittedSubclass extends TestAttributeBase {
 
     private PermittedSubclass sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(SUBCLASS_INDEX);
         allowingLookupClass(SUBCLASS_INDEX, SUBCLASS_NAME, "lookup during construction");
 
         sut = new PermittedSubclass(mockConstantPool, mockIn);
     }
 
-    public void testGetSubclassIndex() {
-        assertEquals("permitted subclass index", SUBCLASS_INDEX, sut.getSubclassIndex());
+    @Test
+    void testGetSubclassIndex() {
+        assertEquals(SUBCLASS_INDEX, sut.getSubclassIndex(), "permitted subclass index");
     }
 
-    public void testGetSubclass() {
+    @Test
+    void testGetSubclass() {
         expectLookupClass(SUBCLASS_INDEX, SUBCLASS_NAME);
-        assertEquals("permitted subclass", SUBCLASS_NAME, sut.getSubclass());
+        assertEquals(SUBCLASS_NAME, sut.getSubclass(), "permitted subclass");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitPermittedSubclass(sut);

@@ -33,26 +33,30 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestDeprecated_attribute extends TestAttributeBase {
     private Deprecated_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(0);
 
         sut = new Deprecated_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.DEPRECATED.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

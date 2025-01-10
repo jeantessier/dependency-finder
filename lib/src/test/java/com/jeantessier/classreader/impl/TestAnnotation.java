@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAnnotation extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
@@ -43,21 +46,22 @@ public class TestAnnotation extends TestAnnotationsBase {
 
     private Annotation sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAnnotation(TYPE_INDEX, 0);
         expectLookupUtf8(TYPE_INDEX, RAW_TYPE, "lookup during construction");
 
         sut = new Annotation(mockConstantPool, mockIn);
     }
 
-    public void testGetType() throws Exception {
+    @Test
+    void testGetType() throws Exception {
         expectLookupUtf8(TYPE_INDEX, RAW_TYPE);
         assertEquals(TYPE, sut.getType());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

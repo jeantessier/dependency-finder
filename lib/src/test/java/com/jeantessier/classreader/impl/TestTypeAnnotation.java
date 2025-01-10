@@ -32,8 +32,11 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import org.junit.jupiter.api.*;
 
 public class TestTypeAnnotation extends TestAttributeBase {
     private static final int TYPE_INDEX = 2;
@@ -42,8 +45,8 @@ public class TestTypeAnnotation extends TestAttributeBase {
 
     private TypeAnnotation sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
 
         expectReadU2(TargetType.FIELD.getTargetType().getTargetType()); // Empty target
         expectReadU2(0); // target path length
@@ -53,8 +56,9 @@ public class TestTypeAnnotation extends TestAttributeBase {
         sut = new TypeAnnotation(mockConstantPool, mockIn);
     }
 
-    public void testAccept() throws Exception {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() throws Exception {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitTypeAnnotation(sut);

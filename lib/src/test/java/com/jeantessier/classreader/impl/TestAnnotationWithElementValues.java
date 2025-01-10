@@ -35,20 +35,26 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAnnotationWithElementValues extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
     private static final String TYPE = "Labc;";
 
-    public void testConstructorWithNoElementValuePairs() throws Exception {
+    @Test
+    void testConstructorWithNoElementValuePairs() throws Exception {
         doTestConstructorWithElementValuePairs(0);
     }
 
-    public void testConstructorWithASingleElementValuePair() throws Exception {
+    @Test
+    void testConstructorWithASingleElementValuePair() throws Exception {
         doTestConstructorWithElementValuePairs(1);
     }
 
-    public void testConstructorWithMultipleElementValuePairs() throws Exception {
+    @Test
+    void testConstructorWithMultipleElementValuePairs() throws Exception {
         doTestConstructorWithElementValuePairs(2);
     }
 
@@ -73,6 +79,6 @@ public class TestAnnotationWithElementValues extends TestAnnotationsBase {
         }});
 
         Annotation sut = new Annotation(mockConstantPool, mockIn, mockElementValueFactory);
-        assertEquals("Num element value pairs", numElementValuePairs, sut.getElementValuePairs().size());
+        assertEquals(numElementValuePairs, sut.getElementValuePairs().size(), "Num element value pairs");
     }
 }

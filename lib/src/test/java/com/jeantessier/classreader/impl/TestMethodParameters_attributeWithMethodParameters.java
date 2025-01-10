@@ -32,17 +32,19 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMethodParameters_attributeWithMethodParameters extends TestAttributeBase {
-    public void testWithOneMethodParameter() throws Exception {
+    @Test
+    void testWithOneMethodParameter() throws Exception {
         // Given
         final int nameIndex = 123;
         final int accessFlags = 456;
         final String encodedName = "LAbc;";
 
-        // And
+        // and
         expectReadAttributeLength(5);
         expectReadNumParameters(1);
         expectReadU2(nameIndex);
@@ -53,37 +55,23 @@ public class TestMethodParameters_attributeWithMethodParameters extends TestAttr
         var sut = new MethodParameters_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num method parameters", 1, sut.getMethodParameters().size());
-
-        // And
-        assertEquals(
-                "method parameter name",
-                nameIndex,
-                sut.getMethodParameters().stream()
-                        .mapToInt(MethodParameter::getNameIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "method parameter access flags",
-                accessFlags,
-                sut.getMethodParameters().stream()
-                        .mapToInt(MethodParameter::getAccessFlags)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {nameIndex}, sut.getMethodParameters().stream().mapToInt(MethodParameter::getNameIndex).toArray());
+        assertArrayEquals(new int[] {accessFlags}, sut.getMethodParameters().stream().mapToInt(MethodParameter::getAccessFlags).toArray());
     }
 
-    public void testWithMultipleMethodParameters() throws Exception {
+    @Test
+    void testWithMultipleMethodParameters() throws Exception {
         // Given
         final int nameIndex1 = 123;
         final int accessFlags1 = 456;
         final String encodedName1 = "LAbc;";
 
-        // And
+        // and
         final int nameIndex2 = 789;
         final int accessFlags2 = 987;
         final String encodedName2 = "LAbc;";
 
-        // And
+        // and
         expectReadAttributeLength(9);
         expectReadNumParameters(2);
         expectReadU2(nameIndex1);
@@ -97,40 +85,7 @@ public class TestMethodParameters_attributeWithMethodParameters extends TestAttr
         var sut = new MethodParameters_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num method parameters", 2, sut.getMethodParameters().size());
-
-        // And
-        assertEquals(
-                "method parameter name",
-                nameIndex1,
-                sut.getMethodParameters().stream()
-                        .mapToInt(MethodParameter::getNameIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "method parameter access flags",
-                accessFlags1,
-                sut.getMethodParameters().stream()
-                        .mapToInt(MethodParameter::getAccessFlags)
-                        .findFirst()
-                        .orElseThrow());
-
-        // And
-        assertEquals(
-                "method parameter name",
-                nameIndex2,
-                sut.getMethodParameters().stream()
-                        .skip(1)
-                        .mapToInt(MethodParameter::getNameIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "method parameter access flags",
-                accessFlags2,
-                sut.getMethodParameters().stream()
-                        .skip(1)
-                        .mapToInt(MethodParameter::getAccessFlags)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {nameIndex1, nameIndex2}, sut.getMethodParameters().stream().mapToInt(MethodParameter::getNameIndex).toArray());
+        assertArrayEquals(new int[] {accessFlags1, accessFlags2}, sut.getMethodParameters().stream().mapToInt(MethodParameter::getAccessFlags).toArray());
     }
 }

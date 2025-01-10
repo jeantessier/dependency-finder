@@ -32,8 +32,13 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModulePackages_attributeWithModulePackages extends TestAttributeBase {
-    public void testWithOneModulePackage() throws Exception {
+    @Test
+    void testWithOneModulePackage() throws Exception {
         // Given
         final int packageIndex = 123;
         final String packageName = "abc";
@@ -48,17 +53,11 @@ public class TestModulePackages_attributeWithModulePackages extends TestAttribut
         var sut = new ModulePackages_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num module packages", 1, sut.getPackages().size());
-        assertEquals(
-                "module package name",
-                packageIndex,
-                sut.getPackages().stream()
-                        .mapToInt(ModulePackage::getPackageIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {packageIndex}, sut.getPackages().stream().mapToInt(ModulePackage::getPackageIndex).toArray());
     }
 
-    public void testWithMultipleModulePackages() throws Exception {
+    @Test
+    void testWithMultipleModulePackages() throws Exception {
         // Given
         final int packageIndex1 = 123;
         final String packageName1 = "abc";
@@ -79,21 +78,6 @@ public class TestModulePackages_attributeWithModulePackages extends TestAttribut
         var sut = new ModulePackages_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num module packages", 2, sut.getPackages().size());
-        assertEquals(
-                "module package name",
-                packageIndex1,
-                sut.getPackages().stream()
-                        .mapToInt(ModulePackage::getPackageIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "module package name",
-                packageIndex2,
-                sut.getPackages().stream()
-                        .skip(1)
-                        .mapToInt(ModulePackage::getPackageIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {packageIndex1, packageIndex2}, sut.getPackages().stream().mapToInt(ModulePackage::getPackageIndex).toArray());
     }
 }

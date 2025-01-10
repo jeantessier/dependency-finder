@@ -32,79 +32,69 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModuleProvidesWithProvidesWiths extends TestAttributeBase {
     private static final int PROVIDES_INDEX = 123;
     private static final String SERVICE_NAME = "Abc";
 
-    public void testOneProvideTo() throws Exception {
+    @Test
+    void testOneProvideTo() throws Exception {
         // Given
         expectReadU2(PROVIDES_INDEX);
         allowingLookupClass(PROVIDES_INDEX, SERVICE_NAME, "service name lookup during construction");
 
-        // And
+        // and
         var providesWithCount = 1;
         expectReadU2(providesWithCount);
 
-        // And
+        // and
         var providesWithIndex = 234;
         expectReadU2(providesWithIndex);
         var className = "Def";
         allowingLookupClass(providesWithIndex, className, "lookup during construction");
 
-        // And
+        // and
         var sut = new ModuleProvides(mockConstantPool, mockIn);
 
         // When
         var actualProvidesWiths = sut.getProvidesWiths();
 
         //Then
-        assertEquals("number of provide withs", providesWithCount, actualProvidesWiths.size());
-        assertEquals("provides with", providesWithIndex, actualProvidesWiths.stream().findFirst().orElseThrow().getProvidesWithIndex());
+        assertArrayEquals(new int[] {providesWithIndex}, actualProvidesWiths.stream().mapToInt(ModuleProvidesWith::getProvidesWithIndex).toArray());
     }
 
-    public void testMultipleProvideTos() throws Exception {
+    @Test
+    void testMultipleProvideTos() throws Exception {
         // Given
         expectReadU2(PROVIDES_INDEX);
         allowingLookupClass(PROVIDES_INDEX, SERVICE_NAME, "service name lookup during construction");
 
-        // And
+        // and
         var providesWithCount = 2;
         expectReadU2(providesWithCount);
 
-        // And
+        // and
         var providesWithIndex1 = 234;
         expectReadU2(providesWithIndex1);
         var className1 = "Def";
         allowingLookupClass(providesWithIndex1, className1, "first provides with lookup during construction");
 
-        // And
+        // and
         var providesWithIndex2 = 567;
         expectReadU2(providesWithIndex2);
         var className2 = "Ghi";
         allowingLookupClass(providesWithIndex2, className2, "second provides with lookup during construction");
 
-        // And
+        // and
         var sut = new ModuleProvides(mockConstantPool, mockIn);
 
         // When
         var actualProvidesWiths = sut.getProvidesWiths();
 
         //Then
-        assertEquals("number of provide withs", providesWithCount, actualProvidesWiths.size());
-        assertEquals(
-                "first provides with",
-                providesWithIndex1,
-                actualProvidesWiths.stream()
-                        .mapToInt(ModuleProvidesWith::getProvidesWithIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second provides with",
-                providesWithIndex2,
-                actualProvidesWiths.stream()
-                        .skip(1)
-                        .mapToInt(ModuleProvidesWith::getProvidesWithIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {providesWithIndex1, providesWithIndex2}, actualProvidesWiths.stream().mapToInt(ModuleProvidesWith::getProvidesWithIndex).toArray());
     }
 }

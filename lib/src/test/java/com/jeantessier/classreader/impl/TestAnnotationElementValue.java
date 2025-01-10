@@ -35,8 +35,11 @@ package com.jeantessier.classreader.impl;
 import java.io.*;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAnnotationElementValue extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
@@ -44,26 +47,28 @@ public class TestAnnotationElementValue extends TestAnnotationsBase {
 
     private AnnotationElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAnnotation(TYPE_INDEX, 0);
         expectLookupUtf8(TYPE_INDEX, TYPE);
 
         sut = new AnnotationElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetAnnotation() throws IOException {
+    @Test
+    void testGetAnnotation() throws IOException {
         assertEquals(TYPE_INDEX, sut.getAnnotation().getTypeIndex());
         assertEquals(0, sut.getAnnotation().getElementValuePairs().size());
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.ANNOTATION.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitAnnotationElementValue(sut);

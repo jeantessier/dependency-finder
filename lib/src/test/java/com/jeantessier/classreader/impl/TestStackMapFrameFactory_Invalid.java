@@ -34,36 +34,31 @@ package com.jeantessier.classreader.impl;
 
 import java.io.IOException;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestStackMapFrameFactory_Invalid extends TestAttributeBase {
     private StackMapFrameFactory sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         final VerificationTypeInfoFactory mockVerificationTypeInfoFactory = mock(VerificationTypeInfoFactory.class);
 
         sut = new StackMapFrameFactory(mockVerificationTypeInfoFactory);
     }
 
-    public void testCreateWithMinimumReservedFrameType() throws Exception {
+    @Test
+    void testCreateWithMinimumReservedFrameType() throws Exception {
         expectReadU1(128);
 
-        try {
-            sut.create(mockConstantPool, mockIn);
-            fail("Did not fail on illegal tag value");
-        } catch (IOException ex) {
-            // Expected
-        }
+        assertThrows(IOException.class, () -> sut.create(mockConstantPool, mockIn));
     }
 
-    public void testCreateWithMaximumReservedFrameType() throws Exception {
+    @Test
+    void testCreateWithMaximumReservedFrameType() throws Exception {
         expectReadU1(246);
 
-        try {
-            sut.create(mockConstantPool, mockIn);
-            fail("Did not fail on illegal tag value");
-        } catch (IOException ex) {
-            // Expected
-        }
+        assertThrows(IOException.class, () -> sut.create(mockConstantPool, mockIn));
     }
 }

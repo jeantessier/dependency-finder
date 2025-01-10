@@ -32,18 +32,25 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public abstract class TestRuntimeParameterAnnotationsWithParameterAnnotationsBase extends TestAnnotationsBase {
-    public void testConstructorWithNoParameters() throws Exception {
+    @Test
+    void testConstructorWithNoParameters() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0);
     }
 
-    public void testConstructorWithASingleParameterWithNoAnnotations() throws Exception {
+    @Test
+    void testConstructorWithASingleParameterWithNoAnnotations() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0, 0);
     }
 
-    public void testConstructorWithMultipleParameterEachWithNoAnnotations() throws Exception {
+    @Test
+    void testConstructorWithMultipleParameterEachWithNoAnnotations() throws Exception {
         doTestConstructorWithParametersWithAnnotations(0, 0, 0);
     }
 
@@ -55,10 +62,10 @@ public abstract class TestRuntimeParameterAnnotationsWithParameterAnnotationsBas
         }
 
         RuntimeParameterAnnotations_attribute sut = createSut();
-        assertEquals("Num parameters", numAnnotationsPerParameter.length, sut.getParameterAnnotations().size());
+        assertEquals(numAnnotationsPerParameter.length, sut.getParameterAnnotations().size(), "Num parameters");
         for (int parameter = 0; parameter < numAnnotationsPerParameter.length; parameter++) {
             var parameterAnnotation = sut.getParameterAnnotations().stream().skip(parameter).findFirst().orElseThrow();
-            assertEquals("New annotations on parameter " + parameter, numAnnotationsPerParameter[parameter], parameterAnnotation.getAnnotations().size());
+            assertEquals(numAnnotationsPerParameter[parameter], parameterAnnotation.getAnnotations().size(), "New annotations on parameter " + parameter);
         }
     }
 

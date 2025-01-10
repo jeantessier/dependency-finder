@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestInterfaceMethodRef_info extends TestAttributeBase {
     private InterfaceMethodRef_info sut;
@@ -45,9 +48,8 @@ public class TestInterfaceMethodRef_info extends TestAttributeBase {
     private static final String NAME = "def";
     private static final String TYPE = "ghi";
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CLASS_INDEX);
         expectReadU2(NAME_AND_TYPE_INDEX);
 
@@ -56,20 +58,23 @@ public class TestInterfaceMethodRef_info extends TestAttributeBase {
         assertEquals(NAME_AND_TYPE_INDEX, sut.getNameAndTypeIndex());
     }
 
-    public void testGetClass() {
+    @Test
+    void testGetClass() {
         expectLookupClass(CLASS_INDEX, CLASS);
 
         assertEquals(CLASS, sut.getClassName());
     }
 
-    public void testGetNameAndType() {
+    @Test
+    void testGetNameAndType() {
         expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, TYPE);
 
         assertEquals(NAME + TYPE, sut.getNameAndType());
     }
 
-    public void testAccept() throws Exception {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() throws Exception {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitInterfaceMethodRef_info(sut);

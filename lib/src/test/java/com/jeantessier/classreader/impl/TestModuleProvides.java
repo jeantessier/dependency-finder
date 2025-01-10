@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModuleProvides extends TestAttributeBase {
     private static final int PROVIDES_INDEX = 123;
@@ -41,9 +45,8 @@ public class TestModuleProvides extends TestAttributeBase {
 
     private ModuleProvides sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(PROVIDES_INDEX);
         allowingLookupClass(PROVIDES_INDEX, CLASS_NAME, "provides lookup during construction");
         expectReadU2(0);
@@ -51,21 +54,25 @@ public class TestModuleProvides extends TestAttributeBase {
         sut = new ModuleProvides(mockConstantPool, mockIn);
     }
 
-    public void testGetProvidesIndex() {
-        assertEquals("provides index", PROVIDES_INDEX, sut.getProvidesIndex());
+    @Test
+    void testGetProvidesIndex() {
+        assertEquals(PROVIDES_INDEX, sut.getProvidesIndex(), "provides index");
     }
 
-    public void testGetRawProvides() {
+    @Test
+    void testGetRawProvides() {
         allowingLookupClass(PROVIDES_INDEX, CLASS_NAME);
-        assertNotNull("raw provides", sut.getRawProvides());
+        assertNotNull(sut.getRawProvides(), "raw provides");
     }
 
-    public void testGetProvides() {
+    @Test
+    void testGetProvides() {
         expectLookupClass(PROVIDES_INDEX, CLASS_NAME);
-        assertEquals("provides", CLASS_NAME, sut.getProvides());
+        assertEquals(CLASS_NAME, sut.getProvides(), "provides");
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

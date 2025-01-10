@@ -34,19 +34,26 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestParameterAnnotationWithAnnotations extends TestAttributeBase {
     private static final int TYPE_INDEX = 2;
     private static final String TYPE = "Labc;";
 
-    public void testConstructorWithNoAnnotations() throws Exception {
+    @Test
+    void testConstructorWithNoAnnotations() throws Exception {
         doTestConstructorWithAnnotations(0);
     }
 
-    public void testConstructorWithASingleAnnotation() throws Exception {
+    @Test
+    void testConstructorWithASingleAnnotation() throws Exception {
         doTestConstructorWithAnnotations(1);
     }
 
-    public void testConstructorWithMultipleAnnotations() throws Exception {
+    @Test
+    void testConstructorWithMultipleAnnotations() throws Exception {
         doTestConstructorWithAnnotations(2);
     }
 
@@ -59,9 +66,9 @@ public class TestParameterAnnotationWithAnnotations extends TestAttributeBase {
         }
 
         ParameterAnnotation sut = new ParameterAnnotation(mockConstantPool, mockIn);
-        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
+        assertEquals(numAnnotations, sut.getAnnotations().size(), "Num annotations");
         for (Annotation annotation : sut.getAnnotations()) {
-            assertEquals("Num element value pairs", 0, annotation.getElementValuePairs().size());
+            assertEquals(0, annotation.getElementValuePairs().size(), "Num element value pairs");
         }
     }
 }

@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModule_attribute extends TestAttributeBase {
     private static final int MODULE_NAME_INDEX = 123;
@@ -49,9 +53,8 @@ public class TestModule_attribute extends TestAttributeBase {
 
     private Module_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(16);
         expectReadU2(MODULE_NAME_INDEX);
         allowingLookupModule(MODULE_NAME_INDEX, MODULE_NAME, "module name lookup during construction");
@@ -67,46 +70,56 @@ public class TestModule_attribute extends TestAttributeBase {
         sut = new Module_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetModuleNameIndex() {
-        assertEquals("module name index", MODULE_NAME_INDEX, sut.getModuleNameIndex());
+    @Test
+    void testGetModuleNameIndex() {
+        assertEquals(MODULE_NAME_INDEX, sut.getModuleNameIndex(), "module name index");
     }
 
-    public void testGetRawModuleName() {
+    @Test
+    void testGetRawModuleName() {
         allowingLookupModule(MODULE_NAME_INDEX, MODULE_NAME);
-        assertNotNull("raw module name", sut.getRawModuleName());
+        assertNotNull(sut.getRawModuleName(), "raw module name");
     }
 
-    public void testGetModuleName() {
+    @Test
+    void testGetModuleName() {
         expectLookupModule(MODULE_NAME_INDEX, MODULE_NAME);
-        assertEquals("module name", MODULE_NAME, sut.getModuleName());
+        assertEquals(MODULE_NAME, sut.getModuleName(), "module name");
     }
 
-    public void testGetRequires() {
-        assertEquals("requires", REQUIRES_COUNT, sut.getRequires().size());
+    @Test
+    void testGetRequires() {
+        assertEquals(REQUIRES_COUNT, sut.getRequires().size(), "requires");
     }
 
-    public void testGetExports() {
-        assertEquals("exports", EXPORTS_COUNT, sut.getExports().size());
+    @Test
+    void testGetExports() {
+        assertEquals(EXPORTS_COUNT, sut.getExports().size(), "exports");
     }
 
-    public void testGetOpens() {
-        assertEquals("opens", OPENS_COUNT, sut.getOpens().size());
+    @Test
+    void testGetOpens() {
+        assertEquals(OPENS_COUNT, sut.getOpens().size(), "opens");
     }
 
-    public void testGetUses() {
-        assertEquals("uses", USES_COUNT, sut.getUses().size());
+    @Test
+    void testGetUses() {
+        assertEquals(USES_COUNT, sut.getUses().size(), "uses");
     }
 
-    public void testGetProvides() {
-        assertEquals("provides", PROVIDES_COUNT, sut.getProvides().size());
+    @Test
+    void testGetProvides() {
+        assertEquals(PROVIDES_COUNT, sut.getProvides().size(), "provides");
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.MODULE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitModule_attribute(sut);

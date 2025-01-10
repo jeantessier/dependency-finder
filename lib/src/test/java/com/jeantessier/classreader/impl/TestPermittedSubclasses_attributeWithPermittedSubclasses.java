@@ -32,13 +32,18 @@
 
 package com.jeantessier.classreader.impl;
 
-public class TestPermittedSubclasses_attributeWithPermittedSubclasses extends TestAttributeBase {
-    public void testWithOnePermittedSubclass() throws Exception {
-        // Given
-        final int classNameIndex = 123;
-        final String className = "Abc";
+import org.junit.jupiter.api.*;
 
-        // And
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestPermittedSubclasses_attributeWithPermittedSubclasses extends TestAttributeBase {
+    @Test
+    void testWithOnePermittedSubclass() throws Exception {
+        // Given
+        var classNameIndex = 123;
+        var className = "Abc";
+
+        // and
         expectReadAttributeLength(4);
         expectReadU2(1);
         expectReadU2(classNameIndex);
@@ -48,26 +53,20 @@ public class TestPermittedSubclasses_attributeWithPermittedSubclasses extends Te
         var sut = new PermittedSubclasses_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num subclasses", 1, sut.getSubclasses().size());
-        assertEquals(
-                "subclass name index",
-                classNameIndex,
-                sut.getSubclasses().stream()
-                        .mapToInt(PermittedSubclass::getSubclassIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {classNameIndex}, sut.getSubclasses().stream().mapToInt(PermittedSubclass::getSubclassIndex).toArray());
     }
 
-    public void testWithMultiplePermittedSubclasses() throws Exception {
+    @Test
+    void testWithMultiplePermittedSubclasses() throws Exception {
         // Given
-        final int classNameIndex1 = 123;
-        final String className1 = "Abc";
+        var classNameIndex1 = 123;
+        var className1 = "Abc";
 
-        // And
-        final int classNameIndex2 = 456;
-        final String className2 = "Def";
+        // and
+        var classNameIndex2 = 456;
+        var className2 = "Def";
 
-        // And
+        // and
         expectReadAttributeLength(6);
         expectReadU2(2);
         expectReadU2(classNameIndex1);
@@ -79,21 +78,6 @@ public class TestPermittedSubclasses_attributeWithPermittedSubclasses extends Te
         var sut = new PermittedSubclasses_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num subclasses", 2, sut.getSubclasses().size());
-        assertEquals(
-                "subclass class index",
-                classNameIndex1,
-                sut.getSubclasses().stream()
-                        .mapToInt(PermittedSubclass::getSubclassIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "subclass class index",
-                classNameIndex2,
-                sut.getSubclasses().stream()
-                        .skip(1)
-                        .mapToInt(PermittedSubclass::getSubclassIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {classNameIndex1, classNameIndex2}, sut.getSubclasses().stream().mapToInt(PermittedSubclass::getSubclassIndex).toArray());
     }
 }

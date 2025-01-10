@@ -33,9 +33,12 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCode_attribute extends TestAttributeBase {
     private static final int MAX_STACK = 2;
@@ -43,9 +46,8 @@ public class TestCode_attribute extends TestAttributeBase {
 
     private Code_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(12);
         expectReadU2(MAX_STACK);
         expectReadU2(MAX_LOCALS);
@@ -59,32 +61,39 @@ public class TestCode_attribute extends TestAttributeBase {
         sut = new Code_attribute(mockConstantPool, mockOwner, mockIn, mockAttributeFactory);
     }
 
-    public void testGetMaxStack() {
-        assertEquals("Max stack", MAX_STACK, sut.getMaxStack());
+    @Test
+    void testGetMaxStack() {
+        assertEquals(MAX_STACK, sut.getMaxStack(), "Max stack");
     }
 
-    public void testGetMaxLocals() {
-        assertEquals("Max locals", MAX_LOCALS, sut.getMaxLocals());
+    @Test
+    void testGetMaxLocals() {
+        assertEquals(MAX_LOCALS, sut.getMaxLocals(), "Max locals");
     }
 
-    public void testGetCode() {
-        assertEquals("Code length", 0, sut.getCode().length);
+    @Test
+    void testGetCode() {
+        assertEquals(0, sut.getCode().length, "Code length");
     }
 
-    public void testGetExceptionHandlers() {
-        assertEquals("Exception handlers", 0, sut.getExceptionHandlers().size());
+    @Test
+    void testGetExceptionHandlers() {
+        assertEquals(0, sut.getExceptionHandlers().size(), "Exception handlers");
     }
 
-    public void testGetAttributes() {
-        assertEquals("Attributes", 0, sut.getAttributes().size());
+    @Test
+    void testGetAttributes() {
+        assertEquals(0, sut.getAttributes().size(), "Attributes");
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.CODE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitCode_attribute(sut);

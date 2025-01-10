@@ -32,21 +32,27 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
 
-import java.io.IOException;
+import java.io.*;
+
+import com.jeantessier.classreader.Visitor;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMethodParameter extends TestAttributeBase {
     private static final int ACCESS_FLAGS = 456;
 
-    public void testCreateNamelessMethodParameter() throws IOException {
+    @Test
+    void testCreateNamelessMethodParameter() throws IOException {
         var sut = createMethodParameter();
 
-        assertEquals("name", null, sut.getName());
+        assertEquals(null, sut.getName(), "name");
     }
 
-    public void testCreateNamedMethodParameter() throws IOException {
+    @Test
+    void testCreateNamedMethodParameter() throws IOException {
         final int nameIndex = 123;
         final String encodedName = "LAbc;";
         final String expectedName = "Abc";
@@ -54,13 +60,14 @@ public class TestMethodParameter extends TestAttributeBase {
         var sut = createMethodParameter(nameIndex, encodedName);
         expectLookupUtf8(nameIndex, encodedName);
 
-        assertEquals("name", expectedName, sut.getName());
+        assertEquals(expectedName, sut.getName(), "name");
     }
 
-    public void testAccept() throws IOException {
+    @Test
+    void testAccept() throws IOException {
         var sut = createMethodParameter();
 
-        final Visitor mockVisitor = mock(Visitor.class);
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitMethodParameter(sut);
@@ -76,7 +83,7 @@ public class TestMethodParameter extends TestAttributeBase {
         return new MethodParameter(mockConstantPool, mockIn);
     }
 
-    private MethodParameter createMethodParameter(final int nameIndex, final String encodedName) throws IOException {
+    private MethodParameter createMethodParameter(int nameIndex, String encodedName) throws IOException {
         expectReadU2(nameIndex);
         expectLookupUtf8(nameIndex, encodedName, "lookup during construction");
         expectReadU2(ACCESS_FLAGS);

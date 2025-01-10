@@ -33,25 +33,29 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestArrayElementValue extends TestAnnotationsBase {
     private ArrayElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadNumValues(0);
 
         sut = new ArrayElementValue(mockConstantPool, mockIn, mockElementValueFactory);
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.ARRAY.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

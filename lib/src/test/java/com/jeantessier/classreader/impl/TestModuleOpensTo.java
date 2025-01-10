@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModuleOpensTo extends TestAttributeBase {
     private static final int OPENS_TO_INDEX = 123;
@@ -41,31 +45,34 @@ public class TestModuleOpensTo extends TestAttributeBase {
 
     private ModuleOpensTo sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(OPENS_TO_INDEX);
         allowingLookupModule(OPENS_TO_INDEX, MODULE_NAME, "opens to lookup during construction");
 
         sut = new ModuleOpensTo(mockConstantPool, mockIn);
     }
 
-    public void testGetOpensToIndex() {
-        assertEquals("opens to index", OPENS_TO_INDEX, sut.getOpensToIndex());
+    @Test
+    void testGetOpensToIndex() {
+        assertEquals(OPENS_TO_INDEX, sut.getOpensToIndex(), "opens to index");
     }
 
-    public void testGetRawOpensTo() {
+    @Test
+    void testGetRawOpensTo() {
         allowingLookupModule(OPENS_TO_INDEX, MODULE_NAME);
-        assertNotNull("raw opens to", sut.getRawOpensTo());
+        assertNotNull(sut.getRawOpensTo(), "raw opens to");
     }
 
-    public void testGetOpensTo() {
+    @Test
+    void testGetOpensTo() {
         expectLookupModule(OPENS_TO_INDEX, MODULE_NAME);
-        assertEquals("opens to", MODULE_NAME, sut.getOpensTo());
+        assertEquals(MODULE_NAME, sut.getOpensTo(), "opens to");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitModuleOpensTo(sut);

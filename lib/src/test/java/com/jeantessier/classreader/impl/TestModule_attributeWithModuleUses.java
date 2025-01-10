@@ -32,6 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModule_attributeWithModuleUses extends TestAttributeBase {
     private static final int MODULE_NAME_INDEX = 123;
     private static final String MODULE_NAME = "abc";
@@ -43,7 +47,8 @@ public class TestModule_attributeWithModuleUses extends TestAttributeBase {
     private static final int OPENS_COUNT = 0;
     private static final int PROVIDES_COUNT = 0;
 
-    public void testOneOpens() throws Exception {
+    @Test
+    void testOneOpens() throws Exception {
         // Given
         expectReadAttributeLength(22);
         expectReadU2(MODULE_NAME_INDEX);
@@ -75,17 +80,11 @@ public class TestModule_attributeWithModuleUses extends TestAttributeBase {
         var actualUses = sut.getUses();
 
         //Then
-        assertEquals("number of uses", usesCount, actualUses.size());
-        assertEquals(
-                "opens",
-                usesIndex,
-                actualUses.stream()
-                        .mapToInt(ModuleUses::getUsesIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {usesIndex}, actualUses.stream().mapToInt(ModuleUses::getUsesIndex).toArray());
     }
 
-    public void testMultipleOpens() throws Exception {
+    @Test
+    void testMultipleOpens() throws Exception {
         // Given
         expectReadAttributeLength(28);
         expectReadU2(MODULE_NAME_INDEX);
@@ -123,21 +122,6 @@ public class TestModule_attributeWithModuleUses extends TestAttributeBase {
         var actualUses = sut.getUses();
 
         //Then
-        assertEquals("number of uses", usesCount, actualUses.size());
-        assertEquals(
-                "first uses",
-                usesIndex1,
-                actualUses.stream()
-                        .mapToInt(ModuleUses::getUsesIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second uses",
-                usesIndex2,
-                actualUses.stream()
-                        .skip(1)
-                        .mapToInt(ModuleUses::getUsesIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[]{usesIndex1, usesIndex2}, actualUses.stream().mapToInt(ModuleUses::getUsesIndex).toArray());
     }
 }

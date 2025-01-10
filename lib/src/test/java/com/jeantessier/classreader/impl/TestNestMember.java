@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestNestMember extends TestAttributeBase {
     private static final int MEMBER_CLASS_INDEX = 123;
@@ -41,25 +45,27 @@ public class TestNestMember extends TestAttributeBase {
 
     private NestMember sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(MEMBER_CLASS_INDEX);
         allowingLookupClass(MEMBER_CLASS_INDEX, MEMBER_CLASS_NAME, "lookup during construction");
 
         sut = new NestMember(mockConstantPool, mockIn);
     }
 
-    public void testGetHostClassIndex() {
-        assertEquals("member class index", MEMBER_CLASS_INDEX, sut.getMemberClassIndex());
+    @Test
+    void testGetHostClassIndex() {
+        assertEquals(MEMBER_CLASS_INDEX, sut.getMemberClassIndex(), "member class index");
     }
 
-    public void testGetMemberClass() {
+    @Test
+    void testGetMemberClass() {
         expectLookupClass(MEMBER_CLASS_INDEX, MEMBER_CLASS_NAME);
-        assertEquals("member class", MEMBER_CLASS_NAME, sut.getMemberClass());
+        assertEquals(MEMBER_CLASS_NAME, sut.getMemberClass(), "member class");
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

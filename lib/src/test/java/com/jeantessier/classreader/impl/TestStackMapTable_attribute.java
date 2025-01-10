@@ -32,16 +32,19 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestStackMapTable_attribute extends TestAttributeBase {
     private StackMapTable_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        final StackMapFrameFactory mockStackMapFrameFactory = mock(StackMapFrameFactory.class);
+    @BeforeEach
+    void setUp() throws Exception {
+        var mockStackMapFrameFactory = mock(StackMapFrameFactory.class);
 
         expectReadAttributeLength(2);
         expectReadU2(0);
@@ -49,16 +52,19 @@ public class TestStackMapTable_attribute extends TestAttributeBase {
         sut = new StackMapTable_attribute(mockConstantPool, mockOwner, mockIn, mockStackMapFrameFactory);
     }
 
-    public void testGetEntries() throws Exception {
-        assertEquals("entries", 0, sut.getEntries().size());
+    @Test
+    void testGetEntries() {
+        assertEquals(0, sut.getEntries().size(), "entries");
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.STACK_MAP_TABLE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() throws Exception {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() throws Exception {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitStackMapTable_attribute(sut);

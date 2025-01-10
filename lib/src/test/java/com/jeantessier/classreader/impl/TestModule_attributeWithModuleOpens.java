@@ -32,6 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModule_attributeWithModuleOpens extends TestAttributeBase {
     private static final int MODULE_NAME_INDEX = 123;
     private static final String MODULE_NAME = "abc";
@@ -43,7 +47,8 @@ public class TestModule_attributeWithModuleOpens extends TestAttributeBase {
     private static final int USES_COUNT = 0;
     private static final int PROVIDES_COUNT = 0;
 
-    public void testOneOpens() throws Exception {
+    @Test
+    void testOneOpens() throws Exception {
         // Given
         expectReadAttributeLength(22);
         expectReadU2(MODULE_NAME_INDEX);
@@ -78,17 +83,11 @@ public class TestModule_attributeWithModuleOpens extends TestAttributeBase {
         var actualOpens = sut.getOpens();
 
         //Then
-        assertEquals("number of opens", opensCount, actualOpens.size());
-        assertEquals(
-                "opens",
-                opensIndex,
-                actualOpens.stream()
-                        .mapToInt(ModuleOpens::getOpensIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {opensIndex}, actualOpens.stream().mapToInt(ModuleOpens::getOpensIndex).toArray());
     }
 
-    public void testMultipleOpens() throws Exception {
+    @Test
+    void testMultipleOpens() throws Exception {
         // Given
         expectReadAttributeLength(28);
         expectReadU2(MODULE_NAME_INDEX);
@@ -132,21 +131,6 @@ public class TestModule_attributeWithModuleOpens extends TestAttributeBase {
         var actualOpens = sut.getOpens();
 
         //Then
-        assertEquals("number of opens", opensCount, actualOpens.size());
-        assertEquals(
-                "first opens",
-                opensIndex1,
-                actualOpens.stream()
-                        .mapToInt(ModuleOpens::getOpensIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second opens",
-                opensIndex2,
-                actualOpens.stream()
-                        .skip(1)
-                        .mapToInt(ModuleOpens::getOpensIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {opensIndex1, opensIndex2}, actualOpens.stream().mapToInt(ModuleOpens::getOpensIndex).toArray());
     }
 }

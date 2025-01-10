@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestShortConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
@@ -42,26 +45,28 @@ public class TestShortConstantElementValue extends TestAnnotationsBase {
 
     private ShortConstantElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CONST_VALUE_INDEX);
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE, "lookup during construction");
 
         sut = new ShortConstantElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetConstValue() {
+    @Test
+    void testGetConstValue() {
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         assertEquals(CONST_VALUE, sut.getConstValue());
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.SHORT.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitShortConstantElementValue(sut);

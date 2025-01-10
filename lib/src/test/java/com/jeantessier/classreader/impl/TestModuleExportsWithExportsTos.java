@@ -32,12 +32,17 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModuleExportsWithExportsTos extends TestAttributeBase {
     private static final int EXPORTS_INDEX = 123;
     private static final String PACKAGE_NAME = "abc";
     private static final int EXPORTS_FLAGS = 456;
 
-    public void testOneExportTo() throws Exception {
+    @Test
+    void testOneExportTo() throws Exception {
         // Given
         expectReadU2(EXPORTS_INDEX);
         allowingLookupPackage(EXPORTS_INDEX, PACKAGE_NAME, "package name lookup during construction");
@@ -60,17 +65,11 @@ public class TestModuleExportsWithExportsTos extends TestAttributeBase {
         var actualExportsTos = sut.getExportsTos();
 
         //Then
-        assertEquals("number of export tos", exportsToCount, actualExportsTos.size());
-        assertEquals(
-                "exports to",
-                exportsToIndex,
-                actualExportsTos.stream()
-                        .mapToInt(ModuleExportsTo::getExportsToIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {exportsToIndex}, actualExportsTos.stream().mapToInt(ModuleExportsTo::getExportsToIndex).toArray());
     }
 
-    public void testMultipleExportTos() throws Exception {
+    @Test
+    void testMultipleExportTos() throws Exception {
         // Given
         expectReadU2(EXPORTS_INDEX);
         allowingLookupPackage(EXPORTS_INDEX, PACKAGE_NAME, "package name lookup during construction");
@@ -99,21 +98,6 @@ public class TestModuleExportsWithExportsTos extends TestAttributeBase {
         var actualExportsTos = sut.getExportsTos();
 
         //Then
-        assertEquals("number of export tos", exportsToCount, actualExportsTos.size());
-        assertEquals(
-                "first exports to",
-                exportsToIndex1,
-                actualExportsTos.stream()
-                        .mapToInt(ModuleExportsTo::getExportsToIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second exports to",
-                exportsToIndex2,
-                actualExportsTos.stream()
-                        .skip(1)
-                        .mapToInt(ModuleExportsTo::getExportsToIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {exportsToIndex1, exportsToIndex2}, actualExportsTos.stream().mapToInt(ModuleExportsTo::getExportsToIndex).toArray());
     }
 }

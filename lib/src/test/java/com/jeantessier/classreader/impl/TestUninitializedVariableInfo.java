@@ -32,20 +32,24 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestUninitializedVariableInfo extends TestAttributeBase {
     private static final int OFFSET = 123;
 
     private UninitializedVariableInfo sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(OFFSET);
 
         sut = new UninitializedVariableInfo(mockConstantPool, mockIn);
     }
 
-    public void testGetOffset() {
+    @Test
+    void testGetOffset() {
         assertSame(OFFSET, sut.getOffset());
     }
 }

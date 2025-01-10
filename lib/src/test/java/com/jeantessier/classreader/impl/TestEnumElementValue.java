@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEnumElementValue extends TestAnnotationsBase {
     private static final int TYPE_NAME_INDEX = 2;
@@ -45,9 +48,8 @@ public class TestEnumElementValue extends TestAnnotationsBase {
 
     private EnumElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(TYPE_NAME_INDEX);
         expectLookupUtf8(TYPE_NAME_INDEX, ENCODED_TYPE_NAME, "lookup type name during construction");
         expectReadU2(CONST_NAME_INDEX);
@@ -56,24 +58,28 @@ public class TestEnumElementValue extends TestAnnotationsBase {
         sut = new EnumElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetTypeName() {
+    @Test
+    void testGetTypeName() {
         expectLookupUtf8(TYPE_NAME_INDEX, ENCODED_TYPE_NAME);
 
         assertEquals(TYPE_NAME, sut.getTypeName());
     }
 
-    public void testGetConstName() {
+    @Test
+    void testGetConstName() {
         expectLookupUtf8(CONST_NAME_INDEX, CONST_NAME);
 
         assertEquals(CONST_NAME, sut.getConstName());
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.ENUM.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitEnumElementValue(sut);

@@ -32,27 +32,32 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRuntimeInvisibleTypeAnnotations_attribute extends TestAnnotationsBase {
     private RuntimeInvisibleTypeAnnotations_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(2);
         expectReadNumParameters(0);
 
         sut = new RuntimeInvisibleTypeAnnotations_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.RUNTIME_INVISIBLE_TYPE_ANNOTATIONS.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitRuntimeInvisibleTypeAnnotations_attribute(sut);

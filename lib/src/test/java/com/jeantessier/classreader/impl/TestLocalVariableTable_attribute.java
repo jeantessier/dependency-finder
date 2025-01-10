@@ -33,30 +33,35 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestLocalVariableTable_attribute extends TestAttributeBase {
     private LocalVariableTable_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(2);
         expectReadU2(0);
 
         sut = new LocalVariableTable_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetLocalVariables() {
+    @Test
+    void testGetLocalVariables() {
         assertEquals(0, sut.getLocalVariables().size());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.LOCAL_VARIABLE_TABLE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

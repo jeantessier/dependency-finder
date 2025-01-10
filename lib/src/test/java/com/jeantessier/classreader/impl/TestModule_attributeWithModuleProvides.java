@@ -32,6 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModule_attributeWithModuleProvides extends TestAttributeBase {
     private static final int MODULE_NAME_INDEX = 123;
     private static final String MODULE_NAME = "abc";
@@ -43,7 +47,8 @@ public class TestModule_attributeWithModuleProvides extends TestAttributeBase {
     private static final int OPENS_COUNT = 0;
     private static final int USES_COUNT = 0;
 
-    public void testOneOpens() throws Exception {
+    @Test
+    void testOneOpens() throws Exception {
         // Given
         expectReadAttributeLength(22);
         expectReadU2(MODULE_NAME_INDEX);
@@ -56,35 +61,29 @@ public class TestModule_attributeWithModuleProvides extends TestAttributeBase {
         expectReadU2(OPENS_COUNT);
         expectReadU2(USES_COUNT);
 
-        // And
+        // and
         var providesCount = 1;
         expectReadU2(providesCount);
 
-        // And
+        // and
         var providesIndex = 234;
         var className = "Def";
         expectReadU2(providesIndex);
         allowingLookupClass(providesIndex, className, "lookup during construction");
         expectReadU2(0);
 
-        // And
+        // and
         var sut = new Module_attribute(mockConstantPool, mockOwner, mockIn);
 
         // When
         var actualProvides = sut.getProvides();
 
         //Then
-        assertEquals("number of provides", providesCount, actualProvides.size());
-        assertEquals(
-                "opens",
-                providesIndex,
-                actualProvides.stream()
-                        .mapToInt(ModuleProvides::getProvidesIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {providesIndex}, actualProvides.stream().mapToInt(ModuleProvides::getProvidesIndex).toArray());
     }
 
-    public void testMultipleOpens() throws Exception {
+    @Test
+    void testMultipleOpens() throws Exception {
         // Given
         expectReadAttributeLength(28);
         expectReadU2(MODULE_NAME_INDEX);
@@ -97,18 +96,18 @@ public class TestModule_attributeWithModuleProvides extends TestAttributeBase {
         expectReadU2(OPENS_COUNT);
         expectReadU2(USES_COUNT);
 
-        // And
+        // and
         var providesCount = 2;
         expectReadU2(providesCount);
 
-        // And
+        // and
         var providesIndex1 = 234;
         var className1 = "Def";
         expectReadU2(providesIndex1);
         allowingLookupClass(providesIndex1, className1, "first provides lookup during construction");
         expectReadU2(0);
 
-        // And
+        // and
         var providesIndex2 = 345;
         var className2 = "Ghi";
         expectReadU2(providesIndex2);
@@ -122,21 +121,6 @@ public class TestModule_attributeWithModuleProvides extends TestAttributeBase {
         var actualProvides = sut.getProvides();
 
         //Then
-        assertEquals("number of provides", providesCount, actualProvides.size());
-        assertEquals(
-                "first provides",
-                providesIndex1,
-                actualProvides.stream()
-                        .mapToInt(ModuleProvides::getProvidesIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second provides",
-                providesIndex2,
-                actualProvides.stream()
-                        .skip(1)
-                        .mapToInt(ModuleProvides::getProvidesIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {providesIndex1, providesIndex2}, actualProvides.stream().mapToInt(ModuleProvides::getProvidesIndex).toArray());
     }
 }

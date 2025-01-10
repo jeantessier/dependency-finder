@@ -32,27 +32,32 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitable;
-import org.jmock.Expectations;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRecordComponent_infoWithAttributes extends TestAttributeBase {
-    public void testWithOneAttribute() throws Exception {
+    @Test
+    void testWithOneAttribute() throws Exception {
         // Given
-        final int nameIndex = 123;
-        final String name = "Abc";
-        final int descriptorIndex = 456;
-        final String descriptor = "I";
+        var nameIndex = 123;
+        var name = "Abc";
+        var descriptorIndex = 456;
+        var descriptor = "I";
 
-        // And
+        // and
         expectReadU2(nameIndex);
         allowingLookupUtf8(nameIndex, name, "record component name");
         expectReadU2(descriptorIndex);
         allowingLookupUtf8(descriptorIndex, descriptor, "record component descriptor");
         expectReadU2(1);
 
-        // And
-        final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
-        final Attribute_info mockAttribute = mock(Attribute_info.class);
+        // and
+        var mockAttributeFactory = mock(AttributeFactory.class);
+        var mockAttribute = mock(Attribute_info.class);
         checking(new Expectations() {{
             oneOf (mockAttributeFactory).create(with(same(mockConstantPool)), with(any(RecordComponent_info.class)), with(same(mockIn)));
                 will(returnValue(mockAttribute));
@@ -62,33 +67,28 @@ public class TestRecordComponent_infoWithAttributes extends TestAttributeBase {
         var sut = new RecordComponent_info(mockConstantPool, mockIn, mockAttributeFactory);
 
         // Then
-        assertEquals("num attributes", 1, sut.getAttributes().size());
-        assertEquals(
-                "attribute",
-                mockAttribute,
-                sut.getAttributes().stream()
-                        .findFirst()
-                        .orElseThrow());
+        assertEquals(List.of(mockAttribute), List.copyOf(sut.getAttributes()));
     }
 
-    public void testWithMultipleAttributes() throws Exception {
+    @Test
+    void testWithMultipleAttributes() throws Exception {
         // Given
-        final int nameIndex = 123;
-        final String name = "Abc";
-        final int descriptorIndex = 456;
-        final String descriptor = "I";
+        var nameIndex = 123;
+        var name = "Abc";
+        var descriptorIndex = 456;
+        var descriptor = "I";
 
-        // And
+        // and
         expectReadU2(nameIndex);
         allowingLookupUtf8(nameIndex, name, "first record component name");
         expectReadU2(descriptorIndex);
         allowingLookupUtf8(descriptorIndex, descriptor, "first record component descriptor");
         expectReadU2(2);
 
-        // And
-        final AttributeFactory mockAttributeFactory = mock(AttributeFactory.class);
-        final Attribute_info mockAttribute1 = mock(Attribute_info.class, "first attribute");
-        final Attribute_info mockAttribute2 = mock(Attribute_info.class, "second attribute");
+        // and
+        var mockAttributeFactory = mock(AttributeFactory.class);
+        var mockAttribute1 = mock(Attribute_info.class, "first attribute");
+        var mockAttribute2 = mock(Attribute_info.class, "second attribute");
         checking(new Expectations() {{
             oneOf (mockAttributeFactory).create(with(same(mockConstantPool)), with(any(RecordComponent_info.class)), with(same(mockIn)));
                 will(returnValue(mockAttribute1));
@@ -100,19 +100,6 @@ public class TestRecordComponent_infoWithAttributes extends TestAttributeBase {
         var sut = new RecordComponent_info(mockConstantPool, mockIn, mockAttributeFactory);
 
         // Then
-        assertEquals("num attributes", 2, sut.getAttributes().size());
-        assertEquals(
-                "attribute",
-                mockAttribute1,
-                sut.getAttributes().stream()
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "attribute",
-                mockAttribute2,
-                sut.getAttributes().stream()
-                        .skip(1)
-                        .findFirst()
-                        .orElseThrow());
+        assertEquals(List.of(mockAttribute1, mockAttribute2), List.copyOf(sut.getAttributes()));
     }
 }

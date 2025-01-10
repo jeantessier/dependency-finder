@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFloatConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
@@ -42,26 +45,28 @@ public class TestFloatConstantElementValue extends TestAnnotationsBase {
 
     private FloatConstantElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CONST_VALUE_INDEX);
         expectLookupFloat(CONST_VALUE_INDEX, CONST_VALUE, "lookup during construction");
 
         sut = new FloatConstantElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetConstValue() {
+    @Test
+    void testGetConstValue() {
         expectLookupFloat(CONST_VALUE_INDEX, CONST_VALUE);
         assertEquals(CONST_VALUE, sut.getConstValue(), 0.001);
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.FLOAT.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitFloatConstantElementValue(sut);

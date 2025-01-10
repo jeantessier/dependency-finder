@@ -33,17 +33,19 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAnnotationDefault_attribute extends TestAnnotationsBase {
     private ElementValue mockElementValue;
 
     private AnnotationDefault_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(3);
 
         mockElementValue = mock(ElementValue.class);
@@ -56,15 +58,18 @@ public class TestAnnotationDefault_attribute extends TestAnnotationsBase {
         sut = new AnnotationDefault_attribute(mockConstantPool, mockOwner, mockIn, mockElementValueFactory);
     }
 
-    public void testGetElementValue() {
+    @Test
+    void testGetElementValue() {
         assertSame(mockElementValue, sut.getElemementValue());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.ANNOTATION_DEFAULT.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

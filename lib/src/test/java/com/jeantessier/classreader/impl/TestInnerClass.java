@@ -32,17 +32,18 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
 
-import java.util.Random;
+import com.jeantessier.classreader.Visitor;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestInnerClass extends TestAttributeBase {
     private InnerClass sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         InnerClasses_attribute mockAttribute = mock(InnerClasses_attribute.class);
         int innerClassInfoIndex = 123;
         Class_info mockInnerClassInfo = mock(Class_info.class);
@@ -63,50 +64,59 @@ public class TestInnerClass extends TestAttributeBase {
         sut = new InnerClass(mockAttribute, mockIn);
     }
 
-    public void testHasOuterClassInfo() {
+    @Test
+    void testHasOuterClassInfo() {
         assertFalse(sut.hasOuterClassInfo());
     }
 
-    public void testGetOuterClassInfoIndex() {
-        assertEquals("outer class info index", 0, sut.getOuterClassInfoIndex());
+    @Test
+    void testGetOuterClassInfoIndex() {
+        assertEquals(0, sut.getOuterClassInfoIndex(), "outer class info index");
     }
 
-    public void testGetRawOuterClassInfo() {
+    @Test
+    void testGetRawOuterClassInfo() {
         checking(new Expectations() {{
             oneOf (mockConstantPool).get(0);
                 will(returnValue(null));
         }});
 
-        assertEquals("raw outer class info", null, sut.getRawOuterClassInfo());
+        assertEquals(null, sut.getRawOuterClassInfo(), "raw outer class info");
     }
 
-    public void testGetOuterClassInfo() {
-        assertEquals("outer class info", "", sut.getOuterClassInfo());
+    @Test
+    void testGetOuterClassInfo() {
+        assertEquals("", sut.getOuterClassInfo(), "outer class info");
     }
 
-    public void testHasInnerName() {
+    @Test
+    void testHasInnerName() {
         assertFalse(sut.hasInnerName());
     }
 
-    public void testGetInnerNameIndex() {
-        assertEquals("inner name index", 0, sut.getInnerNameIndex());
+    @Test
+    void testGetInnerNameIndex() {
+        assertEquals(0, sut.getInnerNameIndex(), "inner name index");
     }
 
-    public void testGetRawInnerName() {
+    @Test
+    void testGetRawInnerName() {
         checking(new Expectations() {{
             oneOf (mockConstantPool).get(0);
                 will(returnValue(null));
         }});
 
-        assertEquals("raw inner name", null, sut.getRawInnerName());
+        assertEquals(null, sut.getRawInnerName(), "raw inner name");
     }
 
-    public void testGetInnerName() {
-        assertEquals("inner name", "", sut.getInnerName());
+    @Test
+    void testGetInnerName() {
+        assertEquals("", sut.getInnerName(), "inner name");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitInnerClass(sut);

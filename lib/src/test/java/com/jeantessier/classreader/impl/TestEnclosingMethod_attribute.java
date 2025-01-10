@@ -33,9 +33,12 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEnclosingMethod_attribute extends TestAttributeBase {
     private static final int CLASS_INDEX = 2;
@@ -46,9 +49,8 @@ public class TestEnclosingMethod_attribute extends TestAttributeBase {
 
     private EnclosingMethod_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(4);
         expectReadU2(CLASS_INDEX);
         expectLookupClass(CLASS_INDEX, CLASS, "class lookup during construction");
@@ -58,24 +60,28 @@ public class TestEnclosingMethod_attribute extends TestAttributeBase {
         sut = new EnclosingMethod_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetClassInfo() {
+    @Test
+    void testGetClassInfo() {
         expectLookupClass(CLASS_INDEX, CLASS);
 
         assertEquals(CLASS, sut.getClassInfo());
     }
 
-    public void testGetMethod() {
+    @Test
+    void testGetMethod() {
         expectLookupNameAndType(METHOD_INDEX, NAME, TYPE);
 
         assertEquals(NAME + TYPE, sut.getMethod());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.ENCLOSING_METHOD.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitEnclosingMethod_attribute(sut);

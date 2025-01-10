@@ -33,22 +33,23 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
 
 public class TestParameterAnnotation extends TestAttributeBase {
     private ParameterAnnotation sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadNumAnnotations(0);
 
         sut = new ParameterAnnotation(mockConstantPool, mockIn);
     }
 
-    public void testAccept() throws Exception {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() throws Exception {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitParameterAnnotation(sut);

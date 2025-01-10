@@ -34,33 +34,34 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 import org.jmock.imposters.*;
-import org.jmock.integration.junit4.*;
-import org.junit.*;
+import org.jmock.junit5.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
 
 import java.io.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.jmock.Expectations.aNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestField_info {
     private static final int TEST_ACCESS_FLAG = 0x0000;
     private static final int TEST_NAME_INDEX = 123;
     private static final int TEST_SIGNATURE_INDEX = 456;
 
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery() {{
+    @RegisterExtension
+    JUnit5Mockery context = new JUnit5Mockery() {{
         setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
     }};
-
+    
     private DataInput mockIn;
     private ConstantPool mockConstantPool;
 
     private Sequence dataReads;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         mockIn = context.mock(DataInput.class);
         mockConstantPool = context.mock(ConstantPool.class);
 
@@ -68,8 +69,8 @@ public class TestField_info {
     }
 
     @Test
-    public void testGetConstantValue_noAttributes_shouldReturnNull() throws IOException {
-        final Classfile mockClassfile = context.mock(Classfile.class);
+    void testGetConstantValue_noAttributes_shouldReturnNull() throws IOException {
+        var mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
             allowing (mockClassfile).getConstantPool();
@@ -90,8 +91,8 @@ public class TestField_info {
     }
 
     @Test
-    public void testGetConstantValue_oneDifferentAttribute_shouldReturnNull() throws IOException {
-        final Classfile mockClassfile = context.mock(Classfile.class);
+    void testGetConstantValue_oneDifferentAttribute_shouldReturnNull() throws IOException {
+        var mockClassfile = context.mock(Classfile.class);
         int attributeNameIndex = 789;
 
         context.checking(new Expectations() {{
@@ -116,8 +117,8 @@ public class TestField_info {
     }
 
     @Test
-    public void testGetUniqueName() throws IOException {
-        final Classfile mockClassfile = context.mock(Classfile.class);
+    void testGetUniqueName() throws IOException {
+        var mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
             allowing (mockClassfile).getConstantPool();
@@ -134,12 +135,12 @@ public class TestField_info {
         expectReadU2(0);
 
         Field_info sut = new Field_info(mockClassfile, mockIn);
-        assertEquals("getUniqueName()", "foo", sut.getUniqueName());
+        assertEquals("foo", sut.getUniqueName(), "getUniqueName()");
     }
 
     @Test
-    public void testGetFullUniqueName() throws IOException {
-        final Classfile mockClassfile = context.mock(Classfile.class);
+    void testGetFullUniqueName() throws IOException {
+        var mockClassfile = context.mock(Classfile.class);
 
         context.checking(new Expectations() {{
             allowing (mockClassfile).getConstantPool();
@@ -158,10 +159,10 @@ public class TestField_info {
         expectReadU2(0);
 
         Field_info sut = new Field_info(mockClassfile, mockIn);
-        assertEquals("getFullUniqueName()", "Abc.foo", sut.getFullUniqueName());
+        assertEquals("Abc.foo", sut.getFullUniqueName(), "getFullUniqueName()");
     }
 
-    protected void expectReadU2(final int i) throws IOException {
+    protected void expectReadU2(int i) throws IOException {
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
                 inSequence(dataReads);
@@ -169,7 +170,7 @@ public class TestField_info {
         }});
     }
 
-    protected void expectReadU4(final int i) throws IOException {
+    protected void expectReadU4(int i) throws IOException {
         context.checking(new Expectations() {{
             oneOf (mockIn).readInt();
                 inSequence(dataReads);
@@ -181,7 +182,7 @@ public class TestField_info {
         expectLookupUtf8(index, value, context.mock(UTF8_info.class, mockName));
     }
 
-    private void expectLookupUtf8(final int index, final String value, final UTF8_info mockUtf8_info) {
+    private void expectLookupUtf8(int index, String value, UTF8_info mockUtf8_info) {
         context.checking(new Expectations() {{
             atLeast(1).of (mockConstantPool).get(index);
                 will(returnValue(mockUtf8_info));

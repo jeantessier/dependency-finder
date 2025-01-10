@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModulePackage extends TestAttributeBase {
     private static final int PACKAGE_INDEX = 123;
@@ -41,30 +45,33 @@ public class TestModulePackage extends TestAttributeBase {
 
     private ModulePackage sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(PACKAGE_INDEX);
         allowingLookupPackage(PACKAGE_INDEX, PACKAGE_NAME, "lookup during construction");
 
         sut = new ModulePackage(mockConstantPool, mockIn);
     }
 
-    public void testGetPackageIndex() {
-        assertEquals("package index", PACKAGE_INDEX, sut.getPackageIndex());
+    @Test
+    void testGetPackageIndex() {
+        assertEquals(PACKAGE_INDEX, sut.getPackageIndex(), "package index");
     }
 
-    public void testGetRawPackage() {
+    @Test
+    void testGetRawPackage() {
         allowingLookupPackage(PACKAGE_INDEX, PACKAGE_NAME);
-        assertNotNull("raw package", sut.getRawPackage());
+        assertNotNull(sut.getRawPackage());
     }
 
-    public void testGetPackage() {
+    @Test
+    void testGetPackage() {
         expectLookupPackage(PACKAGE_INDEX, PACKAGE_NAME);
-        assertEquals("package", PACKAGE_NAME, sut.getPackage());
+        assertEquals(PACKAGE_NAME, sut.getPackage(), "package");
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

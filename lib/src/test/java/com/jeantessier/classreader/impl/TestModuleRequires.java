@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModuleRequires extends TestAttributeBase {
     private static final int REQUIRES_INDEX = 123;
@@ -44,9 +48,8 @@ public class TestModuleRequires extends TestAttributeBase {
 
     private ModuleRequires sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(REQUIRES_INDEX);
         allowingLookupModule(REQUIRES_INDEX, MODULE_NAME, "requires lookup during construction");
         expectReadU2(REQUIRES_FLAGS);
@@ -56,22 +59,26 @@ public class TestModuleRequires extends TestAttributeBase {
         sut = new ModuleRequires(mockConstantPool, mockIn);
     }
 
-    public void testGetRequiresIndex() {
-        assertEquals("requires index", REQUIRES_INDEX, sut.getRequiresIndex());
+    @Test
+    void testGetRequiresIndex() {
+        assertEquals(REQUIRES_INDEX, sut.getRequiresIndex(), "requires index");
     }
 
-    public void testGetRawRequires() {
+    @Test
+    void testGetRawRequires() {
         allowingLookupModule(REQUIRES_INDEX, MODULE_NAME);
-        assertNotNull("raw requires", sut.getRawRequires());
+        assertNotNull(sut.getRawRequires());
     }
 
-    public void testGetRequires() {
+    @Test
+    void testGetRequires() {
         expectLookupModule(REQUIRES_INDEX, MODULE_NAME);
-        assertEquals("requires", MODULE_NAME, sut.getRequires());
+        assertEquals(MODULE_NAME, sut.getRequires(), "requires");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitModuleRequires(sut);

@@ -32,35 +32,21 @@
 
 package com.jeantessier.classreader.impl;
 
+import com.jeantessier.MockObjectTestCase;
 import com.jeantessier.classreader.Visitable;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
-import org.jmock.imposters.ByteBuddyClassImposteriser;
-import org.jmock.integration.junit3.MockObjectTestCase;
 
 import java.io.DataInput;
 import java.io.IOException;
 
 public abstract class TestAttributeBase extends MockObjectTestCase {
-    protected Classfile mockClassfile;
-    protected ConstantPool mockConstantPool;
-    protected Visitable mockOwner;
-    protected DataInput mockIn;
+    protected Classfile mockClassfile = mock(Classfile.class);
+    protected ConstantPool mockConstantPool = mock(ConstantPool.class);
+    protected Visitable mockOwner = mock(Visitable.class);
+    protected DataInput mockIn = mock(DataInput.class);
 
-    protected Sequence dataReads;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        setImposteriser(ByteBuddyClassImposteriser.INSTANCE);
-
-        mockClassfile = mock(Classfile.class);
-        mockConstantPool = mock(ConstantPool.class);
-        mockOwner = mock(Visitable.class);
-        mockIn = mock(DataInput.class);
-
-        dataReads = sequence("dataReads");
-    }
+    protected Sequence dataReads = sequence("dataReads");
 
     protected void allowingLookupModule(final int index, final String value) {
         allowingLookupModule(index, value, mock(Module_info.class));

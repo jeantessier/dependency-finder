@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFieldRef_info extends TestAttributeBase {
     private FieldRef_info sut;
@@ -45,9 +49,8 @@ public class TestFieldRef_info extends TestAttributeBase {
     private static final String RAW_TYPE = "Lghi;";
     private static final String TYPE = "ghi";
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CLASS_INDEX);
         expectReadU2(NAME_AND_TYPE_INDEX);
 
@@ -56,34 +59,39 @@ public class TestFieldRef_info extends TestAttributeBase {
         assertEquals(NAME_AND_TYPE_INDEX, sut.getNameAndTypeIndex());
     }
 
-    public void testGetClass() {
+    @Test
+    void testGetClass() {
         expectLookupClass(CLASS_INDEX, CLASS);
 
         assertEquals(CLASS, sut.getClassName());
     }
 
-    public void testGetNameAndType() {
+    @Test
+    void testGetNameAndType() {
         expectLookupNameAndType(NAME_AND_TYPE_INDEX, null, RAW_TYPE, "callForType");
         expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, null, "callForName");
 
         assertEquals(TYPE + " " + NAME, sut.getNameAndType());
     }
 
-    public void testGetUniqueName() {
+    @Test
+    void testGetUniqueName() {
         expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, null);
 
         assertEquals(NAME, sut.getUniqueName());
     }
 
-    public void testGetFullUniqueName() {
+    @Test
+    void testGetFullUniqueName() {
         expectLookupClass(CLASS_INDEX, CLASS);
         expectLookupNameAndType(NAME_AND_TYPE_INDEX, NAME, null);
 
         assertEquals(CLASS + "." + NAME, sut.getFullUniqueName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitFieldRef_info(sut);

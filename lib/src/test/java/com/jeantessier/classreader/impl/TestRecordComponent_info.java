@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRecordComponent_info extends TestAttributeBase {
     private static final int NAME_INDEX = 123;
@@ -44,9 +48,8 @@ public class TestRecordComponent_info extends TestAttributeBase {
 
     private RecordComponent_info sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(NAME_INDEX);
         allowingLookupUtf8(NAME_INDEX, NAME, "name lookup during construction");
         expectReadU2(DESCRIPTOR_INDEX);
@@ -58,31 +61,37 @@ public class TestRecordComponent_info extends TestAttributeBase {
         sut = new RecordComponent_info(mockConstantPool, mockIn, mockAttributeFactory);
     }
 
-    public void testGetNameIndex() {
-        assertEquals("name index", NAME_INDEX, sut.getNameIndex());
+    @Test
+    void testGetNameIndex() {
+        assertEquals(NAME_INDEX, sut.getNameIndex(), "name index");
     }
 
-    public void testGetName() {
+    @Test
+    void testGetName() {
         expectLookupUtf8(NAME_INDEX, NAME);
-        assertEquals("name", NAME, sut.getName());
+        assertEquals(NAME, sut.getName(), "name");
     }
 
-    public void testGetDescriptorIndex() {
-        assertEquals("descriptor index", DESCRIPTOR_INDEX, sut.getDescriptorIndex());
+    @Test
+    void testGetDescriptorIndex() {
+        assertEquals(DESCRIPTOR_INDEX, sut.getDescriptorIndex(), "descriptor index");
     }
 
-    public void testGetDescriptor() {
+    @Test
+    void testGetDescriptor() {
         expectLookupUtf8(DESCRIPTOR_INDEX, DESCRIPTOR);
-        assertEquals("descriptor", DESCRIPTOR, sut.getDescriptor());
+        assertEquals(DESCRIPTOR, sut.getDescriptor(), "descriptor");
     }
 
-    public void testGetType() {
+    @Test
+    void testGetType() {
         expectLookupUtf8(DESCRIPTOR_INDEX, DESCRIPTOR);
-        assertEquals("type", DECODED_DESCRIPTOR, sut.getType());
+        assertEquals(DECODED_DESCRIPTOR, sut.getType(), "type");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitRecordComponent_info(sut);

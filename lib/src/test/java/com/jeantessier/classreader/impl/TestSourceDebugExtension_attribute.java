@@ -34,32 +34,38 @@ package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
 
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSourceDebugExtension_attribute extends TestAttributeBase {
     private static final String DEBUG_EXTENSION = "abc";
 
     private SourceDebugExtension_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(0);
         expectReadUtf(DEBUG_EXTENSION);
 
         sut = new SourceDebugExtension_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetDebugExtension() {
+    @Test
+    void testGetDebugExtension() {
         assertEquals(DEBUG_EXTENSION, sut.getDebugExtension());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.SOURCE_DEBUG_EXTENSION.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitSourceDebugExtension_attribute(sut);

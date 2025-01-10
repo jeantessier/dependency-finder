@@ -32,21 +32,28 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class TestRuntimeAnnotationsWithAnnotationsBase extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 2;
     private static final String TYPE = "Labc;";
 
-    public void testConstructorWithNoAnnotations() throws Exception {
+    @Test
+    void testConstructorWithNoAnnotations() throws Exception {
         doTestConstructorWithAnnotations(0);
     }
 
-    public void testConstructorWithASingleAnnotations() throws Exception {
+    @Test
+    void testConstructorWithASingleAnnotations() throws Exception {
         doTestConstructorWithAnnotations(1);
     }
 
-    public void testConstructorMultipleZeroAnnotations() throws Exception {
+    @Test
+    void testConstructorMultipleZeroAnnotations() throws Exception {
         doTestConstructorWithAnnotations(2);
     }
 
@@ -59,7 +66,7 @@ public abstract class TestRuntimeAnnotationsWithAnnotationsBase extends TestAnno
         }
 
         RuntimeAnnotations_attribute sut = createSut();
-        assertEquals("Num annotations", numAnnotations, sut.getAnnotations().size());
+        assertEquals(numAnnotations, sut.getAnnotations().size(), "Num annotations");
     }
 
     private int estimateTotalSize(int numAnnotations) {

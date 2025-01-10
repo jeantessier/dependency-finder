@@ -33,36 +33,42 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestCustom_attribute extends TestAttributeBase {
     private static final String NAME = "abc";
 
     private Custom_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(0);
         expectReadFully();
 
         sut = new Custom_attribute(mockConstantPool, mockOwner, mockIn, NAME);
     }
 
-    public void testGetName() {
+    @Test
+    void testGetName() {
         assertEquals(NAME, sut.getName());
     }
 
-    public void testGetInfo() {
-        assertEquals("Info length", 0, sut.getInfo().length);
+    @Test
+    void testGetInfo() {
+        assertEquals(0, sut.getInfo().length, "Info length");
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals("Custom", sut.getAttributeName());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

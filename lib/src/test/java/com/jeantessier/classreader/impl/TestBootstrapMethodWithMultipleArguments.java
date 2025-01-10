@@ -32,7 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase {
     private static final int BOOTSTRAP_METHOD_REF = 123;
@@ -49,9 +52,8 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
 
     private BootstrapMethod sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         var mockBootstrapMethods = mock(BootstrapMethods_attribute.class);
         var mockBootstrapMethod = mock(MethodHandle_info.class);
 
@@ -89,14 +91,16 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
         sut = new BootstrapMethod(mockBootstrapMethods, mockIn);
     }
 
-    public void testNumArguments() {
-        assertEquals("num arguments", 3, sut.getArguments().size());
+    @Test
+    void testNumArguments() {
+        assertEquals(3, sut.getArguments().size(), "num arguments");
     }
 
-    public void testIntegerArguments() {
+    @Test
+    void testIntegerArguments() {
         checking(new Expectations() {{
             oneOf (firstArgument).getValue();
-            will(returnValue(FIRST_ARGUMENT_VALUE));
+                will(returnValue(FIRST_ARGUMENT_VALUE));
         }});
 
         int actualArgument = sut.getArguments().stream()
@@ -105,13 +109,14 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
                 .map(Integer_info::getValue)
                 .findFirst()
                 .orElseThrow();
-        assertEquals("first argument should be an int", FIRST_ARGUMENT_VALUE, actualArgument);
+        assertEquals(FIRST_ARGUMENT_VALUE, actualArgument, "first argument should be an int");
     }
 
-    public void testStringArguments() {
+    @Test
+    void testStringArguments() {
         checking(new Expectations() {{
             oneOf (secondArgument).getValue();
-            will(returnValue(SECOND_ARGUMENT_VALUE));
+                will(returnValue(SECOND_ARGUMENT_VALUE));
         }});
 
         String actualArgument = sut.getArguments().stream()
@@ -120,13 +125,14 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
                 .map(String_info::getValue)
                 .findFirst()
                 .orElseThrow();
-        assertEquals("second argument should be a String", SECOND_ARGUMENT_VALUE, actualArgument);
+        assertEquals(SECOND_ARGUMENT_VALUE, actualArgument, "second argument should be a String");
     }
 
-    public void testClassArguments() {
+    @Test
+    void testClassArguments() {
         checking(new Expectations() {{
             oneOf (thirdArgument).getName();
-            will(returnValue(THIRD_ARGUMENT_VALUE));
+                will(returnValue(THIRD_ARGUMENT_VALUE));
         }});
 
         String actualArgument = sut.getArguments().stream()
@@ -135,6 +141,6 @@ public class TestBootstrapMethodWithMultipleArguments extends TestAttributeBase 
                 .map(Class_info::getName)
                 .findFirst()
                 .orElseThrow();
-        assertEquals("third argument should be a class", THIRD_ARGUMENT_VALUE, actualArgument);
+        assertEquals(THIRD_ARGUMENT_VALUE, actualArgument, "third argument should be a class");
     }
 }

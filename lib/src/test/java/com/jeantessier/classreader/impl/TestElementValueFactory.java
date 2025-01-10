@@ -34,6 +34,10 @@ package com.jeantessier.classreader.impl;
 
 import java.io.*;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestElementValueFactory extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 1;
     private static final int CONST_VALUE = 2;
@@ -46,60 +50,64 @@ public class TestElementValueFactory extends TestAnnotationsBase {
     private static final int TYPE_INDEX = 6;
     private static final String TYPE = "Labc;";
 
-    private ElementValueFactory sut;
+    private final ElementValueFactory sut = new ElementValueFactory();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        sut = new ElementValueFactory();
-    }
-
-    public void testCreateByteConstantElementValue() throws Exception {
+    @Test
+    void testCreateByteConstantElementValue() throws Exception {
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('B', ByteConstantElementValue.class);
     }
 
-    public void testCreateCharConstantElementValue() throws Exception {
+    @Test
+    void testCreateCharConstantElementValue() throws Exception {
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('C', CharConstantElementValue.class);
     }
 
-    public void testCreateDoubleConstantElementValue() throws Exception {
+    @Test
+    void testCreateDoubleConstantElementValue() throws Exception {
         expectLookupDouble(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('D', DoubleConstantElementValue.class);
     }
 
-    public void testCreateFloatConstantElementValue() throws Exception {
+    @Test
+    void testCreateFloatConstantElementValue() throws Exception {
         expectLookupFloat(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('F', FloatConstantElementValue.class);
     }
 
-    public void testCreateIntegerConstantElementValue() throws Exception {
+    @Test
+    void testCreateIntegerConstantElementValue() throws Exception {
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('I', IntegerConstantElementValue.class);
     }
 
-    public void testCreateLongConstantElementValue() throws Exception {
+    @Test
+    void testCreateLongConstantElementValue() throws Exception {
         expectLookupLong(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('J', LongConstantElementValue.class);
     }
 
-    public void testCreateShortConstantElementValue() throws Exception {
+    @Test
+    void testCreateShortConstantElementValue() throws Exception {
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('S', ShortConstantElementValue.class);
     }
 
-    public void testCreateBooleanConstantElementValue() throws Exception {
+    @Test
+    void testCreateBooleanConstantElementValue() throws Exception {
         expectLookupInteger(CONST_VALUE_INDEX, CONST_VALUE);
         doTestCreateConstantElementValue('Z', BooleanConstantElementValue.class);
     }
 
-    public void testCreateStringConstantElementValue() throws Exception {
+    @Test
+    void testCreateStringConstantElementValue() throws Exception {
         expectLookupUtf8(CONST_VALUE_INDEX, "abc");
         doTestCreateConstantElementValue('s', StringConstantElementValue.class);
     }
 
-    public void testCreateEnumElementValue() throws Exception {
+    @Test
+    void testCreateEnumElementValue() throws Exception {
         expectReadTag('e');
         expectReadU2(TYPE_NAME_INDEX);
         expectLookupUtf8(TYPE_NAME_INDEX, ENCODED_TYPE_NAME, "lookup type name during construction");
@@ -107,56 +115,55 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectLookupUtf8(CONST_NAME_INDEX, CONST_NAME, "lookup const name during construction");
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
-        assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + EnumElementValue.class.getSimpleName(), elementValue instanceof EnumElementValue);
-        assertEquals("Type name index", TYPE_NAME_INDEX, ((EnumElementValue) elementValue).getTypeNameIndex());
-        assertEquals("Const name index", CONST_NAME_INDEX, ((EnumElementValue) elementValue).getConstNameIndex());
+        assertNotNull(elementValue, "ElementValueFactory returned null");
+        assertInstanceOf(EnumElementValue.class, elementValue);
+        assertEquals(TYPE_NAME_INDEX, ((EnumElementValue) elementValue).getTypeNameIndex(), "Type name index");
+        assertEquals(CONST_NAME_INDEX, ((EnumElementValue) elementValue).getConstNameIndex(), "Const name index");
     }
 
-    public void testCreateClassElementValue() throws Exception {
+    @Test
+    void testCreateClassElementValue() throws Exception {
         expectReadTag('c');
         expectReadClassInfoIndex(CLASS_INFO_INDEX);
         expectLookupUtf8(CLASS_INFO_INDEX, CLASS_INFO, "lookup during construction");
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
-        assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + ClassElementValue.class.getSimpleName(), elementValue instanceof ClassElementValue);
-        assertEquals("Class info index", CLASS_INFO_INDEX, ((ClassElementValue) elementValue).getClassInfoIndex());
+        assertNotNull(elementValue, "ElementValueFactory returned null");
+        assertInstanceOf(ClassElementValue.class, elementValue);
+        assertEquals(CLASS_INFO_INDEX, ((ClassElementValue) elementValue).getClassInfoIndex(), "Class info index");
     }
 
-    public void testCreateAnnotationElementValue() throws Exception {
+    @Test
+    void testCreateAnnotationElementValue() throws Exception {
         expectReadTag('@');
         expectReadTypeIndex(TYPE_INDEX);
         expectLookupUtf8(TYPE_INDEX, TYPE);
         expectReadNumElementValuePairs(0);
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
-        assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + AnnotationElementValue.class.getSimpleName(), elementValue instanceof AnnotationElementValue);
-        assertNotNull("Annotation value", ((AnnotationElementValue) elementValue).getAnnotation());
-        assertEquals("Type index", TYPE_INDEX, ((AnnotationElementValue) elementValue).getAnnotation().getTypeIndex());
-        assertEquals("Number of element value pairs", 0, ((AnnotationElementValue) elementValue).getAnnotation().getElementValuePairs().size());
+        assertNotNull(elementValue, "ElementValueFactory returned null");
+        assertInstanceOf(AnnotationElementValue.class, elementValue);
+        assertNotNull(((AnnotationElementValue) elementValue).getAnnotation(), "Annotation value");
+        assertEquals(TYPE_INDEX, ((AnnotationElementValue) elementValue).getAnnotation().getTypeIndex(), "Type index");
+        assertEquals(0, ((AnnotationElementValue) elementValue).getAnnotation().getElementValuePairs().size(), "Number of element value pairs");
     }
 
-    public void testCreateArrayElementValue() throws Exception {
+    @Test
+    void testCreateArrayElementValue() throws Exception {
         expectReadTag('[');
         expectReadNumValues(0);
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
-        assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + ArrayElementValue.class.getSimpleName(), elementValue instanceof ArrayElementValue);
-        assertEquals("Number of element values", 0, ((ArrayElementValue) elementValue).getValues().size());
+        assertNotNull(elementValue, "ElementValueFactory returned null");
+        assertInstanceOf(ArrayElementValue.class, elementValue);
+        assertEquals(0, ((ArrayElementValue) elementValue).getValues().size(), "Number of element values");
     }
 
-    public void testCreateWithUnknownTag() throws Exception {
+    @Test
+    void testCreateWithUnknownTag() throws Exception {
         expectReadTag('A');
 
-        try {
-            sut.create(mockConstantPool, mockIn);
-            fail("Did not fail on illegal tag value");
-        } catch (IOException ex) {
-            // Expected
-        }
+        assertThrows(IOException.class, () -> sut.create(mockConstantPool, mockIn));
     }
 
     private void doTestCreateConstantElementValue(char tag, Class<? extends ElementValue> elementValueClass) throws IOException {
@@ -164,8 +171,8 @@ public class TestElementValueFactory extends TestAnnotationsBase {
         expectReadU2(CONST_VALUE_INDEX);
 
         ElementValue elementValue = sut.create(mockConstantPool, mockIn);
-        assertNotNull("ElementValueFactory returned null", elementValue);
-        assertTrue("Not a " + elementValueClass.getSimpleName(), elementValueClass.isInstance(elementValue));
-        assertEquals("Const value index", CONST_VALUE_INDEX, ((ConstantElementValue) elementValue).getConstValueIndex());
+        assertNotNull(elementValue, "ElementValueFactory returned null");
+        assertInstanceOf(elementValueClass, elementValue);
+        assertEquals(CONST_VALUE_INDEX, ((ConstantElementValue) elementValue).getConstValueIndex(), "Const value index");
     }
 }

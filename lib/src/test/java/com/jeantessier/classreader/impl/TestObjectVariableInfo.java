@@ -32,20 +32,21 @@
 
 package com.jeantessier.classreader.impl;
 
-import com.jeantessier.classreader.VerificationType;
 import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestObjectVariableInfo extends TestAttributeBase {
     private static final int CLASS_INFO_INDEX = 2;
 
     private ObjectVariableInfo sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CLASS_INFO_INDEX);
 
-        final Class_info mockClassInfo = mock(Class_info.class, "lookup during construction");
+        var mockClassInfo = mock(Class_info.class, "lookup during construction");
 
         checking(new Expectations() {{
             oneOf (mockConstantPool).get(CLASS_INFO_INDEX);
@@ -55,8 +56,9 @@ public class TestObjectVariableInfo extends TestAttributeBase {
         sut = new ObjectVariableInfo(mockConstantPool, mockIn);
     }
 
-    public void testGetClassInfo() {
-        final Class_info mockClassInfo = mock(Class_info.class);
+    @Test
+    void testGetClassInfo() {
+        var mockClassInfo = mock(Class_info.class);
 
         checking(new Expectations() {{
             oneOf (mockConstantPool).get(CLASS_INFO_INDEX);

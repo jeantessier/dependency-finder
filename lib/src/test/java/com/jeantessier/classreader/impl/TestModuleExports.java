@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestModuleExports extends TestAttributeBase {
     private static final int EXPORTS_INDEX = 123;
@@ -42,9 +46,8 @@ public class TestModuleExports extends TestAttributeBase {
 
     private ModuleExports sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(EXPORTS_INDEX);
         allowingLookupPackage(EXPORTS_INDEX, PACKAGE_NAME, "exports lookup during construction");
         expectReadU2(EXPORTS_FLAGS);
@@ -53,22 +56,26 @@ public class TestModuleExports extends TestAttributeBase {
         sut = new ModuleExports(mockConstantPool, mockIn);
     }
 
-    public void testGetExportsIndex() {
-        assertEquals("exports index", EXPORTS_INDEX, sut.getExportsIndex());
+    @Test
+    void testGetExportsIndex() {
+        assertEquals(EXPORTS_INDEX, sut.getExportsIndex(), "exports index");
     }
 
-    public void testGetRawExports() {
+    @Test
+    void testGetRawExports() {
         allowingLookupPackage(EXPORTS_INDEX, PACKAGE_NAME);
-        assertNotNull("raw exports", sut.getRawExports());
+        assertNotNull(sut.getRawExports());
     }
 
-    public void testGetExports() {
+    @Test
+    void testGetExports() {
         expectLookupPackage(EXPORTS_INDEX, PACKAGE_NAME);
-        assertEquals("exports", PACKAGE_NAME, sut.getExports());
+        assertEquals(PACKAGE_NAME, sut.getExports(), "exports");
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitModuleExports(sut);

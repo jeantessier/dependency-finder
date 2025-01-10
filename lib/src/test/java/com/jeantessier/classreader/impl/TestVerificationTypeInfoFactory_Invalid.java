@@ -32,19 +32,19 @@
 
 package com.jeantessier.classreader.impl;
 
-import java.io.IOException;
+import java.io.*;
+
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestVerificationTypeInfoFactory_Invalid extends TestAttributeBase {
     private final VerificationTypeInfoFactory sut = new VerificationTypeInfoFactory();
 
-    public void testCreateWithUnknownTag() throws Exception {
+    @Test
+    void testCreateWithUnknownTag() throws Exception {
         expectReadU1(9);
 
-        try {
-            sut.create(mockConstantPool, mockIn);
-            fail("Did not fail on illegal tag value");
-        } catch (IOException ex) {
-            // Expected
-        }
+        assertThrows(IOException.class, () -> sut.create(mockConstantPool, mockIn));
     }
 }

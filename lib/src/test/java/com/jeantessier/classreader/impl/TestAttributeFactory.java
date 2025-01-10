@@ -32,66 +32,69 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestAttributeFactory extends TestAttributeBase {
     private static final int ATTRIBUTE_NAME_INDEX = 2;
 
-    private AttributeFactory sut;
+    private final AttributeFactory sut = new AttributeFactory();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        sut = new AttributeFactory();
-    }
-
-    public void testCreateRuntimeVisibleAnnotations_attribute() throws Exception {
+    @Test
+    void testCreateRuntimeVisibleAnnotations_attribute() throws Exception {
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.RUNTIME_VISIBLE_ANNOTATIONS.getAttributeName());
         expectReadAttributeLength(2);
         expectReadNumAnnotations(0);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + RuntimeVisibleAnnotations_attribute.class.getSimpleName(), RuntimeVisibleAnnotations_attribute.class.isInstance(attribute));
-        assertEquals("Num annotations", 0, ((RuntimeAnnotations_attribute) attribute).getAnnotations().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(RuntimeVisibleAnnotations_attribute.class, attribute);
+        assertEquals(0, ((RuntimeAnnotations_attribute) attribute).getAnnotations().size(), "Num annotations");
     }
 
-    public void testCreateRuntimeInvisibleAnnotations_attribute() throws Exception {
+    @Test
+    void testCreateRuntimeInvisibleAnnotations_attribute() throws Exception {
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.RUNTIME_INVISIBLE_ANNOTATIONS.getAttributeName());
         expectReadAttributeLength(2);
         expectReadNumAnnotations(0);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + RuntimeInvisibleAnnotations_attribute.class.getSimpleName(), RuntimeInvisibleAnnotations_attribute.class.isInstance(attribute));
-        assertEquals("Num annotations", 0, ((RuntimeAnnotations_attribute) attribute).getAnnotations().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(RuntimeInvisibleAnnotations_attribute.class, attribute);
+        assertEquals(0, ((RuntimeAnnotations_attribute) attribute).getAnnotations().size(), "Num annotations");
     }
 
-    public void testCreateRuntimeVisibleParameterAnnotations_attribute() throws Exception {
+    @Test
+    void testCreateRuntimeVisibleParameterAnnotations_attribute() throws Exception {
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.RUNTIME_VISIBLE_PARAMETER_ANNOTATIONS.getAttributeName());
         expectReadAttributeLength(2);
         expectReadNumParameters(0);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + RuntimeVisibleParameterAnnotations_attribute.class.getSimpleName(), RuntimeVisibleParameterAnnotations_attribute.class.isInstance(attribute));
-        assertEquals("Num parameter annotations", 0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(RuntimeVisibleParameterAnnotations_attribute.class, attribute);
+        assertEquals(0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size(), "Num parameter annotations");
     }
 
-    public void testCreateRuntimeInvisibleParameterAnnotations_attribute() throws Exception {
+    @Test
+    void testCreateRuntimeInvisibleParameterAnnotations_attribute() throws Exception {
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS.getAttributeName());
         expectReadAttributeLength(2);
         expectReadNumParameters(0);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + RuntimeInvisibleParameterAnnotations_attribute.class.getSimpleName(), RuntimeInvisibleParameterAnnotations_attribute.class.isInstance(attribute));
-        assertEquals("Num parameter annotations", 0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(RuntimeInvisibleParameterAnnotations_attribute.class, attribute);
+        assertEquals(0, ((RuntimeParameterAnnotations_attribute) attribute).getParameterAnnotations().size(), "Num parameter annotations");
     }
 
-    public void testCreateAnnotationDefault_attribute() throws Exception {
+    @Test
+    void testCreateAnnotationDefault_attribute() throws Exception {
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.ANNOTATION_DEFAULT.getAttributeName());
         expectReadAttributeLength(3);
@@ -100,19 +103,20 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectLookupInteger(2, 3);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + AnnotationDefault_attribute.class.getSimpleName(), AnnotationDefault_attribute.class.isInstance(attribute));
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(AnnotationDefault_attribute.class, attribute);
         ElementValue elementValue = ((AnnotationDefault_attribute) attribute).getElemementValue();
-        assertNotNull("Element value is null", elementValue);
-        assertTrue("Element value not the expected " + ByteConstantElementValue.class.getSimpleName(), ByteConstantElementValue.class.isInstance(elementValue));
+        assertNotNull(elementValue, "Element value is null");
+        assertInstanceOf(ByteConstantElementValue.class, elementValue);
     }
 
-    public void testCreateModule_attribute() throws Exception {
-        final int moduleNameIndex = 123;
-        final String moduleName = "abc";
-        final int moduleFlags = 456;
-        final int moduleVersionIndex = 789;
-        final String moduleVersion = "blah";
+    @Test
+    void testCreateModule_attribute() throws Exception {
+        var moduleNameIndex = 123;
+        var moduleName = "abc";
+        var moduleFlags = 456;
+        var moduleVersionIndex = 789;
+        var moduleVersion = "blah";
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.MODULE.getAttributeName(), "attribute name");
@@ -129,13 +133,14 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadU2(0);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + Module_attribute.class.getSimpleName(), Module_attribute.class.isInstance(attribute));
-        assertEquals("Module name index", moduleNameIndex, ((Module_attribute) attribute).getModuleNameIndex());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(Module_attribute.class, attribute);
+        assertEquals(moduleNameIndex, ((Module_attribute) attribute).getModuleNameIndex(), "Module name index");
     }
 
-    public void testCreateModulePackages_attribute() throws Exception {
-        final int numPackages = 0;
+    @Test
+    void testCreateModulePackages_attribute() throws Exception {
+        var numPackages = 0;
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.MODULE_PACKAGES.getAttributeName(), "attribute name");
@@ -143,14 +148,15 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadU2(numPackages);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + ModulePackages_attribute.class.getSimpleName(), ModulePackages_attribute.class.isInstance(attribute));
-        assertEquals("number of packages", numPackages, ((ModulePackages_attribute) attribute).getPackages().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(ModulePackages_attribute.class, attribute);
+        assertEquals(numPackages, ((ModulePackages_attribute) attribute).getPackages().size(), "number of packages");
     }
 
-    public void testCreateModuleMainClass_attribute() throws Exception {
-        final int mainClassIndex = 123;
-        final String mainClassName = "Abc";
+    @Test
+    void testCreateModuleMainClass_attribute() throws Exception {
+        var mainClassIndex = 123;
+        var mainClassName = "Abc";
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.MODULE_MAIN_CLASS.getAttributeName(), "attribute name");
@@ -159,14 +165,15 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectLookupClass(mainClassIndex, mainClassName, "lookup during construction");
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + ModuleMainClass_attribute.class.getSimpleName(), ModuleMainClass_attribute.class.isInstance(attribute));
-        assertEquals("main class index", mainClassIndex, ((ModuleMainClass_attribute) attribute).getMainClassIndex());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(ModuleMainClass_attribute.class, attribute);
+        assertEquals(mainClassIndex, ((ModuleMainClass_attribute) attribute).getMainClassIndex(), "main class index");
     }
 
-    public void testCreateNestHost_attribute() throws Exception {
-        final int hostClassIndex = 123;
-        final String hostClassName = "Abc";
+    @Test
+    void testCreateNestHost_attribute() throws Exception {
+        var hostClassIndex = 123;
+        var hostClassName = "Abc";
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.NEST_HOST.getAttributeName(), "attribute name");
@@ -175,13 +182,14 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectLookupClass(hostClassIndex, hostClassName, "lookup during construction");
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + NestHost_attribute.class.getSimpleName(), NestHost_attribute.class.isInstance(attribute));
-        assertEquals("host class index", hostClassIndex, ((NestHost_attribute) attribute).getHostClassIndex());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(NestHost_attribute.class, attribute);
+        assertEquals(hostClassIndex, ((NestHost_attribute) attribute).getHostClassIndex(), "host class index");
     }
 
-    public void testCreateNestMembers_attribute() throws Exception {
-        final int numNestMembers = 0;
+    @Test
+    void testCreateNestMembers_attribute() throws Exception {
+        var numNestMembers = 0;
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.NEST_MEMBERS.getAttributeName(), "attribute name");
@@ -189,13 +197,14 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadU2(numNestMembers);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + NestMembers_attribute.class.getSimpleName(), NestMembers_attribute.class.isInstance(attribute));
-        assertEquals("number of nest members", numNestMembers, ((NestMembers_attribute) attribute).getMembers().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(NestMembers_attribute.class, attribute);
+        assertEquals(numNestMembers, ((NestMembers_attribute) attribute).getMembers().size(), "number of nest members");
     }
 
-    public void testCreateRecord_attribute() throws Exception {
-        final int numRecordComponents = 0;
+    @Test
+    void testCreateRecord_attribute() throws Exception {
+        var numRecordComponents = 0;
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.RECORD.getAttributeName(), "attribute name");
@@ -203,13 +212,14 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadU2(numRecordComponents);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + Record_attribute.class.getSimpleName(), Record_attribute.class.isInstance(attribute));
-        assertEquals("number of record components", numRecordComponents, ((Record_attribute) attribute).getRecordComponents().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(Record_attribute.class, attribute);
+        assertEquals(numRecordComponents, ((Record_attribute) attribute).getRecordComponents().size(), "number of record components");
     }
 
-    public void testCreatePermittedSubclasses_attribute() throws Exception {
-        final int numSubclasses = 0;
+    @Test
+    void testCreatePermittedSubclasses_attribute() throws Exception {
+        var numSubclasses = 0;
 
         expectReadU2(ATTRIBUTE_NAME_INDEX);
         expectLookupUtf8(ATTRIBUTE_NAME_INDEX, AttributeType.PERMITTED_SUBCLASSES.getAttributeName(), "attribute name");
@@ -217,8 +227,8 @@ public class TestAttributeFactory extends TestAttributeBase {
         expectReadU2(numSubclasses);
 
         Attribute_info attribute = sut.create(mockConstantPool, mockOwner, mockIn);
-        assertNotNull("AttributeFactory returned null", attribute);
-        assertTrue("Not a " + PermittedSubclasses_attribute.class.getSimpleName(), PermittedSubclasses_attribute.class.isInstance(attribute));
-        assertEquals("number of subclasses", numSubclasses, ((PermittedSubclasses_attribute) attribute).getSubclasses().size());
+        assertNotNull(attribute, "AttributeFactory returned null");
+        assertInstanceOf(PermittedSubclasses_attribute.class, attribute);
+        assertEquals(numSubclasses, ((PermittedSubclasses_attribute) attribute).getSubclasses().size(), "number of subclasses");
     }
 }

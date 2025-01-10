@@ -32,8 +32,12 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
 import com.jeantessier.classreader.Visitor;
-import org.jmock.Expectations;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestNestHost_attribute extends TestAttributeBase {
     private static final int HOST_CLASS_INDEX = 123;
@@ -41,9 +45,8 @@ public class TestNestHost_attribute extends TestAttributeBase {
 
     private NestHost_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(2);
         expectReadU2(HOST_CLASS_INDEX);
         allowingLookupClass(HOST_CLASS_INDEX, HOST_CLASS_NAME, "lookup during construction");
@@ -51,21 +54,25 @@ public class TestNestHost_attribute extends TestAttributeBase {
         sut = new NestHost_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetHostClassIndex() {
-        assertEquals("host class index", HOST_CLASS_INDEX, sut.getHostClassIndex());
+    @Test
+    void testGetHostClassIndex() {
+        assertEquals(HOST_CLASS_INDEX, sut.getHostClassIndex(), "host class index");
     }
 
-    public void testGetMainClass() {
+    @Test
+    void testGetMainClass() {
         expectLookupClass(HOST_CLASS_INDEX, HOST_CLASS_NAME);
-        assertEquals("host class", HOST_CLASS_NAME, sut.getHostClass());
+        assertEquals(HOST_CLASS_NAME, sut.getHostClass(), "host class");
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.NEST_HOST.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitNestHost_attribute(sut);

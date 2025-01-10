@@ -32,20 +32,23 @@
 
 package com.jeantessier.classreader.impl;
 
-import org.jmock.Expectations;
+import org.jmock.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestStackMapTable_attributeWithStackMapFrames extends TestAttributeBase {
     private StackMapFrameFactory mockStackMapFrameFactory;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         mockStackMapFrameFactory = mock(StackMapFrameFactory.class);
 
         expectReadAttributeLength(2);
     }
 
-    public void testOneEntry() throws Exception {
+    @Test
+    void testOneEntry() throws Exception {
         // Given
         final StackMapFrame mockStackMapFrame = mock(StackMapFrame.class);
         expectReadU2(1);
@@ -58,11 +61,12 @@ public class TestStackMapTable_attributeWithStackMapFrames extends TestAttribute
         var sut = new StackMapTable_attribute(mockConstantPool, mockOwner, mockIn, mockStackMapFrameFactory);
 
         // Then
-        assertEquals("entries", 1, sut.getEntries().size());
+        assertEquals(1, sut.getEntries().size(), "entries");
         assertSame(mockStackMapFrame, sut.getEntries().stream().findFirst().orElseThrow());
     }
 
-    public void testMultipleEntries() throws Exception {
+    @Test
+    void testMultipleEntries() throws Exception {
         // Given
         final StackMapFrame mockStackMapFrame1 = mock(StackMapFrame.class, "first frame");
         final StackMapFrame mockStackMapFrame2 = mock(StackMapFrame.class, "second frame");
@@ -78,7 +82,7 @@ public class TestStackMapTable_attributeWithStackMapFrames extends TestAttribute
         var sut = new StackMapTable_attribute(mockConstantPool, mockOwner, mockIn, mockStackMapFrameFactory);
 
         // Then
-        assertEquals("entries", 2, sut.getEntries().size());
+        assertEquals(2, sut.getEntries().size(), "entries");
         assertSame(mockStackMapFrame1, sut.getEntries().stream().findFirst().orElseThrow());
         assertSame(mockStackMapFrame2, sut.getEntries().stream().skip(1).findFirst().orElseThrow());
     }

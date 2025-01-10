@@ -32,6 +32,10 @@
 
 package com.jeantessier.classreader.impl;
 
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestModule_attributeWithModuleRequires extends TestAttributeBase {
     private static final int MODULE_NAME_INDEX = 123;
     private static final String MODULE_NAME = "abc";
@@ -43,7 +47,8 @@ public class TestModule_attributeWithModuleRequires extends TestAttributeBase {
     private static final int USES_COUNT = 0;
     private static final int PROVIDES_COUNT = 0;
 
-    public void testOneRequires() throws Exception {
+    @Test
+    void testOneRequires() throws Exception {
         // Given
         expectReadAttributeLength(22);
         expectReadU2(MODULE_NAME_INDEX);
@@ -80,19 +85,11 @@ public class TestModule_attributeWithModuleRequires extends TestAttributeBase {
         var actualRequires = sut.getRequires();
 
         //Then
-        assertEquals("number of requires", requiresCount, actualRequires.size());
-
-        // And
-        assertEquals(
-                "requires",
-                requiresIndex,
-                actualRequires.stream()
-                        .mapToInt(ModuleRequires::getRequiresIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {requiresIndex}, actualRequires.stream().mapToInt(ModuleRequires::getRequiresIndex).toArray());
     }
 
-    public void testMultipleRequires() throws Exception {
+    @Test
+    void testMultipleRequires() throws Exception {
         // Given
         expectReadAttributeLength(28);
         expectReadU2(MODULE_NAME_INDEX);
@@ -101,13 +98,12 @@ public class TestModule_attributeWithModuleRequires extends TestAttributeBase {
         expectReadU2(MODULE_VERSION_INDEX);
         allowingLookupUtf8(MODULE_VERSION_INDEX, MODULE_VERSION, "module version lookup during construction");
 
-        // And
+        // and
         var requiresCount = 2;
         expectReadU2(requiresCount);
 
-        // And
+        // and
         var requiresIndex1 = 234;
-        var requires1 = "def";
         var requiresFlags1 = 567;
         var requiresVersionIndex1 = 890;
         var requiresVersion1 = "blah";
@@ -117,7 +113,7 @@ public class TestModule_attributeWithModuleRequires extends TestAttributeBase {
         expectReadU2(requiresVersionIndex1);
         allowingLookupUtf8(requiresVersionIndex1, requiresVersion1, "first requires version lookup during construction");
 
-        // And
+        // and
         var requiresIndex2 = 345;
         var requiresFlags2 = 678;
         var requiresVersionIndex2 = 909;
@@ -128,34 +124,19 @@ public class TestModule_attributeWithModuleRequires extends TestAttributeBase {
         expectReadU2(requiresVersionIndex2);
         allowingLookupUtf8(requiresVersionIndex2, requiresVersion2, "second requires version lookup during construction");
 
-        // And
+        // and
         expectReadU2(EXPORTS_COUNT);
         expectReadU2(OPENS_COUNT);
         expectReadU2(USES_COUNT);
         expectReadU2(PROVIDES_COUNT);
 
-        // And
+        // and
         var sut = new Module_attribute(mockConstantPool, mockOwner, mockIn);
 
         // When
         var actualRequires = sut.getRequires();
 
         //Then
-        assertEquals("number of requires", requiresCount, actualRequires.size());
-        assertEquals(
-                "first requires",
-                requiresIndex1,
-                actualRequires.stream()
-                        .mapToInt(ModuleRequires::getRequiresIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "second requires",
-                requiresIndex2,
-                actualRequires.stream()
-                        .skip(1)
-                        .mapToInt(ModuleRequires::getRequiresIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {requiresIndex1, requiresIndex2}, actualRequires.stream().mapToInt(ModuleRequires::getRequiresIndex).toArray());
     }
 }

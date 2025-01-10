@@ -33,19 +33,21 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.AttributeType;
 import com.jeantessier.classreader.Integer_info;
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestConstantValue_attribute extends TestAttributeBase {
     private static final int CONSTANT_VALUE_INDEX = 2;
 
     private ConstantValue_attribute sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadAttributeLength(2);
         expectReadU2(CONSTANT_VALUE_INDEX);
         expectLookupRawValue(CONSTANT_VALUE_INDEX, mock(Integer_info.class, "lookup during construction"));
@@ -53,22 +55,26 @@ public class TestConstantValue_attribute extends TestAttributeBase {
         sut = new ConstantValue_attribute(mockConstantPool, mockOwner, mockIn);
     }
 
-    public void testGetValueIndex() {
+    @Test
+    void testGetValueIndex() {
         assertEquals(CONSTANT_VALUE_INDEX, sut.getValueIndex());
     }
 
-    public void testGetRawValue() {
+    @Test
+    void testGetRawValue() {
         Integer_info mockInteger_info = mock(Integer_info.class);
         expectLookupRawValue(CONSTANT_VALUE_INDEX, mockInteger_info);
         assertSame(mockInteger_info, sut.getRawValue());
     }
 
-    public void testGetAttributeName() {
+    @Test
+    void testGetAttributeName() {
         assertEquals(AttributeType.CONSTANT_VALUE.getAttributeName(), sut.getAttributeName());
     }
 
-    public void testAccept() {
-        final Visitor mockVisitor = mock(Visitor.class);
+    @Test
+    void testAccept() {
+        var mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
             oneOf (mockVisitor).visitConstantValue_attribute(sut);
@@ -77,7 +83,7 @@ public class TestConstantValue_attribute extends TestAttributeBase {
         sut.accept(mockVisitor);
     }
 
-    private void expectLookupRawValue(final int index, final Integer_info mockInteger_info) {
+    private void expectLookupRawValue(int index, Integer_info mockInteger_info) {
         checking(new Expectations() {{
             oneOf (mockConstantPool).get(index);
                 will(returnValue(mockInteger_info));

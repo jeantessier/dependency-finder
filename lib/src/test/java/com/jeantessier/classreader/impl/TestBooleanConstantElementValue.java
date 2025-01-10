@@ -33,43 +33,50 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBooleanConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
 
     private BooleanConstantElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CONST_VALUE_INDEX);
         expectLookupInteger(CONST_VALUE_INDEX, 3, "lookup during construction");
 
         sut = new BooleanConstantElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetConstValueFalse() {
+    @Test
+    void testGetConstValueFalse() {
         expectLookupInteger(CONST_VALUE_INDEX, 0);
         assertFalse(sut.getConstValue());
     }
 
-    public void testGetConstValueTrue() {
+    @Test
+    void testGetConstValueTrue() {
         expectLookupInteger(CONST_VALUE_INDEX, 1);
         assertTrue(sut.getConstValue());
     }
 
-    public void testGetConstValueGreaterThanOneMeansTrue() {
+    @Test
+    void testGetConstValueGreaterThanOneMeansTrue() {
         expectLookupInteger(CONST_VALUE_INDEX, 2);
         assertTrue(sut.getConstValue());
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.BOOLEAN.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{

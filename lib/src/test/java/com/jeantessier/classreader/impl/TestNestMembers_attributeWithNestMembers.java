@@ -32,13 +32,18 @@
 
 package com.jeantessier.classreader.impl;
 
-public class TestNestMembers_attributeWithNestMembers extends TestAttributeBase {
-    public void testWithOneNestMember() throws Exception {
-        // Given
-        final int classNameIndex = 123;
-        final String className = "Abc";
+import org.junit.jupiter.api.*;
 
-        // And
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestNestMembers_attributeWithNestMembers extends TestAttributeBase {
+    @Test
+    void testWithOneNestMember() throws Exception {
+        // Given
+        var classNameIndex = 123;
+        var className = "Abc";
+
+        // and
         expectReadAttributeLength(4);
         expectReadU2(1);
         expectReadU2(classNameIndex);
@@ -48,26 +53,20 @@ public class TestNestMembers_attributeWithNestMembers extends TestAttributeBase 
         var sut = new NestMembers_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num nest members", 1, sut.getMembers().size());
-        assertEquals(
-                "member class index",
-                classNameIndex,
-                sut.getMembers().stream()
-                        .mapToInt(NestMember::getMemberClassIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {classNameIndex}, sut.getMembers().stream().mapToInt(NestMember::getMemberClassIndex).toArray());
     }
 
-    public void testWithMultipleNestMembers() throws Exception {
+    @Test
+    void testWithMultipleNestMembers() throws Exception {
         // Given
-        final int classNameIndex1 = 123;
-        final String className1 = "Abc";
+        var classNameIndex1 = 123;
+        var className1 = "Abc";
 
-        // And
-        final int classNameIndex2 = 456;
-        final String className2 = "Def";
+        // and
+        var classNameIndex2 = 456;
+        var className2 = "Def";
 
-        // And
+        // and
         expectReadAttributeLength(6);
         expectReadU2(2);
         expectReadU2(classNameIndex1);
@@ -79,21 +78,6 @@ public class TestNestMembers_attributeWithNestMembers extends TestAttributeBase 
         var sut = new NestMembers_attribute(mockConstantPool, mockOwner, mockIn);
 
         // Then
-        assertEquals("num nest members", 2, sut.getMembers().size());
-        assertEquals(
-                "member class index",
-                classNameIndex1,
-                sut.getMembers().stream()
-                        .mapToInt(NestMember::getMemberClassIndex)
-                        .findFirst()
-                        .orElseThrow());
-        assertEquals(
-                "member class index",
-                classNameIndex2,
-                sut.getMembers().stream()
-                        .skip(1)
-                        .mapToInt(NestMember::getMemberClassIndex)
-                        .findFirst()
-                        .orElseThrow());
+        assertArrayEquals(new int[] {classNameIndex1, classNameIndex2}, sut.getMembers().stream().mapToInt(NestMember::getMemberClassIndex).toArray());
     }
 }

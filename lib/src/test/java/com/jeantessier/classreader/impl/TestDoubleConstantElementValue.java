@@ -33,8 +33,11 @@
 package com.jeantessier.classreader.impl;
 
 import org.jmock.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.classreader.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDoubleConstantElementValue extends TestAnnotationsBase {
     private static final int CONST_VALUE_INDEX = 2;
@@ -42,25 +45,27 @@ public class TestDoubleConstantElementValue extends TestAnnotationsBase {
 
     private DoubleConstantElementValue sut;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @BeforeEach
+    void setUp() throws Exception {
         expectReadU2(CONST_VALUE_INDEX);
         expectLookupDouble(CONST_VALUE_INDEX, CONST_VALUE, "lookup during construction");
 
         sut = new DoubleConstantElementValue(mockConstantPool, mockIn);
     }
 
-    public void testGetConstValue() {
+    @Test
+    void testGetConstValue() {
         expectLookupDouble(CONST_VALUE_INDEX, CONST_VALUE);
         assertEquals(CONST_VALUE, sut.getConstValue(), 0.001);
     }
 
-    public void testGetTag() {
+    @Test
+    void testGetTag() {
         assertEquals(ElementValueType.DOUBLE.getTag(), sut.getTag());
     }
 
-    public void testAccept() {
+    @Test
+    void testAccept() {
         final Visitor mockVisitor = mock(Visitor.class);
 
         checking(new Expectations() {{
