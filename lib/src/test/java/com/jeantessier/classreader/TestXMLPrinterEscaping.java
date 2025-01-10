@@ -32,47 +32,34 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
+import java.util.stream.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
-@RunWith(Parameterized.class)
 public class TestXMLPrinterEscaping {
-    @Parameters(name="Escaping {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"normal characters", "abcdef", "abcdef"},
-                {"entities", "<abc>", "&lt;abc&gt;"},
-                {"low value characters", "\u0005", "<![CDATA[&#x5;]]>"},
-                {"high value characters", "\u0080", "<![CDATA[&#x80;]]>"},
-                {"very high value characters", "\u00ff", "<![CDATA[&#xFF;]]>"},
-                {"multi-byte characters", "\u1aff", "<![CDATA[&#x1AFF;]]>"},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("normal characters", "abcdef", "abcdef"),
+                arguments("entities", "<abc>", "&lt;abc&gt;"),
+                arguments("low value characters", "\u0005", "<![CDATA[&#x5;]]>"),
+                arguments("high value characters", "\u0080", "<![CDATA[&#x80;]]>"),
+                arguments("very high value characters", "\u00ff", "<![CDATA[&#xFF;]]>"),
+                arguments("multi-byte characters", "\u1aff", "<![CDATA[&#x1AFF;]]>")
+        );
     }
 
-    @Parameter(0)
-    public String label;
+    private final XMLPrinter sut = new XMLPrinter(new PrintWriter(new StringWriter()));
 
-    @Parameter(1)
-    public String text;
-
-    @Parameter(2)
-    public String expectedResult;
-
-    private XMLPrinter sut;
-
-    @Before
-    public void setUp() {
-        sut = new XMLPrinter(new PrintWriter(new StringWriter()));
-    }
-
-    @Test
-    public void testEscapeXMLCharacters() {
-        assertEquals("text", expectedResult, sut.escapeXMLCharacters(text));
+    @DisplayName("XMLPrinter")
+    @ParameterizedTest(name="with {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testEscapeXMLCharacters(String variation, String text, String expectedResult) {
+        assertEquals(expectedResult, sut.escapeXMLCharacters(text));
     }
 }

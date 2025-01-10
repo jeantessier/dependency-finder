@@ -32,48 +32,38 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestTypePathKind_forTypePathKind {
-    @Parameters(name="TypePathKind from value {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-            {"0", 0, TypePathKind.DEEPER_IN_ARRAY_TYPE},
-            {"1", 1, TypePathKind.DEEPER_IN_NESTED_TYPE},
-            {"2", 2, TypePathKind.BOUND_OF_A_WILDCARD_TYPE_ARGUMENT},
-            {"3", 3, TypePathKind.TYPE_ARGUMENT},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+            arguments("0", 0, TypePathKind.DEEPER_IN_ARRAY_TYPE),
+            arguments("1", 1, TypePathKind.DEEPER_IN_NESTED_TYPE),
+            arguments("2", 2, TypePathKind.BOUND_OF_A_WILDCARD_TYPE_ARGUMENT),
+            arguments("3", 3, TypePathKind.TYPE_ARGUMENT)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int typePathKind;
-
-    @Parameter(2)
-    public TypePathKind expectedResult;
-
-    private TypePathKind sut;
-
-    @Before
-    public void setUp() {
-        sut = TypePathKind.forTypePathKind(typePathKind);
+    @DisplayName("TargetType")
+    @ParameterizedTest(name="enum value for {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testEnumValue(String variation, int typePathKind, TypePathKind expectedResult) {
+        var sut = TypePathKind.forTypePathKind(typePathKind);
+        assertEquals(expectedResult, sut);
     }
 
-    @Test
-    public void testEnumValue() {
-        assertEquals(label, expectedResult, sut);
-    }
-
-    @Test
-    public void testRawValue() {
-        assertEquals(label, typePathKind, sut.getTypePathKind());
+    @DisplayName("TargetType")
+    @ParameterizedTest(name="raw value for {0} should be {1}")
+    @MethodSource("dataProvider")
+    public void testRawValue(String variation, int typePathKind, TypePathKind expectedResult) {
+        var sut = TypePathKind.forTypePathKind(typePathKind);
+        assertEquals(typePathKind, sut.getTypePathKind());
     }
 }

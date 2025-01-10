@@ -43,7 +43,7 @@ import org.junit.jupiter.params.provider.*;
 import java.io.*;
 import java.util.stream.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.*;
 
 public class TestInterfaceMethodRef_info_NameAndType {
@@ -123,25 +123,25 @@ public class TestInterfaceMethodRef_info_NameAndType {
 
         context.checking(new Expectations() {{
             oneOf (mockIn).readUnsignedShort();
-            inSequence(dataReads);
-            will(returnValue(CLASS_INDEX));
+                inSequence(dataReads);
+                will(returnValue(CLASS_INDEX));
             oneOf (mockIn).readUnsignedShort();
-            inSequence(dataReads);
-            will(returnValue(NAME_AND_TYPE_INDEX));
+                inSequence(dataReads);
+                will(returnValue(NAME_AND_TYPE_INDEX));
 
             allowing (mockConstantPool).get(CLASS_INDEX);
-            will(returnValue(mockClass_info));
+                will(returnValue(mockClass_info));
             allowing (mockClass_info).getName();
-            will(returnValue(CLASS));
+                will(returnValue(CLASS));
             allowing (mockClass_info).getSimpleName();
-            will(returnValue(CLASS));
+                will(returnValue(CLASS));
 
             allowing (mockConstantPool).get(NAME_AND_TYPE_INDEX);
-            will(returnValue(mockNameAndType_info));
+                will(returnValue(mockNameAndType_info));
             allowing (mockNameAndType_info).getName();
-            will(returnValue(NAME));
+                will(returnValue(NAME));
             allowing (mockNameAndType_info).getType();
-            will(returnValue(type));
+                will(returnValue(type));
         }});
 
         return new InterfaceMethodRef_info(mockConstantPool, mockIn);

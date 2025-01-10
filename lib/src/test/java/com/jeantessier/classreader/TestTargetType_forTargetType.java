@@ -32,71 +32,64 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestTargetType_forTargetType {
-    @Parameters(name="TargetType from value {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-            {"0x00", 0x00, TargetType.PARAMETER_OF_CLASS},
-            {"0x01", 0x01, TargetType.PARAMETER_OF_GENERIC_METHOD},
-            {"0x10", 0x10, TargetType.EXTENDS_OR_IMPLEMENTS},
-            {"0x11", 0x11, TargetType.BOUND_GENERIC_CLASS},
-            {"0x12", 0x12, TargetType.BOUND_GENERIC_METHOD},
-            {"0x13", 0x13, TargetType.FIELD},
-            {"0x14", 0x14, TargetType.RETURN_TYPE},
-            {"0x15", 0x15, TargetType.RECEIVER},
-            {"0x16", 0x16, TargetType.FORMAL_PARAMETER_OF_METHOD},
-            {"0x17", 0x17, TargetType.THROWS_CLAUSE},
-            {"0x40", 0x40, TargetType.LOCAL_VARIABLE},
-            {"0x41", 0x41, TargetType.RESOURCE_VARIABLE},
-            {"0x42", 0x42, TargetType.EXCEPTION_PARAMETER},
-            {"0x43", 0x43, TargetType.INSTANCEOF_EXPRESSION},
-            {"0x44", 0x44, TargetType.NEW_EXPRESSION},
-            {"0x45", 0x45, TargetType.METHOD_REFERENCE_USING_NEW},
-            {"0x46", 0x46, TargetType.METHOD_REFERENCE_USING_IDENTIFIER},
-            {"0x47", 0x47, TargetType.CAST_EXPRESSION},
-            {"0x48", 0x48, TargetType.ARGUMENT_FOR_GENERIC_CONSTRUCTOR},
-            {"0x49", 0x49, TargetType.ARGUMENT_FOR_GENERIC_METHOD_INVOCATION},
-            {"0x4A", 0x4A, TargetType.ARGUMENT_FOR_GENERIC_CONSTRUCTOR_USING_NEW},
-            {"0x4B", 0x4B, TargetType.ARGUMENT_FOR_GENERIC_METHOD_REFERENCE_USING_IDENTIFIER},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+            arguments("0x00", 0x00, TargetType.PARAMETER_OF_CLASS),
+            arguments("0x01", 0x01, TargetType.PARAMETER_OF_GENERIC_METHOD),
+            arguments("0x10", 0x10, TargetType.EXTENDS_OR_IMPLEMENTS),
+            arguments("0x11", 0x11, TargetType.BOUND_GENERIC_CLASS),
+            arguments("0x12", 0x12, TargetType.BOUND_GENERIC_METHOD),
+            arguments("0x13", 0x13, TargetType.FIELD),
+            arguments("0x14", 0x14, TargetType.RETURN_TYPE),
+            arguments("0x15", 0x15, TargetType.RECEIVER),
+            arguments("0x16", 0x16, TargetType.FORMAL_PARAMETER_OF_METHOD),
+            arguments("0x17", 0x17, TargetType.THROWS_CLAUSE),
+            arguments("0x40", 0x40, TargetType.LOCAL_VARIABLE),
+            arguments("0x41", 0x41, TargetType.RESOURCE_VARIABLE),
+            arguments("0x42", 0x42, TargetType.EXCEPTION_PARAMETER),
+            arguments("0x43", 0x43, TargetType.INSTANCEOF_EXPRESSION),
+            arguments("0x44", 0x44, TargetType.NEW_EXPRESSION),
+            arguments("0x45", 0x45, TargetType.METHOD_REFERENCE_USING_NEW),
+            arguments("0x46", 0x46, TargetType.METHOD_REFERENCE_USING_IDENTIFIER),
+            arguments("0x47", 0x47, TargetType.CAST_EXPRESSION),
+            arguments("0x48", 0x48, TargetType.ARGUMENT_FOR_GENERIC_CONSTRUCTOR),
+            arguments("0x49", 0x49, TargetType.ARGUMENT_FOR_GENERIC_METHOD_INVOCATION),
+            arguments("0x4A", 0x4A, TargetType.ARGUMENT_FOR_GENERIC_CONSTRUCTOR_USING_NEW),
+            arguments("0x4B", 0x4B, TargetType.ARGUMENT_FOR_GENERIC_METHOD_REFERENCE_USING_IDENTIFIER)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int targetType;
-
-    @Parameter(2)
-    public TargetType expectedResult;
-
-    private TargetType sut;
-
-    @Before
-    public void setUp() {
-        sut = TargetType.forTargetType(targetType);
+    @DisplayName("TargetType")
+    @ParameterizedTest(name="enum value for {0} should be {2}")
+    @MethodSource("dataProvider")
+    public void testEnumValue(String variation, int targetType, TargetType expectedResult) {
+        var sut = TargetType.forTargetType(targetType);
+        assertEquals(expectedResult, sut);
     }
 
-    @Test
-    public void testEnumValue() {
-        assertEquals(label, expectedResult, sut);
+    @DisplayName("TargetType")
+    @ParameterizedTest(name="raw value for {0} should be {1}")
+    @MethodSource("dataProvider")
+    public void testRawValue(String variation, int targetType, TargetType expectedResult) {
+        var sut = TargetType.forTargetType(targetType);
+        assertEquals(targetType, sut.getTargetType());
     }
 
-    @Test
-    public void testRawValue() {
-        assertEquals(label, targetType, sut.getTargetType());
-    }
-
-    @Test
-    public void testHexValue() {
-        assertEquals(label, sut.getHexTargetType());
+    @DisplayName("TargetType")
+    @ParameterizedTest(name="hex value for {0} should be {0}")
+    @MethodSource("dataProvider")
+    public void testHexValue(String variation, int targetType, TargetType expectedResult) {
+        var sut = TargetType.forTargetType(targetType);
+        assertEquals(variation, sut.getHexTargetType());
     }
 }

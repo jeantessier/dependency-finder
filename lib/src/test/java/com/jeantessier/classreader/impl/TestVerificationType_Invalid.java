@@ -32,10 +32,13 @@
 
 package com.jeantessier.classreader.impl;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestVerificationType_Invalid extends TestCase {
-    public void testNullToString() {
-        assertNull("Tag value of 9", VerificationType.forTag(9));
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestVerificationType_Invalid {
+    @Test
+    void testNullToString() {
+        assertNull(VerificationType.forTag(9), "Tag value of 9");
     }
 }

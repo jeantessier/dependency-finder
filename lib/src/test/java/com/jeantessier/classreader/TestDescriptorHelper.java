@@ -32,43 +32,38 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestDescriptorHelper {
-    @Parameters(name="SignatureHelper for \"{0}\" should be \"{1}\" with parameter count {2}")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"()V", "()", 0},
-                {"(I)V", "(int)", 1},
-                {"(II)V", "(int, int)", 2},
-                {"([I)V", "(int[])", 1},
-                {"(Ljava/lang/Object;)V", "(java.lang.Object)", 1},
-                {"([Ljava/lang/Object;)V", "(java.lang.Object[])", 1},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("()V", "()", 0),
+                arguments("(I)V", "(int)", 1),
+                arguments("(II)V", "(int, int)", 2),
+                arguments("([I)V", "(int[])", 1),
+                arguments("(Ljava/lang/Object;)V", "(java.lang.Object)", 1),
+                arguments("([Ljava/lang/Object;)V", "(java.lang.Object[])", 1)
+        );
     }
 
-    @Parameter(0)
-    public String descriptor;
-
-    @Parameter(1)
-    public String expectedSignature;
-
-    @Parameter(2)
-    public int expectedParameterCount;
-
-    @Test
-    public void testGetSignature() {
-        assertEquals(expectedSignature, SignatureHelper.getSignature(descriptor));
+    @DisplayName("DescriptorHelper")
+    @ParameterizedTest(name="signature for \"{0}\" should be \"{1}\"")
+    @MethodSource("dataProvider")
+    public void testGetSignature(String descriptor, String expectedSignature, int expectedParameterCount) {
+        assertEquals(expectedSignature, DescriptorHelper.getSignature(descriptor));
     }
 
-    @Test
-    public void testGetParameterCount() {
-        assertEquals(expectedParameterCount, SignatureHelper.getParameterCount(descriptor));
+    @DisplayName("DescriptorHelper")
+    @ParameterizedTest(name="parameter count for \"{0}\" should be {2}")
+    @MethodSource("dataProvider")
+    public void testGetParameterCount(String descriptor, String expectedSignature, int expectedParameterCount) {
+        assertEquals(expectedParameterCount, DescriptorHelper.getParameterCount(descriptor));
     }
 }

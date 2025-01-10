@@ -32,42 +32,35 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestVerificationType {
-    @Parameters(name="VerificationType from tag {0}")
-    public static Object[][] data() {
-        return new Object[][] {
-            {"ITEM_Top", 0, VerificationType.TOP},
-            {"ITEM_Integer", 1, VerificationType.INTEGER},
-            {"ITEM_Float", 2, VerificationType.FLOAT},
-            {"ITEM_Null", 5, VerificationType.NULL},
-            {"ITEM_UninitializedThis", 6, VerificationType.UNINITIALIZED_THIS},
-            {"ITEM_Object", 7, VerificationType.OBJECT},
-            {"ITEM_Uninitialized", 8, VerificationType.UNINITIALIZED},
-            {"ITEM_Long", 4, VerificationType.LONG},
-            {"ITEM_Double", 3, VerificationType.DOUBLE},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+            arguments("ITEM_Top", 0, VerificationType.TOP),
+            arguments("ITEM_Integer", 1, VerificationType.INTEGER),
+            arguments("ITEM_Float", 2, VerificationType.FLOAT),
+            arguments("ITEM_Null", 5, VerificationType.NULL),
+            arguments("ITEM_UninitializedThis", 6, VerificationType.UNINITIALIZED_THIS),
+            arguments("ITEM_Object", 7, VerificationType.OBJECT),
+            arguments("ITEM_Uninitialized", 8, VerificationType.UNINITIALIZED),
+            arguments("ITEM_Long", 4, VerificationType.LONG),
+            arguments("ITEM_Double", 3, VerificationType.DOUBLE)
+        );
     }
 
-    @Parameter(0)
-    public String label;
-
-    @Parameter(1)
-    public int tag;
-
-    @Parameter(2)
-    public VerificationType expectedResult;
-
-    @Test
-    public void test() {
-        assertEquals(label, expectedResult, VerificationType.forTag(tag));
-        assertEquals(label, tag, VerificationType.forTag(tag).getTag());
+    @DisplayName("VerificationType")
+    @ParameterizedTest(name="for {0} should be {2} and tag {1}")
+    @MethodSource("dataProvider")
+    public void test(String variation, int tag, VerificationType expectedResult) {
+        assertEquals(expectedResult, VerificationType.forTag(tag));
+        assertEquals(tag, VerificationType.forTag(tag).getTag());
     }
 }

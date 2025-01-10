@@ -32,38 +32,34 @@
 
 package com.jeantessier.classreader;
 
-import org.junit.*;
-import org.junit.runner.*;
-import org.junit.runners.*;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
-import static org.junit.Assert.*;
-import static org.junit.runners.Parameterized.*;
+import java.util.stream.*;
 
-@RunWith(Parameterized.class)
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
+
 public class TestSignatureHelper_convert {
-    @Parameters(name="SignatureHelper conversion for \"{0}\" should be \"{1}\"")
-    public static Object[][] data() {
-        return new Object[][] {
-                {"I", "int"},
-                {"[I", "int[]"},
-                {"package/Class", null},
-                {"Lpackage/Class;", "package.Class"},
-                {"[Lpackage/Class;", "package.Class[]"},
-                {"[[Lpackage/Class;", "package.Class[][]"},
-                {"TT;", "T"},
-                {"List", null},
-                {"Toto", null},
-        };
+    static Stream<Arguments> dataProvider() {
+        return Stream.of(
+                arguments("I", "int"),
+                arguments("[I", "int[]"),
+                arguments("package/Class", null),
+                arguments("Lpackage/Class;", "package.Class"),
+                arguments("[Lpackage/Class;", "package.Class[]"),
+                arguments("[[Lpackage/Class;", "package.Class[][]"),
+                arguments("TT;", "T"),
+                arguments("List", null),
+                arguments("Toto", null)
+        );
     }
 
-    @Parameter(0)
-    public String descriptor;
-
-    @Parameter(1)
-    public String expectedSignature;
-
-    @Test
-    public void testConvert() {
+    @DisplayName("SignatureHelper")
+    @ParameterizedTest(name="conversion of \"{0}\" should be \"{1}\"")
+    @MethodSource("dataProvider")
+    public void testConvert(String descriptor, String expectedSignature) {
         assertEquals(expectedSignature, SignatureHelper.convert(descriptor));
     }
 }
