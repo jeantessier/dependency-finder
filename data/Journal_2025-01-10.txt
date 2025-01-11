@@ -1,0 +1,7 @@
+I saw someone's
+[[https://www.reddit.com/r/adventofcode/comments/1hvwjyu/comment/m5x8r6h/][Advent of Code]]
+solution where they were generating a DOT file for a graph and rendering it
+using Graphviz.  I thought I should be able to render a dependency graph the
+same way.  I wrote an XSL transform to convert the XML graph file to the
+[[https://graphviz.org/doc/info/lang.html][DOT language]].  I had to add each
+node's simple name to the XML output.
