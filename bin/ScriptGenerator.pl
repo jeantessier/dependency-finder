@@ -55,6 +55,7 @@ getopts(":cguvw");
               "DependencyClosure" => ".cli.template.txt",
               "DependencyCycles" => ".cli.template.txt",
               "DependencyExtractor" => ".cli.template.txt",
+              "DependencyGraphToDOT" => ".xsl.template.txt",
               "DependencyGraphToFullyQualifiedNames" => ".xsl.template.txt",
               "DependencyGraphToGraphML" => ".xsl.template.txt",
               "DependencyGraphToHTML" => ".xsl.template.txt",

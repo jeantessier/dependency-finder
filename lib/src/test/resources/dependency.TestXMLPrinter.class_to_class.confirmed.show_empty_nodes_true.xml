@@ -4,22 +4,22 @@
 
 <dependencies>
     <package confirmed="yes">
-        <name>empty</name>
+        <name simple-name="empty">empty</name>
         <class confirmed="yes">
-            <name>empty.Empty</name>
+            <name simple-name="Empty">empty.Empty</name>
         </class>
     </package>
     <package confirmed="yes">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <class confirmed="yes">
-            <name>inbound.Inbound</name>
+            <name simple-name="Inbound">inbound.Inbound</name>
             <inbound type="class" confirmed="yes">outbound.Outbound</inbound>
         </class>
     </package>
     <package confirmed="yes">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
         <class confirmed="yes">
-            <name>outbound.Outbound</name>
+            <name simple-name="Outbound">outbound.Outbound</name>
             <outbound type="class" confirmed="yes">inbound.Inbound</outbound>
         </class>
     </package>

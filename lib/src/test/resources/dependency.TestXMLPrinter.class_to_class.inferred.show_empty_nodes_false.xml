@@ -4,16 +4,16 @@
 
 <dependencies>
     <package confirmed="no">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <class confirmed="no">
-            <name>inbound.Inbound</name>
+            <name simple-name="Inbound">inbound.Inbound</name>
             <inbound type="class" confirmed="no">outbound.Outbound</inbound>
         </class>
     </package>
     <package confirmed="no">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
         <class confirmed="no">
-            <name>outbound.Outbound</name>
+            <name simple-name="Outbound">outbound.Outbound</name>
             <outbound type="class" confirmed="no">inbound.Inbound</outbound>
         </class>
     </package>

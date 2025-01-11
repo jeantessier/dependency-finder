@@ -170,7 +170,7 @@ public class XMLPrinter extends Printer {
     }
 
     protected Printer printScopeNodeName(Node node, String name) {
-        append("<name>");
+        append("<name simple-name=\"").append(node.getSimpleName()).append("\">");
         super.printScopeNodeName(node, name);
         append("</name>");
 

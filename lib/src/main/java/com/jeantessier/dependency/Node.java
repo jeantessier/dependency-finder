@@ -50,6 +50,10 @@ public abstract class Node implements Comparable<Node> {
         return name;
     }
 
+    public String getSimpleName() {
+        return getName();
+    }
+
     public boolean isConfirmed() {
         return confirmed;
     }

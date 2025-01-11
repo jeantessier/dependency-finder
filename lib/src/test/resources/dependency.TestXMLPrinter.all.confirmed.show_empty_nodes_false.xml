@@ -4,25 +4,25 @@
 
 <dependencies>
     <package confirmed="yes">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <inbound type="package" confirmed="yes">outbound</inbound>
         <class confirmed="yes">
-            <name>inbound.Inbound</name>
+            <name simple-name="Inbound">inbound.Inbound</name>
             <inbound type="class" confirmed="yes">outbound.Outbound</inbound>
             <feature confirmed="yes">
-                <name>inbound.Inbound.inbound()</name>
+                <name simple-name="inbound()">inbound.Inbound.inbound()</name>
                 <inbound type="feature" confirmed="yes">outbound.Outbound.outbound()</inbound>
             </feature>
         </class>
     </package>
     <package confirmed="yes">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
         <outbound type="package" confirmed="yes">inbound</outbound>
         <class confirmed="yes">
-            <name>outbound.Outbound</name>
+            <name simple-name="Outbound">outbound.Outbound</name>
             <outbound type="class" confirmed="yes">inbound.Inbound</outbound>
             <feature confirmed="yes">
-                <name>outbound.Outbound.outbound()</name>
+                <name simple-name="outbound()">outbound.Outbound.outbound()</name>
                 <outbound type="feature" confirmed="yes">inbound.Inbound.inbound()</outbound>
             </feature>
         </class>

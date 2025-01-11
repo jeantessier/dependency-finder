@@ -4,11 +4,11 @@
 
 <dependencies>
     <package confirmed="yes">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <inbound type="package" confirmed="yes">outbound</inbound>
     </package>
     <package confirmed="yes">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
         <outbound type="package" confirmed="yes">inbound</outbound>
     </package>
 </dependencies>

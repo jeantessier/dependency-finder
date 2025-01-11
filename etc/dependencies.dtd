@@ -50,6 +50,9 @@
 >
 
 <!ELEMENT name (#PCDATA) >
+<!ATTLIST name
+          simple-name CDATA #IMPLIED
+>
 
 <!ELEMENT outbound (#PCDATA) >
 <!ATTLIST outbound

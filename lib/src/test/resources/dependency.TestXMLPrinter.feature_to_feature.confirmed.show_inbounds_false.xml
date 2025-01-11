@@ -4,29 +4,29 @@
 
 <dependencies>
     <package confirmed="yes">
-        <name>empty</name>
+        <name simple-name="empty">empty</name>
         <class confirmed="yes">
-            <name>empty.Empty</name>
+            <name simple-name="Empty">empty.Empty</name>
             <feature confirmed="yes">
-                <name>empty.Empty.empty()</name>
+                <name simple-name="empty()">empty.Empty.empty()</name>
             </feature>
         </class>
     </package>
     <package confirmed="yes">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <class confirmed="yes">
-            <name>inbound.Inbound</name>
+            <name simple-name="Inbound">inbound.Inbound</name>
             <feature confirmed="yes">
-                <name>inbound.Inbound.inbound()</name>
+                <name simple-name="inbound()">inbound.Inbound.inbound()</name>
             </feature>
         </class>
     </package>
     <package confirmed="yes">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
         <class confirmed="yes">
-            <name>outbound.Outbound</name>
+            <name simple-name="Outbound">outbound.Outbound</name>
             <feature confirmed="yes">
-                <name>outbound.Outbound.outbound()</name>
+                <name simple-name="outbound()">outbound.Outbound.outbound()</name>
             </feature>
         </class>
     </package>

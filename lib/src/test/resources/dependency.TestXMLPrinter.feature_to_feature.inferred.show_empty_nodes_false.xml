@@ -4,21 +4,21 @@
 
 <dependencies>
     <package confirmed="no">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <class confirmed="no">
-            <name>inbound.Inbound</name>
+            <name simple-name="Inbound">inbound.Inbound</name>
             <feature confirmed="no">
-                <name>inbound.Inbound.inbound()</name>
+                <name simple-name="inbound()">inbound.Inbound.inbound()</name>
                 <inbound type="feature" confirmed="no">outbound.Outbound.outbound()</inbound>
             </feature>
         </class>
     </package>
     <package confirmed="no">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
         <class confirmed="no">
-            <name>outbound.Outbound</name>
+            <name simple-name="Outbound">outbound.Outbound</name>
             <feature confirmed="no">
-                <name>outbound.Outbound.outbound()</name>
+                <name simple-name="outbound()">outbound.Outbound.outbound()</name>
                 <outbound type="feature" confirmed="no">inbound.Inbound.inbound()</outbound>
             </feature>
         </class>

@@ -24,6 +24,8 @@ bin/DependencyCycles
 bin/DependencyCycles.bat
 bin/DependencyExtractor
 bin/DependencyExtractor.bat
+bin/DependencyGraphToDOT
+bin/DependencyGraphToDOT.bat
 bin/DependencyGraphToFullyQualifiedNames
 bin/DependencyGraphToFullyQualifiedNames.bat
 bin/DependencyGraphToGraphML

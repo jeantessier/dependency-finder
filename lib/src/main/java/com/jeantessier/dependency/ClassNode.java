@@ -47,7 +47,11 @@ public class ClassNode extends Node {
     }
 
     public String getSimpleName() {
-        return getName().substring(getName().lastIndexOf('.') + 1);
+        if (getPackageNode().getName().isEmpty()) {
+            return getName();
+        }
+
+        return getName().substring(getPackageNode().getName().length() + 1);
     }
 
     // Only to be used by NodeFactory and DeletingVisitor

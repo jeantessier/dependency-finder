@@ -4,13 +4,13 @@
 
 <dependencies>
     <package confirmed="no">
-        <name>empty</name>
+        <name simple-name="empty">empty</name>
     </package>
     <package confirmed="no">
-        <name>inbound</name>
+        <name simple-name="inbound">inbound</name>
         <inbound type="package" confirmed="no">outbound</inbound>
     </package>
     <package confirmed="no">
-        <name>outbound</name>
+        <name simple-name="outbound">outbound</name>
     </package>
 </dependencies>
