@@ -1,0 +1,67 @@
+There are some issues with the way I generate the DOT files.  I currently do it
+in two passes:
+
+    1 Generate nodes based on packages, classes, and features in the source XML.
+    1 Generate dependency edges based on =&lt;outbound&gt;= elements.
+
+The initial samples I was working from when I handcrafted the XSL stylesheet
+was essentially the raw output of =DependencyExtractor=.  It included all the
+relevant nodes and all edges were represented by both =&lt;outbound&gt;= and
+=&lt;inbound&gt;= elements.  It made sense, under these circumstances, to only
+look at =&lt;outbound&gt;= elements to prevent duplication.  And every
+dependency was between nodes present as either =&lt;package&gt;=,
+=&lt;class&gt;=, or =&lt;feature&gt;= elements.
+
+But most graphs come from =DependencyReporter= instead, so we can focus on
+specific dependencies.  These graphs may include only =&lt;inbound&gt;=
+elements, for example.  The source parameters will result in =&lt;package&gt;=,
+=&lt;class&gt;=, or =&lt;feature&gt;= elements, but filter parameters will not.
+
+For example, if I want to find out which =com.jeantessier.dependencyfinder.*=
+classes are using =GraphCopier= or =GraphSummarizer=, I can do the following:
+
+    DependencyExtractor -xml lib/DependencyFinder.jar |
+    c2c -xml
+        -scope-includes '/Graph(Copier|Summarizer)/'
+        -filter-includes /com.jeantessier.dependencyfinder/
+
+The XML output is as follows.  There is one =&lt;package&gt;= element and two
+=&lt;class&gt;= elements.  The references to
+=com.jeantessier.dependencyfinder.*= classes are only in =&lt;inbound&gt;=
+elements.
+
+    &lt;dependencies&gt;
+        &lt;package confirmed%3D"yes"&gt;
+            &lt;name simple-name%3D"com.jeantessier.dependency"&gt;*com.jeantessier.dependency*&lt;/name&gt;
+            &lt;class confirmed%3D"yes"&gt;
+                &lt;name simple-name%3D"GraphCopier"&gt;*com.jeantessier.dependency.GraphCopier*&lt;/name&gt;
+                &lt;inbound type%3D"class" confirmed%3D"yes"&gt;*com.jeantessier.dependencyfinder.ant.DependencyReporter*&lt;/inbound&gt;
+                &lt;inbound type%3D"class" confirmed%3D"yes"&gt;*com.jeantessier.dependencyfinder.cli.DependencyReporter*&lt;/inbound&gt;
+                &lt;inbound type%3D"class" confirmed%3D"yes"&gt;*com.jeantessier.dependencyfinder.gui.DependencyFinder*&lt;/inbound&gt;
+            &lt;/class&gt;
+            &lt;class confirmed%3D"yes"&gt;
+                &lt;name simple-name%3D"GraphSummarizer"&gt;*com.jeantessier.dependency.GraphSummarizer*&lt;/name&gt;
+                &lt;inbound type%3D"class" confirmed%3D"yes"&gt;*com.jeantessier.dependencyfinder.ant.DependencyReporter*&lt;/inbound&gt;
+                &lt;inbound type%3D"class" confirmed%3D"yes"&gt;*com.jeantessier.dependencyfinder.cli.DependencyReporter*&lt;/inbound&gt;
+                &lt;inbound type%3D"class" confirmed%3D"yes"&gt;*com.jeantessier.dependencyfinder.gui.DependencyFinder*&lt;/inbound&gt;
+            &lt;/class&gt;
+        &lt;/package&gt;
+    &lt;/dependencies&gt;
+
+And here is the graph that I generate from this XML output.
+
+[[../images/2025-01-11%5FGraphCopier1.svg]]
+
+The first thing I can do is look at both =&lt;outbound&gt;= and
+=&lt;inbound&gt;= elements.  There might be some duplicate edges as a result,
+but since I use a =strict digraph= in the DOT file, Graphviz should de-dupe
+them for me.
+
+There will still be a problem that the nodes from filter parameters are not
+expressed correctly, though.
+
+[[../images/2025-01-11%5FGraphCopier2.svg][../images/2025-01-11%5FGraphCopier2.svg]]
+
+Where what I really want is closer to:
+
+[[../images/2025-01-11%5FGraphCopier3.svg][../images/2025-01-11%5FGraphCopier2.svg]]

@@ -195,8 +195,8 @@ sub PrintDocumentPart {
         $line =~ s/=([^=]+)=/<code>\1<\/code>/g;
         $line =~ s/_([^_]+)_/<i>\1<\/i>/g;
         $line =~ s/\*([^*]+)\*/<b>\1<\/b>/g;
-        $line =~ s/\[\[([^\]]*)\]\[(.*\.((gif)|(jpg)|(png)))\]\]/<figure class=\"fullwidth\"><img src="\1" \/><\/figure>/gi;
-        $line =~ s/\[\[([^\]]*\.((gif)|(jpg)|(png)))\]\]/<figure><img src="\1" \/><\/figure>/gi;
+        $line =~ s/\[\[([^\]]*)\]\[(.*\.(gif|jpg|png|svg))\]\]/<figure class=\"fullwidth\"><img src="\1" \/><\/figure>/gi;
+        $line =~ s/\[\[([^\]]*\.(gif|jpg|png|svg))\]\]/<figure><img src="\1" \/><\/figure>/gi;
         $line =~ s/\[\[(\d\d\d\d-\d\d-\d\d)\]\]/<a href="#\1">\1<\/a>/gi;
         $line =~ s/\[\[([^\]]*)\]\[(.*)\]\]/<a target="_blank" href="\1">\2<\/a>/g;
         
