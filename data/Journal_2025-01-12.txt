@@ -1,5 +1,10 @@
-Changed the URL prefix for DTDs and the like from
-=https://depfind.sourceforge.io/= to
-=https://jeantessier.github.io/dependency-finder/=.   This way, these resources
-will come from the official site on GitHub instead of the old site back on
-SourceForge.
+I think I found a workaround for my problems with DOT files.  I added a switch
+to =DependencyReporter= to force it to output nodes that match the filter
+criteria, along with nodes that match the scope criteria.  The new switch is
+called =-include-filter-nodes=.  With it, the XML output will have everything
+needed by =DependencyGraphToDOT= to render the graphs I want.
+
+I also changed the URL prefix for DTDs from =https://depfind.sourceforge.io/=
+to =https://jeantessier.github.io/dependency-finder/=.   This way, these
+resources will come from the official site on GitHub instead of the old site
+back on SourceForge.
