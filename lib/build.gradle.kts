@@ -16,6 +16,9 @@ dependencies {
 
     runtimeOnly(libs.log4j.core)
     runtimeOnly(libs.saxon.he)
+
+    testImplementation(libs.bundles.jmock)
+    testImplementation(libs.ant)
 }
 
 java {
@@ -61,19 +64,6 @@ testing {
     suites {
         val test by getting(JvmTestSuite::class) {
             useJUnitJupiter()
-
-            dependencies {
-                runtimeOnly("org.junit.vintage:junit-vintage-engine")
-
-                // jMock
-                implementation(libs.byte.buddy)
-                implementation(libs.jmock.junit4)
-                implementation(libs.jmock.junit5)
-                implementation(libs.jmock.imposters)
-
-                // Ant
-                implementation(libs.ant)
-            }
         }
     }
 }

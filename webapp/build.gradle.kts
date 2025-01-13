@@ -10,18 +10,14 @@ repositories {
 
 dependencies {
     implementation(project(":lib"))
+
+    testImplementation(libs.httpunit)
 }
 
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
             useJUnitJupiter()
-
-            dependencies {
-                runtimeOnly("org.junit.vintage:junit-vintage-engine")
-
-                implementation(libs.httpunit)
-            }
         }
     }
 }

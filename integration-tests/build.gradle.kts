@@ -11,24 +11,16 @@ repositories {
 dependencies {
     implementation(project(":lib"))
     implementation(libs.oro)
+
+    testImplementation(libs.bundles.jmock)
+    testImplementation(project("jarjardiff"))
+    testImplementation(project("metrics"))
 }
 
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
             useJUnitJupiter()
-
-            dependencies {
-                runtimeOnly("org.junit.vintage:junit-vintage-engine")
-
-                // jMock
-                implementation(libs.byte.buddy)
-                implementation(libs.jmock.junit5)
-                implementation(libs.jmock.imposters)
-
-                implementation(project("jarjardiff"))
-                implementation(project("metrics"))
-            }
         }
     }
 }

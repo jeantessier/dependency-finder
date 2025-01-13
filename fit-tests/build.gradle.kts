@@ -11,20 +11,15 @@ repositories {
 dependencies {
     implementation(project(":lib"))
     implementation(libs.fitlibrary)
+
+    testImplementation(libs.oro)
+    testImplementation(project("metrics"))
 }
 
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
             useJUnitJupiter()
-
-            dependencies {
-                runtimeOnly("org.junit.vintage:junit-vintage-engine")
-
-                implementation(libs.oro)
-
-                implementation(project("metrics"))
-            }
         }
     }
 }
