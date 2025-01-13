@@ -171,13 +171,7 @@ public class TextPrinter extends Printer {
         
         if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {
             lowerIndent();
-            if (perl().match("/([^\\.]*\\(.*\\)(: \\S.*)?)$/", node.getName())) {
-                indent().printScopeNodeName(node, perl().group(1)).eol();
-            } else if (perl().match("/([^\\.]*)$/", node.getName())) {
-                indent().printScopeNodeName(node, perl().group(1)).eol();
-            } else {
-                indent().printScopeNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();
-            }
+            indent().printScopeNodeName(node, node.getSimpleName()).eol();
             raiseIndent();
         }
         
