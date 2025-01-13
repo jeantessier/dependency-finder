@@ -32,7 +32,6 @@
 
 package com.jeantessier.dependency;
 
-
 import org.junit.jupiter.api.*;
 
 import java.util.List;
