@@ -6,7 +6,7 @@ import java.util.stream.*;
 
 public class XMLSymbolPrinter extends SymbolPrinter {
     public static final String DEFAULT_ENCODING   = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
+    public static final String DEFAULT_DTD_PREFIX = "https://jeantessier.github.io/dependency-finder/dtd";
     public static final String DEFAULT_INDENT_TEXT = "    ";
 
     private final String encoding;

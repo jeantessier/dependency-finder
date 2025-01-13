@@ -110,7 +110,7 @@ public class TestMetricsConfigurationHandler {
     void testValidation() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -132,7 +132,7 @@ public class TestMetricsConfigurationHandler {
     void testPackageMeasurement() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements>\n");
         document.append("        <measurement>\n");
@@ -172,7 +172,7 @@ public class TestMetricsConfigurationHandler {
     void testGroupMeasurement() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements>\n");
@@ -212,7 +212,7 @@ public class TestMetricsConfigurationHandler {
     void testClassMeasurement() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -251,7 +251,7 @@ public class TestMetricsConfigurationHandler {
     void testMethodMeasurement() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -288,7 +288,7 @@ public class TestMetricsConfigurationHandler {
     void testTrueVisible() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -314,7 +314,7 @@ public class TestMetricsConfigurationHandler {
     void testYesVisible() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -340,7 +340,7 @@ public class TestMetricsConfigurationHandler {
     void testOnVisible() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -366,7 +366,7 @@ public class TestMetricsConfigurationHandler {
     void testDefaultVisible() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -392,7 +392,7 @@ public class TestMetricsConfigurationHandler {
     void testNotVisible() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -418,7 +418,7 @@ public class TestMetricsConfigurationHandler {
     void testGroupDefinitions() throws IOException, SAXException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-definitions>\n");

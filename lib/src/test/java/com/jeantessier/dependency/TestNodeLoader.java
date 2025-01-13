@@ -52,7 +52,7 @@ public class TestNodeLoader extends TestCase {
 
         xml.append("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
         xml.append("\n");
-        xml.append("<!DOCTYPE dependencies SYSTEM \"https://depfind.sourceforge.io/dtd/dependencies.dtd\">\n");
+        xml.append("<!DOCTYPE dependencies SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd\">\n");
         xml.append("\n");
         xml.append("<dependencies>\n");
         xml.append("    <package confirmed=\"yes\">\n");

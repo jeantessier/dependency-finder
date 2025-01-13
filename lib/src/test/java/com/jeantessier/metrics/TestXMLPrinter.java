@@ -31,7 +31,7 @@ public class TestXMLPrinter {
         var expectedLines = Stream.of(
                 "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
                 "",
-                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "<!DOCTYPE metrics SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics.dtd\">",
                 "",
                 "<metrics>",
                 "</metrics>"
@@ -124,7 +124,7 @@ public class TestXMLPrinter {
         var expectedLines = Stream.of(
                 "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
                 "",
-                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "<!DOCTYPE metrics SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics.dtd\">",
                 "",
                 "<metrics>",
                 "</metrics>"
@@ -216,7 +216,7 @@ public class TestXMLPrinter {
         var expectedLines = Stream.of(
                 "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
                 "",
-                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "<!DOCTYPE metrics SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics.dtd\">",
                 "",
                 "<metrics>",
                 "    <project>",
@@ -340,7 +340,7 @@ public class TestXMLPrinter {
         var expectedLines = Stream.of(
                 "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
                 "",
-                "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                "<!DOCTYPE metrics SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics.dtd\">",
                 "",
                 "<metrics>",
                 "    <project>",
@@ -494,7 +494,7 @@ public class TestXMLPrinter {
                 Stream.of(
                         "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
                         "",
-                        "<!DOCTYPE metrics SYSTEM \"https://depfind.sourceforge.io/dtd/metrics.dtd\">",
+                        "<!DOCTYPE metrics SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics.dtd\">",
                         "",
                         "<metrics>",
                         "    <project>",

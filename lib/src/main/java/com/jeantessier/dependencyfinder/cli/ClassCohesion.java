@@ -50,7 +50,7 @@ public class ClassCohesion extends DependencyGraphCommand {
     private static final String EOL = System.getProperty("line.separator", "\n");
 
     private static final String DEFAULT_ENCODING = "utf-8";
-    private static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
+    private static final String DEFAULT_DTD_PREFIX = "https://jeantessier.github.io/dependency-finder/dtd";
     private static final String DEFAULT_INDENT_TEXT = "    ";
 
     protected void populateCommandLineSwitches()  {

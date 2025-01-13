@@ -96,7 +96,7 @@ public class TestMetricsConfigurationLoader {
     void testValidation() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -119,7 +119,7 @@ public class TestMetricsConfigurationLoader {
     void testPackageMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements>\n");
         document.append("        <measurement>\n");
@@ -160,7 +160,7 @@ public class TestMetricsConfigurationLoader {
     void testGroupMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements>\n");
@@ -201,7 +201,7 @@ public class TestMetricsConfigurationLoader {
     void testClassMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -241,7 +241,7 @@ public class TestMetricsConfigurationLoader {
     void testMethodMeasurement() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-measurements/>\n");
@@ -279,7 +279,7 @@ public class TestMetricsConfigurationLoader {
     void testGroupDefinitions() throws IOException, SAXException, ParserConfigurationException {
         StringBuilder document = new StringBuilder();
 
-        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://depfind.sourceforge.io/dtd/metrics-configuration.dtd\">\n");
+        document.append("<!DOCTYPE metrics-configuration SYSTEM \"https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd\">\n");
         document.append("<metrics-configuration>\n");
         document.append("    <project-measurements/>\n");
         document.append("    <group-definitions>\n");

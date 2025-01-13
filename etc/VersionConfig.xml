@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!DOCTYPE metrics-configuration SYSTEM "https://depfind.sourceforge.io/dtd/metrics-configuration.dtd">
+<!DOCTYPE metrics-configuration SYSTEM "https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd">
 
 <metrics-configuration>
     <project-measurements>

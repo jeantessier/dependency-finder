@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 
 public class Report extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
+    public static final String DEFAULT_DTD_PREFIX = "https://jeantessier.github.io/dependency-finder/dtd";
 
     private String name;
     private String oldVersion;

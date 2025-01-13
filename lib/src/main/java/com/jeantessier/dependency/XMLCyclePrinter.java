@@ -37,7 +37,7 @@ import java.util.*;
 
 public class XMLCyclePrinter implements CyclePrinter, Visitor {
     public static final String DEFAULT_ENCODING   = "utf-8";
-    public static final String DEFAULT_DTD_PREFIX = "https://depfind.sourceforge.io/dtd";
+    public static final String DEFAULT_DTD_PREFIX = "https://jeantessier.github.io/dependency-finder/dtd";
 
     private final PrintWriter out;
 

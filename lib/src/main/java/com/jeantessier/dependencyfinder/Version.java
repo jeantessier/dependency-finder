@@ -39,7 +39,7 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 
 public class Version {
-    public static final String DEFAULT_URL              = "https://depfind.sourceforge.io/";
+    public static final String DEFAULT_URL              = "https://jeantessier.github.io/dependency-finder/";
     public static final String DEFAULT_TITLE            = "Dependency Finder";
     public static final String DEFAULT_VERSION          = "<i>unknown</i>";
     public static final String DEFAULT_VENDOR           = "Jean Tessier";

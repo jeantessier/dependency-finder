@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<!DOCTYPE dependencies SYSTEM "https://depfind.sourceforge.io/dtd/dependencies.dtd">
+<!DOCTYPE dependencies SYSTEM "https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd">
 
 <dependencies>
     <package confirmed="yes">
