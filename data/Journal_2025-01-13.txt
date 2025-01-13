@@ -1,0 +1,26 @@
+Finished converting all tests to JUnit Jupiter.
+
+I used Perl to do some of the heavy lifting, then reviewed each file manually.
+
+These regex would move the assertion message to the last parameter.  They would
+get confused when expressions were too complex or had method calls with extra
+commas in them.
+
+    s/assert(Equals|Same|NotSame)\((.%2A), +(.%2A), +(.%2A)\);/assert\1(\3, \4, \2);/;
+    s/assert(True|False|Null|NotNull)\((.%2A), +(.%2A)\);/assert\1(\3, \2);/;
+
+These regex would change test method signatures and add annotations.
+
+    if (/^(\s%2A)protected void setUp\(\)/) {
+        print($1 . "\@BeforeEach\n");
+        s/protected void/void/;
+    }
+    
+    if (/^(\s%2A)public void test\w+\(\)/) {
+        print($1 . "\@Test\n");
+        s/public void/void/;
+    }
+    
+    if (/super.setUp\(\)/) {
+        $_ = "";
+    }
