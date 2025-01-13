@@ -61,7 +61,12 @@
         style = invisible
         edge [dir = none]
 
-        "</xsl:text><xsl:value-of select="name"/><xsl:if test="string-length(name) = 0">default</xsl:if><xsl:text>" [label = "</xsl:text><xsl:value-of select="name/@simple-name"/><xsl:if test="string-length(name) = 0">default</xsl:if><xsl:text>"</xsl:text><xsl:if test="boolean(@confirmed = 'no')"><xsl:text>; color = grey; style = filled; fillcolor = "#e7e7e7"</xsl:text></xsl:if><xsl:text>]</xsl:text>
+        "</xsl:text><xsl:value-of select="name"/><xsl:if test="string-length(name) = 0">default</xsl:if><xsl:text>" [label = </xsl:text>
+        <xsl:choose>
+            <xsl:when test="string-length(name) > 0"><xsl:text>"</xsl:text><xsl:value-of select="name/@simple-name"/><xsl:text>"</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:text>&lt;&lt;i&gt;default&lt;/i&gt;&gt;</xsl:text></xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="boolean(@confirmed = 'no')"><xsl:text>; color = grey; style = filled; fillcolor = "#e7e7e7"</xsl:text></xsl:if><xsl:text>]</xsl:text>
         <xsl:if test="class">
             <xsl:text>
         subgraph "cluster_classes_in_</xsl:text><xsl:value-of select="name"/><xsl:if test="string-length(name) = 0">default</xsl:if><xsl:text>" {
