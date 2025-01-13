@@ -34,13 +34,13 @@ package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class TestMetricsBase extends TestBase {
     @Test
-    public void testDirectQuery() throws Exception {
+    void testDirectQuery() throws Exception {
         request.setParameter("scope-includes", "//");
         request.setParameter("package-scope", "on");
         request.setParameter("class-scope", "on");
@@ -55,18 +55,18 @@ public abstract class TestMetricsBase extends TestBase {
         WebResponse response = client.getResponse(request);
         String text = response.getText();
 
-        assertTrue("Missing text in " + text, text.contains("5 package(s)"));
-        assertTrue("Missing text in " + text, text.contains("5 class(es)"));
-        assertTrue("Missing text in " + text, text.contains("5 feature(s)"));
+        assertTrue(text.contains("5 package(s)"), "Missing text in " + text);
+        assertTrue(text.contains("5 class(es)"), "Missing text in " + text);
+        assertTrue(text.contains("5 feature(s)"), "Missing text in " + text);
 
-        assertTrue("Missing text in " + text, text.contains("4 outbound link(s)"));
-        assertTrue("Missing text in " + text, text.contains("0 from package(s)"));
-        assertTrue("Missing text in " + text, text.contains("0 from class(es)"));
-        assertTrue("Missing text in " + text, text.contains("4 from feature(s)"));
+        assertTrue(text.contains("4 outbound link(s)"), "Missing text in " + text);
+        assertTrue(text.contains("0 from package(s)"), "Missing text in " + text);
+        assertTrue(text.contains("0 from class(es)"), "Missing text in " + text);
+        assertTrue(text.contains("4 from feature(s)"), "Missing text in " + text);
 
-        assertTrue("Missing text in " + text, text.contains("4 inbound link(s)"));
-        assertTrue("Missing text in " + text, text.contains("0 to package(s)"));
-        assertTrue("Missing text in " + text, text.contains("0 to class(es)"));
-        assertTrue("Missing text in " + text, text.contains("4 to feature(s)"));
+        assertTrue(text.contains("4 inbound link(s)"), "Missing text in " + text);
+        assertTrue(text.contains("0 to package(s)"), "Missing text in " + text);
+        assertTrue(text.contains("0 to class(es)"), "Missing text in " + text);
+        assertTrue(text.contains("4 to feature(s)"), "Missing text in " + text);
     }
 }

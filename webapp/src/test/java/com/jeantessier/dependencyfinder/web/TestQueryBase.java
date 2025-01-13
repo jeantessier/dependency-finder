@@ -34,42 +34,42 @@ package com.jeantessier.dependencyfinder.web;
 
 import com.meterware.httpunit.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class TestQueryBase extends TestBase {
     @Test
-    public void testFormSubmit() throws Exception {
+    void testFormSubmit() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
 
-        assertEquals("Nb forms", 1, response.getForms().length);
+        assertEquals(1, response.getForms().length, "Nb forms");
         WebForm form = response.getForms()[0];
-        assertEquals("Nb submit buttons", 1, form.getSubmitButtons().length);
+        assertEquals(1, form.getSubmitButtons().length, "Nb submit buttons");
         SubmitButton button = form.getSubmitButtons()[0];
 
         response = form.submit(button);
 
-        assertNotNull("Missing link to " + fooPackageName, response.getLinkWith(fooPackageName));
-        assertNull("Unwanted link to " + fooClassName, response.getLinkWith(fooClassName));
-        assertNull("Unwanted link to " + fooFeatureName, response.getLinkWith(fooFeatureName));
-        assertNotNull("Missing link to " + barPackageName, response.getLinkWith(barPackageName));
-        assertNull("Unwanted link to " + barClassName, response.getLinkWith(barClassName));
-        assertNull("Unwanted link to " + barFeatureName, response.getLinkWith(barFeatureName));
-        assertNotNull("Missing link to " + bazPackageName, response.getLinkWith(bazPackageName));
-        assertNull("Unwanted link to " + bazClassName, response.getLinkWith(bazClassName));
-        assertNull("Unwanted link to " + bazFeatureName, response.getLinkWith(bazFeatureName));
-        assertNotNull("Missing link to " + leftPackageName, response.getLinkWith(leftPackageName));
-        assertNull("Unwanted link to " + leftClassName, response.getLinkWith(leftClassName));
-        assertNull("Unwanted link to " + leftFeatureName, response.getLinkWith(leftFeatureName));
-        assertNotNull("Missing link to " + rightPackageName, response.getLinkWith(rightPackageName));
-        assertNull("Unwanted link to " + rightClassName, response.getLinkWith(rightClassName));
-        assertNull("Unwanted link to " + rightFeatureName, response.getLinkWith(rightFeatureName));
+        assertNotNull(response.getLinkWith(fooPackageName), "Missing link to " + fooPackageName);
+        assertNull(response.getLinkWith(fooClassName), "Unwanted link to " + fooClassName);
+        assertNull(response.getLinkWith(fooFeatureName), "Unwanted link to " + fooFeatureName);
+        assertNotNull(response.getLinkWith(barPackageName), "Missing link to " + barPackageName);
+        assertNull(response.getLinkWith(barClassName), "Unwanted link to " + barClassName);
+        assertNull(response.getLinkWith(barFeatureName), "Unwanted link to " + barFeatureName);
+        assertNotNull(response.getLinkWith(bazPackageName), "Missing link to " + bazPackageName);
+        assertNull(response.getLinkWith(bazClassName), "Unwanted link to " + bazClassName);
+        assertNull(response.getLinkWith(bazFeatureName), "Unwanted link to " + bazFeatureName);
+        assertNotNull(response.getLinkWith(leftPackageName), "Missing link to " + leftPackageName);
+        assertNull(response.getLinkWith(leftClassName), "Unwanted link to " + leftClassName);
+        assertNull(response.getLinkWith(leftFeatureName), "Unwanted link to " + leftFeatureName);
+        assertNotNull(response.getLinkWith(rightPackageName), "Missing link to " + rightPackageName);
+        assertNull(response.getLinkWith(rightClassName), "Unwanted link to " + rightClassName);
+        assertNull(response.getLinkWith(rightFeatureName), "Unwanted link to " + rightFeatureName);
     }
 
     @Test
-    public void testDirectQuery() throws Exception {
+    void testDirectQuery() throws Exception {
         request.setParameter("scope-includes", "//");
         request.setParameter("package-scope", "on");
         request.setParameter("filter-includes", "//");
@@ -82,37 +82,37 @@ public abstract class TestQueryBase extends TestBase {
         context.service();
         WebResponse response = client.getResponse(request);
 
-        assertNotNull("Missing link to " + fooPackageName, response.getLinkWith(fooPackageName));
-        assertNull("Unwanted link to " + fooClassName, response.getLinkWith(fooClassName));
-        assertNull("Unwanted link to " + fooFeatureName, response.getLinkWith(fooFeatureName));
-        assertNotNull("Missing link to " + barPackageName, response.getLinkWith(barPackageName));
-        assertNull("Unwanted link to " + barClassName, response.getLinkWith(barClassName));
-        assertNull("Unwanted link to " + barFeatureName, response.getLinkWith(barFeatureName));
-        assertNotNull("Missing link to " + bazPackageName, response.getLinkWith(bazPackageName));
-        assertNull("Unwanted link to " + bazClassName, response.getLinkWith(bazClassName));
-        assertNull("Unwanted link to " + bazFeatureName, response.getLinkWith(bazFeatureName));
-        assertNotNull("Missing link to " + leftPackageName, response.getLinkWith(leftPackageName));
-        assertNull("Unwanted link to " + leftClassName, response.getLinkWith(leftClassName));
-        assertNull("Unwanted link to " + leftFeatureName, response.getLinkWith(leftFeatureName));
-        assertNotNull("Missing link to " + rightPackageName, response.getLinkWith(rightPackageName));
-        assertNull("Unwanted link to " + rightClassName, response.getLinkWith(rightClassName));
-        assertNull("Unwanted link to " + rightFeatureName, response.getLinkWith(rightFeatureName));
+        assertNotNull(response.getLinkWith(fooPackageName), "Missing link to " + fooPackageName);
+        assertNull(response.getLinkWith(fooClassName), "Unwanted link to " + fooClassName);
+        assertNull(response.getLinkWith(fooFeatureName), "Unwanted link to " + fooFeatureName);
+        assertNotNull(response.getLinkWith(barPackageName), "Missing link to " + barPackageName);
+        assertNull(response.getLinkWith(barClassName), "Unwanted link to " + barClassName);
+        assertNull(response.getLinkWith(barFeatureName), "Unwanted link to " + barFeatureName);
+        assertNotNull(response.getLinkWith(bazPackageName), "Missing link to " + bazPackageName);
+        assertNull(response.getLinkWith(bazClassName), "Unwanted link to " + bazClassName);
+        assertNull(response.getLinkWith(bazFeatureName), "Unwanted link to " + bazFeatureName);
+        assertNotNull(response.getLinkWith(leftPackageName), "Missing link to " + leftPackageName);
+        assertNull(response.getLinkWith(leftClassName), "Unwanted link to " + leftClassName);
+        assertNull(response.getLinkWith(leftFeatureName), "Unwanted link to " + leftFeatureName);
+        assertNotNull(response.getLinkWith(rightPackageName), "Missing link to " + rightPackageName);
+        assertNull(response.getLinkWith(rightClassName), "Unwanted link to " + rightClassName);
+        assertNull(response.getLinkWith(rightFeatureName), "Unwanted link to " + rightFeatureName);
 
-        assertNotNull("Missing link foo", response.getLinkWithID(fooPackageName));
-        assertNotNull("Missing link foo --> bar", response.getLinkWithID(fooPackageName + "_to_" + barPackageName));
-        assertNotNull("Missing link bar", response.getLinkWithID(barPackageName));
-        assertNotNull("Missing link bar <-- foo", response.getLinkWithID(barPackageName + "_from_" + fooPackageName));
-        assertNotNull("Missing link bar --> baz", response.getLinkWithID(barPackageName + "_to_" + bazPackageName));
-        assertNotNull("Missing link baz", response.getLinkWithID(bazPackageName));
-        assertNotNull("Missing link baz <-- bar", response.getLinkWithID(bazPackageName + "_from_" + barPackageName));
-        assertNotNull("Missing link left", response.getLinkWithID(leftPackageName));
-        assertNotNull("Missing link left <-> right", response.getLinkWithID(leftPackageName + "_bidirectional_" + rightPackageName));
-        assertNotNull("Missing link right", response.getLinkWithID(rightPackageName));
-        assertNotNull("Missing link right <-> left", response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName));
+        assertNotNull(response.getLinkWithID(fooPackageName), "Missing link foo");
+        assertNotNull(response.getLinkWithID(fooPackageName + "_to_" + barPackageName), "Missing link foo --> bar");
+        assertNotNull(response.getLinkWithID(barPackageName), "Missing link bar");
+        assertNotNull(response.getLinkWithID(barPackageName + "_from_" + fooPackageName), "Missing link bar <-- foo");
+        assertNotNull(response.getLinkWithID(barPackageName + "_to_" + bazPackageName), "Missing link bar --> baz");
+        assertNotNull(response.getLinkWithID(bazPackageName), "Missing link baz");
+        assertNotNull(response.getLinkWithID(bazPackageName + "_from_" + barPackageName), "Missing link baz <-- bar");
+        assertNotNull(response.getLinkWithID(leftPackageName), "Missing link left");
+        assertNotNull(response.getLinkWithID(leftPackageName + "_bidirectional_" + rightPackageName), "Missing link left <-> right");
+        assertNotNull(response.getLinkWithID(rightPackageName), "Missing link right");
+        assertNotNull(response.getLinkWithID(rightPackageName + "_bidirectional_" + leftPackageName), "Missing link right <-> left");
     }
 
     @Test
-    public void testFollowDependencyLink() throws Exception {
+    void testFollowDependencyLink() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
 
@@ -125,19 +125,19 @@ public abstract class TestQueryBase extends TestBase {
         response = form.submit(form.getSubmitButtons()[0]);
         response = response.getLinkWithID(fooFeatureName + "_to_" + barFeatureName).click();
 
-        assertNull("Unwanted link foo", response.getLinkWithID(fooPackageName));
-        assertNotNull("Missing link bar", response.getLinkWithID(barPackageName));
-        assertNotNull("Missing link bar.Bar", response.getLinkWithID(barClassName));
-        assertNotNull("Missing link bar.Bar.bar()", response.getLinkWithID(barFeatureName));
-        assertNotNull("Missing link bar.Bar.bar() <-- foo.Foo.foo()", response.getLinkWithID(barFeatureName + "_from_" + fooFeatureName));
-        assertNotNull("Missing link bar.Bar.bar() --> baz.Baz.baz()", response.getLinkWithID(barFeatureName + "_to_" + bazFeatureName));
-        assertNull("Unwanted link baz", response.getLinkWithID(bazPackageName));
-        assertNull("Unwanted link left", response.getLinkWithID(leftPackageName));
-        assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
+        assertNull(response.getLinkWithID(fooPackageName), "Unwanted link foo");
+        assertNotNull(response.getLinkWithID(barPackageName), "Missing link bar");
+        assertNotNull(response.getLinkWithID(barClassName), "Missing link bar.Bar");
+        assertNotNull(response.getLinkWithID(barFeatureName), "Missing link bar.Bar.bar()");
+        assertNotNull(response.getLinkWithID(barFeatureName + "_from_" + fooFeatureName), "Missing link bar.Bar.bar() <-- foo.Foo.foo()");
+        assertNotNull(response.getLinkWithID(barFeatureName + "_to_" + bazFeatureName), "Missing link bar.Bar.bar() --> baz.Baz.baz()");
+        assertNull(response.getLinkWithID(bazPackageName), "Unwanted link baz");
+        assertNull(response.getLinkWithID(leftPackageName), "Unwanted link left");
+        assertNull(response.getLinkWithID(rightPackageName), "Unwanted link right");
     }
 
     @Test
-    public void testNarrowScope() throws Exception {
+    void testNarrowScope() throws Exception {
         factory.createFeature(foo2FeatureName);
 
         context.service();
@@ -152,19 +152,19 @@ public abstract class TestQueryBase extends TestBase {
         response = form.submit(form.getSubmitButtons()[0]);
         response = response.getLinkWithID(fooFeatureName).click();
 
-        assertNotNull("Missing link foo", response.getLinkWithID(fooPackageName));
-        assertNotNull("Missing link foo.Foo", response.getLinkWithID(fooClassName));
-        assertNotNull("Missing link foo.Foo.foo()", response.getLinkWithID(fooFeatureName));
-        assertNotNull("Missing link foo.Foo.foo() --> bar.Bar.bar()", response.getLinkWithID(fooFeatureName + "_to_" + barFeatureName));
-        assertNull("Unwanted link foo.Foo2", response.getLinkWithID(foo2ClassName));
-        assertNull("Unwanted link bar", response.getLinkWithID(barPackageName));
-        assertNull("Unwanted link baz", response.getLinkWithID(bazPackageName));
-        assertNull("Unwanted link left", response.getLinkWithID(leftPackageName));
-        assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
+        assertNotNull(response.getLinkWithID(fooPackageName), "Missing link foo");
+        assertNotNull(response.getLinkWithID(fooClassName), "Missing link foo.Foo");
+        assertNotNull(response.getLinkWithID(fooFeatureName), "Missing link foo.Foo.foo()");
+        assertNotNull(response.getLinkWithID(fooFeatureName + "_to_" + barFeatureName), "Missing link foo.Foo.foo() --> bar.Bar.bar()");
+        assertNull(response.getLinkWithID(foo2ClassName), "Unwanted link foo.Foo2");
+        assertNull(response.getLinkWithID(barPackageName), "Unwanted link bar");
+        assertNull(response.getLinkWithID(bazPackageName), "Unwanted link baz");
+        assertNull(response.getLinkWithID(leftPackageName), "Unwanted link left");
+        assertNull(response.getLinkWithID(rightPackageName), "Unwanted link right");
     }
 
     @Test
-    public void testNarrowThanWidenScope() throws Exception {
+    void testNarrowThanWidenScope() throws Exception {
         factory.createFeature(foo2FeatureName);
 
         context.service();
@@ -180,20 +180,20 @@ public abstract class TestQueryBase extends TestBase {
         response = response.getLinkWithID(fooFeatureName).click();
         response = response.getLinkWithID(fooPackageName).click();
 
-        assertNotNull("Missing link foo", response.getLinkWithID(fooPackageName));
-        assertNotNull("Missing link foo.Foo", response.getLinkWithID(fooClassName));
-        assertNotNull("Missing link foo.Foo.foo()", response.getLinkWithID(fooFeatureName));
-        assertNotNull("Missing link foo.Foo.foo() --> bar.Bar.bar()", response.getLinkWithID(fooFeatureName + "_to_" + barFeatureName));
-        assertNotNull("Missing link foo.Foo2", response.getLinkWithID(foo2ClassName));
-        assertNotNull("Missing link foo.Foo2.foo2()", response.getLinkWithID(foo2FeatureName));
-        assertNull("Unwanted link bar", response.getLinkWithID(barPackageName));
-        assertNull("Unwanted link baz", response.getLinkWithID(bazPackageName));
-        assertNull("Unwanted link left", response.getLinkWithID(leftPackageName));
-        assertNull("Unwanted link right", response.getLinkWithID(rightPackageName));
+        assertNotNull(response.getLinkWithID(fooPackageName), "Missing link foo");
+        assertNotNull(response.getLinkWithID(fooClassName), "Missing link foo.Foo");
+        assertNotNull(response.getLinkWithID(fooFeatureName), "Missing link foo.Foo.foo()");
+        assertNotNull(response.getLinkWithID(fooFeatureName + "_to_" + barFeatureName), "Missing link foo.Foo.foo() --> bar.Bar.bar()");
+        assertNotNull(response.getLinkWithID(foo2ClassName), "Missing link foo.Foo2");
+        assertNotNull(response.getLinkWithID(foo2FeatureName), "Missing link foo.Foo2.foo2()");
+        assertNull(response.getLinkWithID(barPackageName), "Unwanted link bar");
+        assertNull(response.getLinkWithID(bazPackageName), "Unwanted link baz");
+        assertNull(response.getLinkWithID(leftPackageName), "Unwanted link left");
+        assertNull(response.getLinkWithID(rightPackageName), "Unwanted link right");
     }
 
     @Test
-    public void testEscapeSquareBrackets() throws Exception {
+    void testEscapeSquareBrackets() throws Exception {
         String mainFeatureName = fooClassName + ".main(java.lang.String[])";
         factory.createFeature(mainFeatureName);
 
@@ -209,8 +209,8 @@ public abstract class TestQueryBase extends TestBase {
 
         response = form.submit(form.getSubmitButtons()[0]);
         WebLink webLink = response.getLinkWithID(mainFeatureName);
-        assertNotNull("Missing link for " + mainFeatureName, webLink);
+        assertNotNull(webLink, "Missing link for " + mainFeatureName);
         response = webLink.click();
-        assertEquals("response code", 200, response.getResponseCode());
+        assertEquals(200, response.getResponseCode(), "response code");
     }
 }

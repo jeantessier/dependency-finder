@@ -40,11 +40,12 @@ import javax.servlet.*;
 import com.meterware.httpunit.*;
 import com.meterware.servletunit.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.*;
 
 import com.jeantessier.dependency.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Sets up a dependency graph like the one in <a href="graph.xml">graph.xml</a>.
@@ -77,8 +78,8 @@ public abstract class TestBase {
 
     protected String label;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         Random random = new Random();
 
         fooPackageName = "foo" + random.nextLong();
@@ -123,46 +124,46 @@ public abstract class TestBase {
     }
 
     @Test
-    public void testNoLabel() throws Exception {
+    void testNoLabel() throws Exception {
         getApplication().removeAttribute("label");
 
         context.service();
         WebResponse response = client.getResponse(request);
-        assertEquals("name", "Dependency Finder", response.getElementWithID("name").getText());
-        assertNull("label", response.getElementWithID("label"));
+        assertEquals("Dependency Finder", response.getElementWithID("name").getText(), "name");
+        assertNull(response.getElementWithID("label"), "label");
     }
 
     @Test
-    public void testLabel() throws Exception {
+    void testLabel() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
-        assertEquals("name", "Dependency Finder", response.getElementWithID("name").getText());
-        assertEquals("label", label, response.getElementWithID("label").getText());
+        assertEquals("Dependency Finder", response.getElementWithID("name").getText(), "name");
+        assertEquals(label, response.getElementWithID("label").getText(), "label");
     }
 
     @Test
-    public void testNoDependencyGraph() throws Exception {
+    void testNoDependencyGraph() throws Exception {
         getApplication().removeAttribute("factory");
 
         context.service();
         WebResponse response = client.getResponse(request);
-        assertTrue("Missing text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
+        assertTrue(response.getText().contains(NO_GRAPH_MESSAGE), "Missing text \"" + NO_GRAPH_MESSAGE + "\"");
     }
 
     @Test
-    public void testEmptyDependencyGraph() throws Exception {
+    void testEmptyDependencyGraph() throws Exception {
         getApplication().setAttribute("factory", new NodeFactory());
 
         context.service();
         WebResponse response = client.getResponse(request);
-        assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
+        assertFalse(response.getText().contains(NO_GRAPH_MESSAGE), "Unexpected text \"" + NO_GRAPH_MESSAGE + "\"");
     }
 
     @Test
-    public void testTestDependencyGraph() throws Exception {
+    void testTestDependencyGraph() throws Exception {
         context.service();
         WebResponse response = client.getResponse(request);
-        assertFalse("Unexpected text \"" + NO_GRAPH_MESSAGE + "\"", response.getText().contains(NO_GRAPH_MESSAGE));
+        assertFalse(response.getText().contains(NO_GRAPH_MESSAGE), "Unexpected text \"" + NO_GRAPH_MESSAGE + "\"");
     }
 
     protected ServletContext getApplication() {

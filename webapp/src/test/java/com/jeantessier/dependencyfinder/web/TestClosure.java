@@ -32,9 +32,9 @@
 
 package com.jeantessier.dependencyfinder.web;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
-@Ignore("HttpUnit cannot connect to the webapp")
+@Disabled("HttpUnit cannot connect to the webapp")
 public class TestClosure extends TestClosureBase {
     protected String getStartUrl() {
         return "http://localhost/web/closure.jsp";

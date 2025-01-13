@@ -36,13 +36,13 @@ import java.util.*;
 
 import com.meterware.httpunit.*;
 
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class TestNewGraphBase extends TestBase {
     @Test
-    public void testTemporaryLabelOverride() throws Exception {
+    void testTemporaryLabelOverride() throws Exception {
         String temporaryLabel = "temporary label " + new Random().nextLong();
         request.setParameter("label", temporaryLabel);
 
@@ -50,8 +50,8 @@ public abstract class TestNewGraphBase extends TestBase {
         WebResponse response = client.getResponse(request);
         WebForm form = response.getForms()[0];
 
-        assertEquals("label on page", temporaryLabel, response.getElementWithID("label").getText());
-        assertEquals("label in the application", label, getApplication().getAttribute("label"));
-        assertEquals("label in form", temporaryLabel, form.getParameterValue("label"));
+        assertEquals(temporaryLabel, response.getElementWithID("label").getText(), "label on page");
+        assertEquals(label, getApplication().getAttribute("label"), "label in the application");
+        assertEquals(temporaryLabel, form.getParameterValue("label"), "label in form");
     }
 }
