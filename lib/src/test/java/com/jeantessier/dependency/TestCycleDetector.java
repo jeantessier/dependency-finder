@@ -32,10 +32,12 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestCycleDetector extends TestCase {
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestCycleDetector {
+    private final NodeFactory factory = new NodeFactory();
 
     private Node a_package;
     private Node a_A_a_feature;
@@ -47,11 +49,10 @@ public class TestCycleDetector extends TestCase {
     private Node d_package;
     private Node e_package;
 
-    private CycleDetector detector;
+    private final CycleDetector detector = new CycleDetector();
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-
+    @BeforeEach
+    void setUp() {
         a_package = factory.createPackage("a");
         a_A_a_feature = factory.createFeature("a.A.a");
 
@@ -61,54 +62,57 @@ public class TestCycleDetector extends TestCase {
         c_package = factory.createPackage("c");
         d_package = factory.createPackage("d");
         e_package = factory.createPackage("e");
-
-        detector = new CycleDetector();
     }
 
-    public void testNoDependencies() {
+    @Test
+    void testNoDependencies() {
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 0, detector.getCycles().size());
+        assertEquals(0, detector.getCycles().size(), "Nb cycles");
     }
 
-    public void testNoCycles() {
+    @Test
+    void testNoCycles() {
         a_package.addDependency(b_package);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 0, detector.getCycles().size());
+        assertEquals(0, detector.getCycles().size(), "Nb cycles");
     }
 
-    public void testOneLength2PackageCycle() {
+    @Test
+    void testOneLength2PackageCycle() {
         a_package.addDependency(b_package);
         b_package.addDependency(a_package);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 1, detector.getCycles().size());
+        assertEquals(1, detector.getCycles().size(), "Nb cycles");
 
         var cycles = detector.getCycles().iterator();
 
         var cycle = cycles.next();
-        assertEquals("cycle length", 2, cycle.getLength());
+        assertEquals(2, cycle.getLength(), "cycle length");
         var i = cycle.getPath().iterator();
-        assertEquals("a", a_package, i.next());
-        assertEquals("b", b_package, i.next());
+        assertEquals(a_package, i.next(), "a");
+        assertEquals(b_package, i.next(), "b");
     }
 
-    public void testOneLength3PackageCycle() {
+    @Test
+    void testOneLength3PackageCycle() {
         a_package.addDependency(b_package);
         b_package.addDependency(c_package);
         c_package.addDependency(a_package);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 1, detector.getCycles().size());
+        assertEquals(1, detector.getCycles().size(), "Nb cycles");
 
         var cycles = detector.getCycles().iterator();
 
         var cycle = cycles.next();
-        assertEquals("cycle length", 3, cycle.getLength());
+        assertEquals(3, cycle.getLength(), "cycle length");
         var i = cycle.getPath().iterator();
-        assertEquals("a", a_package, i.next());
-        assertEquals("b", b_package, i.next());
-        assertEquals("c", c_package, i.next());
+        assertEquals(a_package, i.next(), "a");
+        assertEquals(b_package, i.next(), "b");
+        assertEquals(c_package, i.next(), "c");
     }
 
-    public void testTwoLength3PackageCycles() {
+    @Test
+    void testTwoLength3PackageCycles() {
         a_package.addDependency(b_package);
         b_package.addDependency(c_package);
         c_package.addDependency(a_package);
@@ -116,51 +120,53 @@ public class TestCycleDetector extends TestCase {
         d_package.addDependency(e_package);
         e_package.addDependency(c_package);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 2, detector.getCycles().size());
+        assertEquals(2, detector.getCycles().size(), "Nb cycles");
 
         var cycles = detector.getCycles().iterator();
 
         var cycle = cycles.next();
-        assertEquals("cycle length", 3, cycle.getLength());
+        assertEquals(3, cycle.getLength(), "cycle length");
         var i = cycle.getPath().iterator();
-        assertEquals("a", a_package, i.next());
-        assertEquals("b", b_package, i.next());
-        assertEquals("c", c_package, i.next());
+        assertEquals(a_package, i.next(), "a");
+        assertEquals(b_package, i.next(), "b");
+        assertEquals(c_package, i.next(), "c");
 
         cycle = cycles.next();
-        assertEquals("cycle length", 3, cycle.getLength());
+        assertEquals(3, cycle.getLength(), "cycle length");
         i = cycle.getPath().iterator();
-        assertEquals("c", c_package, i.next());
-        assertEquals("d", d_package, i.next());
-        assertEquals("e", e_package, i.next());
+        assertEquals(c_package, i.next(), "c");
+        assertEquals(d_package, i.next(), "d");
+        assertEquals(e_package, i.next(), "e");
     }
 
-    public void testOneLength2AndOneLength3PackageCycles() {
+    @Test
+    void testOneLength2AndOneLength3PackageCycles() {
         a_package.addDependency(b_package);
         b_package.addDependency(a_package);
         c_package.addDependency(d_package);
         d_package.addDependency(e_package);
         e_package.addDependency(c_package);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 2, detector.getCycles().size());
+        assertEquals(2, detector.getCycles().size(), "Nb cycles");
 
         var cycles = detector.getCycles().iterator();
 
         var cycle = cycles.next();
-        assertEquals("cycle length", 2, cycle.getLength());
+        assertEquals(2, cycle.getLength(), "cycle length");
         var i = cycle.getPath().iterator();
-        assertEquals("a", a_package, i.next());
-        assertEquals("b", b_package, i.next());
+        assertEquals(a_package, i.next(), "a");
+        assertEquals(b_package, i.next(), "b");
 
         cycle = cycles.next();
-        assertEquals("cycle length", 3, cycle.getLength());
+        assertEquals(3, cycle.getLength(), "cycle length");
         i = cycle.getPath().iterator();
-        assertEquals("c", c_package, i.next());
-        assertEquals("d", d_package, i.next());
-        assertEquals("e", e_package, i.next());
+        assertEquals(c_package, i.next(), "c");
+        assertEquals(d_package, i.next(), "d");
+        assertEquals(e_package, i.next(), "e");
     }
 
-    public void testMaximumLength() {
+    @Test
+    void testMaximumLength() {
         a_package.addDependency(b_package);
         b_package.addDependency(a_package);
         c_package.addDependency(d_package);
@@ -168,29 +174,30 @@ public class TestCycleDetector extends TestCase {
         e_package.addDependency(c_package);
         detector.setMaximumCycleLength(2);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 1, detector.getCycles().size());
+        assertEquals(1, detector.getCycles().size(), "Nb cycles");
 
         var cycles = detector.getCycles().iterator();
 
         var cycle = cycles.next();
-        assertEquals("cycle length", 2, cycle.getLength());
+        assertEquals(2, cycle.getLength(), "cycle length");
         var i = cycle.getPath().iterator();
-        assertEquals("a", a_package, i.next());
-        assertEquals("b", b_package, i.next());
+        assertEquals(a_package, i.next(), "a");
+        assertEquals(b_package, i.next(), "b");
     }
 
-    public void testOneLength2FeatureCycle() {
+    @Test
+    void testOneLength2FeatureCycle() {
         a_A_a_feature.addDependency(b_B_b_feature);
         b_B_b_feature.addDependency(a_A_a_feature);
         detector.traverseNodes(factory.getPackages().values());
-        assertEquals("Nb cycles", 1, detector.getCycles().size());
+        assertEquals(1, detector.getCycles().size(), "Nb cycles");
 
         var cycles = detector.getCycles().iterator();
 
         var cycle = cycles.next();
-        assertEquals("cycle length", 2, cycle.getLength());
+        assertEquals(2, cycle.getLength(), "cycle length");
         var i = cycle.getPath().iterator();
-        assertEquals("a.A.a", a_A_a_feature, i.next());
-        assertEquals("b.B.b", b_B_b_feature, i.next());
+        assertEquals(a_A_a_feature, i.next(), "a.A.a");
+        assertEquals(b_B_b_feature, i.next(), "b.B.b");
     }
 }

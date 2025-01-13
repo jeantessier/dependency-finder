@@ -32,49 +32,30 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestGraphSummarizerWithFiltering extends TestCase {
-    private RegularExpressionSelectionCriteria scopeCriteria;
-    private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory factory;
+public class TestGraphSummarizerWithFiltering {
+    private final RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");
+    private final RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
+    private final NodeFactory factory = new NodeFactory();
     
-    private Node a_A_a;
-    private Node b;
-    private Node b_B_b;
-    private Node c_C_c;
+    private final Node a_A_a = factory.createFeature("a.A.a");
+    private final Node b = factory.createPackage("b");
+    private final Node b_B_b = factory.createFeature("b.B.b");
+    private final Node c_C_c = factory.createFeature("c.C.c");
 
-    private List<String> includeScope;
-    private List<String> includeFilter;
-    private List<String> excludeFilter;
+    private final List<String> includeScope = List.of("/^a/");
+    private final List<String> includeFilter = List.of("/^b/");
+    private final List<String> excludeFilter = List.of("/^c/");
 
-    private GraphCopier copier;
+    private final GraphCopier copier = new GraphSummarizer(scopeCriteria, filterCriteria);
 
-    protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
-        filterCriteria = new RegularExpressionSelectionCriteria("//");
-        factory = new NodeFactory();
-
-        a_A_a = factory.createFeature("a.A.a");
-        b     = factory.createPackage("b");
-        b_B_b = factory.createFeature("b.B.b");
-        c_C_c = factory.createFeature("c.C.c");
-        
-        includeScope = new LinkedList<>();
-        includeScope.add("/^a/");
-        
-        includeFilter = new LinkedList<>();
-        includeFilter.add("/^b/");
-        
-        excludeFilter = new LinkedList<>();
-        excludeFilter.add("/^c/");
-
-        copier = new GraphSummarizer(scopeCriteria, filterCriteria);
-    }
-
-    public void testIncludeFilterF2FtoP2P() {
+    @Test
+    void testIncludeFilterF2FtoP2P() {
         a_A_a.addDependency(b_B_b);
         a_A_a.addDependency(c_C_c);
         
@@ -87,13 +68,12 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
         copier.traverseNodes(factory.getPackages().values());
 
         assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
-        assertEquals(copier.getScopeFactory().createPackage("a").getOutboundDependencies().toString(),
-                     1, 
-                     copier.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+        assertEquals(1, copier.getScopeFactory().createPackage("a").getOutboundDependencies().size(), copier.getScopeFactory().createPackage("a").getOutboundDependencies().toString());
         assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().contains(b));
     }
 
-    public void testExcludeFilterF2FtoP2P() {
+    @Test
+    void testExcludeFilterF2FtoP2P() {
         a_A_a.addDependency(b_B_b);
         a_A_a.addDependency(c_C_c);
         
@@ -104,14 +84,12 @@ public class TestGraphSummarizerWithFiltering extends TestCase {
         filterCriteria.setMatchingFeatures(false);
         filterCriteria.setGlobalExcludes(excludeFilter);
 
-        assertTrue(!filterCriteria.matchesFeatureName(c_C_c.getName()));
+        assertFalse(filterCriteria.matchesFeatureName(c_C_c.getName()));
         
         copier.traverseNodes(factory.getPackages().values());
 
         assertTrue(copier.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
-        assertEquals(copier.getScopeFactory().createPackage("a").getOutboundDependencies().toString(),
-                     1, 
-                     copier.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+        assertEquals(1, copier.getScopeFactory().createPackage("a").getOutboundDependencies().size(), copier.getScopeFactory().createPackage("a").getOutboundDependencies().toString());
         assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().contains(b));
     }
 }

@@ -32,28 +32,32 @@
 
 package com.jeantessier.dependency;
 
+import org.xml.sax.*;
+import org.apache.oro.text.perl.*;
+import org.junit.jupiter.api.*;
+
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 import javax.xml.parsers.*;
 
-import junit.framework.*;
-import org.xml.sax.*;
-import org.apache.oro.text.perl.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestXMLCyclePrinter extends TestCase {
+public class TestXMLCyclePrinter {
     private static final String SPECIFIC_ENCODING = "iso-latin-1";
     private static final String SPECIFIC_DTD_PREFIX = "./etc";
 
     private XMLReader reader;
     private final Perl5Util perl = new Perl5Util();
-    private final StringWriter out = new StringWriter();
+    private final StringWriter writer = new StringWriter();
 
     private Node a_package;
     private Node b_package;
     private Node c_package;
 
-    protected void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
 	    var validate = Boolean.getBoolean("DEPENDENCYFINDER_TESTS_VALIDATE");
 
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
@@ -67,191 +71,149 @@ public class TestXMLCyclePrinter extends TestCase {
         c_package = factory.createPackage("c");
     }
 
-    public void testDefaultDTDPrefix() {
-        new XMLCyclePrinter(new PrintWriter(out));
+    @Test
+    void testDefaultDTDPrefix() {
+        new XMLCyclePrinter(new PrintWriter(writer));
 
-        String xmlDocument = out.toString();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"", perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX));
+        String xmlDocument = writer.toString();
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"");
 
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertThrows(SAXException.class, () -> reader.parse(new InputSource(new StringReader(xmlDocument))));
     }
 
-    public void testSpecificDTDPrefix() {
-        new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+    @Test
+    void testSpecificDTDPrefix() {
+        new XMLCyclePrinter(new PrintWriter(writer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-        String xmlDocument = out.toString();
-        assertTrue(xmlDocument + "Missing DTD", perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument));
-        assertTrue("DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"", perl.group(1).startsWith(SPECIFIC_DTD_PREFIX));
+        String xmlDocument = writer.toString();
+        assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
+        assertTrue(perl.group(1).startsWith(SPECIFIC_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"");
 
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertThrows(SAXException.class, () -> reader.parse(new InputSource(new StringReader(xmlDocument))));
     }
 
-    public void testDefaultEncoding() {
-        new XMLCyclePrinter(new PrintWriter(out));
+    @Test
+    void testDefaultEncoding() {
+        new XMLCyclePrinter(new PrintWriter(writer));
 
-        String xmlDocument = out.toString();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", XMLPrinter.DEFAULT_ENCODING, perl.group(1));
+        String xmlDocument = writer.toString();
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(XMLPrinter.DEFAULT_ENCODING, perl.group(1), "Encoding");
 
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertThrows(SAXException.class, () -> reader.parse(new InputSource(new StringReader(xmlDocument))));
     }
 
-    public void testSpecificEncoding() {
-        new XMLCyclePrinter(new PrintWriter(out), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+    @Test
+    void testSpecificEncoding() {
+        new XMLCyclePrinter(new PrintWriter(writer), SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
-        String xmlDocument = out.toString();
-        assertTrue(xmlDocument + "Missing encoding", perl.match("/encoding=\"([^\"]*)\"/", xmlDocument));
-        assertEquals("Encoding", SPECIFIC_ENCODING, perl.group(1));
+        String xmlDocument = writer.toString();
+        assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
+        assertEquals(SPECIFIC_ENCODING, perl.group(1), "Encoding");
 
-        try {
-            reader.parse(new InputSource(new StringReader(xmlDocument)));
-            fail("Parsed non-existant document\n" + xmlDocument);
-        } catch (SAXException ex) {
-            // Ignore
-        } catch (IOException ex) {
-            fail("Could not read XML Document: " + ex.getMessage() + "\n" + xmlDocument);
-        }
+        assertThrows(SAXException.class, () -> reader.parse(new InputSource(new StringReader(xmlDocument))));
     }
 
-    public void testVisitCyclesWith2NodeCycle() throws IOException {
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(a_package);
-        nodes.add(b_package);
-        Cycle cycle = new Cycle(nodes);
+    @Test
+    void testVisitCyclesWith2NodeCycle() {
+        var cycle = new Cycle(List.of(a_package, b_package));
 
-        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(writer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitCycles(Collections.singletonList(cycle));
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">",
+                "",
+                "<cycles>",
+                "    <cycle>",
+                "        <node type=\"package\">a</node>",
+                "        <node type=\"package\">b</node>",
+                "    </cycle>",
+                "</cycles>"
+        );
 
-        assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<cycles>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">a</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">b</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    </cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "</cycles>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 
-    public void testVisitCyclesWith2NodeCycleWithIndentText() throws IOException {
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(a_package);
-        nodes.add(b_package);
-        Cycle cycle = new Cycle(nodes);
+    @Test
+    void testVisitCyclesWith2NodeCycleWithIndentText() {
+        var cycle = new Cycle(List.of(a_package, b_package));
 
-        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(writer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.setIndentText("*");
         printer.visitCycles(Collections.singletonList(cycle));
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">",
+                "",
+                "<cycles>",
+                "*<cycle>",
+                "**<node type=\"package\">a</node>",
+                "**<node type=\"package\">b</node>",
+                "*</cycle>",
+                "</cycles>"
+        );
 
-        assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<cycles>", in.readLine());
-        assertEquals("line " + ++lineNumber, "*<cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "**<node type=\"package\">a</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "**<node type=\"package\">b</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "*</cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "</cycles>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 
-    public void testVisitCycleWith3NodeCycle() throws IOException {
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(a_package);
-        nodes.add(b_package);
-        nodes.add(c_package);
-        Cycle cycle = new Cycle(nodes);
+    @Test
+    void testVisitCycleWith3NodeCycle() {
+        var cycle = new Cycle(List.of(a_package, b_package, c_package));
 
-        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(writer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitCycles(Collections.singletonList(cycle));
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">",
+                "",
+                "<cycles>",
+                "    <cycle>",
+                "        <node type=\"package\">a</node>",
+                "        <node type=\"package\">b</node>",
+                "        <node type=\"package\">c</node>",
+                "    </cycle>",
+                "</cycles>"
+        );
 
-        assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<cycles>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">a</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">b</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">c</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    </cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "</cycles>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 
-    public void testVisitCycleWith2Cycles() throws IOException {
-        List<Cycle> cycles = new ArrayList<>();
+    @Test
+    void testVisitCycleWith2Cycles() {
+        var cycles = List.of(
+                new Cycle(List.of(a_package, b_package)),
+                new Cycle(List.of(a_package, b_package, c_package))
+        );
 
-        List<Node> nodes1 = new ArrayList<>();
-        nodes1.add(a_package);
-        nodes1.add(b_package);
-        cycles.add(new Cycle(nodes1));
-
-        List<Node> nodes2 = new ArrayList<>();
-        nodes2.add(a_package);
-        nodes2.add(b_package);
-        nodes2.add(c_package);
-        cycles.add(new Cycle(nodes2));
-
-        var printer = new XMLCyclePrinter(new PrintWriter(out), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLCyclePrinter(new PrintWriter(writer), XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitCycles(cycles);
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.of(
+                "<?xml version=\"1.0\" encoding=\"utf-8\" ?>",
+                "",
+                "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">",
+                "",
+                "<cycles>",
+                "    <cycle>",
+                "        <node type=\"package\">a</node>",
+                "        <node type=\"package\">b</node>",
+                "    </cycle>",
+                "    <cycle>",
+                "        <node type=\"package\">a</node>",
+                "        <node type=\"package\">b</node>",
+                "        <node type=\"package\">c</node>",
+                "    </cycle>",
+                "</cycles>"
+        );
 
-        assertEquals("line " + ++lineNumber, "<?xml version=\"1.0\" encoding=\"utf-8\" ?>", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<!DOCTYPE dependencies SYSTEM \"./etc/cycles.dtd\">", in.readLine());
-        assertEquals("line " + ++lineNumber, "", in.readLine());
-        assertEquals("line " + ++lineNumber, "<cycles>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">a</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">b</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    </cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    <cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">a</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">b</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        <node type=\"package\">c</node>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    </cycle>", in.readLine());
-        assertEquals("line " + ++lineNumber, "</cycles>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 }

@@ -32,67 +32,69 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestFeatureNode extends TestCase {
-    private NodeFactory factory;
-    private FeatureNode node;
-    
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-    }
+import static org.junit.jupiter.api.Assertions.*;
 
-    public void testSwitchFeatureNodeFromReferencedToConcrete() {
-        node = factory.createFeature("a.A.a", false);
+public class TestFeatureNode {
+    private final NodeFactory factory = new NodeFactory();
+
+    @Test
+    void testSwitchFeatureNodeFromReferencedToConcrete() {
+        var sut = factory.createFeature("a.A.a", false);
         
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.isConfirmed());
-        node.setConfirmed(true);
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.isConfirmed());
+        assertFalse(sut.getClassNode().getPackageNode().isConfirmed(), "Not referenced");
+        assertFalse(sut.getClassNode().isConfirmed(), "Not referenced");
+        assertFalse(sut.isConfirmed(), "Not referenced");
+        sut.setConfirmed(true);
+        assertTrue(sut.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.isConfirmed(), "Not concrete");
     }
 
-    public void testSwitchOneFeatureNodeOutOfTwoFromReferencedToConcrete() {
-        node = factory.createFeature("a.A.a", false);
+    @Test
+    void testSwitchOneFeatureNodeOutOfTwoFromReferencedToConcrete() {
+        var sut = factory.createFeature("a.A.a", false);
         factory.createFeature("a.A.b", false);
         
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.isConfirmed());
-        node.setConfirmed(true);
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.isConfirmed());
+        assertFalse(sut.getClassNode().getPackageNode().isConfirmed(), "Not referenced");
+        assertFalse(sut.getClassNode().isConfirmed(), "Not referenced");
+        assertFalse(sut.isConfirmed(), "Not referenced");
+        sut.setConfirmed(true);
+        assertTrue(sut.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.isConfirmed(), "Not concrete");
     }
 
-    public void testSwitchFeatureNodeFromConcreteToReferenced() {
-        node = factory.createFeature("a.A.a", true);
+    @Test
+    void testSwitchFeatureNodeFromConcreteToReferenced() {
+        var sut = factory.createFeature("a.A.a", true);
 
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.isConfirmed());
-        node.setConfirmed(false);
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.isConfirmed());
+        assertTrue(sut.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        sut.setConfirmed(false);
+        assertTrue(sut.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.getClassNode().isConfirmed(), "Not concrete");
+        assertFalse(sut.isConfirmed(), "Not referenced");
     }
 
-    public void testSwitchOneFeatureNodeOutOfTwoFromConcreteToReferenced() {
-        node = factory.createFeature("a.A.a", true);
+    @Test
+    void testSwitchOneFeatureNodeOutOfTwoFromConcreteToReferenced() {
+        var sut = factory.createFeature("a.A.a", true);
         factory.createFeature("a.A.b", true);
         
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.isConfirmed());
-        node.setConfirmed(false);
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.isConfirmed());
+        assertTrue(sut.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        sut.setConfirmed(false);
+        assertTrue(sut.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
+        assertTrue(sut.getClassNode().isConfirmed(), "Not concrete");
+        assertFalse(sut.isConfirmed(), "Not referenced");
     }
 
-    public void testGetSimpleName_DefaultPackage() {
+    @Test
+    void testGetSimpleName_DefaultPackage() {
         String packageName = "";
         PackageNode packageNode = new PackageNode(packageName, true);
 
@@ -105,7 +107,8 @@ public class TestFeatureNode extends TestCase {
         assertEquals(featureName, sut.getSimpleName());
     }
     
-    public void testGetSimpleName_SomePackage() {
+    @Test
+    void testGetSimpleName_SomePackage() {
         String packageName = "foo";
         PackageNode packageNode = new PackageNode(packageName, true);
 
@@ -118,7 +121,8 @@ public class TestFeatureNode extends TestCase {
         assertEquals(featureName, sut.getSimpleName());
     }
 
-    public void testGetSimpleName_MethodWithParameterOfSameClassType() {
+    @Test
+    void testGetSimpleName_MethodWithParameterOfSameClassType() {
         String packageName = "foo";
         PackageNode packageNode = new PackageNode(packageName, true);
 

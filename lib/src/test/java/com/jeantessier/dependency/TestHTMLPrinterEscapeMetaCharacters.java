@@ -33,12 +33,14 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
+import java.util.regex.*;
 
-import org.apache.oro.text.perl.*;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
     private HTMLPrinter visitor;
-    private Perl5Util perl;
 
     private PackageNode fooPackage;
     private ClassNode fooClass;
@@ -47,18 +49,17 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
     private ClassNode barClass;
     private FeatureNode barFeature;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() throws Exception {
+        var scopeCriteria = new RegularExpressionSelectionCriteria("/foo/");
+        var filterCriteria = new RegularExpressionSelectionCriteria("/bar/");
+        var strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
 
-        SelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("/foo/");
-        SelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("/bar/");
-        SelectiveTraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
-
-        visitor = new HTMLPrinter(strategy, new PrintWriter(out), FORMAT);
-        perl = new Perl5Util();
+        visitor = new HTMLPrinter(strategy, new PrintWriter(writer), FORMAT);
     }
 
-    public void testEscapeOpeningParenthesisInScope() throws Exception {
+    @Test
+    void testEscapeOpeningParenthesisInScope() {
         setupGraph("(");
 
         visitor.traverseNodes(factory.getPackages().values());
@@ -68,7 +69,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertScopeLine("        ", "foo\\(.Foo\\(.foo\\(", fooFeature.getName(), "foo(");
     }
 
-    public void testEscapeOpeningParenthesisInInboundFilter() throws Exception {
+    @Test
+    void testEscapeOpeningParenthesisInInboundFilter() {
         setupGraph("(");
         setupInboundDependencies();
 
@@ -79,7 +81,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertInboundLine("            ", "bar\\(.Bar\\(.bar\\(", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeOpeningParenthesisInOutboundFilter() throws Exception {
+    @Test
+    void testEscapeOpeningParenthesisInOutboundFilter() {
         setupGraph("(");
         setupOutboundDependencies();
 
@@ -90,7 +93,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertOutboundLine("            ", "bar\\(.Bar\\(.bar\\(", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeClosingParenthesisInScope() throws Exception {
+    @Test
+    void testEscapeClosingParenthesisInScope() {
         setupGraph(")");
 
         visitor.traverseNodes(factory.getPackages().values());
@@ -100,7 +104,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertScopeLine("        ", "foo\\).Foo\\).foo\\)", fooFeature.getName(), "foo)");
     }
 
-    public void testEscapeClosingParenthesisInInboundFilter() throws Exception {
+    @Test
+    void testEscapeClosingParenthesisInInboundFilter() {
         setupGraph(")");
         setupInboundDependencies();
 
@@ -111,7 +116,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertInboundLine("            ", "bar\\).Bar\\).bar\\)", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeClosingParenthesisInOutboundFilter() throws Exception {
+    @Test
+    void testEscapeClosingParenthesisInOutboundFilter() {
         setupGraph(")");
         setupOutboundDependencies();
 
@@ -122,7 +128,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertOutboundLine("            ", "bar\\).Bar\\).bar\\)", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeDollarSignInScope() throws Exception {
+    @Test
+    void testEscapeDollarSignInScope() {
         setupGraph("$");
 
         visitor.traverseNodes(factory.getPackages().values());
@@ -132,7 +139,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertScopeLine("        ", "foo\\$.Foo\\$.foo\\$", fooFeature.getName(), "foo$");
     }
 
-    public void testEscapeDollarSignInInboundFilter() throws Exception {
+    @Test
+    void testEscapeDollarSignInInboundFilter() {
         setupGraph("$");
         setupInboundDependencies();
 
@@ -143,7 +151,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertInboundLine("            ", "bar\\$.Bar\\$.bar\\$", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeDollarSignInOutboundFilter() throws Exception {
+    @Test
+    void testEscapeDollarSignInOutboundFilter() {
         setupGraph("$");
         setupOutboundDependencies();
 
@@ -154,7 +163,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertOutboundLine("            ", "bar\\$.Bar\\$.bar\\$", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeOpeningSquareBracketInScope() throws Exception {
+    @Test
+    void testEscapeOpeningSquareBracketInScope() {
         setupGraph("[");
 
         visitor.traverseNodes(factory.getPackages().values());
@@ -164,7 +174,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertScopeLine("        ", "foo\\[.Foo\\[.foo\\[", fooFeature.getName(), "foo[");
     }
 
-    public void testEscapeOpeningSquareBracketInInboundFilter() throws Exception {
+    @Test
+    void testEscapeOpeningSquareBracketInInboundFilter() {
         setupGraph("[");
         setupInboundDependencies();
 
@@ -175,7 +186,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertInboundLine("            ", "bar\\[.Bar\\[.bar\\[", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeOpeningSquareBracketInOutboundFilter() throws Exception {
+    @Test
+    void testEscapeOpeningSquareBracketInOutboundFilter() {
         setupGraph("[");
         setupOutboundDependencies();
 
@@ -186,7 +198,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertOutboundLine("            ", "bar\\[.Bar\\[.bar\\[", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeClosingSquareBracketInScope() throws Exception {
+    @Test
+    void testEscapeClosingSquareBracketInScope() {
         setupGraph("]");
 
         visitor.traverseNodes(factory.getPackages().values());
@@ -196,7 +209,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertScopeLine("        ", "foo\\].Foo\\].foo\\]", fooFeature.getName(), "foo]");
     }
 
-    public void testEscapeClosingSquareBracketInInboundFilter() throws Exception {
+    @Test
+    void testEscapeClosingSquareBracketInInboundFilter() {
         setupGraph("]");
         setupInboundDependencies();
 
@@ -207,7 +221,8 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         assertInboundLine("            ", "bar\\].Bar\\].bar\\]", fooFeature.getName(), barFeature.getName());
     }
 
-    public void testEscapeClosingSquareBracketInOutboundFilter() throws Exception {
+    @Test
+    void testEscapeClosingSquareBracketInOutboundFilter() {
         setupGraph("]");
         setupOutboundDependencies();
 
@@ -239,43 +254,43 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
         fooFeature.addDependency(barFeature);
     }
 
-    private void assertScopeLine(String indent, String escapedName, String fullName, String tagContents) throws IOException {
-        try (var in = new BufferedReader(new StringReader(out.toString()))) {
-            String line;
-            boolean found = false;
-            while ((line = in.readLine()) != null) {
-                if (perl.match("/^" + indent + "<a class=\"scope\" href=\"(.*)\" id=\"(.*)\">(.*)<\\/a>/", line)) {
-                    assertEquals(line, PREFIX + escapedName + SUFFIX, perl.group(1));
-                    assertEquals(line, fullName, perl.group(2));
-                    assertEquals(line, tagContents, perl.group(3));
-                    found = true;
-                }
-            }
-            assertTrue("Missing " + fullName, found);
-        }
+    private void assertScopeLine(String indent, String escapedName, String fullName, String tagContents) {
+        var regex = Pattern.compile("^" + indent + "<a class=\"scope\" href=\"(.*)\" id=\"(.*)\">(.*)</a>");
+
+        assertTrue(
+                writer.toString().lines()
+                        .map(regex::matcher)
+                        .filter(Matcher::find)
+                        .anyMatch(matcher -> {
+                            assertEquals(PREFIX + escapedName + SUFFIX, matcher.group(1));
+                            assertEquals(fullName, matcher.group(2));
+                            assertEquals(tagContents, matcher.group(3));
+                            return true;
+                        })
+        );
     }
 
-    private void assertInboundLine(String indent, String escapedName, String fullScopeName, String fullDependencyName) throws IOException {
+    private void assertInboundLine(String indent, String escapedName, String fullScopeName, String fullDependencyName) {
         assertDependencyLine(indent, escapedName, fullScopeName + "_from_" + fullDependencyName, fullDependencyName, "&lt;--");
     }
 
-    private void assertOutboundLine(String indent, String escapedName, String fullScopeName, String fullDependencyName) throws IOException {
+    private void assertOutboundLine(String indent, String escapedName, String fullScopeName, String fullDependencyName) {
         assertDependencyLine(indent, escapedName, fullScopeName + "_to_" + fullDependencyName, fullDependencyName, "--&gt;");
     }
 
-    private void assertDependencyLine(String indent, String escapedName, String fullName, String tagContents, String marker) throws IOException {
-        try (var in = new BufferedReader(new StringReader(out.toString()))) {
-            String line;
-            boolean found = false;
-            while ((line = in.readLine()) != null) {
-                if (perl.match("/^" + indent + marker + " <a href=\"(.*)\" id=\"(.*)\">(.*)<\\/a>/", line)) {
-                    assertEquals(line, PREFIX + escapedName + SUFFIX, perl.group(1));
-                    assertEquals(line, fullName, perl.group(2));
-                    assertEquals(line, tagContents, perl.group(3));
-                    found = true;
-                }
-            }
-            assertTrue("Missing " + fullName, found);
-        }
+    private void assertDependencyLine(String indent, String escapedName, String fullName, String tagContents, String marker) {
+        var regex = Pattern.compile("^" + indent + marker + " <a href=\"(.*)\" id=\"(.*)\">(.*)</a>");
+
+        assertTrue(
+                writer.toString().lines()
+                        .map(regex::matcher)
+                        .filter(Matcher::find)
+                        .anyMatch(matcher -> {
+                            assertEquals(PREFIX + escapedName + SUFFIX, matcher.group(1));
+                            assertEquals(fullName, matcher.group(2));
+                            assertEquals(tagContents, matcher.group(3));
+                            return true;
+                        })
+        );
     }
 }

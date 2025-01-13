@@ -32,11 +32,13 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestNode extends TestCase {
+public class TestNode {
     private Node a;
     private Node a_A;
     private Node a_A_a;
@@ -49,8 +51,9 @@ public class TestNode extends TestCase {
     private Node b_B;
     private Node b_B_b;
 
-    protected void setUp() throws Exception {
-        NodeFactory factory = new NodeFactory();
+    @BeforeEach
+    void setUp() {
+        var factory = new NodeFactory();
 
         a = factory.createPackage("a");
         a_A = factory.createClass("a.A");
@@ -65,7 +68,8 @@ public class TestNode extends TestCase {
         b_B_b = factory.createFeature("b.B.b");
     }
 
-    public void testPackageCanAddDependency() {
+    @Test
+    void testPackageCanAddDependency() {
         assertFalse(a.canAddDependencyTo(a));
         assertTrue(a.canAddDependencyTo(a_A));
         assertTrue(a.canAddDependencyTo(a_A_a));
@@ -79,7 +83,8 @@ public class TestNode extends TestCase {
         assertTrue(a.canAddDependencyTo(b_B_b));
     }
 
-    public void testClassCanAddDependency() {
+    @Test
+    void testClassCanAddDependency() {
         assertFalse(a_A.canAddDependencyTo(a));
         assertFalse(a_A.canAddDependencyTo(a_A));
         assertTrue(a_A.canAddDependencyTo(a_A_a));
@@ -93,7 +98,8 @@ public class TestNode extends TestCase {
         assertTrue(a_A.canAddDependencyTo(b_B_b));
     }
 
-    public void testFeatureCanAddDependency() {
+    @Test
+    void testFeatureCanAddDependency() {
         assertFalse(a_A_a.canAddDependencyTo(a));
         assertFalse(a_A_a.canAddDependencyTo(a_A));
         assertFalse(a_A_a.canAddDependencyTo(a_A_a));
@@ -107,48 +113,49 @@ public class TestNode extends TestCase {
         assertTrue(a_A_a.canAddDependencyTo(b_B_b));
     }
 
-    public void testRemoveOneDependency() {
+    @Test
+    void testRemoveOneDependency() {
         a_A_a.addDependency(b_B_b);
-        assertTrue("Missing a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertTrue("Missing b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertTrue(a_A_a.getOutboundDependencies().contains(b_B_b), "Missing a.A.a --> b.B.b");
+        assertTrue(b_B_b.getInboundDependencies().contains(a_A_a), "Missing b.B.b <-- a.A.a");
 
         a_A_a.removeDependency(b_B_b);
-        assertFalse("Did not remove a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertFalse("Did not remove b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertFalse(a_A_a.getOutboundDependencies().contains(b_B_b), "Did not remove a.A.a --> b.B.b");
+        assertFalse(b_B_b.getInboundDependencies().contains(a_A_a), "Did not remove b.B.b <-- a.A.a");
     }
 
-    public void testRemoveOneDependencyButNotAnother() {
+    @Test
+    void testRemoveOneDependencyButNotAnother() {
         a_A_a.addDependency(a_A_b);
-        assertTrue("Missing a.A.a --> a.A.b", a_A_a.getOutboundDependencies().contains(a_A_b));
-        assertTrue("Missing a.A.b <-- a.A.a", a_A_b.getInboundDependencies().contains(a_A_a));
+        assertTrue(a_A_a.getOutboundDependencies().contains(a_A_b), "Missing a.A.a --> a.A.b");
+        assertTrue(a_A_b.getInboundDependencies().contains(a_A_a), "Missing a.A.b <-- a.A.a");
 
         a_A_a.addDependency(b_B_b);
-        assertTrue("Missing a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertTrue("Missing b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertTrue(a_A_a.getOutboundDependencies().contains(b_B_b), "Missing a.A.a --> b.B.b");
+        assertTrue(b_B_b.getInboundDependencies().contains(a_A_a), "Missing b.B.b <-- a.A.a");
 
         a_A_a.removeDependency(b_B_b);
-        assertTrue("Missing a.A.a --> a.A.b", a_A_a.getOutboundDependencies().contains(a_A_b));
-        assertTrue("Missing a.A.b <-- a.A.a", a_A_b.getInboundDependencies().contains(a_A_a));
-        assertFalse("Did not remove a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertFalse("Did not remove b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertTrue(a_A_a.getOutboundDependencies().contains(a_A_b), "Missing a.A.a --> a.A.b");
+        assertTrue(a_A_b.getInboundDependencies().contains(a_A_a), "Missing a.A.b <-- a.A.a");
+        assertFalse(a_A_a.getOutboundDependencies().contains(b_B_b), "Did not remove a.A.a --> b.B.b");
+        assertFalse(b_B_b.getInboundDependencies().contains(a_A_a), "Did not remove b.B.b <-- a.A.a");
     }
 
-    public void testRemoveDependencies() {
+    @Test
+    void testRemoveDependencies() {
         a_A_a.addDependency(a_A_b);
         a_A_a.addDependency(b_B_b);
-        assertTrue("Missing a.A.a --> a.A.b", a_A_a.getOutboundDependencies().contains(a_A_b));
-        assertTrue("Missing a.A.b <-- a.A.a", a_A_b.getInboundDependencies().contains(a_A_a));
-        assertTrue("Missing a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertTrue("Missing b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertTrue(a_A_a.getOutboundDependencies().contains(a_A_b), "Missing a.A.a --> a.A.b");
+        assertTrue(a_A_b.getInboundDependencies().contains(a_A_a), "Missing a.A.b <-- a.A.a");
+        assertTrue(a_A_a.getOutboundDependencies().contains(b_B_b), "Missing a.A.a --> b.B.b");
+        assertTrue(b_B_b.getInboundDependencies().contains(a_A_a), "Missing b.B.b <-- a.A.a");
 
-        Collection<Node> dependencies = new ArrayList<>();
-        dependencies.add(a_A_b);
-        dependencies.add(b_B_b);
+        var dependencies = List.of(a_A_b, b_B_b);
         
         a_A_a.removeDependencies(dependencies);
-        assertFalse("Did not remove a.A.a --> a.A.b", a_A_a.getOutboundDependencies().contains(a_A_b));
-        assertFalse("Did not remove a.A.b <-- a.A.a", a_A_b.getInboundDependencies().contains(a_A_a));
-        assertFalse("Did not remove a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertFalse("Did not remove b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertFalse(a_A_a.getOutboundDependencies().contains(a_A_b), "Did not remove a.A.a --> a.A.b");
+        assertFalse(a_A_b.getInboundDependencies().contains(a_A_a), "Did not remove a.A.b <-- a.A.a");
+        assertFalse(a_A_a.getOutboundDependencies().contains(b_B_b), "Did not remove a.A.a --> b.B.b");
+        assertFalse(b_B_b.getInboundDependencies().contains(a_A_a), "Did not remove b.B.b <-- a.A.a");
     }
 }

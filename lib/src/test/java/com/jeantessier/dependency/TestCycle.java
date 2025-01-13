@@ -32,194 +32,119 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestCycle extends TestCase {
-    private Node a;
-    private Node b;
-    private Node c;
-    private Node d;
-    private Node e;
+public class TestCycle {
+    private final NodeFactory factory = new NodeFactory();
 
-    protected void setUp() throws Exception {
-        NodeFactory factory = new NodeFactory();
+    private final Node a = factory.createPackage("a");
+    private final Node b = factory.createPackage("b");
+    private final Node c = factory.createPackage("c");
+    private final Node d = factory.createPackage("d");
+    private final Node e = factory.createPackage("e");
 
-        a = factory.createPackage("a");
-        b = factory.createPackage("b");
-        c = factory.createPackage("c");
-        d = factory.createPackage("d");
-        e = factory.createPackage("e");
+    @Test
+    void testConstructEmptyCycle() {
+        assertThrows(Exception.class, () -> new Cycle(List.of()));
     }
 
-    public void testConstructEmptyCycle() {
-        try {
-            new Cycle(new ArrayList<>());
-            fail("Constructed empty cycle");
-        } catch (Exception ex) {
-            // expected
-        }
+    @Test
+    void testConstructLength1Cycle() {
+        Cycle cycle = new Cycle(List.of(a));
+
+        assertEquals(1, cycle.getLength(), "length");
+        assertEquals(a, cycle.getPath().iterator().next(), "a");
     }
 
-    public void testConstructLength1Cycle() {
-        List<Node> path = new ArrayList<>();
-        path.add(a);
-        Cycle cycle = new Cycle(path);
+    @Test
+    void testEquals_Identical() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(a, b));
 
-        assertEquals("length", 1, cycle.getLength());
-        assertEquals("a", a, cycle.getPath().iterator().next());
+        assertEquals(cycle1, cycle2);
+        assertEquals(cycle2, cycle1);
     }
 
-    public void testEquals_Identical() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
+    @Test
+    void testEquals_Reversed() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(b, a));
 
-        List<Node> path2 = new ArrayList<>();
-        path2.add(a);
-        path2.add(b);
-        Cycle cycle2 = new Cycle(path2);
-
-        assertTrue(cycle1.equals(cycle2));
-        assertTrue(cycle2.equals(cycle1));
+        assertEquals(cycle1, cycle2);
+        assertEquals(cycle2, cycle1);
     }
 
-    public void testEquals_Reversed() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
+    @Test
+    void testEquals_SameLength() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(c, d));
 
-        List<Node> path2 = new ArrayList<>();
-        path2.add(b);
-        path2.add(a);
-        Cycle cycle2 = new Cycle(path2);
-
-        assertTrue(cycle1.equals(cycle2));
-        assertTrue(cycle2.equals(cycle1));
+        assertNotEquals(cycle1, cycle2);
+        assertNotEquals(cycle2, cycle1);
     }
 
-    public void testEquals_SameLength() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
+    @Test
+    void testEquals_DifferentLength() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(c, d, e));
 
-        List<Node> path2 = new ArrayList<>();
-        path2.add(c);
-        path2.add(d);
-        Cycle cycle2 = new Cycle(path2);
-
-        assertFalse(cycle1.equals(cycle2));
-        assertFalse(cycle2.equals(cycle1));
+        assertNotEquals(cycle1, cycle2);
+        assertNotEquals(cycle2, cycle1);
     }
 
-    public void testEquals_DifferentLength() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
+    @Test
+    void testEquals_LengthTrumpsContent() {
+        Cycle cycle1 = new Cycle(List.of(a, b, c));
+        Cycle cycle2 = new Cycle(List.of(d, e));
 
-        List<Node> path2 = new ArrayList<>();
-        path2.add(c);
-        path2.add(d);
-        path2.add(e);
-        Cycle cycle2 = new Cycle(path2);
-
-        assertFalse(cycle1.equals(cycle2));
-        assertFalse(cycle2.equals(cycle1));
+        assertNotEquals(cycle1, cycle2);
+        assertNotEquals(cycle2, cycle1);
     }
 
-    public void testEquals_LengthTrumpsContent() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        path1.add(c);
-        Cycle cycle1 = new Cycle(path1);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(d);
-        path2.add(e);
-        Cycle cycle2 = new Cycle(path2);
-
-        assertFalse(cycle1.equals(cycle2));
-        assertFalse(cycle2.equals(cycle1));
-    }
-
-    public void testCompareTo_Identical() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(a);
-        path2.add(b);
-        Cycle cycle2 = new Cycle(path2);
+    @Test
+    void testCompareTo_Identical() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(a, b));
 
         assertEquals(0, cycle1.compareTo(cycle2));
         assertEquals(0, cycle2.compareTo(cycle1));
     }
 
-    public void testCompareTo_Reversed() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(b);
-        path2.add(a);
-        Cycle cycle2 = new Cycle(path2);
+    @Test
+    void testCompareTo_Reversed() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(b, a));
 
         assertEquals(0, cycle1.compareTo(cycle2));
         assertEquals(0, cycle2.compareTo(cycle1));
     }
 
-    public void testCompareTo_SameLength() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(c);
-        path2.add(d);
-        Cycle cycle2 = new Cycle(path2);
+    @Test
+    void testCompareTo_SameLength() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(c, d));
 
         assertTrue(cycle1.compareTo(cycle2) < 0);
         assertTrue(cycle2.compareTo(cycle1) > 0);
     }
 
-    public void testCompareTo_DifferentLength() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        Cycle cycle1 = new Cycle(path1);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(c);
-        path2.add(d);
-        path2.add(e);
-        Cycle cycle2 = new Cycle(path2);
+    @Test
+    void testCompareTo_DifferentLength() {
+        Cycle cycle1 = new Cycle(List.of(a, b));
+        Cycle cycle2 = new Cycle(List.of(c, d, e));
 
         assertTrue(cycle1.compareTo(cycle2) < 0);
         assertTrue(cycle2.compareTo(cycle1) > 0);
     }
 
-    public void testCompareTo_LengthTrumpsContent() {
-        List<Node> path1 = new ArrayList<>();
-        path1.add(a);
-        path1.add(b);
-        path1.add(c);
-        Cycle cycle1 = new Cycle(path1);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(d);
-        path2.add(e);
-        Cycle cycle2 = new Cycle(path2);
+    @Test
+    void testCompareTo_LengthTrumpsContent() {
+        Cycle cycle1 = new Cycle(List.of(a, b, c));
+        Cycle cycle2 = new Cycle(List.of(d, e));
 
         assertTrue(cycle1.compareTo(cycle2) > 0);
         assertTrue(cycle2.compareTo(cycle1) < 0);

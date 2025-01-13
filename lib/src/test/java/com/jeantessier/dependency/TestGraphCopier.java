@@ -32,20 +32,19 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestGraphCopier extends TestCase {
-    private RegularExpressionSelectionCriteria scopeCriteria;
-    private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private GraphCopier copier;
+public class TestGraphCopier {
+    private final RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");
+    private final RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
+    private final NodeFactory factory = new NodeFactory();
 
-    protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
-        filterCriteria = new RegularExpressionSelectionCriteria("//");
-        factory = new NodeFactory();
+    private final GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 
+    @BeforeEach
+    void setUp() {
         Node test_class = factory.createClass("test");
         Node test_main_method = factory.createFeature("test.main(String[])");
         Node test_Test_method = factory.createFeature("test.Test()");
@@ -62,22 +61,15 @@ public class TestGraphCopier extends TestCase {
         test_main_method.addDependency(java_lang_String_class);
         test_main_method.addDependency(java_util_Collections_singleton_method);
         test_Test_method.addDependency(java_lang_Object_Object_method);
-
-        copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
     }
 
-    public void testCopyFullGraph() {
+    @Test
+    void testCopyFullGraph() {
         copier.traverseNodes(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     factory.getPackages().size(),
-                     copier.getScopeFactory().getPackages().size());
-        assertEquals("Different number of classes",
-                     factory.getClasses().size(),
-                     copier.getScopeFactory().getClasses().size());
-        assertEquals("Different number of features",
-                     factory.getFeatures().size(),
-                     copier.getScopeFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), copier.getScopeFactory().getPackages().size(), "Different number of packages");
+        assertEquals(factory.getClasses().size(), copier.getScopeFactory().getClasses().size(), "Different number of classes");
+        assertEquals(factory.getFeatures().size(), copier.getScopeFactory().getFeatures().size(), "Different number of features");
 
         factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
@@ -107,22 +99,17 @@ public class TestGraphCopier extends TestCase {
         });
     }
 
-    public void testCopyAllNodesOnly() {
+    @Test
+    void testCopyAllNodesOnly() {
         filterCriteria.setMatchingPackages(false);
         filterCriteria.setMatchingClasses(false);
         filterCriteria.setMatchingFeatures(false);
         
         copier.traverseNodes(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     factory.getPackages().size(),
-                     copier.getScopeFactory().getPackages().size());
-        assertEquals("Different number of classes",
-                     factory.getClasses().size(),
-                     copier.getScopeFactory().getClasses().size());
-        assertEquals("Different number of features",
-                     factory.getFeatures().size(),
-                     copier.getScopeFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), copier.getScopeFactory().getPackages().size(), "Different number of packages");
+        assertEquals(factory.getClasses().size(), copier.getScopeFactory().getClasses().size(), "Different number of classes");
+        assertEquals(factory.getFeatures().size(), copier.getScopeFactory().getFeatures().size(), "Different number of features");
 
         factory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
@@ -146,7 +133,8 @@ public class TestGraphCopier extends TestCase {
         });
     }
 
-    public void testCopyPackageNodesOnly() {
+    @Test
+    void testCopyPackageNodesOnly() {
         scopeCriteria.setMatchingClasses(false);
         scopeCriteria.setMatchingFeatures(false);
         filterCriteria.setMatchingPackages(false);
@@ -155,9 +143,7 @@ public class TestGraphCopier extends TestCase {
         
         copier.traverseNodes(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     factory.getPackages().size(),
-                     copier.getScopeFactory().getPackages().size());
+        assertEquals(factory.getPackages().size(), copier.getScopeFactory().getPackages().size(), "Different number of packages");
         assertTrue(copier.getScopeFactory().getClasses().isEmpty());
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
 
@@ -169,7 +155,8 @@ public class TestGraphCopier extends TestCase {
         });
     }
 
-    public void testCopyClassNodesOnly() {
+    @Test
+    void testCopyClassNodesOnly() {
         scopeCriteria.setMatchingPackages(false);
         scopeCriteria.setMatchingFeatures(false);
         filterCriteria.setMatchingPackages(false);
@@ -178,12 +165,8 @@ public class TestGraphCopier extends TestCase {
         
         copier.traverseNodes(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     factory.getPackages().size(),
-                     copier.getScopeFactory().getPackages().size());
-        assertEquals("Different number of classes",
-                     factory.getClasses().size(),
-                     copier.getScopeFactory().getClasses().size());
+        assertEquals(factory.getPackages().size(), copier.getScopeFactory().getPackages().size(), "Different number of packages");
+        assertEquals(factory.getClasses().size(), copier.getScopeFactory().getClasses().size(), "Different number of classes");
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
 
         factory.getPackages().keySet().forEach(key -> {
@@ -201,7 +184,8 @@ public class TestGraphCopier extends TestCase {
         });
     }
 
-    public void testCopyFeatureNodesOnly() {
+    @Test
+    void testCopyFeatureNodesOnly() {
         scopeCriteria.setMatchingPackages(false);
         scopeCriteria.setMatchingClasses(false);
         filterCriteria.setMatchingPackages(false);
@@ -210,15 +194,9 @@ public class TestGraphCopier extends TestCase {
         
         copier.traverseNodes(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     factory.getPackages().size(),
-                     copier.getScopeFactory().getPackages().size());
-        assertEquals("Different number of classes",
-                     3,
-                     copier.getScopeFactory().getClasses().size());
-        assertEquals("Different number of features",
-                     factory.getFeatures().size(),
-                     copier.getScopeFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), copier.getScopeFactory().getPackages().size(), "Different number of packages");
+        assertEquals(3, copier.getScopeFactory().getClasses().size(), "Different number of classes");
+        assertEquals(factory.getFeatures().size(), copier.getScopeFactory().getFeatures().size(), "Different number of features");
 
         copier.getScopeFactory().getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), copier.getScopeFactory().getPackages().get(key));
@@ -242,7 +220,8 @@ public class TestGraphCopier extends TestCase {
         });
     }
 
-    public void testCopyNothing() {
+    @Test
+    void testCopyNothing() {
         scopeCriteria.setMatchingPackages(false);
         scopeCriteria.setMatchingClasses(false);
         scopeCriteria.setMatchingFeatures(false);
@@ -254,7 +233,8 @@ public class TestGraphCopier extends TestCase {
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
     }
 
-    public void testC2CasP2CSamePackage() {
+    @Test
+    void testC2CasP2CSamePackage() {
         NodeFactory factory = new NodeFactory();
 
         Node a_A = factory.createClass("a.A");
@@ -276,7 +256,7 @@ public class TestGraphCopier extends TestCase {
 
         copier.traverseNodes(factory.getPackages().values());
 
-        assertTrue(copier.getScopeFactory().getPackages().keySet().toString(), copier.getScopeFactory().getPackages().containsKey("a"));
+        assertTrue(copier.getScopeFactory().getPackages().containsKey("a"), copier.getScopeFactory().getPackages().keySet().toString());
         assertTrue(copier.getScopeFactory().getClasses().isEmpty());
         assertTrue(copier.getScopeFactory().getFeatures().isEmpty());
 

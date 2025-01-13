@@ -32,53 +32,46 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestCycleComparator extends TestCase {
-    public void testCompareBasedOnLength() {
-        Node node = new PackageNode("node", true);
+public class TestCycleComparator {
+    @Test
+    void testCompareBasedOnLength() {
+        var node = new PackageNode("node", true);
 
-        List<Node> shortPath = new ArrayList<>();
-        shortPath.add(node);
-        shortPath.add(node);
-
-        List<Node> longPath = new ArrayList<>();
-        longPath.add(node);
-        longPath.add(node);
-        longPath.add(node);
-
+        var shortPath = List.<Node>of(node, node);
         Cycle shortCycle = new Cycle(shortPath);
+
+        var longPath = List.<Node>of(node, node, node);
         Cycle longCycle = new Cycle(longPath);
 
         var comparator = new CycleComparator();
 
-        assertTrue("2 < 3", comparator.compare(shortCycle, longCycle) < 0);
-        assertTrue("2 == 2", comparator.compare(shortCycle, shortCycle) == 0);
-        assertTrue("3 > 2", comparator.compare(longCycle, shortCycle) > 0);
+        assertTrue(comparator.compare(shortCycle, longCycle) < 0, "2 < 3");
+        assertTrue(comparator.compare(shortCycle, shortCycle) == 0, "2 == 2");
+        assertTrue(comparator.compare(longCycle, shortCycle) > 0, "3 > 2");
     }
 
-    public void testCompareBasedOnPath() {
-        Node node1 = new PackageNode("node1", true);
-        Node node2 = new PackageNode("node2", true);
-        Node node3 = new PackageNode("node3", true);
+    @Test
+    void testCompareBasedOnPath() {
+        var node1 = new PackageNode("node1", true);
+        var node2 = new PackageNode("node2", true);
+        var node3 = new PackageNode("node3", true);
 
-        List<Node> path1 = new ArrayList<>();
-        path1.add(node1);
-        path1.add(node2);
-
-        List<Node> path2 = new ArrayList<>();
-        path2.add(node2);
-        path2.add(node3);
-
+        var path1 = List.<Node>of(node1, node2);
         Cycle cycle1 = new Cycle(path1);
+
+        var path2 = List.<Node>of(node2, node3);
         Cycle cycle2 = new Cycle(path2);
 
         var comparator = new CycleComparator();
 
-        assertTrue("1 < 2", comparator.compare(cycle1, cycle2) < 0);
-        assertTrue("1 == 1", comparator.compare(cycle1, cycle1) == 0);
-        assertTrue("2 > 1", comparator.compare(cycle2, cycle1) > 0);
+        assertTrue(comparator.compare(cycle1, cycle2) < 0, "1 < 2");
+        assertTrue(comparator.compare(cycle1, cycle1) == 0, "1 == 1");
+        assertTrue(comparator.compare(cycle2, cycle1) > 0, "2 > 1");
     }
 }

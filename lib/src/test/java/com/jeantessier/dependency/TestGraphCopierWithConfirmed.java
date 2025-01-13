@@ -32,44 +32,29 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestGraphCopierWithConfirmed extends TestCase {
-    private NodeFactory factory;
-    
-    private Node a;
-    private Node a_A;
-    private Node a_A_a;
-    
-    private Node b;
-    private Node b_B;
-    private Node b_B_b;
-    
-    private Node c;
-    private Node c_C;
-    private Node c_C_c;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private GraphCopier copier;
+public class TestGraphCopierWithConfirmed {
+    private final NodeFactory factory = new NodeFactory();
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
+    private final Node a = factory.createPackage("a");
+    private final Node a_A = factory.createClass("a.A");
+    private final Node a_A_a = factory.createFeature("a.A.a");
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
-        
-        copier = new GraphCopier();
-    }
+    private final Node b = factory.createPackage("b");
+    private final Node b_B = factory.createClass("b.B");
+    private final Node b_B_b = factory.createFeature("b.B.b");
 
-    public void testConfirmedPackage2ConfirmedPackage() {
+    private final Node c = factory.createPackage("c");
+    private final Node c_C = factory.createClass("c.C");
+    private final Node c_C_c = factory.createFeature("c.C.c");
+
+    private final GraphCopier copier = new GraphCopier();
+
+    @Test
+    void testConfirmedPackage2ConfirmedPackage() {
         a.addDependency(b);
         b.addDependency(c);
 
@@ -90,7 +75,8 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedPackage2UnconfirmedPackage() {
+    @Test
+    void testUnconfirmedPackage2UnconfirmedPackage() {
         a.addDependency(b);
         b.addDependency(c);
 
@@ -107,7 +93,8 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testConfirmedClass2ConfirmedClass() {
+    @Test
+    void testConfirmedClass2ConfirmedClass() {
         a_A.addDependency(b_B);
         b_B.addDependency(c_C);
 
@@ -128,7 +115,8 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedClass2UnconfirmedClass() {
+    @Test
+    void testUnconfirmedClass2UnconfirmedClass() {
         a_A.addDependency(b_B);
         b_B.addDependency(c_C);
 
@@ -145,7 +133,8 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertNull(copier.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testConfirmedFeature2ConfirmedFeature() {
+    @Test
+    void testConfirmedFeature2ConfirmedFeature() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
 
@@ -166,7 +155,8 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertTrue(copier.getFilterFactory().createFeature("c.C.c").isConfirmed());
     }
 
-    public void testUnconfirmedFeature2UnconfirmedFeature() {
+    @Test
+    void testUnconfirmedFeature2UnconfirmedFeature() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
 
@@ -183,7 +173,8 @@ public class TestGraphCopierWithConfirmed extends TestCase {
         assertFalse(copier.getFilterFactory().createFeature("c.C.c").isConfirmed());
     }
 
-    public void testUnconfirmedFeatureInConfirmedClass2UnconfirmedFeature() {
+    @Test
+    void testUnconfirmedFeatureInConfirmedClass2UnconfirmedFeature() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
 

@@ -32,48 +32,31 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestGraphSummarizerWithConfirmed extends TestCase {
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestGraphSummarizerWithConfirmed {
+    private final NodeFactory factory = new NodeFactory();
     
-    private Node a;
-    private Node a_A;
-    private Node a_A_a;
+    private final Node a = factory.createPackage("a");
+    private final Node a_A = factory.createClass("a.A");
+    private final Node a_A_a = factory.createFeature("a.A.a");
     
-    private Node b;
-    private Node b_B;
-    private Node b_B_b;
+    private final Node b = factory.createPackage("b");
+    private final Node b_B = factory.createClass("b.B");
+    private final Node b_B_b = factory.createFeature("b.B.b");
     
-    private Node c;
-    private Node c_C;
-    private Node c_C_c;
+    private final Node c = factory.createPackage("c");
+    private final Node c_C = factory.createClass("c.C");
+    private final Node c_C_c = factory.createFeature("c.C.c");
 
-    private CollectionSelectionCriteria scopeSelector;
-    private CollectionSelectionCriteria filterSelector;
-    private GraphSummarizer summarizer;
+    private final CollectionSelectionCriteria scopeSelector = new CollectionSelectionCriteria(null, null);
+    private final CollectionSelectionCriteria filterSelector = new CollectionSelectionCriteria(null, null);
+    private final GraphSummarizer summarizer = new GraphSummarizer(scopeSelector, filterSelector);
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
-
-        scopeSelector  = new CollectionSelectionCriteria(null, null);
-        filterSelector = new CollectionSelectionCriteria(null, null);
-        summarizer = new GraphSummarizer(scopeSelector, filterSelector);
-    }        
-
-    public void testConfirmedPackage2ConfirmedPackage() {
+    @Test
+    void testConfirmedPackage2ConfirmedPackage() {
         a.addDependency(b);
         b.addDependency(c);
 
@@ -94,7 +77,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedPackage2UnconfirmedPackage() {
+    @Test
+    void testUnconfirmedPackage2UnconfirmedPackage() {
         a.addDependency(b);
         b.addDependency(c);
 
@@ -111,7 +95,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testConfirmedClass2ConfirmedClass() {
+    @Test
+    void testConfirmedClass2ConfirmedClass() {
         a_A.addDependency(b_B);
         b_B.addDependency(c_C);
 
@@ -132,7 +117,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedClass2UnconfirmedClass() {
+    @Test
+    void testUnconfirmedClass2UnconfirmedClass() {
         a_A.addDependency(b_B);
         b_B.addDependency(c_C);
 
@@ -149,7 +135,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testConfirmedPackage2ConfirmedPackageFromClasses() {
+    @Test
+    void testConfirmedPackage2ConfirmedPackageFromClasses() {
         scopeSelector.setMatchingPackages(true);
         scopeSelector.setMatchingClasses(false);
         scopeSelector.setMatchingFeatures(false);
@@ -177,7 +164,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedPackage2UnconfirmedPackageFromClasses() {
+    @Test
+    void testUnconfirmedPackage2UnconfirmedPackageFromClasses() {
         scopeSelector.setMatchingPackages(true);
         scopeSelector.setMatchingClasses(false);
         scopeSelector.setMatchingFeatures(false);
@@ -201,7 +189,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testConfirmedFeature2ConfirmedFeature() {
+    @Test
+    void testConfirmedFeature2ConfirmedFeature() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
 
@@ -222,7 +211,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertTrue(summarizer.getFilterFactory().createFeature("c.C.c").isConfirmed());
     }
 
-    public void testUnconfirmedFeature2UnconfirmedFeature() {
+    @Test
+    void testUnconfirmedFeature2UnconfirmedFeature() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
 
@@ -239,7 +229,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertFalse(summarizer.getFilterFactory().createFeature("c.C.c").isConfirmed());
     }
 
-    public void testConfirmedClass2ConfirmedClassFromFeature() {
+    @Test
+    void testConfirmedClass2ConfirmedClassFromFeature() {
         scopeSelector.setMatchingPackages(false);
         scopeSelector.setMatchingClasses(true);
         scopeSelector.setMatchingFeatures(false);
@@ -267,7 +258,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedClass2UnconfirmedClassFromFeature() {
+    @Test
+    void testUnconfirmedClass2UnconfirmedClassFromFeature() {
         scopeSelector.setMatchingPackages(false);
         scopeSelector.setMatchingClasses(true);
         scopeSelector.setMatchingFeatures(false);
@@ -291,7 +283,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testConfirmedPackage2ConfirmedPackageFromFeature() {
+    @Test
+    void testConfirmedPackage2ConfirmedPackageFromFeature() {
         scopeSelector.setMatchingPackages(true);
         scopeSelector.setMatchingClasses(false);
         scopeSelector.setMatchingFeatures(false);
@@ -319,7 +312,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedPackage2UnconfirmedPackageFromFeature() {
+    @Test
+    void testUnconfirmedPackage2UnconfirmedPackageFromFeature() {
         scopeSelector.setMatchingPackages(true);
         scopeSelector.setMatchingClasses(false);
         scopeSelector.setMatchingFeatures(false);
@@ -343,7 +337,8 @@ public class TestGraphSummarizerWithConfirmed extends TestCase {
         assertNull(summarizer.getFilterFactory().getFeatures().get("c.C.c"));
     }
 
-    public void testUnconfirmedFeatureInConfirmedClass2UnconfirmedFeature() {
+    @Test
+    void testUnconfirmedFeatureInConfirmedClass2UnconfirmedFeature() {
         scopeSelector.setMatchingPackages(false);
         scopeSelector.setMatchingClasses(false);
         scopeSelector.setMatchingFeatures(true);

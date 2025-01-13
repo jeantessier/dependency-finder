@@ -32,20 +32,21 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestGraphSummarizerWithScoping extends TestCase {
-    private NodeFactory factory;
+public class TestGraphSummarizerWithScoping {
+    private final NodeFactory factory = new NodeFactory();
 
     private Node b;
 
     private GraphSummarizer summarizer;
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-
+    @BeforeEach
+    void setUp() {
         Node a_A_a = factory.createFeature("a.A.a");
         Node a_A_b = factory.createFeature("a.A.b");
 
@@ -55,29 +56,24 @@ public class TestGraphSummarizerWithScoping extends TestCase {
         a_A_a.addDependency(a_A_b);
         a_A_a.addDependency(b_B_b);
 
-        List<String> includeScope = new LinkedList<>();
-        includeScope.add("/^a/");
-
-        RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");
-
+        var scopeCriteria = new RegularExpressionSelectionCriteria("//");
         scopeCriteria.setMatchingClasses(false);
         scopeCriteria.setMatchingFeatures(false);
-        scopeCriteria.setGlobalIncludes(includeScope);
+        scopeCriteria.setGlobalIncludes(List.of("/^a/"));
 
-        RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
+        var filterCriteria = new RegularExpressionSelectionCriteria("//");
         filterCriteria.setMatchingClasses(false);
         filterCriteria.setMatchingFeatures(false);
 
         summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
     }
 
-    public void testIncludeF2F() {
+    @Test
+    void testIncludeF2F() {
         summarizer.traverseNodes(factory.getPackages().values());
 
         assertTrue(summarizer.getScopeFactory().createPackage("a").getInboundDependencies().isEmpty());
-        assertEquals(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().toString(),
-                     1, 
-                     summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
+        assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size(), summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().toString());
         assertTrue(summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().contains(b));
     }
 }

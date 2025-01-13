@@ -32,69 +32,58 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestHTMLCyclePrinter extends TestHTMLPrinterBase {
-    private HTMLCyclePrinter visitor;
+    private final HTMLCyclePrinter visitor = new HTMLCyclePrinter(new PrintWriter(writer), FORMAT);
 
-    private Node a_package;
-    private Node b_package;
-    private Node c_package;
+    private final Node a_package = factory.createPackage("a");
+    private final Node b_package = factory.createPackage("b");
+    private final Node c_package = factory.createPackage("c");
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        visitor = new HTMLCyclePrinter(new PrintWriter(out), FORMAT);
-
-        a_package = factory.createPackage("a");
-        b_package = factory.createPackage("b");
-        c_package = factory.createPackage("c");
-    }
-
-    public void testEmptyCycles() throws IOException {
+    @Test
+    void testEmptyCycles() {
         visitor.visitCycles(Collections.emptyList());
 
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.<String>empty();
 
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 
-    public void test2NodesCycle() throws IOException {
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(a_package);
-        nodes.add(b_package);
-        Cycle cycle = new Cycle(nodes);
+    @Test
+    void test2NodesCycle() {
+        var cycle = new Cycle(List.of(a_package, b_package));
 
         visitor.visitCycles(Collections.singletonList(cycle));
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.of(
+                "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>",
+                "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>",
+                "        --&gt; <a href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"b_to_a\">a</a>"
+        );
 
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"b_to_a\">a</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 
-    public void test3NodesCycle() throws IOException {
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(a_package);
-        nodes.add(b_package);
-        nodes.add(c_package);
-        Cycle cycle = new Cycle(nodes);
+    @Test
+    void test3NodesCycle() {
+        var cycle = new Cycle(List.of(a_package, b_package, c_package));
 
         visitor.visitCycles(Collections.singletonList(cycle));
 
-        var lineNumber = 0;
-        var in = new BufferedReader(new StringReader(out.toString()));
+        var expectedLines = Stream.of(
+                "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>",
+                "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>",
+                "        --&gt; <a href=\"" + PREFIX + "c" + SUFFIX + "\" id=\"b_to_c\">c</a>",
+                "            --&gt; <a href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"c_to_a\">a</a>"
+        );
 
-        assertEquals("line " + ++lineNumber, "<a class=\"scope\" href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"a\">a</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "    --&gt; <a href=\"" + PREFIX + "b" + SUFFIX + "\" id=\"a_to_b\">b</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "        --&gt; <a href=\"" + PREFIX + "c" + SUFFIX + "\" id=\"b_to_c\">c</a>", in.readLine());
-        assertEquals("line " + ++lineNumber, "            --&gt; <a href=\"" + PREFIX + "a" + SUFFIX + "\" id=\"c_to_a\">a</a>", in.readLine());
-
-        assertEquals("End of file", null, in.readLine());
+        assertLinesMatch(expectedLines, writer.toString().lines());
     }
 }

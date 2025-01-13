@@ -32,23 +32,13 @@
 
 package com.jeantessier.dependency;
 
-import java.text.*;
 import java.io.*;
 
-import junit.framework.*;
-
-public abstract class TestHTMLPrinterBase extends TestCase {
+public abstract class TestHTMLPrinterBase {
     protected static final String PREFIX = "prefix (";
     protected static final String SUFFIX = ") suffix";
     protected static final String FORMAT = PREFIX + "%s" + SUFFIX;
 
-    protected NodeFactory  factory;
-    protected StringWriter out;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        factory = new NodeFactory();
-        out = new StringWriter();
-    }
+    protected NodeFactory factory = new NodeFactory();
+    protected StringWriter writer = new StringWriter();
 }

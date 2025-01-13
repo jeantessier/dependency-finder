@@ -32,44 +32,28 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestGraphSummarizer extends TestCase {
-    private RegularExpressionSelectionCriteria scopeCriteria;
-    private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestGraphSummarizer {
+    private final RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("//");
+    private final RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("//");
+    private final NodeFactory factory = new NodeFactory();
     
-    private Node a_package;
-    private Node a_A_class;
-    private Node a_A_a_method;
-    private Node a_B_class;
+    private final Node a_package = factory.createPackage("a");
+    private final Node a_A_class = factory.createClass("a.A");
+    private final Node a_A_a_method = factory.createFeature("a.A.a");
+    private final Node a_B_class = factory.createClass("a.B");
 
-    private Node b_package;
-    private Node b_B_class;
-    private Node b_B_b_method;
+    private final Node b_package = factory.createPackage("b");
+    private final Node b_B_class = factory.createClass("b.B");
+    private final Node b_B_b_method = factory.createFeature("b.B.b");
 
-    private GraphSummarizer summarizer;
+    private final GraphSummarizer summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        scopeCriteria  = new RegularExpressionSelectionCriteria("//");
-        filterCriteria = new RegularExpressionSelectionCriteria("//");
-        factory        = new NodeFactory();
-
-        a_package = factory.createPackage("a");
-        a_A_class = factory.createClass("a.A");
-        a_A_a_method = factory.createFeature("a.A.a");
-        a_B_class = factory.createClass("a.B");
-        
-        b_package = factory.createPackage("b");
-        b_B_class = factory.createClass("b.B");
-        b_B_b_method = factory.createFeature("b.B.b");
-        
-        summarizer = new GraphSummarizer(scopeCriteria, filterCriteria);
-    }
-
-    public void testP2PasP2P() {
+    @Test
+    void testP2PasP2P() {
         a_package.addDependency(b_package);
         
         scopeCriteria.setMatchingClasses(false);
@@ -79,10 +63,10 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().isEmpty());
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().isEmpty(), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -92,7 +76,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
     }
 
-    public void testP2PasC2C() {
+    @Test
+    void testP2PasC2C() {
         a_package.addDependency(b_package);
         
         scopeCriteria.setMatchingPackages(false);
@@ -102,11 +87,11 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -119,7 +104,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
     }
 
-    public void testP2PasF2F() {
+    @Test
+    void testP2PasF2F() {
         a_package.addDependency(b_package);
         
         scopeCriteria.setMatchingPackages(false);
@@ -129,12 +115,12 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -152,7 +138,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
     }
 
-    public void testC2CasP2P() {
+    @Test
+    void testC2CasP2P() {
         a_A_class.addDependency(b_B_class);
         
         scopeCriteria.setMatchingClasses(false);
@@ -162,10 +149,10 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().isEmpty());
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().isEmpty(), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -175,7 +162,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
     }
 
-    public void testC2CasP2CSamePackage() {
+    @Test
+    void testC2CasP2CSamePackage() {
         a_A_class.addDependency(a_B_class);
         
         scopeCriteria.setMatchingClasses(false);
@@ -185,10 +173,10 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().isEmpty());
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().isEmpty(), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -196,7 +184,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
     }
 
-    public void testC2CasC2C() {
+    @Test
+    void testC2CasC2C() {
         a_A_class.addDependency(b_B_class);
         
         scopeCriteria.setMatchingPackages(false);
@@ -206,11 +195,11 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -225,7 +214,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
     }
 
-    public void testC2CasF2F() {
+    @Test
+    void testC2CasF2F() {
         a_A_class.addDependency(b_B_class);
         
         scopeCriteria.setMatchingPackages(false);
@@ -235,12 +225,12 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -258,7 +248,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
     }
 
-    public void testF2FasP2P() {
+    @Test
+    void testF2FasP2P() {
         a_A_a_method.addDependency(b_B_b_method);
         
         scopeCriteria.setMatchingClasses(false);
@@ -268,10 +259,10 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().isEmpty());
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().isEmpty(), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -281,7 +272,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
     }
 
-    public void testF2FasC2C() {
+    @Test
+    void testF2FasC2C() {
         a_A_a_method.addDependency(b_B_b_method);
         
         scopeCriteria.setMatchingPackages(false);
@@ -291,11 +283,11 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -310,7 +302,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
     }
 
-    public void testF2FasF2F() {
+    @Test
+    void testF2FasF2F() {
         a_A_a_method.addDependency(b_B_b_method);
         
         scopeCriteria.setMatchingPackages(false);
@@ -320,12 +313,12 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -345,7 +338,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
     }
 
-    public void testF2CasP2P() {
+    @Test
+    void testF2CasP2P() {
         a_A_a_method.addDependency(b_B_class);
         
         scopeCriteria.setMatchingClasses(false);
@@ -355,10 +349,10 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().isEmpty());
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().isEmpty(), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -368,7 +362,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createPackage("b").getOutboundDependencies().size());
     }
 
-    public void testF2CasC2C() {
+    @Test
+    void testF2CasC2C() {
         a_A_a_method.addDependency(b_B_class);
         
         scopeCriteria.setMatchingPackages(false);
@@ -378,11 +373,11 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().isEmpty());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().isEmpty(), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -397,7 +392,8 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createClass("b.B").getOutboundDependencies().size());
     }
 
-    public void testF2CasF2F() {
+    @Test
+    void testF2CasF2F() {
         a_A_a_method.addDependency(b_B_class);
         
         scopeCriteria.setMatchingPackages(false);
@@ -407,12 +403,12 @@ public class TestGraphSummarizer extends TestCase {
 
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -430,17 +426,18 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createFeature("b").getOutboundDependencies().size());
     }
 
-    public void testF2FasPCF2PCF() {
+    @Test
+    void testF2FasPCF2PCF() {
         a_A_a_method.addDependency(b_B_b_method);
         
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -460,17 +457,18 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
     }
 
-    public void testC2CasPCF2PCF() {
+    @Test
+    void testC2CasPCF2PCF() {
         a_A_class.addDependency(b_B_class);
         
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());
@@ -490,17 +488,18 @@ public class TestGraphSummarizer extends TestCase {
         assertEquals(0, summarizer.getScopeFactory().createFeature("b.B.b").getOutboundDependencies().size());
     }
 
-    public void testP2PasPCF2PCF() {
+    @Test
+    void testP2PasPCF2PCF() {
         a_package.addDependency(b_package);
         
         summarizer.traverseNodes(factory.getPackages().values());
 
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("a"));
-        assertTrue(summarizer.getScopeFactory().getPackages().keySet().toString(), summarizer.getScopeFactory().getPackages().containsKey("b"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("a.A"));
-        assertTrue(summarizer.getScopeFactory().getClasses().keySet().toString(), summarizer.getScopeFactory().getClasses().containsKey("b.B"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"));
-        assertTrue(summarizer.getScopeFactory().getFeatures().keySet().toString(), summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"));
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("a"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getPackages().containsKey("b"), summarizer.getScopeFactory().getPackages().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("a.A"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getClasses().containsKey("b.B"), summarizer.getScopeFactory().getClasses().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("a.A.a"), summarizer.getScopeFactory().getFeatures().keySet().toString());
+        assertTrue(summarizer.getScopeFactory().getFeatures().containsKey("b.B.b"), summarizer.getScopeFactory().getFeatures().keySet().toString());
 
         assertEquals(0, summarizer.getScopeFactory().createPackage("a").getInboundDependencies().size());
         assertEquals(1, summarizer.getScopeFactory().createPackage("a").getOutboundDependencies().size());

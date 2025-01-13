@@ -32,62 +32,64 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestPackageNode extends TestCase {
-    private NodeFactory factory;
-    private PackageNode node;
-    
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-    }
+import static org.junit.jupiter.api.Assertions.*;
 
-    public void testSwitchPackageNodeFromReferencedToConcrete() {
-        node = factory.createPackage("a", false);
+public class TestPackageNode {
+    private final NodeFactory factory = new NodeFactory();
+
+    @Test
+    void testSwitchPackageNodeFromReferencedToConcrete() {
+        var sut = factory.createPackage("a", false);
         
-        assertFalse("Not referenced", node.isConfirmed());
-        node.setConfirmed(true);
-        assertTrue("Not concrete", node.isConfirmed());
+        assertFalse(sut.isConfirmed(), "Not referenced");
+        sut.setConfirmed(true);
+        assertTrue(sut.isConfirmed(), "Not concrete");
     }
 
-    public void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
-        node = factory.createPackage("a", false);
+    @Test
+    void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
+        var sut = factory.createPackage("a", false);
         factory.createClass("a.A", false);
 
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
-        node.setConfirmed(true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
+        assertFalse(sut.isConfirmed(), "Not referenced");
+        assertFalse(sut.getClasses().iterator().next().isConfirmed(), "Not referenced");
+        sut.setConfirmed(true);
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        assertFalse(sut.getClasses().iterator().next().isConfirmed(), "Not referenced");
     }
 
-    public void testSwitchEmptyPackageNodeFromConcreteToReferenced() {
-        node = factory.createPackage("a", true);
+    @Test
+    void testSwitchEmptyPackageNodeFromConcreteToReferenced() {
+        var sut = factory.createPackage("a", true);
 
-        assertTrue("Not concrete", node.isConfirmed());
-        node.setConfirmed(false);
-        assertFalse("Concrete", node.isConfirmed());
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        sut.setConfirmed(false);
+        assertFalse(sut.isConfirmed(), "Concrete");
     }
 
-    public void testSwitchPackageNodeWithConcreteClassFromConcreteToReferenced() {
-        node = factory.createPackage("a", true);
+    @Test
+    void testSwitchPackageNodeWithConcreteClassFromConcreteToReferenced() {
+        var sut = factory.createPackage("a", true);
         factory.createClass("a.A", true);
 
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getClasses().iterator().next().isConfirmed());
-        node.setConfirmed(false);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getClasses().iterator().next().isConfirmed());
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        assertTrue(sut.getClasses().iterator().next().isConfirmed(), "Not concrete");
+        sut.setConfirmed(false);
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        assertTrue(sut.getClasses().iterator().next().isConfirmed(), "Not concrete");
     }
 
-    public void testSwitchPackageNodeWithReferencedClassFromConcreteToReferenced() {
-        node = factory.createPackage("a", true);
+    @Test
+    void testSwitchPackageNodeWithReferencedClassFromConcreteToReferenced() {
+        var sut = factory.createPackage("a", true);
         factory.createClass("a.A", false);
 
-        assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
-        node.setConfirmed(false);
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
+        assertTrue(sut.isConfirmed(), "Not concrete");
+        assertFalse(sut.getClasses().iterator().next().isConfirmed(), "Not referenced");
+        sut.setConfirmed(false);
+        assertFalse(sut.isConfirmed(), "Not referenced");
+        assertFalse(sut.getClasses().iterator().next().isConfirmed(), "Not referenced");
     }
 }

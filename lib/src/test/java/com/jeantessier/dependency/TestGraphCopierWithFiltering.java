@@ -32,43 +32,28 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestGraphCopierWithFiltering extends TestCase {
-    private RegularExpressionSelectionCriteria scopeCriteria;
-    private RegularExpressionSelectionCriteria filterCriteria;
-    private NodeFactory factory;
+public class TestGraphCopierWithFiltering {
+    private final RegularExpressionSelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria();
+    private final RegularExpressionSelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria();
+    private final NodeFactory factory = new NodeFactory();
     
-    private Node a_A_a;
-    private Node b_B_b;
-    private Node c_C_c;
+    private final Node a_A_a = factory.createFeature("a.A.a");
+    private final Node b_B_b = factory.createFeature("b.B.b");
+    private final Node c_C_c = factory.createFeature("c.C.c");
 
-    private List<String> includeFilter;
-    private List<String> excludeFilter;
+    private final List<String> includeFilter = List.of("/^b/");
+    private final List<String> excludeFilter = List.of("/^c/");
 
-    private GraphCopier copier;
+    private final GraphCopier copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
 
-    protected void setUp() throws Exception {
-        scopeCriteria  = new RegularExpressionSelectionCriteria();
-        filterCriteria = new RegularExpressionSelectionCriteria();
-        factory = new NodeFactory();
-
-        a_A_a = factory.createFeature("a.A.a");
-        b_B_b = factory.createFeature("b.B.b");
-        c_C_c = factory.createFeature("c.C.c");
-        
-        includeFilter = new LinkedList<>();
-        includeFilter.add("/^b/");
-        
-        excludeFilter = new LinkedList<>();
-        excludeFilter.add("/^c/");
-
-        copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));
-    }
-
-    public void testIncludeFilterF2FtoP2P() {
+    @Test
+    void testIncludeFilterF2FtoP2P() {
         a_A_a.addDependency(b_B_b);
         a_A_a.addDependency(c_C_c);
         
@@ -84,7 +69,8 @@ public class TestGraphCopierWithFiltering extends TestCase {
         assertTrue(copier.getScopeFactory().createPackage("a").getOutboundDependencies().isEmpty());
     }
 
-    public void testExcludeFilterF2FtoP2P() {
+    @Test
+    void testExcludeFilterF2FtoP2P() {
         a_A_a.addDependency(b_B_b);
         a_A_a.addDependency(c_C_c);
         
