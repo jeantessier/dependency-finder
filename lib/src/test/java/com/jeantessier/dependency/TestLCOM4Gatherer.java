@@ -32,31 +32,28 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.TestCase;
 
 import java.util.*;
 
-public class TestLCOM4Gatherer extends TestCase {
-    private NodeFactory factory;
+import org.junit.jupiter.api.*;
 
-    private LCOM4Gatherer sut;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestLCOM4Gatherer {
+    private final NodeFactory factory = new NodeFactory();
 
-        factory = new NodeFactory();
+    private final LCOM4Gatherer sut = new LCOM4Gatherer();
 
-        sut = new LCOM4Gatherer();
-    }
-
-    public void testNothing() {
+    @Test
+    void testNothing() {
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
         assertTrue(actualResults.isEmpty());
     }
 
-    public void testEmptyPackage() {
+    @Test
+    void testEmptyPackage() {
         factory.createPackage("", true);
 
         sut.traverseNodes(factory.getPackages().values());
@@ -65,37 +62,39 @@ public class TestLCOM4Gatherer extends TestCase {
         assertTrue(actualResults.isEmpty());
     }
 
-    public void testEmptyClass() {
+    @Test
+    void testEmptyClass() {
         ClassNode classNode = factory.createClass("Empty", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(classNode), classNode.getName() + " is missing from " + actualResults);
 
         Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
-        assertEquals("LCOM4 of empty class", 0, components.size());
+        assertEquals(0, components.size(), "LCOM4 of empty class");
     }
 
     /**
      * Tests One.one, where class One will have an LCOM4 of 1 and
      * the component will be [One.one].
      */
-    public void testOneFeature() {
+    @Test
+    void testOneFeature() {
         FeatureNode featureNode = factory.createFeature("One.one", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(featureNode.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode.getClassNode()));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(featureNode.getClassNode()), featureNode.getClassNode().getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(featureNode.getClassNode());
-        assertEquals("LCOM4 of class w/ one feature", 1, components.size());
+        var components = actualResults.get(featureNode.getClassNode());
+        assertEquals(1, components.size(), "LCOM4 of class w/ one feature");
 
-        Collection<FeatureNode> component = components.iterator().next();
-        assertEquals("Size of first component", 1, component.size());
+        var component = components.iterator().next();
+        assertEquals(1, component.size(), "Size of first component");
         assertTrue(component.contains(featureNode));
     }
 
@@ -103,18 +102,19 @@ public class TestLCOM4Gatherer extends TestCase {
      * Tests One.one and One.two, where class One will have an LCOM4 of 2 and
      * the components will be [One.one] and [One.two].
      */
-    public void testTwoDisjointFeatures() {
+    @Test
+    void testTwoDisjointFeatures() {
         FeatureNode featureNode1 = factory.createFeature("Two.one", true);
         FeatureNode featureNode2 = factory.createFeature("Two.two", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(featureNode1.getClassNode()), featureNode1.getClassNode().getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
-        assertEquals("LCOM4 of class w/ two disjoint features", 2, components.size());
+        var components = actualResults.get(featureNode1.getClassNode());
+        assertEquals(2, components.size(), "LCOM4 of class w/ two disjoint features");
 
         assertAtLeastOneComponentEquals(components, featureNode1);
         assertAtLeastOneComponentEquals(components, featureNode2);
@@ -124,7 +124,8 @@ public class TestLCOM4Gatherer extends TestCase {
      * Tests One.one --> One.two, where class One will have an LCOM4 of 1 and
      * the component will be [One.one, One.two].
      */
-    public void testTwoConnectedFeatures() {
+    @Test
+    void testTwoConnectedFeatures() {
         FeatureNode featureNode1 = factory.createFeature("Two.one", true);
         FeatureNode featureNode2 = factory.createFeature("Two.two", true);
 
@@ -133,11 +134,11 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(featureNode1.getClassNode()), featureNode1.getClassNode().getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
-        assertEquals("LCOM4 of class w/ two connected features", 1, components.size());
+        var components = actualResults.get(featureNode1.getClassNode());
+        assertEquals(1, components.size(), "LCOM4 of class w/ two connected features");
 
         assertAtLeastOneComponentEquals(components, featureNode1, featureNode2);
     }
@@ -146,7 +147,8 @@ public class TestLCOM4Gatherer extends TestCase {
      * Tests One.one --> One.two --> One.three, where class One will have an
      * LCOM4 of 1 and the component will be [One.one, One.two, One.three].
      */
-    public void testThreeConnectedFeatures() {
+    @Test
+    void testThreeConnectedFeatures() {
         FeatureNode featureNode1 = factory.createFeature("Three.one", true);
         FeatureNode featureNode2 = factory.createFeature("Three.two", true);
         FeatureNode featureNode3 = factory.createFeature("Three.three", true);
@@ -157,11 +159,11 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(featureNode1.getClassNode()), featureNode1.getClassNode().getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
-        assertEquals("LCOM4 of class w/ three connected features", 1, components.size());
+        var components = actualResults.get(featureNode1.getClassNode());
+        assertEquals(1, components.size(), "LCOM4 of class w/ three connected features");
 
         assertAtLeastOneComponentEquals(components, featureNode1, featureNode2, featureNode3);
     }
@@ -171,7 +173,8 @@ public class TestLCOM4Gatherer extends TestCase {
      * the component will be [One.one].  Two.two is not included because it is
      * in another class.
      */
-    public void testTwoConnectedFeaturesInSeparateClasses() {
+    @Test
+    void testTwoConnectedFeaturesInSeparateClasses() {
         FeatureNode featureNode1 = factory.createFeature("One.one", true);
         FeatureNode featureNode2 = factory.createFeature("Two.two", true);
 
@@ -180,11 +183,11 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 2, actualResults.keySet().size());
-        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals(2, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(featureNode1.getClassNode()), featureNode1.getClassNode().getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
-        assertEquals("LCOM4 of class w/ feature connected to other class", 1, components.size());
+        var components = actualResults.get(featureNode1.getClassNode());
+        assertEquals(1, components.size(), "LCOM4 of class w/ feature connected to other class");
 
         assertAtLeastOneComponentEquals(components, featureNode1);
     }
@@ -195,7 +198,8 @@ public class TestLCOM4Gatherer extends TestCase {
      * are two components because the link between the methods is outside
      * class One.
      */
-    public void testTwoIndirectlyConnectedFeatures() {
+    @Test
+    void testTwoIndirectlyConnectedFeatures() {
         FeatureNode featureNode1 = factory.createFeature("One.one", true);
         FeatureNode featureNode2 = factory.createFeature("Two.two", true);
         FeatureNode featureNode3 = factory.createFeature("One.two", true);
@@ -206,31 +210,33 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 2, actualResults.keySet().size());
-        assertTrue(featureNode1.getClassNode().getName() + " is missing from " + actualResults, actualResults.containsKey(featureNode1.getClassNode()));
+        assertEquals(2, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(featureNode1.getClassNode()), featureNode1.getClassNode().getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(featureNode1.getClassNode());
-        assertEquals("LCOM4 of class w/ features connected through other class", 2, components.size());
+        var components = actualResults.get(featureNode1.getClassNode());
+        assertEquals(2, components.size(), "LCOM4 of class w/ features connected through other class");
 
         assertAtLeastOneComponentEquals(components, featureNode1);
         assertAtLeastOneComponentEquals(components, featureNode3);
     }
 
-    public void testIgnoreConstructor() {
+    @Test
+    void testIgnoreConstructor() {
         ClassNode classNode = factory.createClass("One", true);
         factory.createFeature("One.One()", true);
 
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(classNode), classNode.getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
-        assertEquals("LCOM4 of class w/ only constructors", 0, components.size());
+        var components = actualResults.get(classNode);
+        assertEquals(0, components.size(), "LCOM4 of class w/ only constructors");
     }
 
-    public void testIgnoreConstructor_WithinGraph() {
+    @Test
+    void testIgnoreConstructor_WithinGraph() {
         ClassNode classNode = factory.createClass("Three", true);
         FeatureNode constructorNode = factory.createFeature("Three.Three()", true);
         FeatureNode featureNode1 = factory.createFeature("Three.one", true);
@@ -242,20 +248,20 @@ public class TestLCOM4Gatherer extends TestCase {
         sut.traverseNodes(factory.getPackages().values());
 
         var actualResults = sut.getResults();
-        assertEquals("nb results", 1, actualResults.keySet().size());
-        assertTrue(classNode.getName() + " is missing from " + actualResults, actualResults.containsKey(classNode));
+        assertEquals(1, actualResults.size(), "nb results");
+        assertTrue(actualResults.containsKey(classNode), classNode.getName() + " is missing from " + actualResults);
 
-        Collection<Collection<FeatureNode>> components = actualResults.get(classNode);
-        assertEquals("LCOM4 of class w/ two features connected through the constructor " + components, 2, components.size());
+        var components = actualResults.get(classNode);
+        assertEquals(2, components.size(), "LCOM4 of class w/ two features connected through the constructor " + components);
 
         assertAtLeastOneComponentEquals(components, featureNode1);
         assertAtLeastOneComponentEquals(components, featureNode2);
     }
 
     private void assertAtLeastOneComponentEquals(Collection<Collection<FeatureNode>> components, FeatureNode ... expectedNodes) {
-        var found = components.stream().anyMatch(component -> checkComponentEquals(component, expectedNodes));
-
-        assertTrue(Arrays.asList(expectedNodes) + " not in " + components,found);
+        assertTrue(
+                components.stream()
+                        .anyMatch(component -> checkComponentEquals(component, expectedNodes)));
     }
 
     private boolean checkComponentEquals(Collection<FeatureNode> component, FeatureNode ... expectedNodes) {

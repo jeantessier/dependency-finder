@@ -107,14 +107,14 @@ public class TestClosureOutboundSelector {
         selector.traverseNodes(Collections.singleton(b_B_b));
 
         assertEquals(2, localFactory.getPackages().size(), "packages in scope");
-        assertEquals(2, localFactory.getClasses().size(), "classes in scope" );
+        assertEquals(2, localFactory.getClasses().size(), "classes in scope");
         assertEquals(2, localFactory.getFeatures().size(), "features in scope");
 
-        assertEquals(b, localFactory.getPackages().get("b"), "package b in scope"    );
-        assertEquals(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope"    );
+        assertEquals(b, localFactory.getPackages().get("b"), "package b in scope");
+        assertEquals(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope");
         assertEquals(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
-        assertEquals(c, localFactory.getPackages().get("c"), "package c in scope"    );
-        assertEquals(c_C, localFactory.getClasses().get("c.C"), "class c.C in scope"    );
+        assertEquals(c, localFactory.getPackages().get("c"), "package c in scope");
+        assertEquals(c_C, localFactory.getClasses().get("c.C"), "class c.C in scope");
         assertEquals(c_C_c, localFactory.getFeatures().get("c.C.c"), "feature c.C.c in scope");
 
         assertNotSame(b, localFactory.getPackages().get("b"), "package b in scope");

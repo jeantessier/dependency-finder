@@ -32,50 +32,37 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestNullSelectionCriteria extends TestCase {
-    private NullSelectionCriteria criteria;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private PackageNode a;
-    private ClassNode a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode c_C;
-    private FeatureNode c_C_c;
+public class TestNullSelectionCriteria {
+    private final NodeFactory factory = new NodeFactory();
 
-    protected void setUp() throws Exception {
-        criteria = new NullSelectionCriteria();
+    private final PackageNode a = factory.createPackage("a");
+    private final ClassNode a_A = factory.createClass("a.A");
+    private final FeatureNode a_A_a = factory.createFeature("a.A.a");
 
-        NodeFactory factory = new NodeFactory();
+    private final PackageNode b = factory.createPackage("b");
+    private final ClassNode b_B = factory.createClass("b.B");
+    private final FeatureNode b_B_b = factory.createFeature("b.B.b");
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
-    }
-    
-    public void testMatch() {
-        assertFalse("a in package scope",     criteria.matches(a));
-        assertFalse("a.A in package scope",   criteria.matches(a_A));
-        assertFalse("a.A.a in package scope", criteria.matches(a_A_a));
-        assertFalse("b in package scope",     criteria.matches(b));
-        assertFalse("b.B in package scope",   criteria.matches(b_B));
-        assertFalse("b.B.b in package scope", criteria.matches(b_B_b));
-        assertFalse("c in package scope",     criteria.matches(c));
-        assertFalse("c.C in package scope",   criteria.matches(c_C));
-        assertFalse("c.C.c in package scope", criteria.matches(c_C_c));
+    private final PackageNode c = factory.createPackage("c");
+    private final ClassNode c_C = factory.createClass("c.C");
+    private final FeatureNode c_C_c = factory.createFeature("c.C.c");
+
+    private final NullSelectionCriteria criteria = new NullSelectionCriteria();
+
+    @Test
+    void testMatch() {
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertFalse(criteria.matches(b), "b in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
     }
 }

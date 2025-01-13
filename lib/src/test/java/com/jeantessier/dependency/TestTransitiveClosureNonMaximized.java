@@ -32,67 +32,51 @@
 
 package com.jeantessier.dependency;
 
+import org.apache.logging.log4j.*;
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.apache.logging.log4j.*;
-
-public class TestTransitiveClosureNonMaximized extends TestCase {
+public class TestTransitiveClosureNonMaximized {
     private final Logger logger = LogManager.getLogger();
 
-    private NodeFactory factory;
+    private final NodeFactory factory = new NodeFactory();
 
-    private FeatureNode in2;
-    private FeatureNode in1;
-    private FeatureNode base;
-    private FeatureNode out1;
-    private FeatureNode out2;
+    private final FeatureNode in2 = factory.createFeature("in2.In2.In2()");
+    private final FeatureNode in1 = factory.createFeature("in1.In1.In1()");
+    private final FeatureNode base = factory.createFeature("base.Base.Base()");
+    private final FeatureNode out1 = factory.createFeature("out1.Out1.Out1()");
+    private final FeatureNode out2 = factory.createFeature("out2.Out2.Out2()");
     
-    private RegularExpressionSelectionCriteria startCriteria;
-    private RegularExpressionSelectionCriteria stopCriteria;
+    private final RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
+    private final RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
 
-    private NodeFactory resultFactory;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        factory = new NodeFactory();
-
-        in2  = factory.createFeature("in2.In2.In2()");
-        in1  = factory.createFeature("in1.In1.In1()");
-        base = factory.createFeature("base.Base.Base()");
-        out1 = factory.createFeature("out1.Out1.Out1()");
-        out2 = factory.createFeature("out2.Out2.Out2()");
-
+    @BeforeEach
+    void setUp() {
         in2.addDependency(in1);
         in1.addDependency(base);
         base.addDependency(out1);
         out1.addDependency(out2);
-        
-        List<String> scopeIncludes = new ArrayList<>();
-        scopeIncludes.add("/^base/");
-        List<String> filterIncludes = Collections.emptyList();
-        
-        startCriteria = new RegularExpressionSelectionCriteria();
+
         startCriteria.setMatchingPackages(false);
         startCriteria.setMatchingClasses(false);
         startCriteria.setMatchingFeatures(false);
-        startCriteria.setGlobalIncludes(scopeIncludes);
+        startCriteria.setGlobalIncludes(List.of("/^base/"));
 
-        stopCriteria = new RegularExpressionSelectionCriteria();
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
-        stopCriteria.setGlobalIncludes(filterIncludes);
     }
 
-    public void testFeatureToFeatureFromFeature() {
+    @Test
+    void testFeatureToFeatureFromFeature() {
         startCriteria.setMatchingFeatures(true);
         stopCriteria.setMatchingFeatures(true);
 
         logger.info("Start f2f test from feature ...");
-        compute(Collections.singleton(base));
+        var resultFactory = compute(Collections.singleton(base));
         logger.info("Stop f2f test from feature ...");
 
         assertEquals(5, resultFactory.getFeatures().size());
@@ -136,12 +120,13 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    public void testFeatureToFeatureFromPackages() {
+    @Test
+    void testFeatureToFeatureFromPackages() {
         startCriteria.setMatchingFeatures(true);
         stopCriteria.setMatchingFeatures(true);
 
         logger.info("Start f2f test from package list ...");
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
         logger.info("Stop f2f test from package list ...");
 
         assertEquals(5, resultFactory.getFeatures().size());
@@ -185,12 +170,13 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    public void testClassToClassFromClass() {
+    @Test
+    void testClassToClassFromClass() {
         startCriteria.setMatchingClasses(true);
         stopCriteria.setMatchingClasses(true);
 
         logger.info("Start c2c test from class ...");
-        compute(Collections.singleton(base.getClassNode()));
+        var resultFactory = compute(Collections.singleton(base.getClassNode()));
         logger.info("Stop c2c test from class ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
@@ -225,12 +211,13 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    public void testClassToClassFromPackageList() {
+    @Test
+    void testClassToClassFromPackageList() {
         startCriteria.setMatchingClasses(true);
         stopCriteria.setMatchingClasses(true);
 
         logger.info("Start c2c test from package list ...");
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
         logger.info("Stop c2c test from package list ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
@@ -265,12 +252,13 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    public void testPackageToPackageFromPackage() {
+    @Test
+    void testPackageToPackageFromPackage() {
         startCriteria.setMatchingPackages(true);
         stopCriteria.setMatchingPackages(true);
 
         logger.info("Start p2p test from package ...");
-        compute(Collections.singleton(base.getClassNode().getPackageNode()));
+        var resultFactory = compute(Collections.singleton(base.getClassNode().getPackageNode()));
         logger.info("Stop p2p test from package ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
@@ -296,12 +284,13 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    public void testPackageToPackageFromPackageList() {
+    @Test
+    void testPackageToPackageFromPackageList() {
         startCriteria.setMatchingPackages(true);
         stopCriteria.setMatchingPackages(true);
 
         logger.info("Start p2p test from package list ...");
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
         logger.info("Stop p2p test from package list ...");
 
         assertEquals(0, resultFactory.getFeatures().size());
@@ -327,7 +316,7 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         assertEquals(0, resultFactory.createPackage("out2").getOutboundDependencies().size());
     }
 
-    private void compute(Collection<? extends Node> nodes) {
+    private NodeFactory compute(Collection<? extends Node> nodes) {
         RegularExpressionSelectionCriteria localStartCriteria = new RegularExpressionSelectionCriteria();
         localStartCriteria.setGlobalIncludes(startCriteria.getGlobalIncludes());
         RegularExpressionSelectionCriteria localStopCriteria  = new RegularExpressionSelectionCriteria();
@@ -352,6 +341,6 @@ public class TestTransitiveClosureNonMaximized extends TestCase {
         GraphSummarizer summarizer = new GraphSummarizer(localScopeCriteria, localFilterCriteria);
         summarizer.traverseNodes(closure.getFactory().getPackages().values());
 
-        resultFactory = summarizer.getScopeFactory();
+        return summarizer.getScopeFactory();
     }
 }

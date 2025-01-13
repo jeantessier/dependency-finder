@@ -32,172 +32,169 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestClosureStartSelector extends TestCase {
-    private NodeFactory factory;
-    private NodeFactory localFactory;
-    private RegularExpressionSelectionCriteria localCriteria;
+public class TestClosureStartSelector {
+    private final NodeFactory factory = new NodeFactory();
+    private final NodeFactory localFactory = new NodeFactory();
+    private final RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
 
-    private PackageNode a;
-    private ClassNode   a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode   b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode   c_C;
-    private FeatureNode c_C_c;
+    private final Node a = factory.createPackage("a");
+    private final Node a_A = factory.createClass("a.A");
+    private final Node a_A_a = factory.createFeature("a.A.a");
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
-        localFactory = new NodeFactory();
-        localCriteria = new RegularExpressionSelectionCriteria();
+    private final Node b = factory.createPackage("b");
+    private final Node b_B = factory.createClass("b.B");
+    private final Node b_B_b = factory.createFeature("b.B.b");
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
+    private final Node c = factory.createPackage("c");
+    private final Node c_C = factory.createClass("c.C");
+    private final Node c_C_c = factory.createFeature("c.C.c");
 
+    @BeforeEach
+    void setUp() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
     }
 
-    public void testOneSelectedNode() {
+    @Test
+    void testOneSelectedNode() {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("nodes in selection", 1, selector.getSelectedNodes().size());
-        assertEquals("b.B.b in selection", b_B_b, selector.getSelectedNodes().iterator().next());
-        assertSame("b.B.b in selection", b_B_b, selector.getSelectedNodes().iterator().next());
+        assertEquals(1, selector.getSelectedNodes().size(), "nodes in selection");
+        assertEquals(b_B_b, selector.getSelectedNodes().iterator().next(), "b.B.b in selection");
+        assertSame(b_B_b, selector.getSelectedNodes().iterator().next(), "b.B.b in selection");
     }
 
-    public void testOneCopiedNode() {
+    @Test
+    void testOneCopiedNode() {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages in scope", 1, localFactory.getPackages().size());
-        assertEquals("classes in scope" , 1, localFactory.getClasses().size());
-        assertEquals("features in scope", 1, localFactory.getFeatures().size());
+        assertEquals(1, localFactory.getPackages().size(), "packages in scope");
+        assertEquals(1, localFactory.getClasses().size(), "classes in scope");
+        assertEquals(1, localFactory.getFeatures().size(), "features in scope");
 
-        assertEquals("package b in scope"    , b,     localFactory.getPackages().get("b"));
-        assertEquals("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
-        assertEquals("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
+        assertEquals(b, localFactory.getPackages().get("b"), "package b in scope");
+        assertEquals(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope");
+        assertEquals(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
 
-        assertNotSame("package b in scope"    , b,     localFactory.getPackages().get("b"));
-        assertNotSame("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
-        assertNotSame("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
+        assertNotSame(b, localFactory.getPackages().get("b"), "package b in scope");
+        assertNotSame(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope");
+        assertNotSame(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
 
-        assertEquals("nodes in selection", 1, selector.getCopiedNodes().size());
-        assertEquals("b.B.b in selection", b_B_b, selector.getCopiedNodes().iterator().next());
-        assertNotSame("b.B.b in selection", b_B_b, selector.getCopiedNodes().iterator().next());
-        assertSame("b.B.b in selection", localFactory.getFeatures().get("b.B.b"), selector.getCopiedNodes().iterator().next());
+        assertEquals(1, selector.getCopiedNodes().size(), "nodes in selection");
+        assertEquals(b_B_b, selector.getCopiedNodes().iterator().next(), "b.B.b in selection");
+        assertNotSame(b_B_b, selector.getCopiedNodes().iterator().next(), "b.B.b in selection");
+        assertSame(localFactory.getFeatures().get("b.B.b"), selector.getCopiedNodes().iterator().next(), "b.B.b in selection");
     }
 
-    public void testMultipleSelectedNodes() {
+    @Test
+    void testMultipleSelectedNodes() {
         localCriteria.setGlobalIncludes("/a.A.a/, /^b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("nodes in selection", 4, selector.getSelectedNodes().size());
-        assertTrue("a.A.a in selection", selector.getSelectedNodes().contains(a_A_a));
-        assertTrue("b in selection",     selector.getSelectedNodes().contains(b));
-        assertTrue("b.B in selection",   selector.getSelectedNodes().contains(b_B));
-        assertTrue("b.B.b in selection", selector.getSelectedNodes().contains(b_B_b));
+        assertEquals(4, selector.getSelectedNodes().size(), "nodes in selection");
+        assertTrue(selector.getSelectedNodes().contains(a_A_a), "a.A.a in selection");
+        assertTrue(selector.getSelectedNodes().contains(b), "b in selection");
+        assertTrue(selector.getSelectedNodes().contains(b_B), "b.B in selection");
+        assertTrue(selector.getSelectedNodes().contains(b_B_b), "b.B.b in selection");
     }
 
-    public void testMultipleCopiedNodes() {
+    @Test
+    void testMultipleCopiedNodes() {
         localCriteria.setGlobalIncludes("/a.A.a/, /^b/");
 
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, localCriteria);
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages in scope", 2, localFactory.getPackages().size());
-        assertEquals("classes in scope" , 2, localFactory.getClasses().size());
-        assertEquals("features in scope", 2, localFactory.getFeatures().size());
+        assertEquals(2, localFactory.getPackages().size(), "packages in scope");
+        assertEquals(2, localFactory.getClasses().size(), "classes in scope");
+        assertEquals(2, localFactory.getFeatures().size(), "features in scope");
 
-        assertEquals("package a in scope"    , a,     localFactory.getPackages().get("a"));
-        assertEquals("class a.A in scope"    , a_A,   localFactory.getClasses().get("a.A"));
-        assertEquals("feature a.A.a in scope", a_A_a, localFactory.getFeatures().get("a.A.a"));
-        assertEquals("package b in scope"    , b,     localFactory.getPackages().get("b"));
-        assertEquals("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
-        assertEquals("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
+        assertEquals(a, localFactory.getPackages().get("a"), "package a in scope");
+        assertEquals(a_A, localFactory.getClasses().get("a.A"), "class a.A in scope");
+        assertEquals(a_A_a, localFactory.getFeatures().get("a.A.a"), "feature a.A.a in scope");
+        assertEquals(b, localFactory.getPackages().get("b"), "package b in scope");
+        assertEquals(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope");
+        assertEquals(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
 
-        assertNotSame("package a in scope"    , a,     localFactory.getPackages().get("a"));
-        assertNotSame("class a.A in scope"    , a_A,   localFactory.getClasses().get("a.A"));
-        assertNotSame("feature a.A.a in scope", a_A_a, localFactory.getFeatures().get("a.A.a"));
-        assertNotSame("package b in scope"    , b,     localFactory.getPackages().get("b"));
-        assertNotSame("class b.B in scope"    , b_B,   localFactory.getClasses().get("b.B"));
-        assertNotSame("feature b.B.b in scope", b_B_b, localFactory.getFeatures().get("b.B.b"));
+        assertNotSame(a, localFactory.getPackages().get("a"), "package a in scope");
+        assertNotSame(a_A, localFactory.getClasses().get("a.A"), "class a.A in scope");
+        assertNotSame(a_A_a, localFactory.getFeatures().get("a.A.a"), "feature a.A.a in scope");
+        assertNotSame(b, localFactory.getPackages().get("b"), "package b in scope");
+        assertNotSame(b_B, localFactory.getClasses().get("b.B"), "class b.B in scope");
+        assertNotSame(b_B_b, localFactory.getFeatures().get("b.B.b"), "feature b.B.b in scope");
 
-        assertEquals("nodes in selection", 4, selector.getCopiedNodes().size());
-        assertTrue("a.A.a in selection", selector.getCopiedNodes().contains(a_A_a));
-        assertTrue("b in selection",     selector.getCopiedNodes().contains(b));
-        assertTrue("b.B in selection",   selector.getCopiedNodes().contains(b_B));
-        assertTrue("b.B.b in selection", selector.getCopiedNodes().contains(b_B_b));
+        assertEquals(4, selector.getCopiedNodes().size(), "nodes in selection");
+        assertTrue(selector.getCopiedNodes().contains(a_A_a), "a.A.a in selection");
+        assertTrue(selector.getCopiedNodes().contains(b), "b in selection");
+        assertTrue(selector.getCopiedNodes().contains(b_B), "b.B in selection");
+        assertTrue(selector.getCopiedNodes().contains(b_B_b), "b.B.b in selection");
     }
 
-    public void testVisitInferredPackage() {
+    @Test
+    void testVisitInferredPackage() {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
+        assertEquals(b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed(), "package.isConfirmed()");
     }
 
-    public void testVisitConfirmedPackage() {
+    @Test
+    void testVisitConfirmedPackage() {
         b.setConfirmed(true);
         
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b));
 
-        assertEquals("package.isConfirmed()", b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed());
+        assertEquals(b.isConfirmed(), localFactory.getPackages().get(b.getName()).isConfirmed(), "package.isConfirmed()");
     }
 
-    public void testVisitInferredClass() {
+    @Test
+    void testVisitInferredClass() {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
+        assertEquals(b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed(), "class.isConfirmed()");
     }
 
-    public void testVisitConfirmedClass() {
+    @Test
+    void testVisitConfirmedClass() {
         b_B.setConfirmed(true);
         
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B));
 
-        assertEquals("class.isConfirmed()", b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed());
+        assertEquals(b_B.isConfirmed(), localFactory.getClasses().get(b_B.getName()).isConfirmed(), "class.isConfirmed()");
     }
 
-    public void testVisitInferredFeature() {
+    @Test
+    void testVisitInferredFeature() {
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
+        assertEquals(b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed(), "feature.isConfirmed()");
     }
 
-    public void testVisitConfirmedFeature() {
+    @Test
+    void testVisitConfirmedFeature() {
         b_B_b.setConfirmed(true);
         
         ClosureStartSelector selector = new ClosureStartSelector(localFactory, new ComprehensiveSelectionCriteria());
         selector.traverseNodes(Collections.singleton(b_B_b));
 
-        assertEquals("feature.isConfirmed()", b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed());
+        assertEquals(b_B_b.isConfirmed(), localFactory.getFeatures().get(b_B_b.getName()).isConfirmed(), "feature.isConfirmed()");
     }
 }

@@ -32,81 +32,61 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestClosureStopSelector extends TestCase {
-    private PackageNode a;
-    private ClassNode a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode c_C;
-    private FeatureNode c_C_c;
+public class TestClosureStopSelector {
+    private final NodeFactory factory = new NodeFactory();
+    private final RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        var factory = new NodeFactory();
+    private final Node a_A_a = factory.createFeature("a.A.a");
+    private final Node b_B_b = factory.createFeature("b.B.b");
+    private final Node c_C_c = factory.createFeature("c.C.c");
 
-        a = factory.createPackage("a");
-        a_A = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b = factory.createPackage("b");
-        b_B = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c = factory.createPackage("c");
-        c_C = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
+    private final ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
 
+    @BeforeEach
+    void setUp() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
     }
 
-    public void testEmpty() {
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+    @Test
+    void testEmpty() {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
-        ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
-        selector.traverseNodes(Collections.emptySet());
+        selector.traverseNodes(List.of());
 
-        assertTrue("Failed to recognize empty collection", selector.isDone());
+        assertTrue(selector.isDone(), "Failed to recognize empty collection");
     }
 
-    public void testPositive() {
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+    @Test
+    void testPositive() {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
-        ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
-        selector.traverseNodes(Collections.singleton(b_B_b));
+        selector.traverseNodes(List.of(b_B_b));
 
-        assertTrue("Failed to recognize target", selector.isDone());
+        assertTrue(selector.isDone(), "Failed to recognize target");
     }
 
-    public void testNegative() {
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+    @Test
+    void testNegative() {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
-        ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
-        selector.traverseNodes(Collections.singleton(a_A_a));
+        selector.traverseNodes(List.of(a_A_a));
 
-        assertFalse("Failed to ignore non-target", selector.isDone());
+        assertFalse(selector.isDone(), "Failed to ignore non-target");
     }
 
-    public void testMultiple() {
-        RegularExpressionSelectionCriteria localCriteria = new RegularExpressionSelectionCriteria();
+    @Test
+    void testMultiple() {
         localCriteria.setGlobalIncludes("/b.B.b/");
 
-        ClosureStopSelector selector = new ClosureStopSelector(localCriteria);
         selector.traverseNodes(List.of(a_A_a, b_B_b));
 
-        assertTrue("Failed to recognize target", selector.isDone());
+        assertTrue(selector.isDone(), "Failed to recognize target");
     }
 }

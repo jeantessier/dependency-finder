@@ -32,50 +32,37 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestComprehensiveSelectionCriteria extends TestCase {
-    private ComprehensiveSelectionCriteria criteria;
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private PackageNode a;
-    private ClassNode a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode c_C;
-    private FeatureNode c_C_c;
+public class TestComprehensiveSelectionCriteria {
+    private final NodeFactory factory = new NodeFactory();
 
-    protected void setUp() throws Exception {
-        criteria = new ComprehensiveSelectionCriteria();
-        factory = new NodeFactory();
+    private final PackageNode a     = factory.createPackage("a");
+    private final ClassNode a_A   = factory.createClass("a.A");
+    private final FeatureNode a_A_a = factory.createFeature("a.A.a");
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
-    }
-    
-    public void testMatch() {
-        assertTrue("a not in package scope",     criteria.matches(a));
-        assertTrue("a.A not in package scope",   criteria.matches(a_A));
-        assertTrue("a.A.a not in package scope", criteria.matches(a_A_a));
-        assertTrue("b not in package scope",     criteria.matches(b));
-        assertTrue("b.B not in package scope",   criteria.matches(b_B));
-        assertTrue("b.B.b not in package scope", criteria.matches(b_B_b));
-        assertTrue("c not in package scope",     criteria.matches(c));
-        assertTrue("c.C not in package scope",   criteria.matches(c_C));
-        assertTrue("c.C.c not in package scope", criteria.matches(c_C_c));
+    private final PackageNode b     = factory.createPackage("b");
+    private final ClassNode b_B   = factory.createClass("b.B");
+    private final FeatureNode b_B_b = factory.createFeature("b.B.b");
+
+    private final PackageNode c     = factory.createPackage("c");
+    private final ClassNode c_C   = factory.createClass("c.C");
+    private final FeatureNode c_C_c = factory.createFeature("c.C.c");
+
+    private final ComprehensiveSelectionCriteria criteria = new ComprehensiveSelectionCriteria();
+
+    @Test
+    void testMatch() {
+        assertTrue(criteria.matches(a), "a not in package scope");
+        assertTrue(criteria.matches(a_A), "a.A not in package scope");
+        assertTrue(criteria.matches(a_A_a), "a.A.a not in package scope");
+        assertTrue(criteria.matches(b), "b not in package scope");
+        assertTrue(criteria.matches(b_B), "b.B not in package scope");
+        assertTrue(criteria.matches(b_B_b), "b.B.b not in package scope");
+        assertTrue(criteria.matches(c), "c not in package scope");
+        assertTrue(criteria.matches(c_C), "c.C not in package scope");
+        assertTrue(criteria.matches(c_C_c), "c.C.c not in package scope");
     }
 }

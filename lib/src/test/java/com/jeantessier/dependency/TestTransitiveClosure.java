@@ -32,37 +32,32 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestTransitiveClosure extends TestCase {
-    private NodeFactory factory;
+public class TestTransitiveClosure {
+    private final NodeFactory factory = new NodeFactory();
 
-    private RegularExpressionSelectionCriteria startCriteria;
-    private RegularExpressionSelectionCriteria stopCriteria;
+    private final RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
+    private final RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
 
-    private TransitiveClosure selector;
+    private final TransitiveClosure selector = new TransitiveClosure(startCriteria, stopCriteria);
 
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        factory = new NodeFactory();
-
+    @BeforeEach
+    void setUp() {
         var a_A_a = factory.createFeature("a.A.a");
         var b_B_b = factory.createFeature("b.B.b");
         var c_C_c = factory.createFeature("c.C.c");
 
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
-
-        startCriteria = new RegularExpressionSelectionCriteria();
-        stopCriteria  = new RegularExpressionSelectionCriteria();
-        
-        selector = new TransitiveClosure(startCriteria, stopCriteria);
     }
     
-    public void testZeroOutbound() {
+    @Test
+    void testZeroOutbound() {
         startCriteria.setGlobalIncludes("/a.A.a/");
         stopCriteria.setGlobalIncludes("/c.C.c/");
 
@@ -71,12 +66,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", 1, selector.getFactory().getPackages().size());
-        assertEquals("classes",  1, selector.getFactory().getClasses().size());
-        assertEquals("features", 1, selector.getFactory().getFeatures().size());
+        assertEquals(1, selector.getFactory().getPackages().size(), "packages");
+        assertEquals(1, selector.getFactory().getClasses().size(), "classes");
+        assertEquals(1, selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testOneOutbound() {
+    @Test
+    void testOneOutbound() {
         startCriteria.setGlobalIncludes("/a.A.a/");
         stopCriteria.setGlobalIncludes("/c.C.c/");
 
@@ -85,12 +81,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", 2, selector.getFactory().getPackages().size());
-        assertEquals("classes",  2, selector.getFactory().getClasses().size());
-        assertEquals("features", 2, selector.getFactory().getFeatures().size());
+        assertEquals(2, selector.getFactory().getPackages().size(), "packages");
+        assertEquals(2, selector.getFactory().getClasses().size(), "classes");
+        assertEquals(2, selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testAllOutbound() {
+    @Test
+    void testAllOutbound() {
         startCriteria.setGlobalIncludes("/a.A.a/");
         stopCriteria.setGlobalIncludes("/c.C.c/");
 
@@ -99,12 +96,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", factory.getPackages().size(), selector.getFactory().getPackages().size());
-        assertEquals("classes",  factory.getClasses().size(),  selector.getFactory().getClasses().size());
-        assertEquals("features", factory.getFeatures().size(), selector.getFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), selector.getFactory().getPackages().size(), "packages");
+        assertEquals(factory.getClasses().size(), selector.getFactory().getClasses().size(), "classes");
+        assertEquals(factory.getFeatures().size(), selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testZeroInbound() {
+    @Test
+    void testZeroInbound() {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("/a.A.a/");
 
@@ -113,12 +111,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", 1, selector.getFactory().getPackages().size());
-        assertEquals("classes",  1, selector.getFactory().getClasses().size());
-        assertEquals("features", 1, selector.getFactory().getFeatures().size());
+        assertEquals(1, selector.getFactory().getPackages().size(), "packages");
+        assertEquals(1, selector.getFactory().getClasses().size(), "classes");
+        assertEquals(1, selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testOneInbound() {
+    @Test
+    void testOneInbound() {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("/a.A.a/");
 
@@ -127,12 +126,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", 2, selector.getFactory().getPackages().size());
-        assertEquals("classes",  2, selector.getFactory().getClasses().size());
-        assertEquals("features", 2, selector.getFactory().getFeatures().size());
+        assertEquals(2, selector.getFactory().getPackages().size(), "packages");
+        assertEquals(2, selector.getFactory().getClasses().size(), "classes");
+        assertEquals(2, selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testAllInbound() {
+    @Test
+    void testAllInbound() {
         startCriteria.setGlobalIncludes("/c.C.c/");
         stopCriteria.setGlobalIncludes("/a.A.a/");
 
@@ -141,12 +141,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", factory.getPackages().size(), selector.getFactory().getPackages().size());
-        assertEquals("classes",  factory.getClasses().size(),  selector.getFactory().getClasses().size());
-        assertEquals("features", factory.getFeatures().size(), selector.getFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), selector.getFactory().getPackages().size(), "packages");
+        assertEquals(factory.getClasses().size(), selector.getFactory().getClasses().size(), "classes");
+        assertEquals(factory.getFeatures().size(), selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testZeroBothDirections() {
+    @Test
+    void testZeroBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
         stopCriteria.setGlobalIncludes(Collections.emptyList());
 
@@ -155,12 +156,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", 1, selector.getFactory().getPackages().size());
-        assertEquals("classes",  1, selector.getFactory().getClasses().size());
-        assertEquals("features", 1, selector.getFactory().getFeatures().size());
+        assertEquals(1, selector.getFactory().getPackages().size(), "packages");
+        assertEquals(1, selector.getFactory().getClasses().size(), "classes");
+        assertEquals(1, selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testOneBothDirections() {
+    @Test
+    void testOneBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
         stopCriteria.setGlobalIncludes(Collections.emptyList());
 
@@ -169,12 +171,13 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", factory.getPackages().size(), selector.getFactory().getPackages().size());
-        assertEquals("classes",  factory.getClasses().size(),  selector.getFactory().getClasses().size());
-        assertEquals("features", factory.getFeatures().size(), selector.getFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), selector.getFactory().getPackages().size(), "packages");
+        assertEquals(factory.getClasses().size(), selector.getFactory().getClasses().size(), "classes");
+        assertEquals(factory.getFeatures().size(), selector.getFactory().getFeatures().size(), "features");
     }
 
-    public void testAllBothDirections() {
+    @Test
+    void testAllBothDirections() {
         startCriteria.setGlobalIncludes("/b.B.b/");
         stopCriteria.setGlobalIncludes(Collections.emptyList());
 
@@ -183,8 +186,8 @@ public class TestTransitiveClosure extends TestCase {
         
         selector.traverseNodes(factory.getPackages().values());
 
-        assertEquals("packages", factory.getPackages().size(), selector.getFactory().getPackages().size());
-        assertEquals("classes",  factory.getClasses().size(),  selector.getFactory().getClasses().size());
-        assertEquals("features", factory.getFeatures().size(), selector.getFactory().getFeatures().size());
+        assertEquals(factory.getPackages().size(), selector.getFactory().getPackages().size(), "packages");
+        assertEquals(factory.getClasses().size(), selector.getFactory().getClasses().size(), "classes");
+        assertEquals(factory.getFeatures().size(), selector.getFactory().getFeatures().size(), "features");
     }
 }
