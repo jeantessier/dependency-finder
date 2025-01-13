@@ -19,5 +19,5 @@ A user raised an issue with =DependencyClosure= as they were trying to compute
 a class-level outbound closure.  Some classes at the edges were missing unless
 they used =-maximize= during extraction.  Without looking, it looks
 suspiciously related to some
-[[https://depfind.sourceforge.io/Manual.html#TrickyBehavior][tricky behavior]]
+[[https://jeantessier.github.io/dependency-finder/Manual.html#TrickyBehavior][tricky behavior]]
 I documented in the Manual already.

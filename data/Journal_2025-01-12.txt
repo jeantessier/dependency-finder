@@ -1,0 +1,5 @@
+Changed the URL prefix for DTDs and the like from
+=https://depfind.sourceforge.io/= to
+=https://jeantessier.github.io/dependency-finder/=.   This way, these resources
+will come from the official site on GitHub instead of the old site back on
+SourceForge.
