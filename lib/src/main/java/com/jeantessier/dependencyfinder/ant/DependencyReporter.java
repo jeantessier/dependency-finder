@@ -86,6 +86,7 @@ public class DependencyReporter extends GraphTask {
     private boolean minimize = false;
     private boolean maximize = false;
     private boolean copyOnly = false;
+    private boolean includeFilterNodes = false;
 
     private String urlFormat = HTMLPrinter.DEFAULT_URL_FORMAT;
 
@@ -371,7 +372,7 @@ public class DependencyReporter extends GraphTask {
         this.showEmptyNodes = showEmptyNodes;
     }
 
-    public void setShowAll(boolean showAll) {
+    public void setShowall(boolean showAll) {
         setShowinbounds(showAll);
         setShowoutbounds(showAll);
         setShowemptynodes(showAll);
@@ -441,12 +442,20 @@ public class DependencyReporter extends GraphTask {
         this.maximize = maximize;
     }
 
-    public boolean getCopyOnly() {
+    public boolean getCopyonly() {
         return copyOnly;
     }
 
-    public void setCopyOnly(boolean copyOnly) {
+    public void setCopyonly(boolean copyOnly) {
         this.copyOnly = copyOnly;
+    }
+
+    public boolean getIncludefilternodes() {
+        return includeFilterNodes;
+    }
+
+    public void setIncludefilternodes(boolean includeFilterNodes) {
+        this.includeFilterNodes = includeFilterNodes;
     }
 
     public String getUrlFormat() {
@@ -501,7 +510,7 @@ public class DependencyReporter extends GraphTask {
 
         try {
             GraphCopier copier;
-            if (getCopyOnly() || getMaximize()) {
+            if (getCopyonly() || getMaximize()) {
                 copier = new GraphCopier(getStrategy());
             } else {
                 copier = new GraphSummarizer(getScopeCriteria(), getFilterCriteria());
@@ -556,7 +565,15 @@ public class DependencyReporter extends GraphTask {
                 printer.setShowEmptyNodes(getShowemptynodes());
             }
 
-            printer.traverseNodes(copier.getScopeFactory().getPackages().values());
+            var packages = copier.getScopeFactory().getPackages().values();
+
+            if (getIncludefilternodes()) {
+                var nodeFactory = new NodeFactory();
+                new GraphCopier(nodeFactory).traverseNodes(packages);
+                packages = nodeFactory.getPackages().values();
+            }
+
+            printer.traverseNodes(packages);
 
             out.close();
         } catch (SAXException | ParserConfigurationException | IOException ex) {

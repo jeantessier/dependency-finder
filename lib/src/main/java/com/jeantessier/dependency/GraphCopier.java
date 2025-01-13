@@ -33,17 +33,39 @@
 package com.jeantessier.dependency;
 
 public class GraphCopier extends VisitorBase {
-    private final NodeFactory scopeFactory  = new NodeFactory();
-    private final NodeFactory filterFactory = new NodeFactory();
+    private final NodeFactory scopeFactory;
+    private final NodeFactory filterFactory;
 
     public GraphCopier() {
+        this(new NodeFactory(), new NodeFactory());
+    }
+
+    public GraphCopier(NodeFactory nodeFactory) {
+        this(nodeFactory, nodeFactory);
+    }
+
+    private GraphCopier(NodeFactory scopeFactory, NodeFactory filterFactory) {
         super();
+
+        this.scopeFactory = scopeFactory;
+        this.filterFactory = filterFactory;
     }
 
     public GraphCopier(TraversalStrategy strategy) {
-        super(strategy);
+        this(strategy, new NodeFactory(), new NodeFactory());
     }
-    
+
+    public GraphCopier(TraversalStrategy strategy, NodeFactory nodeFactory) {
+        this(strategy, nodeFactory, nodeFactory);
+    }
+
+    public GraphCopier(TraversalStrategy strategy, NodeFactory scopeFactory, NodeFactory filterFactory) {
+        super(strategy);
+
+        this.scopeFactory = scopeFactory;
+        this.filterFactory = filterFactory;
+    }
+
     public NodeFactory getScopeFactory() {
         return scopeFactory;
     }

@@ -75,6 +75,7 @@ public class DependencyReporter extends DependencyGraphCommand {
         getCommandLine().addToggleSwitch("minimize");
         getCommandLine().addToggleSwitch("maximize");
         getCommandLine().addToggleSwitch("copy-only");
+        getCommandLine().addToggleSwitch("include-filter-nodes");
 
         getCommandLine().addSingleValueSwitch("url-format", HTMLPrinter.DEFAULT_URL_FORMAT);
     }
@@ -156,7 +157,15 @@ public class DependencyReporter extends DependencyGraphCommand {
             printer.setShowEmptyNodes(getCommandLine().isPresent("show-empty-nodes"));
         }
 
-        printer.traverseNodes(copier.getScopeFactory().getPackages().values());
+        var packages = copier.getScopeFactory().getPackages().values();
+
+        if (getCommandLine().isPresent("include-filter-nodes")) {
+            var nodeFactory = new NodeFactory();
+            new GraphCopier(nodeFactory).traverseNodes(packages);
+            packages = nodeFactory.getPackages().values();
+        }
+
+        printer.traverseNodes(packages);
     }
 
     private void copyGraph(Visitor copier) throws IOException, SAXException, ParserConfigurationException {

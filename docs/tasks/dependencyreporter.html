@@ -278,6 +278,14 @@ DTD.</p>
     <td valign="top" align="center">No; defaults to false.</td>
   </tr>
   <tr>
+    <td valign="top">includefilternodes</td>
+    <td valign="top">includes nodes in the output that map to filter criteria,
+      even if they do not meet scope criteria.  This is especially useful when
+      generating DOT files, which require nodes for both ends of each
+      dependency.</td>
+    <td valign="top" align="center">No; defaults to false.</td>
+  </tr>
+  <tr>
     <td valign="top">showemptynodes</td>
     <td valign="top">lists nodes in the scope, even if they would appear
     empty because they have no inbound or outbound dependencies.</td>

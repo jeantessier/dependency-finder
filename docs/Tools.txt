@@ -19,7 +19,7 @@ For Dependency Finder version <VERSION />.
 <p></p>
 <li><a href="#DependencyExtractor">DependencyExtractor</a></li>
 <li><a href="#DependencyReporter">DependencyReporter</a></li>
-<li><a href="#DependencyGraphToGraphML">DependencyGraphToDOT</a></li>
+<li><a href="#DependencyGraphToDOT">DependencyGraphToDOT</a></li>
 <li><a href="#DependencyGraphToGraphML">DependencyGraphToGraphML</a></li>
 <li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
 <li><a href="#DependencyGraphToJSON">DependencyGraphToJSON</a></li>
@@ -4616,12 +4616,21 @@ See =-o= above.
 
 <blockquote>
 
-To convert the dependency graph in =dg.xml= to plain text
-with only inbound dependencies:
+You will need to use =-include-filter-nodes= when generating the dependency
+graph so it has all the information needed by the DOT file.
 
 <div class="highlight">
 
-    DependencyGraphToDOT -in dg.xml
+    DependencyReporter *-include-filter-nodes* -xml -out dg.xml ...
+
+</div>
+
+To convert the dependency graph in =dg.xml= to a DOT file suitable for
+rendering with Graphviz:
+
+<div class="highlight">
+
+    DependencyGraphToDOT -s:dg.xml
 
 </div>
 
@@ -4632,6 +4641,14 @@ an image from it:
 
     DependencyGraphToDOT -s:dg.xml -o:dg.dot
     dot -T svg -o dg.svg dg.dot
+
+</div>
+
+Or, as a one-liner:
+
+<div class="highlight">
+
+    DependencyReporter *-include-filter-nodes* ... -xml | *DependencyGraphToDOT* -s:- | dot -T svg -o dg.svg
 
 </div>
 
@@ -6995,6 +7012,7 @@ Summarizes a dependency graph according to user-specified criteria.
         [-filter-includes-list filename]*
         [-help]
         [-html]
+        [-include-filter-nodes]
         [-includes value]*
         [-indent-text text]
         [-json]
@@ -7494,6 +7512,27 @@ Prints synopsis.
 <blockquote>
 
 Writes the dependency graph as a partial HTML document.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+
+---++++ =-include-filter-nodes=
+
+<blockquote>
+
+Include nodes in the output that map to filter criteria, even if they do not
+meet scope criteria.
+
+This is especially useful when generating DOT files from XML dependency graph
+representation with [[#DependencyGraphToDOT][DependencyGraphToDOT]].  The DOT
+file needs to create nodes for packages, classes, and/or features on both ends
+of each dependency edge, so it needs this information in its source XML file.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
