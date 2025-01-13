@@ -32,197 +32,205 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestTransitiveClosureSlice extends TestCase {
-    private Collection<Node> nodes;
+public class TestTransitiveClosureSlice {
+    private final NodeFactory factory = new NodeFactory();
 
-    private TransitiveClosure selector;
+    private final Node in3 = factory.createPackage("in3");
+    private final Node in2 = factory.createPackage("in2");
+    private final Node in1 = factory.createPackage("in1");
+    private final Node base = factory.createPackage("base");
+    private final Node out1 = factory.createPackage("out1");
+    private final Node out2 = factory.createPackage("out2");
+    private final Node out3 = factory.createPackage("out3");
 
-    protected void setUp() throws Exception {
-        NodeFactory factory = new NodeFactory();
+    private final Collection<Node> nodes = Collections.singleton(base);
 
-        Node in3 = factory.createPackage("in3");
-        Node in2 = factory.createPackage("in2");
-        Node in1 = factory.createPackage("in1");
-        Node base = factory.createPackage("base");
-        Node out1 = factory.createPackage("out1");
-        Node out2 = factory.createPackage("out2");
-        Node out3 = factory.createPackage("out3");
+    private final TransitiveClosure selector = new TransitiveClosure(new RegularExpressionSelectionCriteria("//"), new NullSelectionCriteria());
 
+    @BeforeEach
+    void setUp() {
         in3.addDependency(in2);
         in2.addDependency(in1);
         in1.addDependency(base);
         base.addDependency(out1);
         out1.addDependency(out2);
         out2.addDependency(out3);
-
-        nodes = Collections.singleton(base);
-
-        selector = new TransitiveClosure(new RegularExpressionSelectionCriteria("//"), new NullSelectionCriteria());
     }
 
-    public void testDefaultDepth() {
+    @Test
+    void testDefaultDepth() {
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 4, selector.getFactory().getPackages().size());
-        assertEquals("base.Inbound()",  0, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
-        assertEquals("out2.Inbound()",  1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size());
-        assertEquals("out2.Outbound()", 1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size());
-        assertEquals("out3.Inbound()",  1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size());
-        assertEquals("out3.Outbound()", 0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size());
+        assertEquals(4, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size(), "out2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size(), "out2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size(), "out3.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size(), "out3.Outbound()");
     }
 
-    public void testUnboundedDepthInboundOutbound() {
+    @Test
+    void testUnboundedDepthInboundOutbound() {
         selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 7, selector.getFactory().getPackages().size());
-        assertEquals("in3.Inbound()",   0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size());
-        assertEquals("in3.Outbound()",  1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size());
-        assertEquals("in2.Inbound()",   1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size());
-        assertEquals("in2.Outbound()",  1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size());
-        assertEquals("in1.Inbound()",   1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size());
-        assertEquals("in1.Outbound()",  1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size());
-        assertEquals("base.Inbound()",  1, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
-        assertEquals("out2.Inbound()",  1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size());
-        assertEquals("out2.Outbound()", 1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size());
-        assertEquals("out3.Inbound()",  1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size());
-        assertEquals("out3.Outbound()", 0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size());
+        assertEquals(7, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size(), "in3.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size(), "in3.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size(), "in2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size(), "in2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size(), "in1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size(), "in1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size(), "out2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size(), "out2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size(), "out3.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size(), "out3.Outbound()");
     }
 
-    public void testUnboundedDepthInbound() {
+    @Test
+    void testUnboundedDepthInbound() {
         selector.setMaximumInboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
         selector.setMaximumOutboundDepth(TransitiveClosure.DO_NOT_FOLLOW);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 4, selector.getFactory().getPackages().size());
-        assertEquals("in3.Inbound()",   0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size());
-        assertEquals("in3.Outbound()",  1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size());
-        assertEquals("in2.Inbound()",   1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size());
-        assertEquals("in2.Outbound()",  1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size());
-        assertEquals("in1.Inbound()",   1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size());
-        assertEquals("in1.Outbound()",  1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size());
-        assertEquals("base.Inbound()",  1, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 0, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
+        assertEquals(4, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size(), "in3.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size(), "in3.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size(), "in2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size(), "in2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size(), "in1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size(), "in1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
     }
 
-    public void testUnboundedDepthOutbound() {
+    @Test
+    void testUnboundedDepthOutbound() {
         selector.setMaximumInboundDepth(TransitiveClosure.DO_NOT_FOLLOW);
         selector.setMaximumOutboundDepth(TransitiveClosure.UNBOUNDED_DEPTH);
 
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 4, selector.getFactory().getPackages().size());
-        assertEquals("base.Inbound()",  0, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
-        assertEquals("out2.Inbound()",  1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size());
-        assertEquals("out2.Outbound()", 1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size());
-        assertEquals("out3.Inbound()",  1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size());
-        assertEquals("out3.Outbound()", 0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size());
+        assertEquals(4, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size(), "out2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size(), "out2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size(), "out3.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size(), "out3.Outbound()");
     }
 
-    public void testZeroDepthInboundOutbound() {
+    @Test
+    void testZeroDepthInboundOutbound() {
         selector.setMaximumInboundDepth(0);
         selector.setMaximumOutboundDepth(0);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 1, selector.getFactory().getPackages().size());
-        assertEquals("base.Inbound()",  0, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 0, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
+        assertEquals(1, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
     }
 
-    public void testSingleDepthInboundOutbound() {
+    @Test
+    void testSingleDepthInboundOutbound() {
         selector.setMaximumInboundDepth(1);
         selector.setMaximumOutboundDepth(1);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 3, selector.getFactory().getPackages().size());
-        assertEquals("in1.Inbound()",   0, selector.getFactory().getPackages().get("in1").getInboundDependencies().size());
-        assertEquals("in1.Outbound()",  1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size());
-        assertEquals("base.Inbound()",  1, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 0, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
+        assertEquals(3, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("in1").getInboundDependencies().size(), "in1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size(), "in1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
     }
 
-    public void testDoubleDepthInboundOutbound() {
+    @Test
+    void testDoubleDepthInboundOutbound() {
         selector.setMaximumInboundDepth(2);
         selector.setMaximumOutboundDepth(2);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 5, selector.getFactory().getPackages().size());
-        assertEquals("in2.Inbound()",   0, selector.getFactory().getPackages().get("in2").getInboundDependencies().size());
-        assertEquals("in2.Outbound()",  1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size());
-        assertEquals("in1.Inbound()",   1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size());
-        assertEquals("in1.Outbound()",  1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size());
-        assertEquals("base.Inbound()",  1, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
-        assertEquals("out2.Inbound()",  1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size());
-        assertEquals("out2.Outbound()", 0, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size());
+        assertEquals(5, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("in2").getInboundDependencies().size(), "in2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size(), "in2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size(), "in1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size(), "in1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size(), "out2.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size(), "out2.Outbound()");
     }
 
-    public void testExactDepthInboundOutbound() {
+    @Test
+    void testExactDepthInboundOutbound() {
         selector.setMaximumInboundDepth(3);
         selector.setMaximumOutboundDepth(3);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 7, selector.getFactory().getPackages().size());
-        assertEquals("in3.Inbound()",   0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size());
-        assertEquals("in3.Outbound()",  1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size());
-        assertEquals("in2.Inbound()",   1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size());
-        assertEquals("in2.Outbound()",  1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size());
-        assertEquals("in1.Inbound()",   1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size());
-        assertEquals("in1.Outbound()",  1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size());
-        assertEquals("base.Inbound()",  1, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
-        assertEquals("out2.Inbound()",  1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size());
-        assertEquals("out2.Outbound()", 1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size());
-        assertEquals("out3.Inbound()",  1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size());
-        assertEquals("out3.Outbound()", 0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size());
+        assertEquals(7, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size(), "in3.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size(), "in3.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size(), "in2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size(), "in2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size(), "in1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size(), "in1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size(), "out2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size(), "out2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size(), "out3.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size(), "out3.Outbound()");
     }
 
-    public void testOverDepthInboundOutbound() {
+    @Test
+    void testOverDepthInboundOutbound() {
         selector.setMaximumInboundDepth(4);
         selector.setMaximumOutboundDepth(4);
         
         selector.traverseNodes(nodes);
 
-        assertEquals("number of packages", 7, selector.getFactory().getPackages().size());
-        assertEquals("in3.Inbound()",   0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size());
-        assertEquals("in3.Outbound()",  1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size());
-        assertEquals("in2.Inbound()",   1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size());
-        assertEquals("in2.Outbound()",  1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size());
-        assertEquals("in1.Inbound()",   1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size());
-        assertEquals("in1.Outbound()",  1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size());
-        assertEquals("base.Inbound()",  1, selector.getFactory().getPackages().get("base").getInboundDependencies().size());
-        assertEquals("base.Outbound()", 1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size());
-        assertEquals("out1.Inbound()",  1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size());
-        assertEquals("out1.Outbound()", 1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size());
-        assertEquals("out2.Inbound()",  1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size());
-        assertEquals("out2.Outbound()", 1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size());
-        assertEquals("out3.Inbound()",  1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size());
-        assertEquals("out3.Outbound()", 0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size());
+        assertEquals(7, selector.getFactory().getPackages().size(), "number of packages");
+        assertEquals(0, selector.getFactory().getPackages().get("in3").getInboundDependencies().size(), "in3.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in3").getOutboundDependencies().size(), "in3.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getInboundDependencies().size(), "in2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in2").getOutboundDependencies().size(), "in2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getInboundDependencies().size(), "in1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("in1").getOutboundDependencies().size(), "in1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getInboundDependencies().size(), "base.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("base").getOutboundDependencies().size(), "base.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getInboundDependencies().size(), "out1.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out1").getOutboundDependencies().size(), "out1.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getInboundDependencies().size(), "out2.Inbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out2").getOutboundDependencies().size(), "out2.Outbound()");
+        assertEquals(1, selector.getFactory().getPackages().get("out3").getInboundDependencies().size(), "out3.Inbound()");
+        assertEquals(0, selector.getFactory().getPackages().get("out3").getOutboundDependencies().size(), "out3.Outbound()");
     }
 }

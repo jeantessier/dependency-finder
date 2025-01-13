@@ -32,121 +32,90 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestTransitiveClosureWithTestClass extends TestCase {
-    private NodeFactory factory;
+public class TestTransitiveClosureWithTestClass {
+    private final NodeFactory factory = new NodeFactory();
 
-    private List<String> scopeIncludes;
+    private final Node _package = factory.createPackage("");
+    private final Node test_class = factory.createClass("test");
+    private final Node test_main_method = factory.createFeature("test.main(String[])");
+    private final Node test_Test_method = factory.createFeature("test.test()");
+
+    private final Node java_lang_package = factory.createPackage("java.lang");
+    private final Node java_lang_Object_class = factory.createClass("java.lang.Object");
+    private final Node java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
+    private final Node java_lang_String_class = factory.createClass("java.lang.String");
+
+    private final Node java_util_package = factory.createPackage("java.util");
+    private final Node java_util_Collections_class = factory.createClass("java.util.Collections");
+    private final Node java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
+
+    private final List<String> scopeIncludes = List.of("/test/");
     
-    private RegularExpressionSelectionCriteria startCriteria;
-    private RegularExpressionSelectionCriteria stopCriteria;
+    private final RegularExpressionSelectionCriteria startCriteria = new RegularExpressionSelectionCriteria();
+    private final RegularExpressionSelectionCriteria stopCriteria = new RegularExpressionSelectionCriteria();
 
-    private NodeFactory resultFactory;
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        
-        factory = new NodeFactory();
-
-        Node _package = factory.createPackage("");
-        Node test_class = factory.createClass("test");
-        Node test_main_method = factory.createFeature("test.main(String[])");
-        Node test_Test_method = factory.createFeature("test.test()");
-
-        Node java_lang_package = factory.createPackage("java.lang");
-        Node java_lang_Object_class = factory.createClass("java.lang.Object");
-        Node java_lang_Object_Object_method = factory.createFeature("java.lang.Object.Object()");
-        Node java_lang_String_class = factory.createClass("java.lang.String");
-
-        Node java_util_package = factory.createPackage("java.util");
-        Node java_util_Collections_class = factory.createClass("java.util.Collections");
-        Node java_util_Collections_singleton_method = factory.createFeature("java.util.Collections.singleton(java.lang.Object)");
-        
+    @BeforeEach
+    void setUp() {
         test_class.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_class);
         test_main_method.addDependency(java_lang_Object_Object_method);
         test_main_method.addDependency(java_lang_String_class);
         test_main_method.addDependency(java_util_Collections_singleton_method);
         test_Test_method.addDependency(java_lang_Object_Object_method);
-
-        scopeIncludes = new ArrayList<>(1);
-        scopeIncludes.add("/test/");
-        
-        startCriteria = new RegularExpressionSelectionCriteria();
-        stopCriteria  = new RegularExpressionSelectionCriteria();
     }
 
-    public void testCompleteClosure() {
+    @Test
+    void testCompleteClosure() {
         startCriteria.setGlobalIncludes(scopeIncludes);
         stopCriteria.setGlobalIncludes(Collections.emptyList());
-        
-        compute(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     factory.getPackages().size(),
-                     resultFactory.getPackages().size());
-        assertEquals("Different number of classes",
-                     factory.getClasses().size(),
-                     resultFactory.getClasses().size());
-        assertEquals("Different number of features",
-                     factory.getFeatures().size(),
-                     resultFactory.getFeatures().size());
+        var resultFactory = compute(factory.getPackages().values());
+
+        assertEquals(factory.getPackages().size(), resultFactory.getPackages().size(), "Different number of packages");
+        assertEquals(factory.getClasses().size(), resultFactory.getClasses().size(), "Different number of classes");
+        assertEquals(factory.getFeatures().size(), resultFactory.getFeatures().size(), "Different number of features");
 
         resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
             assertNotSame(factory.getPackages().get(key), resultFactory.getPackages().get(key));
-            assertEquals("Package " + key + " has different inbound count",
-                         factory.getPackages().get(key).getInboundDependencies().size(),
-                         resultFactory.getPackages().get(key).getInboundDependencies().size());
-            assertEquals("Package " + key + " has different outbound count",
-                         factory.getPackages().get(key).getOutboundDependencies().size(),
-                         resultFactory.getPackages().get(key).getOutboundDependencies().size());
+            assertEquals(factory.getPackages().get(key).getInboundDependencies().size(), resultFactory.getPackages().get(key).getInboundDependencies().size(), "Package " + key + " has different inbound count");
+            assertEquals(factory.getPackages().get(key).getOutboundDependencies().size(), resultFactory.getPackages().get(key).getOutboundDependencies().size(), "Package " + key + " has different outbound count");
         });
         
         resultFactory.getClasses().keySet().forEach(key -> {
             assertEquals(factory.getClasses().get(key), resultFactory.getClasses().get(key));
             assertNotSame(factory.getClasses().get(key), resultFactory.getClasses().get(key));
-            assertEquals("Class " + key + " has different inbound count",
-                         factory.getClasses().get(key).getInboundDependencies().size(),
-                         resultFactory.getClasses().get(key).getInboundDependencies().size());
-            assertEquals("Class " + key + " has different outbound count",
-                         factory.getClasses().get(key).getOutboundDependencies().size(),
-                         resultFactory.getClasses().get(key).getOutboundDependencies().size());
+            assertEquals(factory.getClasses().get(key).getInboundDependencies().size(), resultFactory.getClasses().get(key).getInboundDependencies().size(), "Class " + key + " has different inbound count");
+            assertEquals(factory.getClasses().get(key).getOutboundDependencies().size(), resultFactory.getClasses().get(key).getOutboundDependencies().size(), "Class " + key + " has different outbound count");
         });
         
         resultFactory.getFeatures().keySet().forEach(key -> {
             assertEquals(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
             assertNotSame(factory.getFeatures().get(key), resultFactory.getFeatures().get(key));
-            assertEquals("Feature " + key + " has different inbound count",
-                         factory.getFeatures().get(key).getInboundDependencies().size(),
-                         resultFactory.getFeatures().get(key).getInboundDependencies().size());
-            assertEquals("Feature " + key + " has different outbound count",
-                         factory.getFeatures().get(key).getOutboundDependencies().size(),
-                         resultFactory.getFeatures().get(key).getOutboundDependencies().size());
+            assertEquals(factory.getFeatures().get(key).getInboundDependencies().size(), resultFactory.getFeatures().get(key).getInboundDependencies().size(), "Feature " + key + " has different inbound count");
+            assertEquals(factory.getFeatures().get(key).getOutboundDependencies().size(), resultFactory.getFeatures().get(key).getOutboundDependencies().size(), "Feature " + key + " has different outbound count");
         });
     }
 
-    public void testCopyAllNodesOnly() {
+    @Test
+    void testCopyAllNodesOnly() {
         startCriteria.setGlobalIncludes(scopeIncludes);
         stopCriteria.setMatchingPackages(false);
         stopCriteria.setMatchingClasses(false);
         stopCriteria.setMatchingFeatures(false);
         stopCriteria.setGlobalIncludes("//");
 
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     1,
-                     resultFactory.getPackages().size());
-        assertEquals("Different number of classes",
-                     1,
-                     resultFactory.getClasses().size());
-        assertEquals("Different number of features",
-                     2,
-                     resultFactory.getFeatures().size());
+        assertEquals(1, resultFactory.getPackages().size(), "Different number of packages");
+        assertEquals(1, resultFactory.getClasses().size(), "Different number of classes");
+        assertEquals(2, resultFactory.getFeatures().size(), "Different number of features");
 
         resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
@@ -170,7 +139,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         });
     }
 
-    public void testCopyPackageNodesOnly() {
+    @Test
+    void testCopyPackageNodesOnly() {
         startCriteria.setMatchingClasses(false);
         startCriteria.setMatchingFeatures(false);
         startCriteria.setGlobalIncludes(scopeIncludes);
@@ -179,16 +149,15 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingFeatures(false);
         stopCriteria.setGlobalIncludes("//");
 
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     1,
-                     resultFactory.getPackages().size());
+        assertEquals(1, resultFactory.getPackages().size(), "Different number of packages");
         assertTrue(resultFactory.getClasses().isEmpty());
         assertTrue(resultFactory.getFeatures().isEmpty());
     }
 
-    public void testCopyClassNodesOnly() {
+    @Test
+    void testCopyClassNodesOnly() {
         startCriteria.setMatchingPackages(false);
         startCriteria.setMatchingFeatures(false);
         startCriteria.setGlobalIncludes(scopeIncludes);
@@ -197,14 +166,10 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingFeatures(false);
         stopCriteria.setGlobalIncludes("//");
 
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     1,
-                     resultFactory.getPackages().size());
-        assertEquals("Different number of classes",
-                     1,
-                     resultFactory.getClasses().size());
+        assertEquals(1, resultFactory.getPackages().size(), "Different number of packages");
+        assertEquals(1, resultFactory.getClasses().size(), "Different number of classes");
         assertTrue(resultFactory.getFeatures().isEmpty());
 
         resultFactory.getPackages().keySet().forEach(key -> {
@@ -222,7 +187,8 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         });
     }
 
-    public void testCopyFeatureNodesOnly() {
+    @Test
+    void testCopyFeatureNodesOnly() {
         startCriteria.setMatchingPackages(false);
         startCriteria.setMatchingClasses(false);
         startCriteria.setGlobalIncludes(scopeIncludes);
@@ -231,17 +197,11 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         stopCriteria.setMatchingFeatures(false);
         stopCriteria.setGlobalIncludes("//");
 
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
 
-        assertEquals("Different number of packages",
-                     1,
-                     resultFactory.getPackages().size());
-        assertEquals("Different number of classes",
-                     1,
-                     resultFactory.getClasses().size());
-        assertEquals("Different number of features",
-                     2,
-                     resultFactory.getFeatures().size());
+        assertEquals(1, resultFactory.getPackages().size(), "Different number of packages");
+        assertEquals(1, resultFactory.getClasses().size(), "Different number of classes");
+        assertEquals(2, resultFactory.getFeatures().size(), "Different number of features");
 
         resultFactory.getPackages().keySet().forEach(key -> {
             assertEquals(factory.getPackages().get(key), resultFactory.getPackages().get(key));
@@ -265,19 +225,20 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         });
     }
 
-    public void testCopyNothing() {
+    @Test
+    void testCopyNothing() {
         startCriteria.setMatchingPackages(false);
         startCriteria.setMatchingClasses(false);
         startCriteria.setMatchingFeatures(false);
         
-        compute(factory.getPackages().values());
+        var resultFactory = compute(factory.getPackages().values());
 
         assertTrue(resultFactory.getPackages().isEmpty());
         assertTrue(resultFactory.getClasses().isEmpty());
         assertTrue(resultFactory.getFeatures().isEmpty());
     }
 
-    private void compute(Collection<? extends Node> nodes) {
+    private NodeFactory compute(Collection<? extends Node> nodes) {
         RegularExpressionSelectionCriteria localStartCriteria = new RegularExpressionSelectionCriteria();
         localStartCriteria.setGlobalIncludes(startCriteria.getGlobalIncludes());
         RegularExpressionSelectionCriteria localStopCriteria  = new RegularExpressionSelectionCriteria();
@@ -300,6 +261,6 @@ public class TestTransitiveClosureWithTestClass extends TestCase {
         GraphSummarizer summarizer = new GraphSummarizer(localScopeCriteria, localFilterCriteria);
         summarizer.traverseNodes(closure.getFactory().getPackages().values());
 
-        resultFactory = summarizer.getScopeFactory();
+        return summarizer.getScopeFactory();
     }
 }

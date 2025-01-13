@@ -32,144 +32,127 @@
 
 package com.jeantessier.dependency;
 
+import org.junit.jupiter.api.*;
+
 import java.util.*;
 
-import junit.framework.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestRegularExpressionSelectionCriteria extends TestCase {
-    private RegularExpressionSelectionCriteria criteria;
+public class TestRegularExpressionSelectionCriteria {
+    private final NodeFactory factory = new NodeFactory();
 
-    private PackageNode a;
-    private ClassNode a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode c_C;
-    private FeatureNode c_C_c;
+    private final PackageNode a = factory.createPackage("a");
+    private final ClassNode a_A = factory.createClass("a.A");
+    private final FeatureNode a_A_a = factory.createFeature("a.A.a");
 
-    private List<String> include;
-    private List<String> exclude;
+    private final PackageNode b = factory.createPackage("b");
+    private final ClassNode b_B = factory.createClass("b.B");
+    private final FeatureNode b_B_b = factory.createFeature("b.B.b");
 
-    protected void setUp() throws Exception {
-        criteria = new RegularExpressionSelectionCriteria();
+    private final PackageNode c = factory.createPackage("c");
+    private final ClassNode c_C = factory.createClass("c.C");
+    private final FeatureNode c_C_c = factory.createFeature("c.C.c");
 
-        NodeFactory factory = new NodeFactory();
+    private final List<String> include = List.of("/^b/");
+    private final List<String> exclude = List.of("/^c/");
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c     = factory.createPackage("c");
-        c_C   = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
-        
-        include = new LinkedList<>();
-        include.add("/^b/");
-        
-        exclude = new LinkedList<>();
-        exclude.add("/^c/");
-    }
+    private final RegularExpressionSelectionCriteria criteria = new RegularExpressionSelectionCriteria();
 
-    public void testMatch() {
+    @Test
+    void testMatch() {
         criteria.setGlobalIncludes("//");
         criteria.setMatchingPackages(true);
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(false);
 
-        assertTrue("a not in package scope",  criteria.matches(a));
-        assertTrue("a.A in package scope",   !criteria.matches(a_A));
-        assertTrue("a.A.a in package scope", !criteria.matches(a_A_a));
-        assertTrue("b not in package scope",  criteria.matches(b));
-        assertTrue("b.B in package scope",   !criteria.matches(b_B));
-        assertTrue("b.B.b in package scope", !criteria.matches(b_B_b));
-        assertTrue("c not in package scope",  criteria.matches(c));
-        assertTrue("c.C in package scope",   !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
+        assertTrue(criteria.matches(a), "a not in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertTrue(criteria.matches(b), "b not in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertTrue(criteria.matches(c), "c not in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
 
         criteria.setMatchingPackages(false);
         criteria.setMatchingClasses(true);
         criteria.setMatchingFeatures(false);
 
-        assertTrue("a in package scope",       !criteria.matches(a));
-        assertTrue("a.A not in package scope",  criteria.matches(a_A));
-        assertTrue("a.A.a in package scope",   !criteria.matches(a_A_a));
-        assertTrue("b not in package scope",   !criteria.matches(b));
-        assertTrue("b.B in package scope",      criteria.matches(b_B));
-        assertTrue("b.B.b in package scope",   !criteria.matches(b_B_b));
-        assertTrue("c not in package scope",   !criteria.matches(c));
-        assertTrue("c.C in package scope",      criteria.matches(c_C));
-        assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertTrue(criteria.matches(a_A), "a.A not in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertFalse(criteria.matches(b), "b not in package scope");
+        assertTrue(criteria.matches(b_B), "b.B in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c not in package scope");
+        assertTrue(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
 
         criteria.setMatchingPackages(false);
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(true);
 
-        assertTrue("a in package scope",         !criteria.matches(a));
-        assertTrue("a.A in package scope",       !criteria.matches(a_A));
-        assertTrue("a.A.a not in package scope",  criteria.matches(a_A_a));
-        assertTrue("b not in package scope",     !criteria.matches(b));
-        assertTrue("b.B in package scope",       !criteria.matches(b_B));
-        assertTrue("b.B.b in package scope",      criteria.matches(b_B_b));
-        assertTrue("c not in package scope",     !criteria.matches(c));
-        assertTrue("c.C in package scope",       !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope",      criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertTrue(criteria.matches(a_A_a), "a.A.a not in package scope");
+        assertFalse(criteria.matches(b), "b not in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertTrue(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c not in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertTrue(criteria.matches(c_C_c), "c.C.c in package scope");
     }
 
-    public void testGlobalIncludes() {
+    @Test
+    void testGlobalIncludes() {
         criteria.setGlobalIncludes(include);
 
         criteria.setMatchingPackages(true);
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(false);
 
-        assertTrue("a in package scope",     !criteria.matches(a));
-        assertTrue("a.A in package scope",   !criteria.matches(a_A));
-        assertTrue("a.A.a in package scope", !criteria.matches(a_A_a));
-        assertTrue("b not in package scope",  criteria.matches(b));
-        assertTrue("b.B in package scope",   !criteria.matches(b_B));
-        assertTrue("b.B.b in package scope", !criteria.matches(b_B_b));
-        assertTrue("c in package scope",     !criteria.matches(c));
-        assertTrue("c.C in package scope",   !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertTrue(criteria.matches(b), "b not in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
 
         criteria.setMatchingPackages(false);
         criteria.setMatchingClasses(true);
         criteria.setMatchingFeatures(false);
 
-        assertTrue("a in package scope",       !criteria.matches(a));
-        assertTrue("a.A in package scope",     !criteria.matches(a_A));
-        assertTrue("a.A.a in package scope",   !criteria.matches(a_A_a));
-        assertTrue("b in package scope",       !criteria.matches(b));
-        assertTrue("b.B not in package scope",  criteria.matches(b_B));
-        assertTrue("b.B.b in package scope",   !criteria.matches(b_B_b));
-        assertTrue("c in package scope",       !criteria.matches(c));
-        assertTrue("c.C in package scope",     !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertFalse(criteria.matches(b), "b in package scope");
+        assertTrue(criteria.matches(b_B), "b.B not in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
 
         criteria.setMatchingPackages(false);
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(true);
 
-        assertTrue("a in package scope",         !criteria.matches(a));
-        assertTrue("a.A in package scope",       !criteria.matches(a_A));
-        assertTrue("a.A.a in package scope",     !criteria.matches(a_A_a));
-        assertTrue("b in package scope",         !criteria.matches(b));
-        assertTrue("b.B in package scope",       !criteria.matches(b_B));
-        assertTrue("b.B.b not in package scope",  criteria.matches(b_B_b));
-        assertTrue("c in package scope",         !criteria.matches(c));
-        assertTrue("c.C in package scope",       !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope",     !criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertFalse(criteria.matches(b), "b in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertTrue(criteria.matches(b_B_b), "b.B.b not in package scope");
+        assertFalse(criteria.matches(c), "c in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
     }
 
-    public void testGlobalExcludes() {
+    @Test
+    void testGlobalExcludes() {
         criteria.setGlobalIncludes("//");
         criteria.setGlobalExcludes(exclude);
 
@@ -177,42 +160,42 @@ public class TestRegularExpressionSelectionCriteria extends TestCase {
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(false);
 
-        assertTrue("a not in package scope",  criteria.matches(a));
-        assertTrue("a.A in package scope",   !criteria.matches(a_A));
-        assertTrue("a.A.a in package scope", !criteria.matches(a_A_a));
-        assertTrue("b not in package scope",  criteria.matches(b));
-        assertTrue("b.B in package scope",   !criteria.matches(b_B));
-        assertTrue("b.B.b in package scope", !criteria.matches(b_B_b));
-        assertTrue("c in package scope",     !criteria.matches(c));
-        assertTrue("c.C in package scope",   !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope", !criteria.matches(c_C_c));
+        assertTrue(criteria.matches(a), "a not in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertTrue(criteria.matches(b), "b not in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
 
         criteria.setMatchingPackages(false);
         criteria.setMatchingClasses(true);
         criteria.setMatchingFeatures(false);
 
-        assertTrue("a in package scope",       !criteria.matches(a));
-        assertTrue("a.A not in package scope",  criteria.matches(a_A));
-        assertTrue("a.A.a in package scope",   !criteria.matches(a_A_a));
-        assertTrue("b in package scope",       !criteria.matches(b));
-        assertTrue("b.B not in package scope",  criteria.matches(b_B));
-        assertTrue("b.B.b in package scope",   !criteria.matches(b_B_b));
-        assertTrue("c not in package scope",   !criteria.matches(c));
-        assertTrue("c.C in package scope",     !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope",   !criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertTrue(criteria.matches(a_A), "a.A not in package scope");
+        assertFalse(criteria.matches(a_A_a), "a.A.a in package scope");
+        assertFalse(criteria.matches(b), "b in package scope");
+        assertTrue(criteria.matches(b_B), "b.B not in package scope");
+        assertFalse(criteria.matches(b_B_b), "b.B.b in package scope");
+        assertFalse(criteria.matches(c), "c not in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
 
         criteria.setMatchingPackages(false);
         criteria.setMatchingClasses(false);
         criteria.setMatchingFeatures(true);
 
-        assertTrue("a in package scope",         !criteria.matches(a));
-        assertTrue("a.A in package scope",       !criteria.matches(a_A));
-        assertTrue("a.A.a not in package scope",  criteria.matches(a_A_a));
-        assertTrue("b in package scope",         !criteria.matches(b));
-        assertTrue("b.B in package scope",       !criteria.matches(b_B));
-        assertTrue("b.B.b not in package scope",  criteria.matches(b_B_b));
-        assertTrue("c not in package scope",     !criteria.matches(c));
-        assertTrue("c.C in package scope",       !criteria.matches(c_C));
-        assertTrue("c.C.c in package scope",     !criteria.matches(c_C_c));
+        assertFalse(criteria.matches(a), "a in package scope");
+        assertFalse(criteria.matches(a_A), "a.A in package scope");
+        assertTrue(criteria.matches(a_A_a), "a.A.a not in package scope");
+        assertFalse(criteria.matches(b), "b in package scope");
+        assertFalse(criteria.matches(b_B), "b.B in package scope");
+        assertTrue(criteria.matches(b_B_b), "b.B.b not in package scope");
+        assertFalse(criteria.matches(c), "c not in package scope");
+        assertFalse(criteria.matches(c_C), "c.C in package scope");
+        assertFalse(criteria.matches(c_C_c), "c.C.c in package scope");
     }
 }
