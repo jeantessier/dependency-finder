@@ -32,14 +32,15 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.TestCase;
-import org.xml.sax.SAXException;
+import org.junit.jupiter.api.*;
+import org.xml.sax.*;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringReader;
+import javax.xml.parsers.*;
+import java.io.*;
 
-public class TestNodeLoader extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class TestNodeLoader {
     private static final String MY_PACKAGE_NAME = "mypackage";
     private static final String MY_CLASS_NAME = "mypackage.MyClass";
     private static final String MY_FEATURE_NAME = "mypackage.MyClass.myFeature";
@@ -47,7 +48,8 @@ public class TestNodeLoader extends TestCase {
     private static final String OTHER_CLASS_NAME = "otherpackage.OtherClass";
     private static final String OTHER_FEATURE_NAME = "otherpackage.OtherClass.otherFeature";
     
-    public void testReadDocument() throws IOException, ParserConfigurationException, SAXException {
+    @Test
+    void testReadDocument() throws IOException, ParserConfigurationException, SAXException {
         StringBuilder xml = new StringBuilder();
 
         xml.append("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
@@ -84,22 +86,22 @@ public class TestNodeLoader extends TestCase {
         NodeLoader loader = new NodeLoader();
         NodeFactory factory = loader.load(new StringReader(xml.toString()));
 
-        assertEquals("nb packages", 2, factory.getPackages().size());
-        assertNotNull("missing package", factory.getPackages().get(MY_PACKAGE_NAME));
-        assertTrue("package is inferred", factory.getPackages().get(MY_PACKAGE_NAME).isConfirmed());
-        assertNotNull("missing package", factory.getPackages().get(OTHER_PACKAGE_NAME));
-        assertFalse("package is confirmed", factory.getPackages().get(OTHER_PACKAGE_NAME).isConfirmed());
+        assertEquals(2, factory.getPackages().size(), "nb packages");
+        assertNotNull(factory.getPackages().get(MY_PACKAGE_NAME), "missing package");
+        assertTrue(factory.getPackages().get(MY_PACKAGE_NAME).isConfirmed(), "package is inferred");
+        assertNotNull(factory.getPackages().get(OTHER_PACKAGE_NAME), "missing package");
+        assertFalse(factory.getPackages().get(OTHER_PACKAGE_NAME).isConfirmed(), "package is confirmed");
 
-        assertEquals("nb classes", 2, factory.getClasses().size());
-        assertNotNull("missing class", factory.getClasses().get(MY_CLASS_NAME));
-        assertTrue("class is inferred", factory.getClasses().get(MY_CLASS_NAME).isConfirmed());
-        assertNotNull("missing class", factory.getClasses().get(OTHER_CLASS_NAME));
-        assertFalse("class is confirmed", factory.getClasses().get(OTHER_CLASS_NAME).isConfirmed());
+        assertEquals(2, factory.getClasses().size(), "nb classes");
+        assertNotNull(factory.getClasses().get(MY_CLASS_NAME), "missing class");
+        assertTrue(factory.getClasses().get(MY_CLASS_NAME).isConfirmed(), "class is inferred");
+        assertNotNull(factory.getClasses().get(OTHER_CLASS_NAME), "missing class");
+        assertFalse(factory.getClasses().get(OTHER_CLASS_NAME).isConfirmed(), "class is confirmed");
 
-        assertEquals("nb features", 2, factory.getFeatures().size());
-        assertNotNull("missing feature", factory.getFeatures().get(MY_FEATURE_NAME));
-        assertTrue("feature is inferred", factory.getFeatures().get(MY_FEATURE_NAME).isConfirmed());
-        assertNotNull("missing feature", factory.getFeatures().get(OTHER_FEATURE_NAME));
-        assertFalse("feature is confirmed", factory.getFeatures().get(OTHER_FEATURE_NAME).isConfirmed());
+        assertEquals(2, factory.getFeatures().size(), "nb features");
+        assertNotNull(factory.getFeatures().get(MY_FEATURE_NAME), "missing feature");
+        assertTrue(factory.getFeatures().get(MY_FEATURE_NAME).isConfirmed(), "feature is inferred");
+        assertNotNull(factory.getFeatures().get(OTHER_FEATURE_NAME), "missing feature");
+        assertFalse(factory.getFeatures().get(OTHER_FEATURE_NAME).isConfirmed(), "feature is confirmed");
     }
 }

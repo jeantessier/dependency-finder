@@ -32,172 +32,165 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestLinkMinimizerSystematic extends TestCase {
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
 
-    private PackageNode a;
-    private ClassNode a_A;
-    private FeatureNode a_A_a;
+public class TestLinkMinimizerSystematic {
+    private final NodeFactory factory = new NodeFactory();
 
-    private PackageNode b;
-    private ClassNode b_B;
-    private FeatureNode b_B_b;
+    private final Node a = factory.createPackage("a");
+    private final Node a_A = factory.createClass("a.A");
+    private final Node a_A_a = factory.createFeature("a.A.a()");
 
-    protected void setUp() throws Exception {
-        factory = new NodeFactory();
+    private final Node b = factory.createPackage("b");
+    private final Node b_B = factory.createClass("b.B");
+    private final Node b_B_b = factory.createFeature("b.B.b()");
 
-        a     = factory.createPackage("a");
-        a_A   = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a()");
+    private final Visitor visitor = new LinkMinimizer();
 
-        b     = factory.createPackage("b");
-        b_B   = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b()");
-    }
-
-    public void testPackagePackage() {
+    @Test
+    void testPackagePackage() {
         a.addDependency(b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     1, a.getOutboundDependencies().size());
-        assertTrue("Missing a --> b", a.getOutboundDependencies().contains(b));
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size()); 
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      1, b.getInboundDependencies().size());
-        assertTrue("Missing b <-- a", b.getInboundDependencies().contains(a));
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(1, a.getOutboundDependencies().size(), "a outbound");
+        assertTrue(a.getOutboundDependencies().contains(b), "Missing a --> b");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound"); 
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(1, b.getInboundDependencies().size(), "b inbound");
+        assertTrue(b.getInboundDependencies().contains(a), "Missing b <-- a");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
 
-    public void testPackageClass() {
+    @Test
+    void testPackageClass() {
         a.addDependency(b);
         a.addDependency(b_B);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     1, a.getOutboundDependencies().size());
-        assertTrue("Missing a --> b.B", a.getOutboundDependencies().contains(b_B));
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    1, b_B.getInboundDependencies().size());
-        assertTrue("Missing b.B <-- a", b_B.getInboundDependencies().contains(a));
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(1, a.getOutboundDependencies().size(), "a outbound");
+        assertTrue(a.getOutboundDependencies().contains(b_B), "Missing a --> b.B");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(1, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertTrue(b_B.getInboundDependencies().contains(a), "Missing b.B <-- a");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
 
-    public void testPackageFeature() {
+    @Test
+    void testPackageFeature() {
         a.addDependency(b);
         a.addDependency(b_B);
         a.addDependency(b_B_b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     1, a.getOutboundDependencies().size());
-        assertTrue("Missing a --> b.B.b", a.getOutboundDependencies().contains(b_B_b));
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  1, b_B_b.getInboundDependencies().size());
-        assertTrue("Missing b.B.b <-- a", b_B_b.getInboundDependencies().contains(a));
+        assertEquals(1, a.getOutboundDependencies().size(), "a outbound");
+        assertTrue(a.getOutboundDependencies().contains(b_B_b), "Missing a --> b.B.b");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(1, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
+        assertTrue(b_B_b.getInboundDependencies().contains(a), "Missing b.B.b <-- a");
     }
 
-    public void testClassPackage() {
+    @Test
+    void testClassPackage() {
         a.addDependency(b);
         a_A.addDependency(b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   1, a_A.getOutboundDependencies().size());
-        assertTrue("Missing a.A --> b", a_A.getOutboundDependencies().contains(b));
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size()); 
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      1, b.getInboundDependencies().size());
-        assertTrue("Missing b <-- a.A", b.getInboundDependencies().contains(a_A));
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(1, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertTrue(a_A.getOutboundDependencies().contains(b), "Missing a.A --> b");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound"); 
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(1, b.getInboundDependencies().size(), "b inbound");
+        assertTrue(b.getInboundDependencies().contains(a_A), "Missing b <-- a.A");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
 
-    public void testClassClass() {
+    @Test
+    void testClassClass() {
         a.addDependency(b);
         a.addDependency(b_B);
         a_A.addDependency(b);
         a_A.addDependency(b_B);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   1, a_A.getOutboundDependencies().size());
-        assertTrue("Missing a.A --> b.B", a_A.getOutboundDependencies().contains(b_B));
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    1, b_B.getInboundDependencies().size());
-        assertTrue("Missing b.B <-- a.A", b_B.getInboundDependencies().contains(a_A));
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(1, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertTrue(a_A.getOutboundDependencies().contains(b_B), "Missing a.A --> b.B");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(1, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertTrue(b_B.getInboundDependencies().contains(a_A), "Missing b.B <-- a.A");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
 
-    public void testClassClassSparse() {
+    @Test
+    void testClassClassSparse() {
         a.addDependency(b);
         a_A.addDependency(b_B);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   1, a_A.getOutboundDependencies().size());
-        assertTrue("Missing a.A --> b.B", a_A.getOutboundDependencies().contains(b_B));
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    1, b_B.getInboundDependencies().size());
-        assertTrue("Missing b.B <-- a_A", b_B.getInboundDependencies().contains(a_A));
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(1, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertTrue(a_A.getOutboundDependencies().contains(b_B), "Missing a.A --> b.B");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(1, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertTrue(b_B.getInboundDependencies().contains(a_A), "Missing b.B <-- a_A");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
 
-    public void testClassFeature() {
+    @Test
+    void testClassFeature() {
         a.addDependency(b);
         a.addDependency(b_B);
         a.addDependency(b_B_b);
@@ -205,50 +198,50 @@ public class TestLinkMinimizerSystematic extends TestCase {
         a_A.addDependency(b_B);
         a_A.addDependency(b_B_b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   1, a_A.getOutboundDependencies().size());
-        assertTrue("Missing a.A --> b.B.b", a_A.getOutboundDependencies().contains(b_B_b));
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 0, a_A_a.getOutboundDependencies().size());
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  1, b_B_b.getInboundDependencies().size());
-        assertTrue("Missing b.B.b <-- a_A", b_B_b.getInboundDependencies().contains(a_A));
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(1, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertTrue(a_A.getOutboundDependencies().contains(b_B_b), "Missing a.A --> b.B.b");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(0, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(1, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
+        assertTrue(b_B_b.getInboundDependencies().contains(a_A), "Missing b.B.b <-- a_A");
     }
 
-    public void testFeaturePackage() {
+    @Test
+    void testFeaturePackage() {
         a.addDependency(b);
         a_A.addDependency(b);
         a_A_a.addDependency(b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 1, a_A_a.getOutboundDependencies().size());
-        assertTrue("Missing a.A.a --> b", a_A_a.getOutboundDependencies().contains(b));
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size()); 
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      1, b.getInboundDependencies().size());
-        assertTrue("Missing b <-- a.A.a", b.getInboundDependencies().contains(a_A_a));
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(1, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertTrue(a_A_a.getOutboundDependencies().contains(b), "Missing a.A.a --> b");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound"); 
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(1, b.getInboundDependencies().size(), "b inbound");
+        assertTrue(b.getInboundDependencies().contains(a_A_a), "Missing b <-- a.A.a");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
     
-    public void testFeatureClass() {
+    @Test
+    void testFeatureClass() {
         a.addDependency(b);
         a.addDependency(b_B);
         a_A.addDependency(b);
@@ -256,26 +249,26 @@ public class TestLinkMinimizerSystematic extends TestCase {
         a_A_a.addDependency(b);
         a_A_a.addDependency(b_B);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 1, a_A_a.getOutboundDependencies().size());
-        assertTrue("Missing a.A.a --> b.B", a_A_a.getOutboundDependencies().contains(b_B));
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    1, b_B.getInboundDependencies().size());
-        assertTrue("Missing b.B <-- a.A.a", b_B.getInboundDependencies().contains(a_A_a));
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  0, b_B_b.getInboundDependencies().size());
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(1, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertTrue(a_A_a.getOutboundDependencies().contains(b_B), "Missing a.A.a --> b.B");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(1, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertTrue(b_B.getInboundDependencies().contains(a_A_a), "Missing b.B <-- a.A.a");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(0, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
     }
     
-    public void testFeatureFeature() {
+    @Test
+    void testFeatureFeature() {
         a.addDependency(b);
         a.addDependency(b_B);
         a.addDependency(b_B_b);
@@ -286,46 +279,45 @@ public class TestLinkMinimizerSystematic extends TestCase {
         a_A_a.addDependency(b_B);
         a_A_a.addDependency(b_B_b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 1, a_A_a.getOutboundDependencies().size());
-        assertTrue("Missing a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  1, b_B_b.getInboundDependencies().size());
-        assertTrue("Missing b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(1, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertTrue(a_A_a.getOutboundDependencies().contains(b_B_b), "Missing a.A.a --> b.B.b");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(1, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
+        assertTrue(b_B_b.getInboundDependencies().contains(a_A_a), "Missing b.B.b <-- a.A.a");
     }
     
-    public void testFeatureFeatureSparse() {
+    @Test
+    void testFeatureFeatureSparse() {
         a.addDependency(b);
         a_A.addDependency(b_B);
         a_A_a.addDependency(b_B_b);
 
-        Visitor visitor = new LinkMinimizer();
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertEquals("a outbound",     0, a.getOutboundDependencies().size());
-        assertEquals("a inbound",      0, a.getInboundDependencies().size());
-        assertEquals("a_A outbound",   0, a_A.getOutboundDependencies().size());
-        assertEquals("a_A inbound",    0, a_A.getInboundDependencies().size());
-        assertEquals("a_A_a outbound", 1, a_A_a.getOutboundDependencies().size());
-        assertTrue("Missing a.A.a --> b.B.b", a_A_a.getOutboundDependencies().contains(b_B_b));
-        assertEquals("a_A_a inbound",  0, a_A_a.getInboundDependencies().size());
-        assertEquals("b outbound",     0, b.getOutboundDependencies().size());
-        assertEquals("b inbound",      0, b.getInboundDependencies().size());
-        assertEquals("b_B outbound",   0, b_B.getOutboundDependencies().size());
-        assertEquals("b_B inbound",    0, b_B.getInboundDependencies().size());
-        assertEquals("b_B_b outbound", 0, b_B_b.getOutboundDependencies().size());
-        assertEquals("b_B_b inbound",  1, b_B_b.getInboundDependencies().size());
-        assertTrue("Missing b.B.b <-- a.A.a", b_B_b.getInboundDependencies().contains(a_A_a));
+        assertEquals(0, a.getOutboundDependencies().size(), "a outbound");
+        assertEquals(0, a.getInboundDependencies().size(), "a inbound");
+        assertEquals(0, a_A.getOutboundDependencies().size(), "a_A outbound");
+        assertEquals(0, a_A.getInboundDependencies().size(), "a_A inbound");
+        assertEquals(1, a_A_a.getOutboundDependencies().size(), "a_A_a outbound");
+        assertTrue(a_A_a.getOutboundDependencies().contains(b_B_b), "Missing a.A.a --> b.B.b");
+        assertEquals(0, a_A_a.getInboundDependencies().size(), "a_A_a inbound");
+        assertEquals(0, b.getOutboundDependencies().size(), "b outbound");
+        assertEquals(0, b.getInboundDependencies().size(), "b inbound");
+        assertEquals(0, b_B.getOutboundDependencies().size(), "b_B outbound");
+        assertEquals(0, b_B.getInboundDependencies().size(), "b_B inbound");
+        assertEquals(0, b_B_b.getOutboundDependencies().size(), "b_B_b outbound");
+        assertEquals(1, b_B_b.getInboundDependencies().size(), "b_B_b inbound");
+        assertTrue(b_B_b.getInboundDependencies().contains(a_A_a), "Missing b.B.b <-- a.A.a");
     }
 }

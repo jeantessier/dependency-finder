@@ -32,255 +32,278 @@
 
 package com.jeantessier.dependency;
 
-import junit.framework.*;
+import org.junit.jupiter.api.*;
 
-public class TestNodeFactory extends TestCase {
-    private NodeFactory factory;
+import static org.junit.jupiter.api.Assertions.*;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class TestNodeFactory {
+    private final NodeFactory factory = new NodeFactory();
 
-        factory = new NodeFactory();
-    }
-
-    public void testCreatePackage() {
+    @Test
+    void testCreatePackage() {
         PackageNode node = factory.createPackage("a");
 
-        assertEquals("name", "a", node.getName());
-        assertEquals("classes", 0, node.getClasses().size());
-        assertEquals("inbounds", 0, node.getInboundDependencies().size());
-        assertEquals("outbounds", 0, node.getOutboundDependencies().size());
+        assertEquals("a", node.getName(), "name");
+        assertEquals(0, node.getClasses().size(), "classes");
+        assertEquals(0, node.getInboundDependencies().size(), "inbounds");
+        assertEquals(0, node.getOutboundDependencies().size(), "outbounds");
     }
 
-    public void testLookupPackage() {
+    @Test
+    void testLookupPackage() {
         Node node1 = factory.createPackage("a");
         Node node2 = factory.createPackage("a");
 
-        assertSame("factory returned different object for same key", node1, node2);
+        assertSame(node1, node2, "factory returned different object for same key");
     }
 
-    public void testCreateClass() {
+    @Test
+    void testCreateClass() {
         ClassNode node = factory.createClass("a.A");
 
-        assertEquals("name", "a.A", node.getName());
-        assertEquals("package name", "a", node.getPackageNode().getName());
-        assertEquals("features", 0, node.getFeatures().size());
-        assertEquals("inbounds", 0, node.getInboundDependencies().size());
-        assertEquals("outbounds", 0, node.getOutboundDependencies().size());
+        assertEquals("a.A", node.getName(), "name");
+        assertEquals("a", node.getPackageNode().getName(), "package name");
+        assertEquals(0, node.getFeatures().size(), "features");
+        assertEquals(0, node.getInboundDependencies().size(), "inbounds");
+        assertEquals(0, node.getOutboundDependencies().size(), "outbounds");
     }
 
-    public void testCreateClassInDefaultPackage() {
+    @Test
+    void testCreateClassInDefaultPackage() {
         ClassNode node = factory.createClass("A");
 
-        assertEquals("name", "A", node.getName());
-        assertEquals("package name", "", node.getPackageNode().getName());
+        assertEquals("A", node.getName(), "name");
+        assertEquals("", node.getPackageNode().getName(), "package name");
     }
 
-    public void testCreateIllegalClass() {
+    @Test
+    void testCreateIllegalClass() {
         ClassNode node = factory.createClass("");
 
-        assertEquals("name", "", node.getName());
-        assertEquals("package name", "", node.getPackageNode().getName());
+        assertEquals("", node.getName(), "name");
+        assertEquals("", node.getPackageNode().getName(), "package name");
     }
 
-    public void testLookupClass() {
+    @Test
+    void testLookupClass() {
         Node node1 = factory.createClass("a.A");
         Node node2 = factory.createClass("a.A");
 
-        assertSame("factory returned different object for same key", node1, node2);
+        assertSame(node1, node2, "factory returned different object for same key");
     }
 
-    public void testCreateFeature() {
+    @Test
+    void testCreateFeature() {
         FeatureNode node = factory.createFeature("a.A.a");
 
-        assertEquals("name", "a.A.a", node.getName());
-        assertEquals("class name", "a.A", node.getClassNode().getName());
-        assertEquals("package name", "a", node.getClassNode().getPackageNode().getName());
-        assertEquals("inbounds", 0, node.getInboundDependencies().size());
-        assertEquals("outbounds", 0, node.getOutboundDependencies().size());
+        assertEquals("a.A.a", node.getName(), "name");
+        assertEquals("a.A", node.getClassNode().getName(), "class name");
+        assertEquals("a", node.getClassNode().getPackageNode().getName(), "package name");
+        assertEquals(0, node.getInboundDependencies().size(), "inbounds");
+        assertEquals(0, node.getOutboundDependencies().size(), "outbounds");
     }
 
-    public void testLookupFeature() {
+    @Test
+    void testLookupFeature() {
         Node node1 = factory.createFeature("a.A.a");
         Node node2 = factory.createFeature("a.A.a");
 
-        assertSame("factory returned different object for same key", node1, node2);
+        assertSame(node1, node2, "factory returned different object for same key");
     }
 
-    public void testCreateFeatureInDefaultPackage() {
+    @Test
+    void testCreateFeatureInDefaultPackage() {
         FeatureNode node = factory.createFeature("A.a");
 
-        assertEquals("name", "A.a", node.getName());
-        assertEquals("class name", "A", node.getClassNode().getName());
-        assertEquals("package name", "", node.getClassNode().getPackageNode().getName());
+        assertEquals("A.a", node.getName(), "name");
+        assertEquals("A", node.getClassNode().getName(), "class name");
+        assertEquals("", node.getClassNode().getPackageNode().getName(), "package name");
     }
 
-    public void testCreateIllegalFeature() {
+    @Test
+    void testCreateIllegalFeature() {
         FeatureNode node = factory.createFeature("");
 
-        assertEquals("name", "", node.getName());
-        assertEquals("class name", "", node.getClassNode().getName());
-        assertEquals("package name", "", node.getClassNode().getPackageNode().getName());
+        assertEquals("", node.getName(), "name");
+        assertEquals("", node.getClassNode().getName(), "class name");
+        assertEquals("", node.getClassNode().getPackageNode().getName(), "package name");
     }
 
-    public void testCreateReferencedPackageNode() {
+    @Test
+    void testCreateReferencedPackageNode() {
         PackageNode node = factory.createPackage("a", false);
 
-        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
     }
 
-    public void testCreateConcretePackageNode() {
+    @Test
+    void testCreateConcretePackageNode() {
         PackageNode node = factory.createPackage("a", true);
 
-        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
     }
 
-    public void testCreatePackageNodeDefaultsToReferenced() {
+    @Test
+    void testCreatePackageNodeDefaultsToReferenced() {
         PackageNode node = factory.createPackage("a");
 
-        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
     }
 
-    public void testCreateReferencedClassNode() {
+    @Test
+    void testCreateReferencedClassNode() {
         ClassNode node = factory.createClass("a.A", false);
 
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getPackageNode().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getPackageNode().isConfirmed(), "Not referenced");
     }
 
-    public void testCreateConcreteClassNode() {
+    @Test
+    void testCreateConcreteClassNode() {
         ClassNode node = factory.createClass("a.A", true);
 
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getPackageNode().isConfirmed(), "Not concrete");
     }
 
-    public void testCreateClassNodeDefaultsToReferenced() {
+    @Test
+    void testCreateClassNodeDefaultsToReferenced() {
         ClassNode node = factory.createClass("a.A");
 
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getPackageNode().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getPackageNode().isConfirmed(), "Not referenced");
     }
 
-    public void testCreateReferencedFeatureNode() {
+    @Test
+    void testCreateReferencedFeatureNode() {
         FeatureNode node = factory.createFeature("a.A.a", false);
 
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getClassNode().isConfirmed(), "Not referenced");
+        assertFalse(node.getClassNode().getPackageNode().isConfirmed(), "Not referenced");
     }
 
-    public void testCreateConcreteFeatureNode() {
+    @Test
+    void testCreateConcreteFeatureNode() {
         FeatureNode node = factory.createFeature("a.A.a", true);
 
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
     }
 
-    public void testCreateFeatureNodeDefaultsToReferenced() {
+    @Test
+    void testCreateFeatureNodeDefaultsToReferenced() {
         FeatureNode node = factory.createFeature("a.A.a");
 
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getClassNode().isConfirmed(), "Not referenced");
+        assertFalse(node.getClassNode().getPackageNode().isConfirmed(), "Not referenced");
     }
 
-    public void testSwitchPackageNodeFromReferencedToConcrete() {
+    @Test
+    void testSwitchPackageNodeFromReferencedToConcrete() {
         PackageNode node;
 
         node = factory.createPackage("a", false);
-        assertFalse("Not referenced", node.isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
 
         node = factory.createPackage("a", true);
-        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
     }
 
-    public void testSwitchPackageNodeFromConcreteToReferenced() {
+    @Test
+    void testSwitchPackageNodeFromConcreteToReferenced() {
         PackageNode node;
 
         node = factory.createPackage("a", true);
-        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
 
         node = factory.createPackage("a", false);
-        assertTrue("Not concrete", node.isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
     }
 
-    public void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
+    @Test
+    void testMakingPackageNodeConcreteDoesNotChangeItsClasses() {
         PackageNode node;
 
         node = factory.createPackage("a", false);
         factory.createClass("a.A", false);
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getClasses().iterator().next().isConfirmed(), "Not referenced");
 
         node = factory.createPackage("a", true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", node.getClasses().iterator().next().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertFalse(node.getClasses().iterator().next().isConfirmed(), "Not referenced");
     }
 
-    public void testSwitchClassNodeFromReferencedToConcrete() {
+    @Test
+    void testSwitchClassNodeFromReferencedToConcrete() {
         ClassNode node;
 
         node = factory.createClass("a.A", false);
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getPackageNode().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getPackageNode().isConfirmed(), "Not referenced");
 
         node = factory.createClass("a.A", true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getPackageNode().isConfirmed(), "Not concrete");
     }
 
-    public void testSwitchClassNodeFromConcreteToReferenced() {
+    @Test
+    void testSwitchClassNodeFromConcreteToReferenced() {
         ClassNode node;
 
         node = factory.createClass("a.A", true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getPackageNode().isConfirmed(), "Not concrete");
 
         node = factory.createClass("a.A", false);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getPackageNode().isConfirmed(), "Not concrete");
     }
 
-    public void testMakingClassNodeConcreteDoesNotChangeItsFeatures() {
+    @Test
+    void testMakingClassNodeConcreteDoesNotChangeItsFeatures() {
         ClassNode node;
 
         node = factory.createClass("a.A", false);
         factory.createFeature("a.A.a", false);
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getFeatures().iterator().next().isConfirmed(), "Not referenced");
 
         node = factory.createClass("a.A", true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertFalse("Not referenced", node.getFeatures().iterator().next().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertFalse(node.getFeatures().iterator().next().isConfirmed(), "Not referenced");
     }
 
-    public void testSwitchFeatureNodeFromReferencedToConcrete() {
+    @Test
+    void testSwitchFeatureNodeFromReferencedToConcrete() {
         FeatureNode node;
 
         node = factory.createFeature("a.A.a", false);
-        assertFalse("Not referenced", node.isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().isConfirmed());
-        assertFalse("Not referenced", node.getClassNode().getPackageNode().isConfirmed());
+        assertFalse(node.isConfirmed(), "Not referenced");
+        assertFalse(node.getClassNode().isConfirmed(), "Not referenced");
+        assertFalse(node.getClassNode().getPackageNode().isConfirmed(), "Not referenced");
 
         node = factory.createFeature("a.A.a", true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
     }
 
-    public void testSwitchFeatureNodeFromConcreteToReferenced() {
+    @Test
+    void testSwitchFeatureNodeFromConcreteToReferenced() {
         FeatureNode node;
 
         node = factory.createFeature("a.A.a", true);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
 
         node = factory.createFeature("a.A.a", false);
-        assertTrue("Not concrete", node.isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().isConfirmed());
-        assertTrue("Not concrete", node.getClassNode().getPackageNode().isConfirmed());
+        assertTrue(node.isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().isConfirmed(), "Not concrete");
+        assertTrue(node.getClassNode().getPackageNode().isConfirmed(), "Not concrete");
     }
 }
