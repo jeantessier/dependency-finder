@@ -39,36 +39,24 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestClosureInboundSelector {
+    private final NodeFactory factory = new NodeFactory();
+
+    private final Node a = factory.createPackage("a");
+    private final Node a_A = factory.createClass("a.A");
+    private final Node a_A_a = factory.createFeature("a.A.a");
+
+    private final Node b = factory.createPackage("b");
+    private final Node b_B = factory.createClass("b.B");
+    private final Node b_B_b = factory.createFeature("b.B.b");
+
+    private final Node c = factory.createPackage("c");
+    private final Node c_C = factory.createClass("c.C");
+    private final Node c_C_c = factory.createFeature("c.C.c");
+
     private final NodeFactory localFactory = new NodeFactory();
 
-    private PackageNode a;
-    private ClassNode a_A;
-    private FeatureNode a_A_a;
-    
-    private PackageNode b;
-    private ClassNode b_B;
-    private FeatureNode b_B_b;
-    
-    private PackageNode c;
-    private ClassNode c_C;
-    private FeatureNode c_C_c;
-
     @BeforeEach
-    void setUp() throws Exception {
-        NodeFactory factory = new NodeFactory();
-
-        a = factory.createPackage("a");
-        a_A = factory.createClass("a.A");
-        a_A_a = factory.createFeature("a.A.a");
-        
-        b = factory.createPackage("b");
-        b_B = factory.createClass("b.B");
-        b_B_b = factory.createFeature("b.B.b");
-        
-        c = factory.createPackage("c");
-        c_C = factory.createClass("c.C");
-        c_C_c = factory.createFeature("c.C.c");
-
+    void setUp() {
         a_A_a.addDependency(b_B_b);
         b_B_b.addDependency(c_C_c);
     }

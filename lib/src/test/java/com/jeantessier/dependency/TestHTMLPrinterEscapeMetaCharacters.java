@@ -40,8 +40,6 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
-    private HTMLPrinter visitor;
-
     private PackageNode fooPackage;
     private ClassNode fooClass;
     private FeatureNode fooFeature;
@@ -49,14 +47,11 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
     private ClassNode barClass;
     private FeatureNode barFeature;
 
-    @BeforeEach
-    void setUp() throws Exception {
-        var scopeCriteria = new RegularExpressionSelectionCriteria("/foo/");
-        var filterCriteria = new RegularExpressionSelectionCriteria("/bar/");
-        var strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
+    private final SelectionCriteria scopeCriteria = new RegularExpressionSelectionCriteria("/foo/");
+    private final SelectionCriteria filterCriteria = new RegularExpressionSelectionCriteria("/bar/");
+    private final TraversalStrategy strategy = new SelectiveTraversalStrategy(scopeCriteria, filterCriteria);
 
-        visitor = new HTMLPrinter(strategy, new PrintWriter(writer), FORMAT);
-    }
+    private final HTMLPrinter visitor = new HTMLPrinter(strategy, new PrintWriter(writer), FORMAT);
 
     @Test
     void testEscapeOpeningParenthesisInScope() {

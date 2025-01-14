@@ -57,7 +57,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("isMatchingPackages")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testIsMatchingPackages(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testIsMatchingPackages(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.isMatchingPackages(), "a");
     }
@@ -65,7 +65,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("isMatchingClasses")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testIsMatchingClasses(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testIsMatchingClasses(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.isMatchingClasses(), "a.A");
     }
@@ -73,7 +73,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("isMatchingFeatures")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testIsMatchingFeatures(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testIsMatchingFeatures(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.isMatchingFeatures(), "a.A.a");
     }
@@ -81,7 +81,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("matches with PackageNode")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testMatchesWithPackageNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testMatchesWithPackageNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.matches(context.mock(PackageNode.class)), "a");
     }
@@ -89,7 +89,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("matches with ClassNode")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testMatchesWithClassNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testMatchesWithClassNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.matches(context.mock(ClassNode.class)), "a.A");
     }
@@ -97,7 +97,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("matches with FeatureNode")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testMatchesWithFeatureNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testMatchesWithFeatureNode(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.matches(context.mock(FeatureNode.class)), "a.A.a");
     }
@@ -105,7 +105,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("matches with package name")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testMatchesPackageName(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testMatchesPackageName(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.matchesPackageName("a"), "a");
     }
@@ -113,7 +113,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("matches with class name")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testMatchesClassName(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testMatchesClassName(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.matchesClassName("a.A"), "a.A");
     }
@@ -121,7 +121,7 @@ public class TestAndCompositeSelectionCriteria extends CompositeSelectionCriteri
     @DisplayName("matches with feature name")
     @ParameterizedTest(name="with {0} subcriteria should return {2}")
     @MethodSource("dataProvider")
-    public void testMatchesFeatureName(String variation, Boolean[] subcriteria, boolean expectedValue) {
+    void testMatchesFeatureName(String variation, Boolean[] subcriteria, boolean expectedValue) {
         var sut = new AndCompositeSelectionCriteria(build(subcriteria));
         assertEquals(expectedValue, sut.matchesFeatureName("a.A.a"), "a.A.a");
     }

@@ -52,9 +52,11 @@ public class TestXMLCyclePrinter {
     private final Perl5Util perl = new Perl5Util();
     private final StringWriter writer = new StringWriter();
 
-    private Node a_package;
-    private Node b_package;
-    private Node c_package;
+    private final NodeFactory factory = new NodeFactory();
+
+    private final Node a_package = factory.createPackage("a");
+    private final Node b_package = factory.createPackage("b");
+    private final Node c_package = factory.createPackage("c");
 
     @BeforeEach
     void setUp() throws Exception {
@@ -63,12 +65,6 @@ public class TestXMLCyclePrinter {
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-
-        var factory = new NodeFactory();
-
-        a_package = factory.createPackage("a");
-        b_package = factory.createPackage("b");
-        c_package = factory.createPackage("c");
     }
 
     @Test

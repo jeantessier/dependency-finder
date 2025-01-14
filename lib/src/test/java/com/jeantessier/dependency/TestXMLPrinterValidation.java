@@ -55,11 +55,6 @@ public class TestXMLPrinterValidation extends TestPrinterBase {
         reader = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
         reader.setFeature("http://xml.org/sax/features/validation", validate);
         reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", validate);
-        reader.setErrorHandler(new ErrorHandler() {
-            public void error(SAXParseException ex) {}
-            public void fatalError(SAXParseException ex) {}
-            public void warning(SAXParseException ex) {}
-        });
     }
 
     @Test
