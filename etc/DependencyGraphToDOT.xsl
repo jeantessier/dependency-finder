@@ -110,12 +110,12 @@
     </xsl:template>
 
     <xsl:template match="outbound">
-        <xsl:text>    "</xsl:text><xsl:value-of select="../name"/><xsl:if test="string-length(../name) = 0">default</xsl:if><xsl:text>" -&gt; "</xsl:text><xsl:value-of select="."/><xsl:text>"
+        <xsl:text>    "</xsl:text><xsl:value-of select="../name"/><xsl:if test="string-length(../name) = 0">default</xsl:if><xsl:text>" -&gt; "</xsl:text><xsl:value-of select="."/><xsl:if test="string-length(.) = 0">default</xsl:if><xsl:text>"
 </xsl:text>
     </xsl:template>
 
     <xsl:template match="inbound">
-        <xsl:text>    "</xsl:text><xsl:value-of select="."/><xsl:text>" -&gt; "</xsl:text><xsl:value-of select="../name"/><xsl:if test="string-length(../name) = 0">default</xsl:if><xsl:text>"
+        <xsl:text>    "</xsl:text><xsl:value-of select="."/><xsl:if test="string-length(.) = 0">default</xsl:if><xsl:text>" -&gt; "</xsl:text><xsl:value-of select="../name"/><xsl:if test="string-length(../name) = 0">default</xsl:if><xsl:text>"
 </xsl:text>
     </xsl:template>
 
