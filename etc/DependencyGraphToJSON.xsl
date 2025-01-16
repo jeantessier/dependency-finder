@@ -46,7 +46,7 @@
     <xsl:template match="package">
         <xsl:text>{</xsl:text>
         <xsl:text>"type":"package",</xsl:text>
-        <xsl:text>"confirmed":"</xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>",</xsl:text>
+        <xsl:text>"confirmed":</xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>,</xsl:text>
         <xsl:text>"name":"</xsl:text><xsl:value-of select="name"/><xsl:text>",</xsl:text>
         <xsl:text>"outbound":[</xsl:text><xsl:for-each select="outbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::outbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
         <xsl:text>"inbound":[</xsl:text><xsl:for-each select="inbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::inbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
@@ -57,7 +57,7 @@
     <xsl:template match="class">
         <xsl:text>{</xsl:text>
         <xsl:text>"type":"class",</xsl:text>
-        <xsl:text>"confirmed":"</xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>",</xsl:text>
+        <xsl:text>"confirmed":</xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>,</xsl:text>
         <xsl:text>"name":"</xsl:text><xsl:value-of select="name"/><xsl:text>",</xsl:text>
         <xsl:text>"outbound":[</xsl:text><xsl:for-each select="outbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::outbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
         <xsl:text>"inbound":[</xsl:text><xsl:for-each select="inbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::inbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
@@ -68,7 +68,7 @@
     <xsl:template match="feature">
         <xsl:text>{</xsl:text>
         <xsl:text>"type":"feature",</xsl:text>
-        <xsl:text>"confirmed":"</xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>",</xsl:text>
+        <xsl:text>"confirmed":</xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>,</xsl:text>
         <xsl:text>"name":"</xsl:text><xsl:value-of select="name"/><xsl:text>",</xsl:text>
         <xsl:text>"outbound":[</xsl:text><xsl:for-each select="outbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::outbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>],</xsl:text>
         <xsl:text>"inbound":[</xsl:text><xsl:for-each select="inbound"><xsl:apply-templates select="."/><xsl:if test="following-sibling::inbound"><xsl:text>,</xsl:text></xsl:if></xsl:for-each><xsl:text>]</xsl:text>
@@ -78,7 +78,7 @@
     <xsl:template match="outbound | inbound">
         <xsl:text>{</xsl:text>
         <xsl:text>"type":"</xsl:text><xsl:value-of select="@type"/><xsl:text>",</xsl:text>
-        <xsl:text>"confirmed":"</xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>",</xsl:text>
+        <xsl:text>"confirmed":</xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>,</xsl:text>
         <xsl:text>"name":"</xsl:text><xsl:value-of select="."/><xsl:text>"</xsl:text>
         <xsl:text>}</xsl:text>
     </xsl:template>

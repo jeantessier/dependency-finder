@@ -52,7 +52,7 @@
         </graphml>
     </xsl:template>
 
-    <xsl:template match="package[@confirmed='no']">
+    <xsl:template match="package[@confirmed = 'no']">
         <node id="{name}">
             <data key="d0">
                 <y:ShapeNode>
@@ -78,7 +78,7 @@
         <xsl:apply-templates/>
     </xsl:template>
 
-    <xsl:template match="class[@confirmed='no'] | feature[@confirmed='no']">
+    <xsl:template match="class[@confirmed = 'no'] | feature[@confirmed = 'no']">
         <node id="{name}">
             <data key="d0">
                 <y:ShapeNode>

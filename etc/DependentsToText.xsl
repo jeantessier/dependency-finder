@@ -42,10 +42,10 @@
     </xsl:template>
   
     <xsl:template match="package[outbound | class/outbound | class/feature/outbound]">
-        <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+        <xsl:value-of select="name"/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:for-each select="outbound">
-            <xsl:text disable-output-escaping="yes">    --&gt; </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+            <xsl:text disable-output-escaping="yes">    --&gt; </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         </xsl:for-each>
         <xsl:apply-templates select="class"/>
@@ -53,10 +53,10 @@
     <xsl:template match="package"/>
   
     <xsl:template match="class[outbound | feature/outbound]">
-        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:for-each select="outbound">
-            <xsl:text disable-output-escaping="yes">        --&gt; </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+            <xsl:text disable-output-escaping="yes">        --&gt; </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         </xsl:for-each>
         <xsl:apply-templates select="feature"/>
@@ -64,10 +64,10 @@
     <xsl:template match="class"/>
   
     <xsl:template match="feature[outbound]">
-        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:for-each select="outbound">
-            <xsl:text disable-output-escaping="yes">            --&gt; </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+            <xsl:text disable-output-escaping="yes">            --&gt; </xsl:text><xsl:value-of select="."/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         </xsl:for-each>
     </xsl:template>

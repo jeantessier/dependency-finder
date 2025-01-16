@@ -46,13 +46,13 @@
     <xsl:template match="package">
         <xsl:text>
     - type: package
-      confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+      confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
       name: </xsl:text><xsl:value-of select="name"/><xsl:if test="string-length(name) = 0">""</xsl:if><xsl:text>
       outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="outbound">
             <xsl:text>
         - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-          confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+          confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
           name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
@@ -60,7 +60,7 @@
         <xsl:for-each select="inbound">
             <xsl:text>
         - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-          confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+          confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
           name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
@@ -71,13 +71,13 @@
     <xsl:template match="class">
         <xsl:text>
         - type: class
-          confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+          confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
           name: </xsl:text><xsl:value-of select="name"/><xsl:text>
           outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="outbound">
             <xsl:text>
             - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-              confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+              confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
               name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
@@ -85,7 +85,7 @@
         <xsl:for-each select="inbound">
             <xsl:text>
             - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-              confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+              confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
               name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
@@ -96,13 +96,13 @@
     <xsl:template match="feature">
         <xsl:text>
             - type: feature
-              confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+              confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
               name: </xsl:text><xsl:value-of select="name"/><xsl:text>
               outbound:</xsl:text><xsl:if test="not(outbound)"><xsl:text> []</xsl:text></xsl:if>
         <xsl:for-each select="outbound">
             <xsl:text>
                 - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+                  confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
                   name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
         <xsl:text>
@@ -110,7 +110,7 @@
         <xsl:for-each select="inbound">
             <xsl:text>
                 - type: </xsl:text><xsl:value-of select="@type"/><xsl:text>
-                  confirmed: </xsl:text><xsl:value-of select="boolean(@confirmed = 'yes')"/><xsl:text>
+                  confirmed: </xsl:text><xsl:value-of select="string(@confirmed = 'yes')"/><xsl:text>
                   name: </xsl:text><xsl:value-of select="."/>
         </xsl:for-each>
     </xsl:template>

@@ -90,7 +90,7 @@
         <p>The elements in this list are new to documentation because
         they were either:</p>
         <ul style="list-style-type: circle">
-            <li>addded recently</li>
+            <li>added recently</li>
             <li>went from private or default visibility to public or protected</li>
             <li>have been made part of the published API through javadoc tags</li>
         </ul>

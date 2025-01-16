@@ -38,7 +38,7 @@
     <xsl:strip-space elements="*"/> 
 
     <xsl:template match="package | class | feature">
-        <xsl:if test="@confirmed='no'">
+        <xsl:if test="@confirmed = 'no'">
             <xsl:value-of select="name"/><xsl:text>
 </xsl:text>
         </xsl:if>

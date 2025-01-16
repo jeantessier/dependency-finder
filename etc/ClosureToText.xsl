@@ -42,19 +42,19 @@
     </xsl:template>
   
     <xsl:template match="package">
-        <xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+        <xsl:value-of select="name"/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:apply-templates select="class"/>
     </xsl:template>
   
     <xsl:template match="class">
-        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+        <xsl:text>    </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
         <xsl:apply-templates select="feature"/>
     </xsl:template>
   
     <xsl:template match="feature">
-        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed='no'"> *</xsl:if><xsl:text>
+        <xsl:text>        </xsl:text><xsl:value-of select="name"/><xsl:if test="@confirmed = 'no'"> *</xsl:if><xsl:text>
 </xsl:text>
     </xsl:template>
   

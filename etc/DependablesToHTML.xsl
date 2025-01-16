@@ -52,7 +52,7 @@
   
     <xsl:template match="package[inbound | class/inbound | class/feature/inbound]">
         <xsl:choose>
-            <xsl:when test="@confirmed='no'">
+            <xsl:when test="@confirmed = 'no'">
                 <div class="packagename_inferred"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:when>
             <xsl:otherwise>
@@ -66,7 +66,7 @@
   
     <xsl:template match="class[inbound | feature/inbound]">
         <xsl:choose>
-            <xsl:when test="@confirmed='no'">
+            <xsl:when test="@confirmed = 'no'">
                 <div class="classname inferred"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:when>
             <xsl:otherwise>
@@ -80,7 +80,7 @@
   
     <xsl:template match="feature[inbound]">
         <xsl:choose>
-            <xsl:when test="@confirmed='no'">
+            <xsl:when test="@confirmed = 'no'">
                 <div class="featurename inferred"><a name="{name}"></a><xsl:value-of select="name"/></div>
             </xsl:when>
             <xsl:otherwise>
@@ -93,7 +93,7 @@
   
     <xsl:template match="inbound">
         <xsl:choose>
-            <xsl:when test="@confirmed='no'">
+            <xsl:when test="@confirmed = 'no'">
                 <span class="dependency inferred">&lt;-- <a class="inferred" href="#{.}"><xsl:value-of select="."/></a></span><br/>
             </xsl:when>
             <xsl:otherwise>
