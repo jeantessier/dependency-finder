@@ -38,5 +38,5 @@ public interface CyclePrinter {
     void visitCycles(Collection<Cycle> cycles);
     void visitCycle(Cycle cycle);
 
-    void setIndentText(String indentText);
+    default void setIndentText(String indentText) {}
 }
