@@ -3364,6 +3364,7 @@ Looks for cycles in a dependency graph starting from a given starting point.
         [-feature-start-includes value]*
         [-help]
         [-indent-text text]
+        [-json]
         [-maximum-cycle-length value]
         [-out filename]
         [-package-start-excludes value]*
@@ -3536,6 +3537,20 @@ Uses _text_ for each indentation level in textual and XML output.
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>no</td></tr>
 <tr><td>Default value:</td><td>Four spaces, "=&nbsp;&nbsp;&nbsp;&nbsp;="</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-json=
+
+<blockquote>
+
+Writes the cycles as a JSON document.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>

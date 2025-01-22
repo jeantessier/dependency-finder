@@ -32,17 +32,7 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import com.jeantessier.dependency.CollectionSelectionCriteria;
-import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
-import com.jeantessier.dependency.CycleDetector;
-import com.jeantessier.dependency.CyclePrinter;
-import com.jeantessier.dependency.NodeFactory;
-import com.jeantessier.dependency.NodeLoader;
-import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
-import com.jeantessier.dependency.SelectionCriteria;
-import com.jeantessier.dependency.TextCyclePrinter;
-import com.jeantessier.dependency.XMLCyclePrinter;
-import com.jeantessier.dependency.XMLPrinter;
+import com.jeantessier.dependency.*;
 import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
@@ -69,6 +59,7 @@ public class DependencyCycles extends GraphTask {
 
     private String  maximumCycleLenth  = "";
 
+    private boolean json = false;
     private boolean xml = false;
     private String encoding = XMLPrinter.DEFAULT_ENCODING;
     private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;
@@ -170,6 +161,14 @@ public class DependencyCycles extends GraphTask {
         this.maximumCycleLenth = maximumCycleLenth;
     }
 
+    public boolean getJson() {
+        return json;
+    }
+
+    public void setJson(boolean json) {
+        this.json = json;
+    }
+
     public boolean getXml() {
         return xml;
     }
@@ -244,6 +243,8 @@ public class DependencyCycles extends GraphTask {
             CyclePrinter printer;
             if (getXml()) {
                 printer = new XMLCyclePrinter(out, getEncoding(), getDtdprefix());
+            } else if (getJson()) {
+                printer = new JSONCyclePrinter(out);
             } else {
                 printer = new TextCyclePrinter(out);
             }

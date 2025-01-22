@@ -46,6 +46,7 @@ public class DependencyCycles extends DependencyGraphCommand {
 
         getCommandLine().addSingleValueSwitch("maximum-cycle-length");
 
+        getCommandLine().addToggleSwitch("json");
         getCommandLine().addToggleSwitch("xml");
     }
 
@@ -71,6 +72,8 @@ public class DependencyCycles extends DependencyGraphCommand {
         CyclePrinter printer;
         if (getCommandLine().isPresent("xml")) {
             printer = new XMLCyclePrinter(getOut(), getCommandLine().getSingleSwitch("encoding"), getCommandLine().getSingleSwitch("dtd-prefix"));
+        } else if (getCommandLine().isPresent("json")) {
+            printer = new JSONCyclePrinter(getOut());
         } else {
             printer = new TextCyclePrinter(getOut());
         }
