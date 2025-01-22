@@ -2,6 +2,7 @@ Wrote a JSON printer for dependency cycles.
 
 These cycles:
 
+<pre>
     a
         --> b
             --> a
@@ -9,9 +10,11 @@ These cycles:
         --> b
             --> c
                 --> a
+</pre>
 
-Are the following JSON document:
+Become the following JSON document:
 
+<pre>
     [
         [
             {"type": "package", "name": "a"},
@@ -23,3 +26,4 @@ Are the following JSON document:
             {"type": "package", "name": "c"}
         ]
     ]
+</pre>
