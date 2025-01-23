@@ -99,7 +99,7 @@ public class JSONMetricsReport extends MetricsReport {
         print(",");
         print("\"confirmed\":" + nbConfirmedElements);
         print(",");
-        print("\"ratio\":" + ratio);
+        print("\"ratio\":" + formatValue(ratio));
         if (isListingElements()) {
             print(",");
             print("\"elements\": [");
@@ -118,11 +118,11 @@ public class JSONMetricsReport extends MetricsReport {
     private void printDependencyStats(MetricsGatherer metrics) {
         print("\"outbounds\": {");
         print("\"packages\":" + metrics.getNbOutboundPackages() + ",");
-        print("\"packageRatio\":" + (metrics.getNbOutboundPackages() / (double) metrics.getPackages().size()) + ",");
+        print("\"packageRatio\":" + formatValue(metrics.getNbOutboundPackages() / (double) metrics.getPackages().size()) + ",");
         print("\"classes\":" + metrics.getNbOutboundClasses() + ",");
-        print("\"classRatio\":" + (metrics.getNbOutboundClasses() / (double) metrics.getClasses().size()) + ",");
+        print("\"classRatio\":" + formatValue(metrics.getNbOutboundClasses() / (double) metrics.getClasses().size()) + ",");
         print("\"features\":" + metrics.getNbOutboundFeatures() + ",");
-        print("\"featureRation\":" + (metrics.getNbOutboundFeatures() / (double) metrics.getFeatures().size()) + ",");
+        print("\"featureRation\":" + formatValue(metrics.getNbOutboundFeatures() / (double) metrics.getFeatures().size()) + ",");
         print("\"total\":" + metrics.getNbOutbound());
         print("}");
 
@@ -130,11 +130,11 @@ public class JSONMetricsReport extends MetricsReport {
 
         print("\"inbounds\": {");
         print("\"packages\":" + metrics.getNbInboundPackages() + ",");
-        print("\"packageRatio\":" + (metrics.getNbInboundPackages() / (double) metrics.getPackages().size()) + ",");
+        print("\"packageRatio\":" + formatValue(metrics.getNbInboundPackages() / (double) metrics.getPackages().size()) + ",");
         print("\"classes\":" + metrics.getNbInboundClasses() + ",");
-        print("\"classRatio\":" + (metrics.getNbInboundClasses() / (double) metrics.getClasses().size()) + ",");
+        print("\"classRatio\":" + formatValue(metrics.getNbInboundClasses() / (double) metrics.getClasses().size()) + ",");
         print("\"features\":" + metrics.getNbInboundFeatures() + ",");
-        print("\"featureRatio\":" + (metrics.getNbInboundFeatures() / (double) metrics.getFeatures().size()) + ",");
+        print("\"featureRatio\":" + formatValue(metrics.getNbInboundFeatures() / (double) metrics.getFeatures().size()) + ",");
         print("\"total\":" + metrics.getNbInbound());
         print("}");
     }
@@ -250,5 +250,13 @@ public class JSONMetricsReport extends MetricsReport {
         }
 
         print("]");
+    }
+
+    private String formatValue(double value) {
+        if (Double.isNaN(value) || Double.isInfinite(value)) {
+            return "null";
+        }
+
+        return String.valueOf(value);
     }
 }

@@ -235,13 +235,13 @@ public class JSONPrinter extends Printer {
 
         indent().append("\"short-name\": \"").append(measurement.getShortName()).append("\",").eol();
         indent().append("\"long-name\": \"").append(measurement.getLongName()).append("\",").eol();
-        indent().append("\"value\": ").append(measurement.getValue()).append(",").eol();
-        indent().append("\"minimum\": ").append(measurement.getMinimum()).append(",").eol();
-        indent().append("\"median\": ").append(measurement.getMedian()).append(",").eol();
-        indent().append("\"average\": ").append(measurement.getAverage()).append(",").eol();
-        indent().append("\"standard-deviation\": ").append(measurement.getStandardDeviation()).append(",").eol();
-        indent().append("\"maximum\": ").append(measurement.getMaximum()).append(",").eol();
-        indent().append("\"sum\": ").append(measurement.getSum()).append(",").eol();
+        indent().append("\"value\": ").append(formatValue(measurement.getValue())).append(",").eol();
+        indent().append("\"minimum\": ").append(formatValue(measurement.getMinimum())).append(",").eol();
+        indent().append("\"median\": ").append(formatValue(measurement.getMedian())).append(",").eol();
+        indent().append("\"average\": ").append(formatValue(measurement.getAverage())).append(",").eol();
+        indent().append("\"standard-deviation\": ").append(formatValue(measurement.getStandardDeviation())).append(",").eol();
+        indent().append("\"maximum\": ").append(formatValue(measurement.getMaximum())).append(",").eol();
+        indent().append("\"sum\": ").append(formatValue(measurement.getSum())).append(",").eol();
 
         var requestedPercentiles = measurement.getRequestedPercentiles();
         if (requestedPercentiles.isEmpty()) {
@@ -255,7 +255,7 @@ public class JSONPrinter extends Printer {
             while (i.hasNext()) {
                 var percentile = i.next();
                 indent();
-                append("\"p").append(percentile).append("\": ").append(measurement.getPercentile(percentile));
+                append("\"p").append(percentile).append("\": ").append(formatValue(measurement.getPercentile(percentile)));
                 if (i.hasNext()) {
                     append(",");
                 }
@@ -289,10 +289,10 @@ public class JSONPrinter extends Printer {
         indent().append("\"long-name\": \"").append(measurement.getLongName()).append("\",").eol();
 
         if (isExpandCollectionMeasurements()) {
-            indent().append("\"value\": ").append(measurement.getValue()).append(",").eol();
+            indent().append("\"value\": ").append(formatValue(measurement.getValue())).append(",").eol();
             indent().append("\"members\": [").append(measurement.getValues().stream().sorted().map(value -> "\"" + value + "\"").collect(joining(", "))).append("]").eol();
         } else {
-            indent().append("\"value\": ").append(measurement.getValue()).eol();
+            indent().append("\"value\": ").append(formatValue(measurement.getValue())).eol();
         }
 
         lowerIndent();
@@ -304,9 +304,25 @@ public class JSONPrinter extends Printer {
         raiseIndent();
         indent().append("\"short-name\": \"").append(measurement.getShortName()).append("\",").eol();
         indent().append("\"long-name\": \"").append(measurement.getLongName()).append("\",").eol();
-        indent().append("\"value\": ").append(measurement.getValue()).eol();
+        indent().append("\"value\": ").append(formatValue(measurement.getValue())).eol();
         lowerIndent();
         indent().append("}");
+    }
+
+    private String formatValue(Number value) {
+        if (value == null) {
+            return "null";
+        }
+
+        return formatValue(value.doubleValue());
+    }
+
+    private String formatValue(double value) {
+        if (Double.isNaN(value) || Double.isInfinite(value)) {
+            return "null";
+        }
+
+        return String.valueOf(value);
     }
 
     private JSONPrinter clonePrinter(StringWriter out) {

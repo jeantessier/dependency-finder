@@ -80,40 +80,119 @@
     </xsl:template>
 
     <xsl:template match="project/measurement">
-        <xsl:text>      - short-name: </xsl:text><xsl:value-of select="short-name"/>
-        <xsl:text>
+        <xsl:text>      -
 </xsl:text>
-        <xsl:text>        long-name: </xsl:text><xsl:value-of select="long-name"/>
-        <xsl:text>
-</xsl:text>
-        <xsl:text>        value: </xsl:text><xsl:value-of select="value"/>
-        <xsl:text>
-</xsl:text>
+        <xsl:apply-templates/>
+    </xsl:template>
 
-        <xsl:if test="minimum">
-            <xsl:text>        minimum: </xsl:text><xsl:value-of select="minimum"/>
-            <xsl:text>
+    <xsl:template match="project/measurement/short-name">
+        <xsl:text>        short-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>        median: </xsl:text><xsl:value-of select="median"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/long-name">
+        <xsl:text>        long-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>        average: </xsl:text><xsl:value-of select="average"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/value">
+        <xsl:text>        value: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>        standard-deviation: </xsl:text><xsl:value-of select="standard-deviation"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/minimum">
+        <xsl:text>        minimum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>        maximum: </xsl:text><xsl:value-of select="maximum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/median">
+        <xsl:text>        median: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>        sum: </xsl:text><xsl:value-of select="sum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/average">
+        <xsl:text>        average: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>        nb-data-points: </xsl:text><xsl:value-of select="nb-data-points"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/standard-deviation">
+        <xsl:text>        standard-deviation: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/maximum">
+        <xsl:text>        maximum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/sum">
+        <xsl:text>        sum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="project/measurement/nb-data-points">
+        <xsl:text>        nb-data-points: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
     </xsl:template>
 
     <xsl:template match="project/measurement/members">
@@ -175,40 +254,119 @@
     </xsl:template>
 
     <xsl:template match="group/measurement">
-        <xsl:text>          - short-name: </xsl:text><xsl:value-of select="short-name"/>
-        <xsl:text>
+        <xsl:text>          -
 </xsl:text>
-        <xsl:text>            long-name: </xsl:text><xsl:value-of select="long-name"/>
-        <xsl:text>
-</xsl:text>
-        <xsl:text>            value: </xsl:text><xsl:value-of select="value"/>
-        <xsl:text>
-</xsl:text>
+        <xsl:apply-templates/>
+    </xsl:template>
 
-        <xsl:if test="minimum">
-            <xsl:text>            minimum: </xsl:text><xsl:value-of select="minimum"/>
-            <xsl:text>
+    <xsl:template match="group/measurement/short-name">
+        <xsl:text>            short-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>            median: </xsl:text><xsl:value-of select="median"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/long-name">
+        <xsl:text>            long-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>            average: </xsl:text><xsl:value-of select="average"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/value">
+        <xsl:text>            value: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>            standard-deviation: </xsl:text><xsl:value-of select="standard-deviation"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/minimum">
+        <xsl:text>            minimum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>            maximum: </xsl:text><xsl:value-of select="maximum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/median">
+        <xsl:text>            median: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>            sum: </xsl:text><xsl:value-of select="sum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/average">
+        <xsl:text>            average: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>            nb-data-points: </xsl:text><xsl:value-of select="nb-data-points"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/standard-deviation">
+        <xsl:text>            standard-deviation: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/maximum">
+        <xsl:text>            maximum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/sum">
+        <xsl:text>            sum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="group/measurement/nb-data-points">
+        <xsl:text>            nb-data-points: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
     </xsl:template>
 
     <xsl:template match="group/measurement/members">
@@ -270,40 +428,119 @@
     </xsl:template>
 
     <xsl:template match="class/measurement">
-        <xsl:text>              - short-name: </xsl:text><xsl:value-of select="short-name"/>
-        <xsl:text>
+        <xsl:text>              -
 </xsl:text>
-        <xsl:text>                long-name: </xsl:text><xsl:value-of select="long-name"/>
-        <xsl:text>
-</xsl:text>
-        <xsl:text>                value: </xsl:text><xsl:value-of select="value"/>
-        <xsl:text>
-</xsl:text>
+        <xsl:apply-templates/>
+    </xsl:template>
 
-        <xsl:if test="minimum">
-            <xsl:text>                minimum: </xsl:text><xsl:value-of select="minimum"/>
-            <xsl:text>
+    <xsl:template match="class/measurement/short-name">
+        <xsl:text>                short-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                median: </xsl:text><xsl:value-of select="median"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/long-name">
+        <xsl:text>                long-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                average: </xsl:text><xsl:value-of select="average"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/value">
+        <xsl:text>                value: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                standard-deviation: </xsl:text><xsl:value-of select="standard-deviation"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/minimum">
+        <xsl:text>                minimum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                maximum: </xsl:text><xsl:value-of select="maximum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/median">
+        <xsl:text>                median: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                sum: </xsl:text><xsl:value-of select="sum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/average">
+        <xsl:text>                average: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                nb-data-points: </xsl:text><xsl:value-of select="nb-data-points"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/standard-deviation">
+        <xsl:text>                standard-deviation: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/maximum">
+        <xsl:text>                maximum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/sum">
+        <xsl:text>                sum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="class/measurement/nb-data-points">
+        <xsl:text>                nb-data-points: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
     </xsl:template>
 
     <xsl:template match="class/measurement/members">
@@ -351,40 +588,119 @@
     </xsl:template>
 
     <xsl:template match="method/measurement">
-        <xsl:text>                  - short-name: </xsl:text><xsl:value-of select="short-name"/>
-        <xsl:text>
+        <xsl:text>                  -
 </xsl:text>
-        <xsl:text>                    long-name: </xsl:text><xsl:value-of select="long-name"/>
-        <xsl:text>
-</xsl:text>
-        <xsl:text>                    value: </xsl:text><xsl:value-of select="value"/>
-        <xsl:text>
-</xsl:text>
+        <xsl:apply-templates/>
+    </xsl:template>
 
-        <xsl:if test="minimum">
-            <xsl:text>                    minimum: </xsl:text><xsl:value-of select="minimum"/>
-            <xsl:text>
+    <xsl:template match="method/measurement/short-name">
+        <xsl:text>                    short-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                    median: </xsl:text><xsl:value-of select="median"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/long-name">
+        <xsl:text>                    long-name: </xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                    average: </xsl:text><xsl:value-of select="average"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/value">
+        <xsl:text>                    value: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                    standard-deviation: </xsl:text><xsl:value-of select="standard-deviation"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/minimum">
+        <xsl:text>                    minimum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                    maximum: </xsl:text><xsl:value-of select="maximum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/median">
+        <xsl:text>                    median: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                    sum: </xsl:text><xsl:value-of select="sum"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/average">
+        <xsl:text>                    average: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-            <xsl:text>                    nb-data-points: </xsl:text><xsl:value-of select="nb-data-points"/>
-            <xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/standard-deviation">
+        <xsl:text>                    standard-deviation: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
 </xsl:text>
-        </xsl:if>
-        <xsl:apply-templates select="members"/>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/maximum">
+        <xsl:text>                    maximum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/sum">
+        <xsl:text>                    sum: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="method/measurement/nb-data-points">
+        <xsl:text>                    nb-data-points: </xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>.NaN</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>.Inf</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>-.Inf</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>
+</xsl:text>
     </xsl:template>
 
     <xsl:template match="method/measurement/members">

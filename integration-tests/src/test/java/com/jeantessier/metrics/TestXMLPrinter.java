@@ -92,9 +92,9 @@ public class TestXMLPrinter {
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
-        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
+        var printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
-        String xmlDocument = buffer.toString();
+        var xmlDocument = buffer.toString();
         assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
         assertTrue(perl.group(1).startsWith(XMLPrinter.DEFAULT_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"" + XMLPrinter.DEFAULT_DTD_PREFIX + "\"");
         
@@ -112,9 +112,9 @@ public class TestXMLPrinter {
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
-        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
 
-        String xmlDocument = buffer.toString();
+        var xmlDocument = buffer.toString();
         assertTrue(perl.match("/DOCTYPE \\S+ SYSTEM \"(.*)\"/", xmlDocument), xmlDocument + "Missing DTD");
         assertTrue(perl.group(1).startsWith(SPECIFIC_DTD_PREFIX), "DTD \"" + perl.group(1) + "\" does not have prefix \"./etc\"");
         
@@ -132,9 +132,9 @@ public class TestXMLPrinter {
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
-        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration);
+        var printer = new XMLPrinter(new PrintWriter(buffer), configuration);
 
-        String xmlDocument = buffer.toString();
+        var xmlDocument = buffer.toString();
         assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
         assertEquals(XMLPrinter.DEFAULT_ENCODING, perl.group(1), "Encoding");
         
@@ -152,9 +152,9 @@ public class TestXMLPrinter {
             oneOf (errorHandler).fatalError(with(any(SAXParseException.class)));
         }});
 
-        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
+        var printer = new XMLPrinter(new PrintWriter(buffer), configuration, SPECIFIC_ENCODING, XMLPrinter.DEFAULT_DTD_PREFIX);
 
-        String xmlDocument = buffer.toString();
+        var xmlDocument = buffer.toString();
         assertTrue(perl.match("/encoding=\"([^\"]*)\"/", xmlDocument), xmlDocument + "Missing encoding");
         assertEquals(SPECIFIC_ENCODING, perl.group(1), "Encoding");
         
@@ -174,10 +174,10 @@ public class TestXMLPrinter {
         loader.load(Collections.singleton(TEST_FILENAME));
         loader.getClassfile(TEST_CLASS).accept(new MetricsGatherer(factory));
 
-        XMLPrinter printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
+        var printer = new XMLPrinter(new PrintWriter(buffer), configuration, XMLPrinter.DEFAULT_ENCODING, SPECIFIC_DTD_PREFIX);
         printer.visitMetrics(factory.getProjectMetrics());
 
-        String xmlDocument = buffer.toString();
+        var xmlDocument = buffer.toString();
         reader.parse(new InputSource(new StringReader(xmlDocument)));
         assertXPath(xmlDocument, "metrics/project/group/class/measurement[short-name='PARAM' and value=0.5]/median", 1);
     }

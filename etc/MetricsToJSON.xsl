@@ -89,31 +89,73 @@
     </xsl:template>
 
     <xsl:template match="value">
-        <xsl:text>"value":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"value":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="minimum">
-        <xsl:text>"minimum":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"minimum":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="median">
-        <xsl:text>"median":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"median":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="average">
-        <xsl:text>"average":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"average":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="standard-deviation">
-        <xsl:text>"standard-deviation":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"standard-deviation":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="maximum">
-        <xsl:text>"maximum":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"maximum":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="sum">
-        <xsl:text>"sum":</xsl:text><xsl:value-of select="."/>
+        <xsl:text>"sum":</xsl:text>
+        <xsl:choose>
+            <xsl:when test="text() = 'NaN'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = 'Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:when test="text() = '-Infinity'"><xsl:text>null</xsl:text></xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="nb-data-points">

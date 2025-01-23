@@ -131,13 +131,13 @@ public class YAMLPrinter extends Printer {
         raiseIndent();
         indent().append("short-name: ").append(measurement.getShortName()).eol();
         indent().append("long-name: ").append(measurement.getLongName()).eol();
-        indent().append("value: ").append(measurement.getValue()).eol();
-        indent().append("minimum: ").append(measurement.getMinimum()).eol();
-        indent().append("median: ").append(measurement.getMedian()).eol();
-        indent().append("average: ").append(measurement.getAverage()).eol();
-        indent().append("standard-deviation: ").append(measurement.getStandardDeviation()).eol();
-        indent().append("maximum: ").append(measurement.getMaximum()).eol();
-        indent().append("sum: ").append(measurement.getSum()).eol();
+        indent().append("value: ").append(formatValue(measurement.getValue())).eol();
+        indent().append("minimum: ").append(formatValue(measurement.getMinimum())).eol();
+        indent().append("median: ").append(formatValue(measurement.getMedian())).eol();
+        indent().append("average: ").append(formatValue(measurement.getAverage())).eol();
+        indent().append("standard-deviation: ").append(formatValue(measurement.getStandardDeviation())).eol();
+        indent().append("maximum: ").append(formatValue(measurement.getMaximum())).eol();
+        indent().append("sum: ").append(formatValue(measurement.getSum())).eol();
         indent().append("nb-data-points: ").append(measurement.getNbDataPoints()).eol();
 
         var requestedPercentiles = measurement.getRequestedPercentiles();
@@ -145,7 +145,7 @@ public class YAMLPrinter extends Printer {
             indent().append("percentiles:").eol();
             raiseIndent();
 
-            requestedPercentiles.forEach(percentile -> indent().append("p").append(percentile).append(": ").append(measurement.getPercentile(percentile)).eol());
+            requestedPercentiles.forEach(percentile -> indent().append("p").append(percentile).append(": ").append(formatValue(measurement.getPercentile(percentile))).eol());
 
             lowerIndent();
         }
@@ -170,7 +170,7 @@ public class YAMLPrinter extends Printer {
         raiseIndent();
         indent().append("short-name: ").append(measurement.getShortName()).eol();
         indent().append("long-name: ").append(measurement.getLongName()).eol();
-        indent().append("value: ").append(measurement.getValue()).eol();
+        indent().append("value: ").append(formatValue(measurement.getValue())).eol();
 
         if (isExpandCollectionMeasurements()) {
             if (measurement.isEmpty()) {
@@ -193,7 +193,7 @@ public class YAMLPrinter extends Printer {
         raiseIndent();
         indent().append("short-name: ").append(measurement.getShortName()).eol();
         indent().append("long-name: ").append(measurement.getLongName()).eol();
-        indent().append("value: ").append(measurement.getValue()).eol();
+        indent().append("value: ").append(formatValue(measurement.getValue())).eol();
         lowerIndent();
     }
 
@@ -207,5 +207,25 @@ public class YAMLPrinter extends Printer {
         }
 
         return name;
+    }
+
+    private String formatValue(Number value) {
+        if (value == null) {
+            return "null";
+        }
+
+        return formatValue(value.doubleValue());
+    }
+
+    private String formatValue(double value) {
+        if (Double.isNaN(value)) {
+            return ".NaN";
+        }
+
+        if (Double.isInfinite(value)) {
+            return value < 0 ? "-.Inf" : ".Inf";
+        }
+
+        return String.valueOf(value);
     }
 }

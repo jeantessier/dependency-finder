@@ -1,6 +1,8 @@
 package com.jeantessier.metrics;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +11,7 @@ import java.util.stream.*;
 
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
 public class TestJSONPrinter {
     private final Random random = new Random();
@@ -21,11 +24,11 @@ public class TestJSONPrinter {
         var configuration = new MetricsConfiguration();
 
         // and
-        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
-
-        // and
         var metricsName = "metrics name " + random.nextInt(1_000);
         var metrics = new Metrics(metricsName);
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
 
         // and
         var expectedLines = Stream.of(
@@ -85,9 +88,6 @@ public class TestJSONPrinter {
         configuration.addMethodMeasurement(methodDescriptor);
 
         // and
-        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
-
-        // and
         var projectMetricsName = "project metrics name " + random.nextInt(1_000);
         var projectMetrics = new Metrics(projectMetricsName);
         projectMetrics.track(projectDescriptor.createMeasurement(projectMetrics));
@@ -114,6 +114,9 @@ public class TestJSONPrinter {
         methodMetrics.track(methodDescriptor.createMeasurement(methodMetrics));
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
 
         // and
         var expectedLines = Stream.of(
@@ -169,9 +172,6 @@ public class TestJSONPrinter {
         configuration.addMethodMeasurement(methodDescriptor);
 
         // and
-        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
-
-        // and
         var projectMetricsName = "project metrics name " + random.nextInt(1_000);
         var projectMetrics = new Metrics(projectMetricsName);
         projectMetrics.track(projectDescriptor.createMeasurement(projectMetrics));
@@ -201,6 +201,9 @@ public class TestJSONPrinter {
         methodMetrics.track(methodDescriptor.createMeasurement(methodMetrics));
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
 
         // and
         var expectedLines = Stream.of(
@@ -261,8 +264,248 @@ public class TestJSONPrinter {
         assertLinesMatch(expectedLines, buffer.toString().lines());
     }
 
+    static Stream<Arguments> ratioDataProvider() {
+        return Stream.of(
+                arguments("mundane value", 1, 2, "0.5"),
+                arguments("zero", 0, 2, "0.0"),
+                arguments("one", 2, 2, "1.0"),
+                arguments("not-a-number", 0, 0, "null"),
+                arguments("positive infinity", 1, 0, "null"),
+                arguments("negative infinity", -1, 0, "null")
+        );
+    }
+
+    @DisplayName("RatioMeasurement")
+    @ParameterizedTest(name = "with {0} should have value {3}")
+    @MethodSource("ratioDataProvider")
+    public void testVisitMetrics_DescriptorForRatioMeasurement(String variation, int numeratorValue, int denominatorValue, String expectedValue) throws Exception {
+        // Given
+        var configuration = new MetricsConfiguration();
+
+        // and
+        var id = random.nextInt(1_000);
+
+        // and
+        var numeratorLongName = "Numerator " + id;
+        var numeratorShortName = "N" + id;
+        var numeratorDescriptor = new MeasurementDescriptor();
+        numeratorDescriptor.setLongName(numeratorLongName);
+        numeratorDescriptor.setShortName(numeratorShortName);
+        numeratorDescriptor.setClassFor(CounterMeasurement.class);
+        configuration.addProjectMeasurement(numeratorDescriptor);
+
+        // and
+        var denominatorLongName = "Denominator " + id;
+        var denominatorShortName = "D" + id;
+        var denominatorDescriptor = new MeasurementDescriptor();
+        denominatorDescriptor.setLongName(denominatorLongName);
+        denominatorDescriptor.setShortName(denominatorShortName);
+        denominatorDescriptor.setClassFor(CounterMeasurement.class);
+        configuration.addProjectMeasurement(denominatorDescriptor);
+
+        // and
+        var ratioLongName = "Ratio " + id;
+        var ratioShortName = "R" + id;
+        var ratioDescriptor = new MeasurementDescriptor();
+        ratioDescriptor.setLongName(ratioLongName);
+        ratioDescriptor.setShortName(ratioShortName);
+        ratioDescriptor.setClassFor(RatioMeasurement.class);
+        ratioDescriptor.setInitText(numeratorShortName + "\n" + denominatorShortName);
+        configuration.addProjectMeasurement(ratioDescriptor);
+
+        // and
+        var projectMetricsName = "project metrics name " + random.nextInt(1_000);
+        var projectMetrics = new Metrics(projectMetricsName);
+        projectMetrics.track(numeratorDescriptor.createMeasurement(projectMetrics));
+        projectMetrics.track(denominatorDescriptor.createMeasurement(projectMetrics));
+        projectMetrics.track(ratioDescriptor.createMeasurement(projectMetrics));
+
+        // and
+        projectMetrics.addToMeasurement(numeratorShortName, numeratorValue);
+        projectMetrics.addToMeasurement(denominatorShortName, denominatorValue);
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
+        printer.setShowEmptyMetrics(true);
+
+        // and
+        var expectedLines = Stream.of(
+                "[",
+                "    {",
+                "        \"name\": \"" + projectMetricsName + "\",",
+                "        \"measurements\": [",
+                "            {",
+                "                \"short-name\": \"" + numeratorShortName + "\",",
+                "                \"long-name\": \"" + numeratorLongName + "\",",
+                "                \"value\": " + numeratorValue + ".0",
+                "            }, {",
+                "                \"short-name\": \"" + denominatorShortName + "\",",
+                "                \"long-name\": \"" + denominatorLongName + "\",",
+                "                \"value\": " + denominatorValue + ".0",
+                "            }, {",
+                "                \"short-name\": \"" + ratioShortName + "\",",
+                "                \"long-name\": \"" + ratioLongName + "\",",
+                "                \"value\": " + expectedValue,
+                "            }",
+                "        ],",
+                "        \"groups\": [",
+                "            ",
+                "        ]",
+                "    }",
+                "]"
+        );
+
+        // When
+        printer.visitMetrics(Collections.singleton(projectMetrics));
+
+        // Then
+        assertLinesMatch(expectedLines, buffer.toString().lines());
+    }
+
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
+    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoValues_NoPercentiles() throws Exception {
+        // Given
+        var configuration = new MetricsConfiguration();
+
+        // and
+        var methodShortName = "MSN" + random.nextInt(1_000);
+        var initText = methodShortName;
+
+        // and
+        var projectLongName = "project long name " + random.nextInt(1_000);
+        var projectShortName = "PSN" + random.nextInt(1_000);
+        var projectDescriptor = new MeasurementDescriptor();
+        projectDescriptor.setLongName(projectLongName);
+        projectDescriptor.setShortName(projectShortName);
+        projectDescriptor.setClassFor(StatisticalMeasurement.class);
+        projectDescriptor.setInitText(initText);
+        configuration.addProjectMeasurement(projectDescriptor);
+
+        // and
+        var projectMetricsName = "project metrics name " + random.nextInt(1_000);
+        var projectMetrics = new Metrics(projectMetricsName);
+        projectMetrics.track(projectDescriptor.createMeasurement(projectMetrics));
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
+        printer.setShowEmptyMetrics(true);
+
+        // and
+        var expectedLines = Stream.of(
+                "[",
+                "    {",
+                "        \"name\": \"" + projectMetricsName + "\",",
+                "        \"measurements\": [",
+                "            {",
+                "                \"short-name\": \"" + projectShortName + "\",",
+                "                \"long-name\": \"" + projectLongName + "\",",
+                "                \"value\": null,",
+                "                \"minimum\": null,",
+                "                \"median\": null,",
+                "                \"average\": null,",
+                "                \"standard-deviation\": null,",
+                "                \"maximum\": null,",
+                "                \"sum\": null,",
+                "                \"nb-data-points\": 0",
+                "            }",
+                "        ],",
+                "        \"groups\": [",
+                "            ",
+                "        ]",
+                "    }",
+                "]"
+        );
+
+        // When
+        printer.visitMetrics(Collections.singleton(projectMetrics));
+
+        // Then
+        assertLinesMatch(expectedLines, buffer.toString().lines());
+    }
+
+    @Test
+    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoValues_WithPercentiles() throws Exception {
+        // Given
+        var numPercentiles = random.nextInt(10) + 1;
+        var percentiles = IntStream.rangeClosed(1, numPercentiles)
+                .mapToObj(n -> random.nextInt(100) + 1)
+                .toList();
+
+        // and
+        var configuration = new MetricsConfiguration();
+
+        // and
+        var methodShortName = "MSN" + random.nextInt(1_000);
+        var initText = methodShortName + "\nP " + percentiles.stream()
+                .map(String::valueOf)
+                .collect(joining(" "));
+
+        // and
+        var projectLongName = "project long name " + random.nextInt(1_000);
+        var projectShortName = "PSN" + random.nextInt(1_000);
+        var projectDescriptor = new MeasurementDescriptor();
+        projectDescriptor.setLongName(projectLongName);
+        projectDescriptor.setShortName(projectShortName);
+        projectDescriptor.setClassFor(StatisticalMeasurement.class);
+        projectDescriptor.setInitText(initText);
+        configuration.addProjectMeasurement(projectDescriptor);
+
+        // and
+        var projectMetricsName = "project metrics name " + random.nextInt(1_000);
+        var projectMetrics = new Metrics(projectMetricsName);
+        projectMetrics.track(projectDescriptor.createMeasurement(projectMetrics));
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
+        printer.setShowEmptyMetrics(true);
+
+        // and
+        var expectedLines = Stream.of(
+                Stream.of(
+                        "[",
+                        "    {",
+                        "        \"name\": \"" + projectMetricsName + "\",",
+                        "        \"measurements\": [",
+                        "            {",
+                        "                \"short-name\": \"" + projectShortName + "\",",
+                        "                \"long-name\": \"" + projectLongName + "\",",
+                        "                \"value\": null,",
+                        "                \"minimum\": null,",
+                        "                \"median\": null,",
+                        "                \"average\": null,",
+                        "                \"standard-deviation\": null,",
+                        "                \"maximum\": null,",
+                        "                \"sum\": null,",
+                        "                \"nb-data-points\": 0,",
+                        "                \"percentiles\": {"
+                ),
+
+                percentiles.stream()
+                        .map(percentile -> "                    \"p" + percentile + "\": null")
+                        .collect(joining(",\n"))
+                        .lines(),
+
+                Stream.of(
+                        "                }",
+                        "            }",
+                        "        ],",
+                        "        \"groups\": [",
+                        "            ",
+                        "        ]",
+                        "    }",
+                        "]"
+                )
+        ).flatMap(Function.identity());
+
+        // When
+        printer.visitMetrics(Collections.singleton(projectMetrics));
+
+        // Then
+        assertLinesMatch(expectedLines, buffer.toString().lines());
+    }
+
+    @Test
+    public void testVisitMetrics_DescriptorForStatisticalMeasurement_WithValues_NoPercentiles() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -309,9 +552,6 @@ public class TestJSONPrinter {
         configuration.addMethodMeasurement(methodDescriptor);
 
         // and
-        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
-
-        // and
         var projectMetricsName = "project metrics name " + random.nextInt(1_000);
         var projectMetrics = new Metrics(projectMetricsName);
         projectMetrics.track(projectDescriptor.createMeasurement(projectMetrics));
@@ -335,6 +575,9 @@ public class TestJSONPrinter {
         methodMetrics.track(methodDescriptor.createMeasurement(methodMetrics));
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
 
         // and
         var expectedLines = Stream.of(
@@ -417,7 +660,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
+    public void testVisitMetrics_DescriptorForStatisticalMeasurement_WithValues_WithPercentiles() throws Exception {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)
@@ -472,9 +715,6 @@ public class TestJSONPrinter {
         configuration.addMethodMeasurement(methodDescriptor);
 
         // and
-        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
-
-        // and
         var projectMetricsName = "project metrics name " + random.nextInt(1_000);
         var projectMetrics = new Metrics(projectMetricsName);
         projectMetrics.track(projectDescriptor.createMeasurement(projectMetrics));
@@ -498,6 +738,9 @@ public class TestJSONPrinter {
         methodMetrics.track(methodDescriptor.createMeasurement(methodMetrics));
         var methodMeasurementValue = random.nextInt(1_000);
         methodMetrics.addToMeasurement(methodShortName, methodMeasurementValue);
+
+        // and
+        var printer = new JSONPrinter(new PrintWriter(buffer), configuration);
 
         // and
         var expectedLines = Stream.of(
