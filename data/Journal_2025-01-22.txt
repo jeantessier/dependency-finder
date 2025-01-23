@@ -1,0 +1,13 @@
+I need to add a JSON output to dependency metrics from =DependencyMetrics= so
+they can be fed from the Micronaut service to the React frontend.
+
+I was looking at =MetricsReport=.  It exposes charts, but each of the eight
+charts are the same lengths, padded with zeroes as needed.  This seems wasteful
+to me.  I added a _histogram_ version of each chart that only includes parts
+where there is actual data.
+
+I also split the old =MetricsReport= into an abstract base class
+=MetricsReport= that has all the flags, and a specific =TextMetricsReport= for
+the details of writing textual metrics reports.  With this split in place, it
+will be a little bit easier to introduce a class that renders the report as a
+JSON object.
