@@ -5948,6 +5948,20 @@ number of entering vertices, and number of exiting vertices.
         [-filter-includes value]*
         [-filter-includes-list filename]*
         [-help]
+        [-histogram-all]
+        [-histogram-classes]
+        [-histogram-classes-per-package]
+        [-histogram-features]
+        [-histogram-features-per-class]
+        [-histogram-inbounds]
+        [-histogram-inbounds-per-class]
+        [-histogram-inbounds-per-feature]
+        [-histogram-inbounds-per-package]
+        [-histogram-outbounds]
+        [-histogram-outbounds-per-class]
+        [-histogram-outbounds-per-feature]
+        [-histogram-outbounds-per-package]
+        [-histogram-packages]
         [-includes value]*
         [-list]
         [-out filename]
@@ -6565,6 +6579,234 @@ If there are multiples of this switch, the name must be in at least one of them.
 <blockquote>
 
 Prints synopsis.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-all=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-histogram-classes-per-package=
+   * =-histogram-features-per-class=
+   * =-histogram-inbounds-per-package=
+   * =-histogram-outbounds-per-package=
+   * =-histogram-inbounds-per-class=
+   * =-histogram-outbounds-per-class=
+   * =-histogram-inbounds-per-feature=
+   * =-histogram-outbounds-per-feature=
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-classes=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-histogram-features-per-class=
+   * =-histogram-inbounds-per-class=
+   * =-histogram-outbounds-per-class=
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-classes-per-package=
+
+<blockquote>
+
+Shows distribution of classes per package.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-features=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-histogram-inbounds-per-feature=
+   * =-histogram-outbounds-per-feature=
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-features-per-class=
+
+<blockquote>
+
+Shows distribution of features per class.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-inbounds=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-histogram-inbounds-per-package=
+   * =-histogram-inbounds-per-class=
+   * =-histogram-inbounds-per-feature=
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-inbounds-per-class=
+
+<blockquote>
+
+Shows distribution of explicit inbound dependencies to classes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-inbounds-per-feature=
+
+<blockquote>
+
+Shows distribution of explicit inbound dependencies to features.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-inbounds-per-package=
+
+<blockquote>
+
+Shows distribution of explicit inbound dependencies to packages.
+
+In a raw or minimized graph, this will show zero.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-outbounds=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-histogram-outbounds-per-package=
+   * =-histogram-outbounds-per-class=
+   * =-histogram-outbounds-per-feature=
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-outbounds-per-class=
+
+<blockquote>
+
+Shows distribution of explicit outbound dependencies from classes.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-outbounds-per-feature=
+
+<blockquote>
+
+Shows distribution of explicit outbound dependencies from features.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-outbounds-per-package=
+
+<blockquote>
+
+Shows distribution of explicit outbound dependencies from packages.
+
+In a raw or minimized graph, this will show zero.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-histogram-packages=
+
+<blockquote>
+
+Shorthand for the combination of:
+
+   * =-histogram-classes-per-package=
+   * =-histogram-inbounds-per-package=
+   * =-histogram-outbounds-per-package=
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>

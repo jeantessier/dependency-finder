@@ -39,14 +39,23 @@ public abstract class MetricsReport {
 
     private boolean listingElements = false;
 
-    private boolean chartingClassesPerPackage = false;
-    private boolean chartingFeaturesPerClass = false;
-    private boolean chartingInboundsPerPackage = false;
-    private boolean chartingOutboundsPerPackage = false;
-    private boolean chartingInboundsPerClass = false;
-    private boolean chartingOutboundsPerClass = false;
-    private boolean chartingInboundsPerFeature = false;
-    private boolean chartingOutboundsPerFeature = false;
+    private boolean showingClassesPerPackageChart = false;
+    private boolean showingFeaturesPerClassChart = false;
+    private boolean showingInboundsPerPackageChart = false;
+    private boolean showingOutboundsPerPackageChart = false;
+    private boolean showingInboundsPerClassChart = false;
+    private boolean showingOutboundsPerClassChart = false;
+    private boolean showingInboundsPerFeatureChart = false;
+    private boolean showingOutboundsPerFeatureChart = false;
+
+    private boolean showingClassesPerPackageHistogram = false;
+    private boolean showingFeaturesPerClassHistogram = false;
+    private boolean showingInboundsPerPackageHistogram = false;
+    private boolean showingOutboundsPerPackageHistogram = false;
+    private boolean showingInboundsPerClassHistogram = false;
+    private boolean showingOutboundsPerClassHistogram = false;
+    private boolean showingInboundsPerFeatureHistogram = false;
+    private boolean showingOutboundsPerFeatureHistogram = false;
 
     public MetricsReport(PrintWriter out) {
         this.out = out;
@@ -60,68 +69,132 @@ public abstract class MetricsReport {
         this.listingElements = listingElements;
     }
 
-    public boolean isChartingClassesPerPackage() {
-        return chartingClassesPerPackage;
+    public boolean isShowingClassesPerPackageChart() {
+        return showingClassesPerPackageChart;
     }
 
-    public void setChartingClassesPerPackage(boolean chartingClassesPerPackage) {
-        this.chartingClassesPerPackage = chartingClassesPerPackage;
+    public void setShowingClassesPerPackageChart(boolean showingClassesPerPackageChart) {
+        this.showingClassesPerPackageChart = showingClassesPerPackageChart;
     }
 
-    public boolean isChartingFeaturesPerClass() {
-        return chartingFeaturesPerClass;
+    public boolean isShowingFeaturesPerClassChart() {
+        return showingFeaturesPerClassChart;
     }
 
-    public void setChartingFeaturesPerClass(boolean chartingFeaturesPerClass) {
-        this.chartingFeaturesPerClass = chartingFeaturesPerClass;
+    public void setShowingFeaturesPerClassChart(boolean showingFeaturesPerClassChart) {
+        this.showingFeaturesPerClassChart = showingFeaturesPerClassChart;
     }
 
-    public boolean isChartingInboundsPerPackage() {
-        return chartingInboundsPerPackage;
+    public boolean isShowingInboundsPerPackageChart() {
+        return showingInboundsPerPackageChart;
     }
 
-    public void setChartingInboundsPerPackage(boolean chartingInboundsPerPackage) {
-        this.chartingInboundsPerPackage = chartingInboundsPerPackage;
+    public void setShowingInboundsPerPackageChart(boolean showingInboundsPerPackageChart) {
+        this.showingInboundsPerPackageChart = showingInboundsPerPackageChart;
     }
 
-    public boolean isChartingOutboundsPerPackage() {
-        return chartingOutboundsPerPackage;
+    public boolean isShowingOutboundsPerPackageChart() {
+        return showingOutboundsPerPackageChart;
     }
 
-    public void setChartingOutboundsPerPackage(boolean chartingOutboundsPerPackage) {
-        this.chartingOutboundsPerPackage = chartingOutboundsPerPackage;
+    public void setShowingOutboundsPerPackageChart(boolean showingOutboundsPerPackageChart) {
+        this.showingOutboundsPerPackageChart = showingOutboundsPerPackageChart;
     }
 
-    public boolean isChartingInboundsPerClass() {
-        return chartingInboundsPerClass;
+    public boolean isShowingInboundsPerClassChart() {
+        return showingInboundsPerClassChart;
     }
 
-    public void setChartingInboundsPerClass(boolean chartingInboundsPerClass) {
-        this.chartingInboundsPerClass = chartingInboundsPerClass;
+    public void setShowingInboundsPerClassChart(boolean showingInboundsPerClassChart) {
+        this.showingInboundsPerClassChart = showingInboundsPerClassChart;
     }
 
-    public boolean isChartingOutboundsPerClass() {
-        return chartingOutboundsPerClass;
+    public boolean isShowingOutboundsPerClassChart() {
+        return showingOutboundsPerClassChart;
     }
 
-    public void setChartingOutboundsPerClass(boolean chartingOutboundsPerClass) {
-        this.chartingOutboundsPerClass = chartingOutboundsPerClass;
+    public void setShowingOutboundsPerClassChart(boolean showingOutboundsPerClassChart) {
+        this.showingOutboundsPerClassChart = showingOutboundsPerClassChart;
     }
 
-    public boolean isChartingInboundsPerFeature() {
-        return chartingInboundsPerFeature;
+    public boolean isShowingInboundsPerFeatureChart() {
+        return showingInboundsPerFeatureChart;
     }
 
-    public void setChartingInboundsPerFeature(boolean chartingInboundsPerFeature) {
-        this.chartingInboundsPerFeature = chartingInboundsPerFeature;
+    public void setShowingInboundsPerFeatureChart(boolean showingInboundsPerFeatureChart) {
+        this.showingInboundsPerFeatureChart = showingInboundsPerFeatureChart;
     }
 
-    public boolean isChartingOutboundsPerFeature() {
-        return chartingOutboundsPerFeature;
+    public boolean isShowingOutboundsPerFeatureChart() {
+        return showingOutboundsPerFeatureChart;
     }
 
-    public void setChartingOutboundsPerFeature(boolean chartingOutboundsPerFeature) {
-        this.chartingOutboundsPerFeature = chartingOutboundsPerFeature;
+    public void setShowingOutboundsPerFeatureChart(boolean showingOutboundsPerFeatureChart) {
+        this.showingOutboundsPerFeatureChart = showingOutboundsPerFeatureChart;
+    }
+
+    public boolean isShowingClassesPerPackageHistogram() {
+        return showingClassesPerPackageHistogram;
+    }
+
+    public void setShowingClassesPerPackageHistogram(boolean showingClassesPerPackageHistogram) {
+        this.showingClassesPerPackageHistogram = showingClassesPerPackageHistogram;
+    }
+
+    public boolean isShowingFeaturesPerClassHistogram() {
+        return showingFeaturesPerClassHistogram;
+    }
+
+    public void setShowingFeaturesPerClassHistogram(boolean showingFeaturesPerClassHistogram) {
+        this.showingFeaturesPerClassHistogram = showingFeaturesPerClassHistogram;
+    }
+
+    public boolean isShowingInboundsPerPackageHistogram() {
+        return showingInboundsPerPackageHistogram;
+    }
+
+    public void setShowingInboundsPerPackageHistogram(boolean showingInboundsPerPackageHistogram) {
+        this.showingInboundsPerPackageHistogram = showingInboundsPerPackageHistogram;
+    }
+
+    public boolean isShowingOutboundsPerPackageHistogram() {
+        return showingOutboundsPerPackageHistogram;
+    }
+
+    public void setShowingOutboundsPerPackageHistogram(boolean showingOutboundsPerPackageHistogram) {
+        this.showingOutboundsPerPackageHistogram = showingOutboundsPerPackageHistogram;
+    }
+
+    public boolean isShowingInboundsPerClassHistogram() {
+        return showingInboundsPerClassHistogram;
+    }
+
+    public void setShowingInboundsPerClassHistogram(boolean showingInboundsPerClassHistogram) {
+        this.showingInboundsPerClassHistogram = showingInboundsPerClassHistogram;
+    }
+
+    public boolean isShowingOutboundsPerClassHistogram() {
+        return showingOutboundsPerClassHistogram;
+    }
+
+    public void setShowingOutboundsPerClassHistogram(boolean showingOutboundsPerClassHistogram) {
+        this.showingOutboundsPerClassHistogram = showingOutboundsPerClassHistogram;
+    }
+
+    public boolean isShowingInboundsPerFeatureHistogram() {
+        return showingInboundsPerFeatureHistogram;
+    }
+
+    public void setShowingInboundsPerFeatureHistogram(boolean showingInboundsPerFeatureHistogram) {
+        this.showingInboundsPerFeatureHistogram = showingInboundsPerFeatureHistogram;
+    }
+
+    public boolean isShowingOutboundsPerFeatureHistogram() {
+        return showingOutboundsPerFeatureHistogram;
+    }
+
+    public void setShowingOutboundsPerFeatureHistogram(boolean showingOutboundsPerFeatureHistogram) {
+        this.showingOutboundsPerFeatureHistogram = showingOutboundsPerFeatureHistogram;
     }
 
     public abstract void process(MetricsGatherer metrics);

@@ -67,6 +67,7 @@ public class DependencyMetrics extends GraphTask {
     private String  featureFilterExcludes = "";
 
     private boolean list                     = false;
+
     private boolean chartClassesPerPackage   = false;
     private boolean chartFeaturesPerClass    = false;
     private boolean chartInboundsPerPackage  = false;
@@ -75,6 +76,15 @@ public class DependencyMetrics extends GraphTask {
     private boolean chartOutboundsPerClass   = false;
     private boolean chartInboundsPerFeature  = false;
     private boolean chartOutboundsPerFeature = false;
+
+    private boolean histogramClassesPerPackage   = false;
+    private boolean histogramFeaturesPerClass    = false;
+    private boolean histogramInboundsPerPackage  = false;
+    private boolean histogramOutboundsPerPackage = false;
+    private boolean histogramInboundsPerClass    = false;
+    private boolean histogramOutboundsPerClass   = false;
+    private boolean histogramInboundsPerFeature  = false;
+    private boolean histogramOutboundsPerFeature = false;
 
     public String getScopeincludes() {
         return scopeIncludes;
@@ -394,6 +404,110 @@ public class DependencyMetrics extends GraphTask {
         setChartoutboundsperfeature(chartAll);
     }
 
+    public boolean getHistogramclassesperpackage() {
+        return histogramClassesPerPackage;
+    }
+
+    public void setHistogramclassesperpackage(boolean histogramClassesPerPackage) {
+        this.histogramClassesPerPackage = histogramClassesPerPackage;
+    }
+
+    public boolean getHistogramfeaturesperclass() {
+        return histogramFeaturesPerClass;
+    }
+
+    public void setHistogramfeaturesperclass(boolean histogramFeaturesPerClass) {
+        this.histogramFeaturesPerClass = histogramFeaturesPerClass;
+    }
+
+    public boolean getHistograminboundsperpackage() {
+        return histogramInboundsPerPackage;
+    }
+
+    public void setHistograminboundsperpackage(boolean histogramInboundsPerPackage) {
+        this.histogramInboundsPerPackage = histogramInboundsPerPackage;
+    }
+
+    public boolean getHistogramoutboundsperpackage() {
+        return histogramOutboundsPerPackage;
+    }
+
+    public void setHistogramoutboundsperpackage(boolean histogramOutboundsPerPackage) {
+        this.histogramOutboundsPerPackage = histogramOutboundsPerPackage;
+    }
+
+    public boolean getHistograminboundsperclass() {
+        return histogramInboundsPerClass;
+    }
+
+    public void setHistograminboundsperclass(boolean histogramInboundsPerClass) {
+        this.histogramInboundsPerClass = histogramInboundsPerClass;
+    }
+
+    public boolean getHistogramoutboundsperclass() {
+        return histogramOutboundsPerClass;
+    }
+
+    public void setHistogramoutboundsperclass(boolean histogramOutboundsPerClass) {
+        this.histogramOutboundsPerClass = histogramOutboundsPerClass;
+    }
+
+    public boolean getHistograminboundsperfeature() {
+        return histogramInboundsPerFeature;
+    }
+
+    public void setHistograminboundsperfeature(boolean histogramInboundsPerFeature) {
+        this.histogramInboundsPerFeature = histogramInboundsPerFeature;
+    }
+
+    public boolean getHistogramoutboundsperfeature() {
+        return histogramOutboundsPerFeature;
+    }
+
+    public void setHistogramoutboundsperfeature(boolean histogramOutboundsPerFeature) {
+        this.histogramOutboundsPerFeature = histogramOutboundsPerFeature;
+    }
+
+    public void setHistograminbounds(boolean histogramInbounds) {
+        setHistograminboundsperpackage(histogramInbounds);
+        setHistograminboundsperclass(histogramInbounds);
+        setHistograminboundsperfeature(histogramInbounds);
+    }
+
+    public void setHistogramoutbounds(boolean histogramOutbounds) {
+        setHistogramoutboundsperpackage(histogramOutbounds);
+        setHistogramoutboundsperclass(histogramOutbounds);
+        setHistogramoutboundsperfeature(histogramOutbounds);
+    }
+
+    public void setHistogrampackages(boolean histogramPackages) {
+        setHistogramclassesperpackage(histogramPackages);
+        setHistograminboundsperpackage(histogramPackages);
+        setHistogramoutboundsperpackage(histogramPackages);
+    }
+
+    public void setHistogramclasses(boolean histogramClasses) {
+        setHistogramfeaturesperclass(histogramClasses);
+        setHistograminboundsperclass(histogramClasses);
+        setHistogramoutboundsperclass(histogramClasses);
+    }
+
+    public void setHistogramfeatures(boolean histogramFeatures) {
+        setHistograminboundsperfeature(histogramFeatures);
+        setHistogramoutboundsperfeature(histogramFeatures);
+    }
+
+    public void setHistogramall(boolean histogramAll) {
+        setHistogramclassesperpackage(histogramAll);
+        setHistogramfeaturesperclass(histogramAll);
+        setHistograminboundsperpackage(histogramAll);
+        setHistogramoutboundsperpackage(histogramAll);
+        setHistograminboundsperclass(histogramAll);
+        setHistogramoutboundsperclass(histogramAll);
+        setHistograminboundsperfeature(histogramAll);
+        setHistogramoutboundsperfeature(histogramAll);
+    }
+
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
         validateParameters();
@@ -420,14 +534,24 @@ public class DependencyMetrics extends GraphTask {
             MetricsReport reporter = new TextMetricsReport(out);
 
             reporter.setListingElements(getList());
-            reporter.setChartingClassesPerPackage(getChartclassesperpackage());
-            reporter.setChartingFeaturesPerClass(getChartfeaturesperclass());
-            reporter.setChartingInboundsPerPackage(getChartinboundsperpackage());
-            reporter.setChartingOutboundsPerPackage(getChartoutboundsperpackage());
-            reporter.setChartingInboundsPerClass(getChartinboundsperclass());
-            reporter.setChartingOutboundsPerClass(getChartoutboundsperclass());
-            reporter.setChartingInboundsPerFeature(getChartinboundsperfeature());
-            reporter.setChartingOutboundsPerFeature(getChartoutboundsperfeature());
+
+            reporter.setShowingClassesPerPackageChart(getChartclassesperpackage());
+            reporter.setShowingFeaturesPerClassChart(getChartfeaturesperclass());
+            reporter.setShowingInboundsPerPackageChart(getChartinboundsperpackage());
+            reporter.setShowingOutboundsPerPackageChart(getChartoutboundsperpackage());
+            reporter.setShowingInboundsPerClassChart(getChartinboundsperclass());
+            reporter.setShowingOutboundsPerClassChart(getChartoutboundsperclass());
+            reporter.setShowingInboundsPerFeatureChart(getChartinboundsperfeature());
+            reporter.setShowingOutboundsPerFeatureChart(getChartoutboundsperfeature());
+
+            reporter.setShowingClassesPerPackageHistogram(getHistogramclassesperpackage());
+            reporter.setShowingFeaturesPerClassHistogram(getHistogramfeaturesperclass());
+            reporter.setShowingInboundsPerPackageHistogram(getHistograminboundsperpackage());
+            reporter.setShowingOutboundsPerPackageHistogram(getHistogramoutboundsperpackage());
+            reporter.setShowingInboundsPerClassHistogram(getHistograminboundsperclass());
+            reporter.setShowingOutboundsPerClassHistogram(getHistogramoutboundsperclass());
+            reporter.setShowingInboundsPerFeatureHistogram(getHistograminboundsperfeature());
+            reporter.setShowingOutboundsPerFeatureHistogram(getHistogramoutboundsperfeature());
 
             MetricsGatherer metrics = new MetricsGatherer(getStrategy());
             metrics.traverseNodes(factory.getPackages().values());

@@ -122,40 +122,40 @@ public class TextMetricsReport extends MetricsReport {
         }
         println();
 
-        if (isChartingClassesPerPackage() ||
-            isChartingFeaturesPerClass() ||
-            isChartingInboundsPerPackage() ||
-            isChartingOutboundsPerPackage() ||
-            isChartingInboundsPerClass() ||
-            isChartingOutboundsPerClass() ||
-            isChartingInboundsPerFeature() ||
-            isChartingOutboundsPerFeature()) {
+        if (isShowingClassesPerPackageChart() ||
+            isShowingFeaturesPerClassChart() ||
+            isShowingInboundsPerPackageChart() ||
+            isShowingOutboundsPerPackageChart() ||
+            isShowingInboundsPerClassChart() ||
+            isShowingOutboundsPerClassChart() ||
+            isShowingInboundsPerFeatureChart() ||
+            isShowingOutboundsPerFeatureChart()) {
 
             println();
 
             print("n");
-            if (isChartingClassesPerPackage()) {
+            if (isShowingClassesPerPackageChart()) {
                 print(", \"classes per package\"");
             }
-            if (isChartingFeaturesPerClass()) {
+            if (isShowingFeaturesPerClassChart()) {
                 print(", \"features per class\"");
             }
-            if (isChartingInboundsPerPackage()) {
+            if (isShowingInboundsPerPackageChart()) {
                 print(", \"inbounds per package\"");
             }
-            if (isChartingOutboundsPerPackage()) {
+            if (isShowingOutboundsPerPackageChart()) {
                 print(", \"outbounds per package\"");
             }
-            if (isChartingInboundsPerClass()) {
+            if (isShowingInboundsPerClassChart()) {
                 print(", \"inbounds per class\"");
             }
-            if (isChartingOutboundsPerClass()) {
+            if (isShowingOutboundsPerClassChart()) {
                 print(", \"outbounds per class\"");
             }
-            if (isChartingInboundsPerFeature()) {
+            if (isShowingInboundsPerFeatureChart()) {
                 print(", \"inbounds per feature\"");
             }
-            if (isChartingOutboundsPerFeature()) {
+            if (isShowingOutboundsPerFeatureChart()) {
                 print(", \"outbounds per feature\"");
             }
             println();
@@ -164,28 +164,28 @@ public class TextMetricsReport extends MetricsReport {
                 long[] dataPoint = metrics.getChartData(k);
 
                 print(k);
-                if (isChartingClassesPerPackage()) {
+                if (isShowingClassesPerPackageChart()) {
                     print(", " + dataPoint[MetricsGatherer.CLASSES_PER_PACKAGE]);
                 }
-                if (isChartingFeaturesPerClass()) {
+                if (isShowingFeaturesPerClassChart()) {
                     print(", " + dataPoint[MetricsGatherer.FEATURES_PER_CLASS]);
                 }
-                if (isChartingInboundsPerPackage()) {
+                if (isShowingInboundsPerPackageChart()) {
                     print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_PACKAGE]);
                 }
-                if (isChartingOutboundsPerPackage()) {
+                if (isShowingOutboundsPerPackageChart()) {
                     print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_PACKAGE]);
                 }
-                if (isChartingInboundsPerClass()) {
+                if (isShowingInboundsPerClassChart()) {
                     print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_CLASS]);
                 }
-                if (isChartingOutboundsPerClass()) {
+                if (isShowingOutboundsPerClassChart()) {
                     print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_CLASS]);
                 }
-                if (isChartingInboundsPerFeature()) {
+                if (isShowingInboundsPerFeatureChart()) {
                     print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_FEATURE]);
                 }
-                if (isChartingOutboundsPerFeature()) {
+                if (isShowingOutboundsPerFeatureChart()) {
                     print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_FEATURE]);
                 }
                 println();

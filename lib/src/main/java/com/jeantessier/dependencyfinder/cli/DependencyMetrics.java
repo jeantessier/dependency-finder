@@ -52,6 +52,7 @@ public class DependencyMetrics extends DependencyGraphCommand {
         getCommandLine().addAliasSwitch("excludes", "scope-excludes", "filter-excludes");
 
         getCommandLine().addToggleSwitch("list");
+
         getCommandLine().addToggleSwitch("chart-classes-per-package");
         getCommandLine().addToggleSwitch("chart-features-per-class");
         getCommandLine().addToggleSwitch("chart-inbounds-per-package");
@@ -67,6 +68,22 @@ public class DependencyMetrics extends DependencyGraphCommand {
         getCommandLine().addAliasSwitch("chart-classes", "chart-features-per-class", "chart-inbounds-per-class", "chart-outbounds-per-class");
         getCommandLine().addAliasSwitch("chart-features", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
         getCommandLine().addAliasSwitch("chart-all", "chart-classes-per-package", "chart-features-per-class", "chart-inbounds-per-package", "chart-outbounds-per-package", "chart-inbounds-per-class", "chart-outbounds-per-class", "chart-inbounds-per-feature", "chart-outbounds-per-feature");
+
+        getCommandLine().addToggleSwitch("histogram-classes-per-package");
+        getCommandLine().addToggleSwitch("histogram-features-per-class");
+        getCommandLine().addToggleSwitch("histogram-inbounds-per-package");
+        getCommandLine().addToggleSwitch("histogram-outbounds-per-package");
+        getCommandLine().addToggleSwitch("histogram-inbounds-per-class");
+        getCommandLine().addToggleSwitch("histogram-outbounds-per-class");
+        getCommandLine().addToggleSwitch("histogram-inbounds-per-feature");
+        getCommandLine().addToggleSwitch("histogram-outbounds-per-feature");
+
+        getCommandLine().addAliasSwitch("histogram-inbounds", "histogram-inbounds-per-package", "histogram-inbounds-per-class", "histogram-inbounds-per-feature");
+        getCommandLine().addAliasSwitch("histogram-outbounds", "histogram-outbounds-per-package", "histogram-outbounds-per-class", "histogram-outbounds-per-feature");
+        getCommandLine().addAliasSwitch("histogram-packages", "histogram-classes-per-package", "histogram-inbounds-per-package", "histogram-outbounds-per-package");
+        getCommandLine().addAliasSwitch("histogram-classes", "histogram-features-per-class", "histogram-inbounds-per-class", "histogram-outbounds-per-class");
+        getCommandLine().addAliasSwitch("histogram-features", "histogram-inbounds-per-feature", "histogram-outbounds-per-feature");
+        getCommandLine().addAliasSwitch("histogram-all", "histogram-classes-per-package", "histogram-features-per-class", "histogram-inbounds-per-package", "histogram-outbounds-per-package", "histogram-inbounds-per-class", "histogram-outbounds-per-class", "histogram-inbounds-per-feature", "histogram-outbounds-per-feature");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -82,14 +99,22 @@ public class DependencyMetrics extends DependencyGraphCommand {
         MetricsReport reporter = new TextMetricsReport(getOut());
 
         reporter.setListingElements(getCommandLine().getToggleSwitch("list"));
-        reporter.setChartingClassesPerPackage(getCommandLine().getToggleSwitch("chart-classes-per-package"));
-        reporter.setChartingFeaturesPerClass(getCommandLine().getToggleSwitch("chart-features-per-class"));
-        reporter.setChartingInboundsPerPackage(getCommandLine().getToggleSwitch("chart-inbounds-per-package"));
-        reporter.setChartingOutboundsPerPackage(getCommandLine().getToggleSwitch("chart-outbounds-per-package"));
-        reporter.setChartingInboundsPerClass(getCommandLine().getToggleSwitch("chart-inbounds-per-class"));
-        reporter.setChartingOutboundsPerClass(getCommandLine().getToggleSwitch("chart-outbounds-per-class"));
-        reporter.setChartingInboundsPerFeature(getCommandLine().getToggleSwitch("chart-inbounds-per-feature"));
-        reporter.setChartingOutboundsPerFeature(getCommandLine().getToggleSwitch("chart-outbounds-per-feature"));
+        reporter.setShowingClassesPerPackageChart(getCommandLine().getToggleSwitch("chart-classes-per-package"));
+        reporter.setShowingFeaturesPerClassChart(getCommandLine().getToggleSwitch("chart-features-per-class"));
+        reporter.setShowingInboundsPerPackageChart(getCommandLine().getToggleSwitch("chart-inbounds-per-package"));
+        reporter.setShowingOutboundsPerPackageChart(getCommandLine().getToggleSwitch("chart-outbounds-per-package"));
+        reporter.setShowingInboundsPerClassChart(getCommandLine().getToggleSwitch("chart-inbounds-per-class"));
+        reporter.setShowingOutboundsPerClassChart(getCommandLine().getToggleSwitch("chart-outbounds-per-class"));
+        reporter.setShowingInboundsPerFeatureChart(getCommandLine().getToggleSwitch("chart-inbounds-per-feature"));
+        reporter.setShowingOutboundsPerFeatureChart(getCommandLine().getToggleSwitch("chart-outbounds-per-feature"));
+        reporter.setShowingClassesPerPackageHistogram(getCommandLine().getToggleSwitch("histogram-classes-per-package"));
+        reporter.setShowingFeaturesPerClassHistogram(getCommandLine().getToggleSwitch("histogram-features-per-class"));
+        reporter.setShowingInboundsPerPackageHistogram(getCommandLine().getToggleSwitch("histogram-inbounds-per-package"));
+        reporter.setShowingOutboundsPerPackageHistogram(getCommandLine().getToggleSwitch("histogram-outbounds-per-package"));
+        reporter.setShowingInboundsPerClassHistogram(getCommandLine().getToggleSwitch("histogram-inbounds-per-class"));
+        reporter.setShowingOutboundsPerClassHistogram(getCommandLine().getToggleSwitch("histogram-outbounds-per-class"));
+        reporter.setShowingInboundsPerFeatureHistogram(getCommandLine().getToggleSwitch("histogram-inbounds-per-feature"));
+        reporter.setShowingOutboundsPerFeatureHistogram(getCommandLine().getToggleSwitch("histogram-outbounds-per-feature"));
 
         SelectionCriteria scopeCriteria = getScopeCriteria();
         SelectionCriteria filterCriteria = getFilterCriteria();
