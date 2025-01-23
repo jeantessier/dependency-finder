@@ -49,6 +49,30 @@ public class JSONMetricsReport extends MetricsReport {
         print(",");
         printDependencyStats(metrics);
 
+        if (isShowingClassesPerPackageHistogram() ||
+                isShowingFeaturesPerClassHistogram() ||
+                isShowingInboundsPerPackageHistogram() ||
+                isShowingOutboundsPerPackageHistogram() ||
+                isShowingInboundsPerClassHistogram() ||
+                isShowingOutboundsPerClassHistogram() ||
+                isShowingInboundsPerFeatureHistogram() ||
+                isShowingOutboundsPerFeatureHistogram()) {
+            print(",");
+            printHistograms(metrics);
+        }
+
+        if (isShowingClassesPerPackageChart() ||
+                isShowingFeaturesPerClassChart() ||
+                isShowingInboundsPerPackageChart() ||
+                isShowingOutboundsPerPackageChart() ||
+                isShowingInboundsPerClassChart() ||
+                isShowingOutboundsPerClassChart() ||
+                isShowingInboundsPerFeatureChart() ||
+                isShowingOutboundsPerFeatureChart()) {
+            print(",");
+            printChart(metrics);
+        }
+
         print("}");
         println();
     }
@@ -113,5 +137,118 @@ public class JSONMetricsReport extends MetricsReport {
         print("\"featureRatio\":" + (metrics.getNbInboundFeatures() / (double) metrics.getFeatures().size()) + ",");
         print("\"total\":" + metrics.getNbInbound());
         print("}");
+    }
+
+    private void printHistograms(MetricsGatherer metrics) {
+        var histograms = new HashMap<String, Map<Long, Long>>();
+
+        if (isShowingClassesPerPackageHistogram()) {
+            histograms.put("classesPerPackage", metrics.getHistogram(MetricsGatherer.CLASSES_PER_PACKAGE));
+        }
+
+        if (isShowingFeaturesPerClassHistogram()) {
+            histograms.put("featuresPerClass", metrics.getHistogram(MetricsGatherer.FEATURES_PER_CLASS));
+        }
+
+        if (isShowingInboundsPerPackageHistogram()) {
+            histograms.put("inboundsPerPackage", metrics.getHistogram(MetricsGatherer.INBOUNDS_PER_PACKAGE));
+        }
+
+        if (isShowingOutboundsPerPackageHistogram()) {
+            histograms.put("outboundsPerPackage", metrics.getHistogram(MetricsGatherer.OUTBOUNDS_PER_PACKAGE));
+        }
+
+        if (isShowingInboundsPerClassHistogram()) {
+            histograms.put("inboundsPerClass", metrics.getHistogram(MetricsGatherer.OUTBOUNDS_PER_CLASS));
+        }
+
+        if (isShowingOutboundsPerClassHistogram()) {
+            histograms.put("outboundsPerClass", metrics.getHistogram(MetricsGatherer.OUTBOUNDS_PER_CLASS));
+        }
+
+        if (isShowingInboundsPerFeatureHistogram()) {
+            histograms.put("inboundsPerFeature", metrics.getHistogram(MetricsGatherer.OUTBOUNDS_PER_FEATURE));
+        }
+
+        if (isShowingOutboundsPerFeatureHistogram()) {
+            histograms.put("outboundsPerFeature", metrics.getHistogram(MetricsGatherer.OUTBOUNDS_PER_FEATURE));
+        }
+
+        print("\"histograms\":{");
+        print(
+                histograms.entrySet().stream()
+                        .map(entry ->
+                                "\"" + entry.getKey() + "\":[" + new TreeMap<>(entry.getValue()).entrySet().stream().map(pair -> "[" + pair.getKey() + "," + pair.getValue() + "]").collect(joining(",")) + "]")
+                        .collect(joining(","))
+        );
+        print("}");
+    }
+
+    private void printChart(MetricsGatherer metrics) {
+        print("\"chart\":[");
+
+        // Headings
+        print("[");
+        print("\"n\"");
+        if (isShowingClassesPerPackageChart()) {
+            print(",\"classes per package\"");
+        }
+        if (isShowingFeaturesPerClassChart()) {
+            print(",\"features per class\"");
+        }
+        if (isShowingInboundsPerPackageChart()) {
+            print(",\"inbounds per package\"");
+        }
+        if (isShowingOutboundsPerPackageChart()) {
+            print(",\"outbounds per package\"");
+        }
+        if (isShowingInboundsPerClassChart()) {
+            print(",\"inbounds per class\"");
+        }
+        if (isShowingOutboundsPerClassChart()) {
+            print(",\"outbounds per class\"");
+        }
+        if (isShowingInboundsPerFeatureChart()) {
+            print(",\"inbounds per feature\"");
+        }
+        if (isShowingOutboundsPerFeatureChart()) {
+            print(",\"outbounds per feature\"");
+        }
+        print("]");
+
+        // Data
+        for (int k=0; k<=metrics.getChartMaximum(); k++) {
+            long[] dataPoint = metrics.getChartData(k);
+
+            print(",[");
+            print(k);
+            if (isShowingClassesPerPackageChart()) {
+                print("," + dataPoint[MetricsGatherer.CLASSES_PER_PACKAGE]);
+            }
+            if (isShowingFeaturesPerClassChart()) {
+                print("," + dataPoint[MetricsGatherer.FEATURES_PER_CLASS]);
+            }
+            if (isShowingInboundsPerPackageChart()) {
+                print("," + dataPoint[MetricsGatherer.INBOUNDS_PER_PACKAGE]);
+            }
+            if (isShowingOutboundsPerPackageChart()) {
+                print("," + dataPoint[MetricsGatherer.OUTBOUNDS_PER_PACKAGE]);
+            }
+            if (isShowingInboundsPerClassChart()) {
+                print("," + dataPoint[MetricsGatherer.INBOUNDS_PER_CLASS]);
+            }
+            if (isShowingOutboundsPerClassChart()) {
+                print("," + dataPoint[MetricsGatherer.OUTBOUNDS_PER_CLASS]);
+            }
+            if (isShowingInboundsPerFeatureChart()) {
+                print("," + dataPoint[MetricsGatherer.INBOUNDS_PER_FEATURE]);
+            }
+            if (isShowingOutboundsPerFeatureChart()) {
+                print("," + dataPoint[MetricsGatherer.OUTBOUNDS_PER_FEATURE]);
+            }
+            print("]");
+        }
+
+        print("]");
     }
 }

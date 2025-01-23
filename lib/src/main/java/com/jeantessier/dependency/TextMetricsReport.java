@@ -41,21 +41,18 @@ public class TextMetricsReport extends MetricsReport {
     }
 
     public void process(MetricsGatherer metrics) {
-        int nbPackages = metrics.getPackages().size();
-        int nbClasses = metrics.getClasses().size();
-        int nbFeatures = metrics.getFeatures().size();
-
-        printProgrammingElements(metrics, nbPackages, nbClasses, nbFeatures);
+        printProgrammingElements(metrics);
 
         println();
 
-        printDependencyStats(metrics, nbPackages, nbClasses, nbFeatures);
+        printDependencyStats(metrics);
 
         printHistograms(metrics);
         printChart(metrics);
     }
 
-    private void printProgrammingElements(MetricsGatherer metrics, int nbPackages, int nbClasses, int nbFeatures) {
+    private void printProgrammingElements(MetricsGatherer metrics) {
+        int nbPackages = metrics.getPackages().size();
         print(nbPackages + " package(s)");
         if (nbPackages > 0) {
             var nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
@@ -66,6 +63,7 @@ public class TextMetricsReport extends MetricsReport {
             metrics.getPackages().forEach(node -> println("    " + node));
         }
 
+        int nbClasses = metrics.getClasses().size();
         print(nbClasses + " class(es)");
         if (nbClasses > 0) {
             var nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());
@@ -76,6 +74,7 @@ public class TextMetricsReport extends MetricsReport {
             metrics.getClasses().forEach(node -> println("    " + node));
         }
 
+        int nbFeatures = metrics.getFeatures().size();
         print(nbFeatures + " feature(s)");
         if (nbFeatures > 0) {
             var nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());
@@ -87,9 +86,10 @@ public class TextMetricsReport extends MetricsReport {
         }
     }
 
-    private void printDependencyStats(MetricsGatherer metrics, int nbPackages, int nbClasses, int nbFeatures) {
+    private void printDependencyStats(MetricsGatherer metrics) {
         println(metrics.getNbOutbound() + " outbound link(s)");
 
+        int nbPackages = metrics.getPackages().size();
         long nbOutboundPackages = metrics.getNbOutboundPackages();
         print("    " + nbOutboundPackages + " from package(s)");
         if (nbOutboundPackages > 0 && nbPackages > 0) {
@@ -97,6 +97,7 @@ public class TextMetricsReport extends MetricsReport {
         }
         println();
 
+        int nbClasses = metrics.getClasses().size();
         long nbOutboundClasses = metrics.getNbOutboundClasses();
         print("    " + nbOutboundClasses + " from class(es)");
         if (nbOutboundClasses > 0 && nbClasses > 0) {
@@ -104,6 +105,7 @@ public class TextMetricsReport extends MetricsReport {
         }
         println();
 
+        int nbFeatures = metrics.getFeatures().size();
         long nbOutboundFeatures = metrics.getNbOutboundFeatures();
         print("    " + nbOutboundFeatures + " from feature(s)");
         if (nbOutboundFeatures > 0 && nbFeatures > 0) {
