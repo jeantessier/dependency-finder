@@ -33,6 +33,9 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
 
 public class MetricsGatherer extends VisitorBase {
     private final Collection<PackageNode> packages = new LinkedList<>();
@@ -61,15 +64,17 @@ public class MetricsGatherer extends VisitorBase {
     public static final int OUTBOUNDS_PER_FEATURE = 8;
     public static final int NB_CHARTS             = 9;
 
-    private static final String[] CHART_NAMES = {"n",
-                                                 "Classes per Package",
-                                                 "Features per Class",
-                                                 "Inbounds per Package",
-                                                 "Outbounds per Package",
-                                                 "Inbounds per Class",
-                                                 "Outbounds per Class",
-                                                 "Inbounds per Feature",
-                                                 "Outbounds per Feature"};
+    private static final String[] CHART_NAMES = {
+            "n",
+            "Classes per Package",
+            "Features per Class",
+            "Inbounds per Package",
+            "Outbounds per Package",
+            "Inbounds per Class",
+            "Outbounds per Class",
+            "Inbounds per Feature",
+            "Outbounds per Feature",
+    };
 
     public static int getNbCharts() {
         return NB_CHARTS;
@@ -87,6 +92,11 @@ public class MetricsGatherer extends VisitorBase {
         super(strategy);
     }
 
+    /**
+     * Returns a slice of all the charts at value <code>i</code>.
+     * @param i the value of the slice
+     * @return an array of long values, one for each chart
+     */
     public long[] getChartData(int i) {
         long[] result = chartData.get(i);
 
@@ -103,6 +113,37 @@ public class MetricsGatherer extends VisitorBase {
         return result;
     }
 
+    /**
+     * Returns an individual chart, including all indices where it is zero.
+     * @param chart which chart to return
+     * @return an array of long values for each index
+     */
+    public long[] getChart(int chart) {
+        return IntStream.rangeClosed(0, getChartMaximum())
+                .mapToLong(i -> getChartData(i)[chart])
+                .toArray();
+    }
+
+    /**
+     * Returns a histogram for an individual chart (without the zeroes).
+     * @param chart which chart to compute the histogram for
+     * @return a <code>Map</code> of values and counts at that value
+     */
+    public Map<Long, Long> getHistogram(int chart) {
+        return IntStream.rangeClosed(0, getChartMaximum())
+                .filter(i -> getChartData(i)[chart] > 0)
+                .boxed()
+                .collect(toMap(
+                        Long::valueOf,
+                        i -> getChartData(i)[chart]
+                ));
+    }
+
+    /**
+     * Returns the maximum value across all charts.
+     * All charts will be this long.
+     * @return the maximum value across all charts
+     */
     public int getChartMaximum() {
         return chartMaximum;
     }
