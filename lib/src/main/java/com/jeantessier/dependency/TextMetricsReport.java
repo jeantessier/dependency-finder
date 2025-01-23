@@ -45,7 +45,7 @@ public class TextMetricsReport extends MetricsReport {
         int nbClasses = metrics.getClasses().size();
         int nbFeatures = metrics.getFeatures().size();
 
-        printNodeStats(metrics, nbPackages, nbClasses, nbFeatures);
+        printProgrammingElements(metrics, nbPackages, nbClasses, nbFeatures);
 
         println();
 
@@ -55,7 +55,7 @@ public class TextMetricsReport extends MetricsReport {
         printChart(metrics);
     }
 
-    private void printNodeStats(MetricsGatherer metrics, int nbPackages, int nbClasses, int nbFeatures) {
+    private void printProgrammingElements(MetricsGatherer metrics, int nbPackages, int nbClasses, int nbFeatures) {
         print(nbPackages + " package(s)");
         if (nbPackages > 0) {
             var nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
@@ -245,9 +245,5 @@ public class TextMetricsReport extends MetricsReport {
                 println();
             }
         }
-    }
-
-    private long countConfirmedNodes(Collection<? extends Node> nodes) {
-        return nodes.parallelStream().filter(Node::isConfirmed).count();
     }
 }

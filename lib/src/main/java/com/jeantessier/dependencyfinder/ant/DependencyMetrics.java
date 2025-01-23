@@ -66,7 +66,7 @@ public class DependencyMetrics extends GraphTask {
     private String  featureFilterIncludes = "";
     private String  featureFilterExcludes = "";
 
-    private boolean list                     = false;
+    private boolean list = false;
 
     private boolean chartClassesPerPackage   = false;
     private boolean chartFeaturesPerClass    = false;
@@ -85,6 +85,8 @@ public class DependencyMetrics extends GraphTask {
     private boolean histogramOutboundsPerClass   = false;
     private boolean histogramInboundsPerFeature  = false;
     private boolean histogramOutboundsPerFeature = false;
+
+    private boolean json = false;
 
     public String getScopeincludes() {
         return scopeIncludes;
@@ -508,6 +510,14 @@ public class DependencyMetrics extends GraphTask {
         setHistogramoutboundsperfeature(histogramAll);
     }
 
+    public boolean getJson() {
+        return json;
+    }
+
+    public void setJson(boolean json) {
+        this.json = json;
+    }
+
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
         validateParameters();
@@ -531,7 +541,12 @@ public class DependencyMetrics extends GraphTask {
 
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
-            MetricsReport reporter = new TextMetricsReport(out);
+            MetricsReport reporter;
+            if (getJson()) {
+                reporter = new JSONMetricsReport(out);
+            } else {
+                reporter = new TextMetricsReport(out);
+            }
 
             reporter.setListingElements(getList());
 

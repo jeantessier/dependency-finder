@@ -33,6 +33,7 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
+import java.util.*;
 
 public abstract class MetricsReport {
     private final PrintWriter out;
@@ -213,5 +214,9 @@ public abstract class MetricsReport {
 
     protected void println(String s) {
         out.println(s);
+    }
+
+    protected long countConfirmedNodes(Collection<? extends Node> nodes) {
+        return nodes.parallelStream().filter(Node::isConfirmed).count();
     }
 }

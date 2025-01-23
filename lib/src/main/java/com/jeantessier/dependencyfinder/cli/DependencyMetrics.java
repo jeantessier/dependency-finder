@@ -84,6 +84,8 @@ public class DependencyMetrics extends DependencyGraphCommand {
         getCommandLine().addAliasSwitch("histogram-classes", "histogram-features-per-class", "histogram-inbounds-per-class", "histogram-outbounds-per-class");
         getCommandLine().addAliasSwitch("histogram-features", "histogram-inbounds-per-feature", "histogram-outbounds-per-feature");
         getCommandLine().addAliasSwitch("histogram-all", "histogram-classes-per-package", "histogram-features-per-class", "histogram-inbounds-per-package", "histogram-outbounds-per-package", "histogram-inbounds-per-class", "histogram-outbounds-per-class", "histogram-inbounds-per-feature", "histogram-outbounds-per-feature");
+
+        getCommandLine().addToggleSwitch("json");
     }
 
     protected Collection<CommandLineException> parseCommandLine(String[] args) {
@@ -96,7 +98,12 @@ public class DependencyMetrics extends DependencyGraphCommand {
     }
 
     public void doProcessing() throws Exception {
-        MetricsReport reporter = new TextMetricsReport(getOut());
+        MetricsReport reporter;
+        if (getCommandLine().getToggleSwitch("json")) {
+            reporter = new JSONMetricsReport(getOut());
+        } else {
+            reporter = new TextMetricsReport(getOut());
+        }
 
         reporter.setListingElements(getCommandLine().getToggleSwitch("list"));
         reporter.setShowingClassesPerPackageChart(getCommandLine().getToggleSwitch("chart-classes-per-package"));

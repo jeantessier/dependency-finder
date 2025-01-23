@@ -5963,6 +5963,7 @@ number of entering vertices, and number of exiting vertices.
         [-histogram-outbounds-per-package]
         [-histogram-packages]
         [-includes value]*
+        [-json]
         [-list]
         [-out filename]
         [-p2p]
@@ -6829,6 +6830,20 @@ Shorthand for the combination of:
 <tr><td>Mandatory:</td><td>no</td></tr>
 <tr><td>Multiples:</td><td>yes</td></tr>
 <tr><td>Default value:</td><td>=//=</td></tr>
+</table>
+
+</blockquote>
+
+---++++ =-json=
+
+<blockquote>
+
+Outputs a JSON document instead of human-readable text.
+
+<table border="0">
+<tr><td>Mandatory:</td><td>no</td></tr>
+<tr><td>Multiples:</td><td>no</td></tr>
+<tr><td>Default value:</td><td>none</td></tr>
 </table>
 
 </blockquote>
