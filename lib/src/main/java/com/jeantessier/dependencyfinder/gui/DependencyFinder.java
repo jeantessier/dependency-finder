@@ -39,16 +39,8 @@ import com.jeantessier.classreader.Monitor;
 import com.jeantessier.commandline.CommandLine;
 import com.jeantessier.commandline.CommandLineUsage;
 import com.jeantessier.commandline.NullParameterStrategy;
-import com.jeantessier.dependency.CodeDependencyCollector;
-import com.jeantessier.dependency.DeletingVisitor;
-import com.jeantessier.dependency.GraphCopier;
-import com.jeantessier.dependency.GraphSummarizer;
-import com.jeantessier.dependency.MetricsReport;
-import com.jeantessier.dependency.NodeFactory;
-import com.jeantessier.dependency.PackageNode;
-import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
-import com.jeantessier.dependency.SelectiveTraversalStrategy;
-import com.jeantessier.dependency.TransitiveClosure;
+import com.jeantessier.dependency.*;
+import com.jeantessier.dependency.TextMetricsReport;
 import org.apache.logging.log4j.*;
 
 import javax.swing.*;
@@ -1271,7 +1263,7 @@ public class DependencyFinder extends JFrame {
         metrics.traverseNodes(getPackages());
 
         var out = new StringWriter();
-        var report = new MetricsReport(new PrintWriter(out));
+        var report = new TextMetricsReport(new PrintWriter(out));
         report.process(metrics);
         
         metricsResultArea.setText(out.toString());

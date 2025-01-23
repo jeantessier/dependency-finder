@@ -33,12 +33,12 @@
 package com.jeantessier.dependency;
 
 import java.io.*;
-import java.util.*;
 
-public class MetricsReport {
+public abstract class MetricsReport {
     private final PrintWriter out;
 
     private boolean listingElements = false;
+
     private boolean chartingClassesPerPackage = false;
     private boolean chartingFeaturesPerClass = false;
     private boolean chartingInboundsPerPackage = false;
@@ -124,160 +124,21 @@ public class MetricsReport {
         this.chartingOutboundsPerFeature = chartingOutboundsPerFeature;
     }
 
-    public void process(MetricsGatherer metrics) {
-        int nbPackages = metrics.getPackages().size();
-        out.print(nbPackages + " package(s)");
-        if (nbPackages > 0) {
-            var nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
-            out.print(" (" + nbConfirmedPackages + " confirmed, " + (nbConfirmedPackages / (double) nbPackages) + ")");
-        }
-        out.println();
-        if (isListingElements()) {
-            metrics.getPackages().forEach(node -> out.println("    " + node));
-        }
+    public abstract void process(MetricsGatherer metrics);
 
-        int nbClasses = metrics.getClasses().size();
-        out.print(nbClasses + " class(es)");
-        if (nbClasses > 0) {
-            var nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());
-            out.print(" (" + nbConfirmedClasses + " confirmed, " + (nbConfirmedClasses / (double) nbClasses) + ")");
-        }
-        out.println();
-        if (isListingElements()) {
-            metrics.getClasses().forEach(node -> out.println("    " + node));
-        }
-
-        int nbFeatures = metrics.getFeatures().size();
-        out.print(nbFeatures + " feature(s)");
-        if (nbFeatures > 0) {
-            var nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());
-            out.print(" (" + nbConfirmedFeatures + " confirmed, " + (nbConfirmedFeatures / (double) nbFeatures) + ")");
-        }
-        out.println();
-        if (isListingElements()) {
-            metrics.getFeatures().forEach(node -> out.println("    " + node));
-        }
-
-        out.println();
-
-        out.println(metrics.getNbOutbound() + " outbound link(s)");
-
-        long nbOutboundPackages = metrics.getNbOutboundPackages();
-        out.print("    " + nbOutboundPackages + " from package(s)");
-        if (nbOutboundPackages > 0 && nbPackages > 0) {
-            out.print(" (on average " + (nbOutboundPackages / (double) nbPackages) + " per package)");
-        }
-        out.println();
-
-        long nbOutboundClasses = metrics.getNbOutboundClasses();
-        out.print("    " + nbOutboundClasses + " from class(es)");
-        if (nbOutboundClasses > 0 && nbClasses > 0) {
-            out.print(" (on average " + (nbOutboundClasses / (double) nbClasses) + " per class)");
-        }
-        out.println();
-
-        long nbOutboundFeatures = metrics.getNbOutboundFeatures();
-        out.print("    " + nbOutboundFeatures + " from feature(s)");
-        if (nbOutboundFeatures > 0 && nbFeatures > 0) {
-            out.print(" (on average " + (nbOutboundFeatures / (double) nbFeatures) + " per feature)");
-        }
-        out.println();
-
-        out.println(metrics.getNbInbound() + " inbound link(s)");
-
-        long nbInboundPackages = metrics.getNbInboundPackages();
-        out.print("    " + nbInboundPackages + " to package(s)");
-        if (nbInboundPackages > 0 && nbPackages > 0) {
-            out.print(" (on average " + (nbInboundPackages / (double) nbPackages) + " per package)");
-        }
-        out.println();
-
-        long nbInboundClasses = metrics.getNbInboundClasses();
-        out.print("    " + nbInboundClasses + " to class(es)");
-        if (nbInboundClasses > 0 && nbClasses > 0) {
-            out.print(" (on average " + (nbInboundClasses / (double) nbClasses) + " per class)");
-        }
-        out.println();
-
-        long nbInboundFeatures = metrics.getNbInboundFeatures();
-        out.print("    " + nbInboundFeatures + " to feature(s)");
-        if (nbInboundFeatures > 0 && nbFeatures > 0) {
-            out.print(" (on average " + (nbInboundFeatures / (double) nbFeatures) + " per feature)");
-        }
-        out.println();
-
-        if (isChartingClassesPerPackage() ||
-            isChartingFeaturesPerClass() ||
-            isChartingInboundsPerPackage() ||
-            isChartingOutboundsPerPackage() ||
-            isChartingInboundsPerClass() ||
-            isChartingOutboundsPerClass() ||
-            isChartingInboundsPerFeature() ||
-            isChartingOutboundsPerFeature()) {
-
-            out.println();
-
-            out.print("n");
-            if (isChartingClassesPerPackage()) {
-                out.print(", \"classes per package\"");
-            }
-            if (isChartingFeaturesPerClass()) {
-                out.print(", \"features per class\"");
-            }
-            if (isChartingInboundsPerPackage()) {
-                out.print(", \"inbounds per package\"");
-            }
-            if (isChartingOutboundsPerPackage()) {
-                out.print(", \"outbounds per package\"");
-            }
-            if (isChartingInboundsPerClass()) {
-                out.print(", \"inbounds per class\"");
-            }
-            if (isChartingOutboundsPerClass()) {
-                out.print(", \"outbounds per class\"");
-            }
-            if (isChartingInboundsPerFeature()) {
-                out.print(", \"inbounds per feature\"");
-            }
-            if (isChartingOutboundsPerFeature()) {
-                out.print(", \"outbounds per feature\"");
-            }
-            out.println();
-
-            for (int k=0; k<=metrics.getChartMaximum(); k++) {
-                long[] dataPoint = metrics.getChartData(k);
-
-                out.print(k);
-                if (isChartingClassesPerPackage()) {
-                    out.print(", " + dataPoint[MetricsGatherer.CLASSES_PER_PACKAGE]);
-                }
-                if (isChartingFeaturesPerClass()) {
-                    out.print(", " + dataPoint[MetricsGatherer.FEATURES_PER_CLASS]);
-                }
-                if (isChartingInboundsPerPackage()) {
-                    out.print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_PACKAGE]);
-                }
-                if (isChartingOutboundsPerPackage()) {
-                    out.print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_PACKAGE]);
-                }
-                if (isChartingInboundsPerClass()) {
-                    out.print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_CLASS]);
-                }
-                if (isChartingOutboundsPerClass()) {
-                    out.print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_CLASS]);
-                }
-                if (isChartingInboundsPerFeature()) {
-                    out.print(", " + dataPoint[MetricsGatherer.INBOUNDS_PER_FEATURE]);
-                }
-                if (isChartingOutboundsPerFeature()) {
-                    out.print(", " + dataPoint[MetricsGatherer.OUTBOUNDS_PER_FEATURE]);
-                }
-                out.println();
-            }
-        }
+    protected void print(int i) {
+        out.print(i);
     }
 
-    private long countConfirmedNodes(Collection<? extends Node> nodes) {
-        return nodes.parallelStream().filter(Node::isConfirmed).count();
+    protected void print(String s) {
+        out.print(s);
+    }
+
+    protected void println() {
+        out.println();
+    }
+
+    protected void println(String s) {
+        out.println(s);
     }
 }

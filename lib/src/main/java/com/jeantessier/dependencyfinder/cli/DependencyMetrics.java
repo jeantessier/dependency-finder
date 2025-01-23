@@ -79,7 +79,7 @@ public class DependencyMetrics extends DependencyGraphCommand {
     }
 
     public void doProcessing() throws Exception {
-        MetricsReport reporter = new MetricsReport(getOut());
+        MetricsReport reporter = new TextMetricsReport(getOut());
 
         reporter.setListingElements(getCommandLine().getToggleSwitch("list"));
         reporter.setChartingClassesPerPackage(getCommandLine().getToggleSwitch("chart-classes-per-package"));

@@ -408,7 +408,7 @@
             MetricsGatherer metrics = new MetricsGatherer(strategy);
             metrics.traverseNodes(((NodeFactory) application.getAttribute("factory")).getPackages().values());
         
-            MetricsReport reporter = new MetricsReport(new PrintWriter(out));
+            MetricsReport reporter = new TextMetricsReport(new PrintWriter(out));
             reporter.setListingElements(listElements);
             reporter.process(metrics);
 

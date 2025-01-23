@@ -417,7 +417,7 @@ public class DependencyMetrics extends GraphTask {
 
             PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));
 
-            MetricsReport reporter = new MetricsReport(out);
+            MetricsReport reporter = new TextMetricsReport(out);
 
             reporter.setListingElements(getList());
             reporter.setChartingClassesPerPackage(getChartclassesperpackage());
