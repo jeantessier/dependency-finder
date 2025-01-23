@@ -42,6 +42,20 @@ public class TextMetricsReport extends MetricsReport {
 
     public void process(MetricsGatherer metrics) {
         int nbPackages = metrics.getPackages().size();
+        int nbClasses = metrics.getClasses().size();
+        int nbFeatures = metrics.getFeatures().size();
+
+        printNodeStats(metrics, nbPackages, nbClasses, nbFeatures);
+
+        println();
+
+        printDependencyStats(metrics, nbPackages, nbClasses, nbFeatures);
+
+        printHistograms(metrics);
+        printChart(metrics);
+    }
+
+    private void printNodeStats(MetricsGatherer metrics, int nbPackages, int nbClasses, int nbFeatures) {
         print(nbPackages + " package(s)");
         if (nbPackages > 0) {
             var nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());
@@ -52,7 +66,6 @@ public class TextMetricsReport extends MetricsReport {
             metrics.getPackages().forEach(node -> println("    " + node));
         }
 
-        int nbClasses = metrics.getClasses().size();
         print(nbClasses + " class(es)");
         if (nbClasses > 0) {
             var nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());
@@ -63,7 +76,6 @@ public class TextMetricsReport extends MetricsReport {
             metrics.getClasses().forEach(node -> println("    " + node));
         }
 
-        int nbFeatures = metrics.getFeatures().size();
         print(nbFeatures + " feature(s)");
         if (nbFeatures > 0) {
             var nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());
@@ -73,9 +85,9 @@ public class TextMetricsReport extends MetricsReport {
         if (isListingElements()) {
             metrics.getFeatures().forEach(node -> println("    " + node));
         }
+    }
 
-        println();
-
+    private void printDependencyStats(MetricsGatherer metrics, int nbPackages, int nbClasses, int nbFeatures) {
         println(metrics.getNbOutbound() + " outbound link(s)");
 
         long nbOutboundPackages = metrics.getNbOutboundPackages();
@@ -121,15 +133,57 @@ public class TextMetricsReport extends MetricsReport {
             print(" (on average " + (nbInboundFeatures / (double) nbFeatures) + " per feature)");
         }
         println();
+    }
 
+    private void printHistograms(MetricsGatherer metrics) {
+        if (isShowingClassesPerPackageHistogram()) {
+            printHistogram(metrics, MetricsGatherer.CLASSES_PER_PACKAGE, "Classes per package histogram");
+        }
+
+        if (isShowingFeaturesPerClassHistogram()) {
+            printHistogram(metrics, MetricsGatherer.FEATURES_PER_CLASS, "Features per class histogram");
+        }
+
+        if (isShowingInboundsPerPackageHistogram()) {
+            printHistogram(metrics, MetricsGatherer.INBOUNDS_PER_PACKAGE, "Inbounds per package histogram");
+        }
+
+        if (isShowingOutboundsPerPackageHistogram()) {
+            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_PACKAGE, "Outbounds per package histogram");
+        }
+
+        if (isShowingInboundsPerClassHistogram()) {
+            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_CLASS, "Inbounds per class histogram");
+        }
+
+        if (isShowingOutboundsPerClassHistogram()) {
+            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_CLASS, "Outbounds per class histogram");
+        }
+
+        if (isShowingInboundsPerFeatureHistogram()) {
+            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_FEATURE, "Inbounds per feature histogram");
+        }
+
+        if (isShowingOutboundsPerFeatureHistogram()) {
+            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_FEATURE, "Outbounds per feature histogram");
+        }
+    }
+
+    private void printHistogram(MetricsGatherer metrics, int chart, String title) {
+        println();
+        println(title);
+        new TreeMap<>(metrics.getHistogram(chart)).forEach((n, cardinality) -> println(n + ": " + cardinality));
+    }
+
+    private void printChart(MetricsGatherer metrics) {
         if (isShowingClassesPerPackageChart() ||
-            isShowingFeaturesPerClassChart() ||
-            isShowingInboundsPerPackageChart() ||
-            isShowingOutboundsPerPackageChart() ||
-            isShowingInboundsPerClassChart() ||
-            isShowingOutboundsPerClassChart() ||
-            isShowingInboundsPerFeatureChart() ||
-            isShowingOutboundsPerFeatureChart()) {
+                isShowingFeaturesPerClassChart() ||
+                isShowingInboundsPerPackageChart() ||
+                isShowingOutboundsPerPackageChart() ||
+                isShowingInboundsPerClassChart() ||
+                isShowingOutboundsPerClassChart() ||
+                isShowingInboundsPerFeatureChart() ||
+                isShowingOutboundsPerFeatureChart()) {
 
             println();
 
