@@ -14,7 +14,7 @@ versions.
 And it was not just the printers, but the =MetricsToJSON= and =MetricsToYAML=
 XSL stylesheets too.
 
-With these fixes in place, I was able to add the =/metrics/ page to my React
+With these fixes in place, I was able to add the =/metrics= page to my React
 app and complete it.  I also used
 [[https://echarts.apache.org/][Apache ECharts]] to render the dependency
 metrics chart and all the histograms.
