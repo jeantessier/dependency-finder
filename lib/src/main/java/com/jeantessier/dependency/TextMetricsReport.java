@@ -60,7 +60,7 @@ public class TextMetricsReport extends MetricsReport {
         }
         println();
         if (isListingElements()) {
-            metrics.getPackages().forEach(node -> println("    " + node));
+            metrics.getPackages().stream().sorted().forEach(node -> println("    " + node));
         }
 
         int nbClasses = metrics.getClasses().size();
@@ -71,7 +71,7 @@ public class TextMetricsReport extends MetricsReport {
         }
         println();
         if (isListingElements()) {
-            metrics.getClasses().forEach(node -> println("    " + node));
+            metrics.getClasses().stream().sorted().forEach(node -> println("    " + node));
         }
 
         int nbFeatures = metrics.getFeatures().size();
@@ -82,7 +82,7 @@ public class TextMetricsReport extends MetricsReport {
         }
         println();
         if (isListingElements()) {
-            metrics.getFeatures().forEach(node -> println("    " + node));
+            metrics.getFeatures().stream().sorted().forEach(node -> println("    " + node));
         }
     }
 
