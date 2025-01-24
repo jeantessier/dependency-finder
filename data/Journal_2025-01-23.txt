@@ -3,12 +3,18 @@ Found a problem with JSON and YAML printers and irregular values.  An empty
 =RatioMeasurement= to have a value of =NaN=, infinity, or negative infinity,
 which Java renders as ="NaN"=, ="Infinity"=, and =-"Infinity"= respectively.
 
-JSON does not have a representation for these values.  I changed the printers
-to put =null= instead.
+[[https://www.json.org/json-en.html][JSON]] does not have a representation for
+these values.  I changed the printers to put =null= instead.
 
-YAML does have representations for these values.  I changed the printers to put
-=.NaN=, =.Inf=, and =-.Inf= as appropriate.  YAML is not case-sensitive, but I
-liked these capitalized versions.
+[[https://yaml.org/spec/1.2.2/][YAML]] does have representations for these
+values.  I changed the printers to put =.NaN=, =.Inf=, and =-.Inf= as
+appropriate.  YAML is not case-sensitive, but I liked these capitalized
+versions.
 
 And it was not just the printers, but the =MetricsToJSON= and =MetricsToYAML=
 XSL stylesheets too.
+
+With these fixes in place, I was able to add the =/metrics/ page to my React
+app and complete it.  I also used
+[[https://echarts.apache.org/][Apache ECharts]] to render the dependency
+metrics chart and all the histograms.
