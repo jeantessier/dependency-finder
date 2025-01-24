@@ -122,7 +122,7 @@ public class JSONMetricsReport extends MetricsReport {
         print("\"classes\":" + metrics.getNbOutboundClasses() + ",");
         print("\"classRatio\":" + formatValue(metrics.getNbOutboundClasses() / (double) metrics.getClasses().size()) + ",");
         print("\"features\":" + metrics.getNbOutboundFeatures() + ",");
-        print("\"featureRation\":" + formatValue(metrics.getNbOutboundFeatures() / (double) metrics.getFeatures().size()) + ",");
+        print("\"featureRatio\":" + formatValue(metrics.getNbOutboundFeatures() / (double) metrics.getFeatures().size()) + ",");
         print("\"total\":" + metrics.getNbOutbound());
         print("}");
 
