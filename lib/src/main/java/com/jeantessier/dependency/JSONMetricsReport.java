@@ -111,6 +111,7 @@ public class JSONMetricsReport extends MetricsReport {
 
     private String renderNodes(Collection<? extends Node> nodes) {
         return nodes.stream()
+                .sorted()
                 .map(node -> "{\"name\":\"" + node.getName() + "\",\"simpleName\":\"" + node.getSimpleName() + "\",\"confirmed\":" + node.isConfirmed() + "}")
                 .collect(joining(","));
     }
