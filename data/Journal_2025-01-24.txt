@@ -1,0 +1,25 @@
+Created a
+[[https://hub.docker.com/r/jeantessier/dependency-finder-micronaut][Docker image]]
+to run Dependency Finder Micronaut app and React frontend in a Docker
+container.
+
+I built the
+[[https://github.com/jeantessier/dependencyfinder-react-app][React app]] and
+dropped it in the
+[[https://github.com/jeantessier/micronaut-depfind-test][Micronaut app]]'s
+=src/main/resources/static/frontend/= folder.  This way, it is included when
+the Micronaut app gets deployed.  If I run it in a Docker container and export
+port =8080=, my browser can download the React app from =http://localhost:8080=
+and it can contact the microservice back at =http://localhost:8080=.
+
+I created a tunnel to my app running locally using
+=[[https://ngrok.com/][ngrok]]=.  I could download the React app from another
+computer, through the =ngrok= tunnel, but it still believed it was being hosted
+at =localhost=, so it couldn't connect back to the microservice to load any
+data.
+
+I also tried to deploy the Micronaut Docker image using GitHub actions, but I
+couldn't get the workflow quite right.  In Micronaut, interactions with Docker
+are mediated through Gradle.  I will need to explore how to make it work with
+the GitHub actions for Docker.  Or, maybe I just use a bunch of shell commands
+instead of a third-party GitHub action.
