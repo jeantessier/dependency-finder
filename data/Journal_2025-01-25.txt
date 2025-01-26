@@ -1,0 +1,24 @@
+I managed to fix the connection between the Micronaut microservice and the
+React frontend, even through an =ngrok= tunnel.  After digging through the
+[[https://vite.dev/guide/env-and-mode][Vite documentation]], I moved the
+=.env.local= file that was setting the service URL to =http://localhost:8080=.
+By renaming it to =.env.development=, it now only applies in development mode,
+and it is no longer part of the final build.  There, it uses
+=[[https://developer.mozilla.org/en-US/docs/Web/API/Location][document.location.origin]]=
+instead.  So, whatever URL gets you to the app also gets it to the service.
+
+I used the same URL for actions in the service and pages on the frontend, which
+can lead to confusion.  If you go to =/= and then navigate to =/extract=, you
+get the Extract UI.  If you go directly to =/extract=, you get a JSON with
+Extract metadata.  So, I moved the actions in the service to =/api= URLs.  Now,
+you can no longer go directly to =/extract=, it only works when navigating from
+the home page.  You can reach the Extract action by going to =/api/extract=.
+
+There are a few things I stil need to work on:
+
+    1 The Micronaut app needs a better name than =[[https://github.com/jeantessier/micronaut-depfind-test][micronaut-depfind-test]]=.
+    1 I don't like the package name for the Groovy code, =micronaut.depfind.test=.
+    1 The Home page for the React app is still the default Vite demo page.
+    1 I need to make the navigation accessible on all pages.
+
+But, all the major functionality is there.
