@@ -18,7 +18,7 @@ There are a few things I stil need to work on:
 
     1 The Micronaut app needs a better name than =[[https://github.com/jeantessier/micronaut-depfind-test][micronaut-depfind-test]]=.
     1 I don't like the package name for the Groovy code, =micronaut.depfind.test=.
-    1 The Home page for the React app is still the default Vite demo page.
-    1 I need to make the navigation accessible on all pages.
+    1 The Home page for the [[https://github.com/jeantessier/dependencyfinder-react-app][React app]] is still the default Vite demo page.
+    1 I need to make the navigation accessible on all pages in a way congruent with Vite.
 
 But, all the major functionality is there.
