@@ -33,23 +33,26 @@
 package com.jeantessier.dependency;
 
 import java.util.*;
+import java.util.stream.*;
+
+import static java.util.stream.Collectors.*;
 
 public class MetricsGatherer extends VisitorBase {
-<span class="pc" id="L38">    private final Collection&lt;PackageNode&gt; packages = new LinkedList&lt;&gt;();</span>
-<span class="pc" id="L39">    private final Collection&lt;ClassNode&gt; classes = new LinkedList&lt;&gt;();</span>
-<span class="pc" id="L40">    private final Collection&lt;FeatureNode&gt; features = new LinkedList&lt;&gt;();</span>
+<span class="pc" id="L41">    private final Collection&lt;PackageNode&gt; packages = new LinkedList&lt;&gt;();</span>
+<span class="pc" id="L42">    private final Collection&lt;ClassNode&gt; classes = new LinkedList&lt;&gt;();</span>
+<span class="pc" id="L43">    private final Collection&lt;FeatureNode&gt; features = new LinkedList&lt;&gt;();</span>
 
-<span class="pc" id="L42">    private long nbOutbound = 0;</span>
-<span class="pc" id="L43">    private long nbInbound = 0;</span>
-<span class="pc" id="L44">    private long nbOutboundPackages = 0;</span>
-<span class="pc" id="L45">    private long nbInboundPackages = 0;</span>
-<span class="pc" id="L46">    private long nbOutboundClasses = 0;</span>
-<span class="pc" id="L47">    private long nbInboundClasses = 0;</span>
-<span class="pc" id="L48">    private long nbOutboundFeatures = 0;</span>
-<span class="pc" id="L49">    private long nbInboundFeatures = 0;</span>
+<span class="pc" id="L45">    private long nbOutbound = 0;</span>
+<span class="pc" id="L46">    private long nbInbound = 0;</span>
+<span class="pc" id="L47">    private long nbOutboundPackages = 0;</span>
+<span class="pc" id="L48">    private long nbInboundPackages = 0;</span>
+<span class="pc" id="L49">    private long nbOutboundClasses = 0;</span>
+<span class="pc" id="L50">    private long nbInboundClasses = 0;</span>
+<span class="pc" id="L51">    private long nbOutboundFeatures = 0;</span>
+<span class="pc" id="L52">    private long nbInboundFeatures = 0;</span>
 
-<span class="pc" id="L51">    private final Map&lt;Integer, long[]&gt; chartData = new TreeMap&lt;&gt;();</span>
-<span class="pc" id="L52">    private int chartMaximum = 0;</span>
+<span class="pc" id="L54">    private final Map&lt;Integer, long[]&gt; chartData = new TreeMap&lt;&gt;();</span>
+<span class="pc" id="L55">    private int chartMaximum = 0;</span>
     public static final int CHART_INDEX           = 0;
     public static final int CLASSES_PER_PACKAGE   = 1;
     public static final int FEATURES_PER_CLASS    = 2;
@@ -61,183 +64,221 @@ public class MetricsGatherer extends VisitorBase {
     public static final int OUTBOUNDS_PER_FEATURE = 8;
     public static final int NB_CHARTS             = 9;
 
-<span class="fc" id="L64">    private static final String[] CHART_NAMES = {&quot;n&quot;,</span>
-                                                 &quot;Classes per Package&quot;,
-                                                 &quot;Features per Class&quot;,
-                                                 &quot;Inbounds per Package&quot;,
-                                                 &quot;Outbounds per Package&quot;,
-                                                 &quot;Inbounds per Class&quot;,
-                                                 &quot;Outbounds per Class&quot;,
-                                                 &quot;Inbounds per Feature&quot;,
-                                                 &quot;Outbounds per Feature&quot;};
+<span class="fc" id="L67">    private static final String[] CHART_NAMES = {</span>
+            &quot;n&quot;,
+            &quot;Classes per Package&quot;,
+            &quot;Features per Class&quot;,
+            &quot;Inbounds per Package&quot;,
+            &quot;Outbounds per Package&quot;,
+            &quot;Inbounds per Class&quot;,
+            &quot;Outbounds per Class&quot;,
+            &quot;Inbounds per Feature&quot;,
+            &quot;Outbounds per Feature&quot;,
+    };
 
     public static int getNbCharts() {
-<span class="nc" id="L75">        return NB_CHARTS;</span>
+<span class="nc" id="L80">        return NB_CHARTS;</span>
     }
     
     public static String getChartName(int i) {
-<span class="nc" id="L79">        return CHART_NAMES[i];</span>
+<span class="nc" id="L84">        return CHART_NAMES[i];</span>
     }
     
     public MetricsGatherer() {
-<span class="fc" id="L83">        super();</span>
-<span class="fc" id="L84">    }</span>
+<span class="fc" id="L88">        super();</span>
+<span class="fc" id="L89">    }</span>
 
     public MetricsGatherer(TraversalStrategy strategy) {
-<span class="nc" id="L87">        super(strategy);</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L92">        super(strategy);</span>
+<span class="nc" id="L93">    }</span>
 
+    /**
+     * Returns a slice of all the charts at value &lt;code&gt;i&lt;/code&gt;.
+     * @param i the value of the slice
+     * @return an array of long values, one for each chart
+     */
     public long[] getChartData(int i) {
-<span class="fc" id="L91">        long[] result = chartData.get(i);</span>
+<span class="fc" id="L101">        long[] result = chartData.get(i);</span>
 
-<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (result == null) {</span>
-<span class="fc" id="L94">            result = new long[NB_CHARTS];</span>
-<span class="fc" id="L95">            result[CHART_INDEX] = i;</span>
-<span class="fc" id="L96">            chartData.put(i, result);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (result == null) {</span>
+<span class="fc" id="L104">            result = new long[NB_CHARTS];</span>
+<span class="fc" id="L105">            result[CHART_INDEX] = i;</span>
+<span class="fc" id="L106">            chartData.put(i, result);</span>
 
-<span class="fc bfc" id="L98" title="All 2 branches covered.">            if (chartMaximum &lt; i) {</span>
-<span class="fc" id="L99">                chartMaximum = i;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">            if (chartMaximum &lt; i) {</span>
+<span class="fc" id="L109">                chartMaximum = i;</span>
             }
         }
 
-<span class="fc" id="L103">        return result;</span>
+<span class="fc" id="L113">        return result;</span>
     }
 
+    /**
+     * Returns an individual chart, including all indices where it is zero.
+     * @param chart which chart to return
+     * @return an array of long values for each index
+     */
+    public long[] getChart(int chart) {
+<span class="fc" id="L122">        return IntStream.rangeClosed(0, getChartMaximum())</span>
+<span class="fc" id="L123">                .mapToLong(i -&gt; getChartData(i)[chart])</span>
+<span class="fc" id="L124">                .toArray();</span>
+    }
+
+    /**
+     * Returns a histogram for an individual chart (without the zeroes).
+     * @param chart which chart to compute the histogram for
+     * @return a &lt;code&gt;Map&lt;/code&gt; of values and counts at that value
+     */
+    public Map&lt;Long, Long&gt; getHistogram(int chart) {
+<span class="fc" id="L133">        return IntStream.rangeClosed(0, getChartMaximum())</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                .filter(i -&gt; getChartData(i)[chart] &gt; 0)</span>
+<span class="fc" id="L135">                .boxed()</span>
+<span class="fc" id="L136">                .collect(toMap(</span>
+                        Long::valueOf,
+<span class="fc" id="L138">                        i -&gt; getChartData(i)[chart]</span>
+                ));
+    }
+
+    /**
+     * Returns the maximum value across all charts.
+     * All charts will be this long.
+     * @return the maximum value across all charts
+     */
     public int getChartMaximum() {
-<span class="nc" id="L107">        return chartMaximum;</span>
+<span class="fc" id="L148">        return chartMaximum;</span>
     }
     
     public Collection&lt;PackageNode&gt; getPackages() {
-<span class="fc" id="L111">        return packages;</span>
+<span class="fc" id="L152">        return packages;</span>
     }
 
     public Collection&lt;ClassNode&gt; getClasses() {
-<span class="fc" id="L115">        return classes;</span>
+<span class="fc" id="L156">        return classes;</span>
     }
 
     public Collection&lt;FeatureNode&gt; getFeatures() {
-<span class="fc" id="L119">        return features;</span>
+<span class="fc" id="L160">        return features;</span>
     }
 
     public long getNbOutbound() {
-<span class="fc" id="L123">        return nbOutbound;</span>
+<span class="fc" id="L164">        return nbOutbound;</span>
     }
 
     public long getNbInbound() {
-<span class="fc" id="L127">        return nbInbound;</span>
+<span class="fc" id="L168">        return nbInbound;</span>
     }
 
     public long getNbOutboundPackages() {
-<span class="fc" id="L131">        return nbOutboundPackages;</span>
+<span class="fc" id="L172">        return nbOutboundPackages;</span>
     }
 
     public long getNbInboundPackages() {
-<span class="fc" id="L135">        return nbInboundPackages;</span>
+<span class="fc" id="L176">        return nbInboundPackages;</span>
     }
 
     public long getNbOutboundClasses() {
-<span class="fc" id="L139">        return nbOutboundClasses;</span>
+<span class="fc" id="L180">        return nbOutboundClasses;</span>
     }
 
     public long getNbInboundClasses() {
-<span class="fc" id="L143">        return nbInboundClasses;</span>
+<span class="fc" id="L184">        return nbInboundClasses;</span>
     }
 
     public long getNbOutboundFeatures() {
-<span class="fc" id="L147">        return nbOutboundFeatures;</span>
+<span class="fc" id="L188">        return nbOutboundFeatures;</span>
     }
 
     public long getNbInboundFeatures() {
-<span class="fc" id="L151">        return nbInboundFeatures;</span>
+<span class="fc" id="L192">        return nbInboundFeatures;</span>
     }
     
     public void preprocessPackageNode(PackageNode node) {
-<span class="fc" id="L155">        super.preprocessPackageNode(node);</span>
+<span class="fc" id="L196">        super.preprocessPackageNode(node);</span>
 
-<span class="fc" id="L157">        packages.add(node);</span>
+<span class="fc" id="L198">        packages.add(node);</span>
 
-<span class="fc" id="L159">        getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;</span>
-<span class="fc" id="L160">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;</span>
-<span class="fc" id="L161">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;</span>
-<span class="fc" id="L162">    }</span>
+<span class="fc" id="L200">        getChartData(node.getClasses().size())[CLASSES_PER_PACKAGE]++;</span>
+<span class="fc" id="L201">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_PACKAGE]++;</span>
+<span class="fc" id="L202">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_PACKAGE]++;</span>
+<span class="fc" id="L203">    }</span>
 
     /**
      *  PackageNode --&amp;gt; CurrentNode()
      */
     public void visitInboundPackageNode(PackageNode node) {
-<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
-<span class="nc" id="L169">            nbInbound++;</span>
-<span class="nc" id="L170">            nbOutboundPackages++;</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="nc" id="L210">            nbInbound++;</span>
+<span class="nc" id="L211">            nbOutboundPackages++;</span>
         }
-<span class="nc" id="L172">    }</span>
+<span class="nc" id="L213">    }</span>
 
     /**
      *  CurrentNode() --&amp;gt; PackageNode
      */
     public void visitOutboundPackageNode(PackageNode node) {
-<span class="nc bnc" id="L178" title="All 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
-<span class="nc" id="L179">            nbOutbound++;</span>
-<span class="nc" id="L180">            nbInboundPackages++;</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="nc" id="L220">            nbOutbound++;</span>
+<span class="nc" id="L221">            nbInboundPackages++;</span>
         }
-<span class="nc" id="L182">    }</span>
+<span class="nc" id="L223">    }</span>
 
     public void preprocessClassNode(ClassNode node) {
-<span class="fc" id="L185">        super.preprocessClassNode(node);</span>
+<span class="fc" id="L226">        super.preprocessClassNode(node);</span>
 
-<span class="fc" id="L187">        classes.add(node);</span>
+<span class="fc" id="L228">        classes.add(node);</span>
 
-<span class="fc" id="L189">        getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;</span>
-<span class="fc" id="L190">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;</span>
-<span class="fc" id="L191">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;</span>
-<span class="fc" id="L192">    }</span>
+<span class="fc" id="L230">        getChartData(node.getFeatures().size())[FEATURES_PER_CLASS]++;</span>
+<span class="fc" id="L231">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_CLASS]++;</span>
+<span class="fc" id="L232">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_CLASS]++;</span>
+<span class="fc" id="L233">    }</span>
 
     /**
      *  ClassNode --&amp;gt; CurrentNode()
      */
     public void visitInboundClassNode(ClassNode node) {
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
-<span class="fc" id="L199">            nbInbound++;</span>
-<span class="fc" id="L200">            nbOutboundClasses++;</span>
+<span class="pc bpc" id="L239" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L240">            nbInbound++;</span>
+<span class="fc" id="L241">            nbOutboundClasses++;</span>
         }
-<span class="fc" id="L202">    }</span>
+<span class="fc" id="L243">    }</span>
 
     /**
      *  CurrentNode() --&amp;gt; ClassNode
      */
     public void visitOutboundClassNode(ClassNode node) {
-<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
-<span class="fc" id="L209">            nbOutbound++;</span>
-<span class="fc" id="L210">            nbInboundClasses++;</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L250">            nbOutbound++;</span>
+<span class="fc" id="L251">            nbInboundClasses++;</span>
         }
-<span class="fc" id="L212">    }</span>
+<span class="fc" id="L253">    }</span>
 
     public void preprocessFeatureNode(FeatureNode node) {
-<span class="fc" id="L215">        super.preprocessFeatureNode(node);</span>
+<span class="fc" id="L256">        super.preprocessFeatureNode(node);</span>
 
-<span class="fc" id="L217">        features.add(node);</span>
+<span class="fc" id="L258">        features.add(node);</span>
 
-<span class="fc" id="L219">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;</span>
-<span class="fc" id="L220">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;</span>
-<span class="fc" id="L221">    }</span>
+<span class="fc" id="L260">        getChartData(node.getInboundDependencies().size())[INBOUNDS_PER_FEATURE]++;</span>
+<span class="fc" id="L261">        getChartData(node.getOutboundDependencies().size())[OUTBOUNDS_PER_FEATURE]++;</span>
+<span class="fc" id="L262">    }</span>
 
     /**
      *  FeatureNode --&amp;gt; CurrentNode()
      */
     public void visitInboundFeatureNode(FeatureNode node) {
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
-<span class="fc" id="L228">            nbInbound++;</span>
-<span class="fc" id="L229">            nbOutboundFeatures++;</span>
+<span class="pc bpc" id="L268" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L269">            nbInbound++;</span>
+<span class="fc" id="L270">            nbOutboundFeatures++;</span>
         }
-<span class="fc" id="L231">    }</span>
+<span class="fc" id="L272">    }</span>
 
     /**
      *  CurrentNode() --&amp;gt; FeatureNode
      */
     public void visitOutboundFeatureNode(FeatureNode node) {
-<span class="pc bpc" id="L237" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
-<span class="fc" id="L238">            nbOutbound++;</span>
-<span class="fc" id="L239">            nbInboundFeatures++;</span>
+<span class="pc bpc" id="L278" title="1 of 2 branches missed.">        if (getStrategy().isInFilter(node)) {</span>
+<span class="fc" id="L279">            nbOutbound++;</span>
+<span class="fc" id="L280">            nbInboundFeatures++;</span>
         }
-<span class="fc" id="L241">    }</span>
+<span class="fc" id="L282">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

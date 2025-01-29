@@ -1,6 +1,4 @@
-<!doctype html>
-
-<html lang="en">
+<html>
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
@@ -30,33 +28,83 @@ your dependency graphs according to a specific list of targets.</p>
     <td align="center" valign="top"><b>Required</b></td>
   </tr>
   <tr>
-    <td valign="top">destfile</td>
-    <td valign="top">where to write the output.  If the file does not exist,
-    it is created.  If it already exists, its content is overwritten.</td>
+    <td valign="top">destprefix</td>
+    <td valign="top">where to write the output.  The rest of the name depends
+      on the output format.  If the file does not exist, it is created.  If it
+      already exists, its content is overwritten.</td>
     <td valign="top" align="center">Yes</td>
   </tr>
   <tr>
-    <td valign="top">classnames</td>
+    <td valign="top">csv</td>
+    <td valign="top">writes each set of symbols to its own CSV file, perfect for
+      loading in Microsoft Excel and charting.</td>
+    <td valign="top" align="center" rowspan="7">Yes, at least one of these</td>
+  </tr>
+  <tr>
+    <td valign="top">json</td>
+    <td valign="top">writes symbols as a JSON document.</td>
+  </tr>
+  <tr>
+    <td valign="top">text</td>
+    <td valign="top">writes symbols as a sorted text list.</td>
+  </tr>
+  <tr>
+    <td valign="top">txt</td>
+    <td valign="top">writes symbols as a sorted text list.</td>
+  </tr>
+  <tr>
+    <td valign="top">xml</td>
+    <td valign="top">writes symbols as an XML document with the
+      <code><a href="https://jeantessier.github.io/dependency-finder/dtd/symbols.dtd">symbols</a></code>
+      DTD.</td>
+  </tr>
+  <tr>
+    <td valign="top">yaml</td>
+    <td valign="top">writes symbols as a YAML document.</td>
+  </tr>
+  <tr>
+    <td valign="top">yml</td>
+    <td valign="top">writes symbols as a YAML document.</td>
+  </tr>
+  <tr>
+    <td valign="top">encoding</td>
+    <td valign="top">encoding used for the XML output document.
+      Only useful with <code>xml</code>.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">dtdprefix</td>
+    <td valign="top">prefix of the DTD URL for the XML output document.
+      Only useful with <code>xml</code>.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">indenttext</td>
+    <td valign="top">used for each indentation level in textual and XML output.</td>
+    <td align="center" valign="top">No</td>
+  </tr>
+  <tr>
+    <td valign="top">classes</td>
     <td valign="top">list the names of classes.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">fieldnames</td>
+    <td valign="top">fields</td>
     <td valign="top">list the names of fields.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">methodnames</td>
+    <td valign="top">methods</td>
     <td valign="top">list the names of methods, including constructors.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">localnames</td>
+    <td valign="top">localvariables</td>
     <td valign="top">list the names of local variables.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">innerclassnames</td>
+    <td valign="top">innerclasses</td>
     <td valign="top">list the names of inner classes.</td>
     <td valign="top" align="center">No</td>
   </tr>
@@ -82,14 +130,14 @@ your dependency graphs according to a specific list of targets.</p>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">nonprivatefieldnames</td>
+    <td valign="top">nonprivatefields</td>
     <td valign="top">list the names of fields that are not private and not
     static.  These can break encapsulation by allowing other classes to depend
     on the internal implementation of a class.</td>
     <td valign="top" align="center">No</td>
   </tr>
   <tr>
-    <td valign="top">finalmethodorclassnames</td>
+    <td valign="top">finalmethodsorclasses</td>
     <td valign="top">list the names of methods and classes that are marked as
     <code>final</code>.  These can make testing and mocking harder, so you
     should make sure they are really needed.</td>
@@ -136,7 +184,7 @@ and read them.  It is a
 files to analyze and save the resulting report to
 <code>symbols.txt</code>:</p>
 
-<pre>  &lt;listsymbols destfile=&quot;symbols.txt&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;symbols&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;.&quot;/&gt;
     &lt;/path&gt;
@@ -146,7 +194,7 @@ files to analyze and save the resulting report to
 <code>.class</code> files to analyze and save the resulting report
 to <code>symbols.txt</code>:</p>
 
-<pre>  &lt;listsymbols destfile=&quot;symbols.txt&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;symbols&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
       &lt;pathelement location=&quot;rt.jar&quot;/&gt;
@@ -156,7 +204,7 @@ to <code>symbols.txt</code>:</p>
 <p>To scan <code>DependencyFinder.jar</code> for non-private, non-static fields
 and save the resulting report to <code>non-private-fields.txt</code>:</p>
 
-<pre>  &lt;listsymbols destfile=&quot;non-private-fields.txt&quot; nonprivatefieldnames=&quot;yes&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefields=&quot;yes&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;DependencyFinder.jar&quot;/&gt;
     &lt;/path&gt;
@@ -166,7 +214,7 @@ and save the resulting report to <code>non-private-fields.txt</code>:</p>
 test code, and save the resulting report to
 <code>non-private-fields.txt</code>:</p>
 
-<pre>  &lt;listsymbols destfile=&quot;non-private-fields.txt&quot; nonprivatefieldnames=&quot;yes&quot; excludes=&quot;/test/i&quot;&gt;
+<pre>  &lt;listsymbols txt="yes" destprefix=&quot;non-private-fields&quot; nonprivatefields=&quot;yes&quot; excludes=&quot;/test/i&quot;&gt;
     &lt;path&gt;
       &lt;pathelement location=&quot;classes&quot;/&gt;
     &lt;/path&gt;

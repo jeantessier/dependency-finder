@@ -46,44 +46,47 @@ import com.jeantessier.commandline.*;
 
 <span class="fc" id="L47">        getCommandLine().addSingleValueSwitch(&quot;maximum-cycle-length&quot;);</span>
 
-<span class="fc" id="L49">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L49">        getCommandLine().addToggleSwitch(&quot;json&quot;);</span>
+<span class="fc" id="L50">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
+<span class="fc" id="L51">    }</span>
 
     protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
-<span class="fc" id="L53">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+<span class="fc" id="L54">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
 
-<span class="fc" id="L55">        exceptions.addAll(validateCommandLineForScoping());</span>
+<span class="fc" id="L56">        exceptions.addAll(validateCommandLineForScoping());</span>
 
-<span class="fc" id="L57">        return exceptions;</span>
+<span class="fc" id="L58">        return exceptions;</span>
     }
 
     protected void doProcessing() throws Exception {
-<span class="nc" id="L61">        CycleDetector detector = new CycleDetector(getStartCriteria());</span>
+<span class="nc" id="L62">        CycleDetector detector = new CycleDetector(getStartCriteria());</span>
 
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;maximum-cycle-length&quot;)) {</span>
-<span class="nc" id="L64">            detector.setMaximumCycleLength(Integer.parseInt(getCommandLine().getSingleSwitch(&quot;maximum-cycle-length&quot;)));</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;maximum-cycle-length&quot;)) {</span>
+<span class="nc" id="L65">            detector.setMaximumCycleLength(Integer.parseInt(getCommandLine().getSingleSwitch(&quot;maximum-cycle-length&quot;)));</span>
         }
 
-<span class="nc" id="L67">        detector.traverseNodes(loadGraph().getPackages().values());</span>
+<span class="nc" id="L68">        detector.traverseNodes(loadGraph().getPackages().values());</span>
 
-<span class="nc" id="L69">        getVerboseListener().print(&quot;Printing the graph ...&quot;);</span>
+<span class="nc" id="L70">        getVerboseListener().print(&quot;Printing the graph ...&quot;);</span>
 
         CyclePrinter printer;
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
-<span class="nc" id="L73">            printer = new XMLCyclePrinter(getOut(), getCommandLine().getSingleSwitch(&quot;encoding&quot;), getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;));</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
+<span class="nc" id="L74">            printer = new XMLCyclePrinter(getOut(), getCommandLine().getSingleSwitch(&quot;encoding&quot;), getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;));</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;json&quot;)) {</span>
+<span class="nc" id="L76">            printer = new JSONCyclePrinter(getOut());</span>
         } else {
-<span class="nc" id="L75">            printer = new TextCyclePrinter(getOut());</span>
+<span class="nc" id="L78">            printer = new TextCyclePrinter(getOut());</span>
         }
 
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;indent-text&quot;)) {</span>
-<span class="nc" id="L79">            printer.setIndentText(getCommandLine().getSingleSwitch(&quot;indent-text&quot;));</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;indent-text&quot;)) {</span>
+<span class="nc" id="L82">            printer.setIndentText(getCommandLine().getSingleSwitch(&quot;indent-text&quot;));</span>
         }
 
-<span class="nc" id="L82">        printer.visitCycles(detector.getCycles());</span>
-<span class="nc" id="L83">    }</span>
+<span class="nc" id="L85">        printer.visitCycles(detector.getCycles());</span>
+<span class="nc" id="L86">    }</span>
 
     public static void main(String[] args) throws Exception {
-<span class="nc" id="L86">        new DependencyCycles().run(args);</span>
-<span class="nc" id="L87">    }</span>
+<span class="nc" id="L89">        new DependencyCycles().run(args);</span>
+<span class="nc" id="L90">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

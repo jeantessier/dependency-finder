@@ -32,21 +32,7 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import com.jeantessier.dependency.CollectionSelectionCriteria;
-import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
-import com.jeantessier.dependency.GraphCopier;
-import com.jeantessier.dependency.GraphSummarizer;
-import com.jeantessier.dependency.LinkMaximizer;
-import com.jeantessier.dependency.LinkMinimizer;
-import com.jeantessier.dependency.NodeLoader;
-import com.jeantessier.dependency.PackageNode;
-import com.jeantessier.dependency.Printer;
-import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
-import com.jeantessier.dependency.SelectionCriteria;
-import com.jeantessier.dependency.SelectiveTraversalStrategy;
-import com.jeantessier.dependency.TextPrinter;
-import com.jeantessier.dependency.TraversalStrategy;
-import com.jeantessier.dependency.XMLPrinter;
+import com.jeantessier.dependency.*;
 import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
@@ -58,598 +44,677 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-<span class="nc" id="L61">public class DependencyReporter extends GraphTask {</span>
-<span class="nc" id="L62">    private String scopeIncludes = &quot;//&quot;;</span>
-<span class="nc" id="L63">    private String scopeExcludes = &quot;&quot;;</span>
-<span class="nc" id="L64">    private boolean packageScope = false;</span>
-<span class="nc" id="L65">    private String packageScopeIncludes = &quot;&quot;;</span>
-<span class="nc" id="L66">    private String packageScopeExcludes = &quot;&quot;;</span>
-<span class="nc" id="L67">    private boolean classScope = false;</span>
-<span class="nc" id="L68">    private String classScopeIncludes = &quot;&quot;;</span>
-<span class="nc" id="L69">    private String classScopeExcludes = &quot;&quot;;</span>
-<span class="nc" id="L70">    private boolean featureScope = false;</span>
-<span class="nc" id="L71">    private String featureScopeIncludes = &quot;&quot;;</span>
-<span class="nc" id="L72">    private String featureScopeExcludes = &quot;&quot;;</span>
-<span class="nc" id="L73">    private String filterIncludes = &quot;//&quot;;</span>
-<span class="nc" id="L74">    private String filterExcludes = &quot;&quot;;</span>
-<span class="nc" id="L75">    private boolean packageFilter = false;</span>
-<span class="nc" id="L76">    private String packageFilterIncludes = &quot;&quot;;</span>
-<span class="nc" id="L77">    private String packageFilterExcludes = &quot;&quot;;</span>
-<span class="nc" id="L78">    private boolean classFilter = false;</span>
-<span class="nc" id="L79">    private String classFilterIncludes = &quot;&quot;;</span>
-<span class="nc" id="L80">    private String classFilterExcludes = &quot;&quot;;</span>
-<span class="nc" id="L81">    private boolean featureFilter = false;</span>
-<span class="nc" id="L82">    private String featureFilterIncludes = &quot;&quot;;</span>
-<span class="nc" id="L83">    private String featureFilterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L47">public class DependencyReporter extends GraphTask {</span>
+<span class="nc" id="L48">    private String scopeIncludes = &quot;//&quot;;</span>
+<span class="nc" id="L49">    private String scopeExcludes = &quot;&quot;;</span>
+<span class="nc" id="L50">    private boolean packageScope = false;</span>
+<span class="nc" id="L51">    private String packageScopeIncludes = &quot;&quot;;</span>
+<span class="nc" id="L52">    private String packageScopeExcludes = &quot;&quot;;</span>
+<span class="nc" id="L53">    private boolean classScope = false;</span>
+<span class="nc" id="L54">    private String classScopeIncludes = &quot;&quot;;</span>
+<span class="nc" id="L55">    private String classScopeExcludes = &quot;&quot;;</span>
+<span class="nc" id="L56">    private boolean featureScope = false;</span>
+<span class="nc" id="L57">    private String featureScopeIncludes = &quot;&quot;;</span>
+<span class="nc" id="L58">    private String featureScopeExcludes = &quot;&quot;;</span>
+<span class="nc" id="L59">    private String filterIncludes = &quot;//&quot;;</span>
+<span class="nc" id="L60">    private String filterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L61">    private boolean packageFilter = false;</span>
+<span class="nc" id="L62">    private String packageFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L63">    private String packageFilterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L64">    private boolean classFilter = false;</span>
+<span class="nc" id="L65">    private String classFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L66">    private String classFilterExcludes = &quot;&quot;;</span>
+<span class="nc" id="L67">    private boolean featureFilter = false;</span>
+<span class="nc" id="L68">    private String featureFilterIncludes = &quot;&quot;;</span>
+<span class="nc" id="L69">    private String featureFilterExcludes = &quot;&quot;;</span>
 
     private Path scopeIncludesList;
     private Path scopeExcludesList;
     private Path filterIncludesList;
     private Path filterExcludesList;
 
-<span class="nc" id="L90">    private boolean showInbounds = false;</span>
-<span class="nc" id="L91">    private boolean showOutbounds = false;</span>
-<span class="nc" id="L92">    private boolean showEmptyNodes = false;</span>
+<span class="nc" id="L76">    private boolean showInbounds = false;</span>
+<span class="nc" id="L77">    private boolean showOutbounds = false;</span>
+<span class="nc" id="L78">    private boolean showEmptyNodes = false;</span>
 
-<span class="nc" id="L94">    private boolean minimize = false;</span>
-<span class="nc" id="L95">    private boolean maximize = false;</span>
-<span class="nc" id="L96">    private boolean copyOnly = false;</span>
-<span class="nc" id="L97">    private boolean xml = false;</span>
-<span class="nc" id="L98">    private String encoding = XMLPrinter.DEFAULT_ENCODING;</span>
-<span class="nc" id="L99">    private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;</span>
+<span class="nc" id="L80">    private boolean html = false;</span>
+<span class="nc" id="L81">    private boolean json = false;</span>
+<span class="nc" id="L82">    private boolean text = false;</span>
+<span class="nc" id="L83">    private boolean xml = false;</span>
+<span class="nc" id="L84">    private boolean yaml = false;</span>
+
+<span class="nc" id="L86">    private boolean minimize = false;</span>
+<span class="nc" id="L87">    private boolean maximize = false;</span>
+<span class="nc" id="L88">    private boolean copyOnly = false;</span>
+<span class="nc" id="L89">    private boolean includeFilterNodes = false;</span>
+
+<span class="nc" id="L91">    private String urlFormat = HTMLPrinter.DEFAULT_URL_FORMAT;</span>
+
+<span class="nc" id="L93">    private String encoding = XMLPrinter.DEFAULT_ENCODING;</span>
+<span class="nc" id="L94">    private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;</span>
     private String indentText;
 
     public String getScopeincludes() {
-<span class="nc" id="L103">        return scopeIncludes;</span>
+<span class="nc" id="L98">        return scopeIncludes;</span>
     }
 
     public void setScopeincludes(String scopeIncludes) {
-<span class="nc" id="L107">        this.scopeIncludes = scopeIncludes;</span>
-<span class="nc" id="L108">    }</span>
+<span class="nc" id="L102">        this.scopeIncludes = scopeIncludes;</span>
+<span class="nc" id="L103">    }</span>
 
     public String getScopeexcludes() {
-<span class="nc" id="L111">        return scopeExcludes;</span>
+<span class="nc" id="L106">        return scopeExcludes;</span>
     }
 
     public void setScopeexcludes(String scopeExcludes) {
-<span class="nc" id="L115">        this.scopeExcludes = scopeExcludes;</span>
-<span class="nc" id="L116">    }</span>
+<span class="nc" id="L110">        this.scopeExcludes = scopeExcludes;</span>
+<span class="nc" id="L111">    }</span>
 
     public boolean getPackagescope() {
-<span class="nc" id="L119">        return packageScope;</span>
+<span class="nc" id="L114">        return packageScope;</span>
     }
 
     public void setPackagescope(boolean packageScope) {
-<span class="nc" id="L123">        this.packageScope = packageScope;</span>
-<span class="nc" id="L124">    }</span>
+<span class="nc" id="L118">        this.packageScope = packageScope;</span>
+<span class="nc" id="L119">    }</span>
 
     public String getPackagescopeincludes() {
-<span class="nc" id="L127">        return packageScopeIncludes;</span>
+<span class="nc" id="L122">        return packageScopeIncludes;</span>
     }
 
     public void setPackagescopeincludes(String packageScopeIncludes) {
-<span class="nc" id="L131">        this.packageScopeIncludes = packageScopeIncludes;</span>
-<span class="nc" id="L132">    }</span>
+<span class="nc" id="L126">        this.packageScopeIncludes = packageScopeIncludes;</span>
+<span class="nc" id="L127">    }</span>
 
     public String getPackagescopeexcludes() {
-<span class="nc" id="L135">        return packageScopeExcludes;</span>
+<span class="nc" id="L130">        return packageScopeExcludes;</span>
     }
 
     public void setPackagescopeexcludes(String packageScopeExcludes) {
-<span class="nc" id="L139">        this.packageScopeExcludes = packageScopeExcludes;</span>
-<span class="nc" id="L140">    }</span>
+<span class="nc" id="L134">        this.packageScopeExcludes = packageScopeExcludes;</span>
+<span class="nc" id="L135">    }</span>
 
     public boolean getClassscope() {
-<span class="nc" id="L143">        return classScope;</span>
+<span class="nc" id="L138">        return classScope;</span>
     }
 
     public void setClassscope(boolean classScope) {
-<span class="nc" id="L147">        this.classScope = classScope;</span>
-<span class="nc" id="L148">    }</span>
+<span class="nc" id="L142">        this.classScope = classScope;</span>
+<span class="nc" id="L143">    }</span>
 
     public String getClassscopeincludes() {
-<span class="nc" id="L151">        return classScopeIncludes;</span>
+<span class="nc" id="L146">        return classScopeIncludes;</span>
     }
 
     public void setClassscopeincludes(String classScopeIncludes) {
-<span class="nc" id="L155">        this.classScopeIncludes = classScopeIncludes;</span>
-<span class="nc" id="L156">    }</span>
+<span class="nc" id="L150">        this.classScopeIncludes = classScopeIncludes;</span>
+<span class="nc" id="L151">    }</span>
 
     public String getClassscopeexcludes() {
-<span class="nc" id="L159">        return classScopeExcludes;</span>
+<span class="nc" id="L154">        return classScopeExcludes;</span>
     }
 
     public void setClassscopeexcludes(String classScopeExcludes) {
-<span class="nc" id="L163">        this.classScopeExcludes = classScopeExcludes;</span>
-<span class="nc" id="L164">    }</span>
+<span class="nc" id="L158">        this.classScopeExcludes = classScopeExcludes;</span>
+<span class="nc" id="L159">    }</span>
 
     public boolean getFeaturescope() {
-<span class="nc" id="L167">        return featureScope;</span>
+<span class="nc" id="L162">        return featureScope;</span>
     }
 
     public void setFeaturescope(boolean featureScope) {
-<span class="nc" id="L171">        this.featureScope = featureScope;</span>
-<span class="nc" id="L172">    }</span>
+<span class="nc" id="L166">        this.featureScope = featureScope;</span>
+<span class="nc" id="L167">    }</span>
 
     public String getFeaturescopeincludes() {
-<span class="nc" id="L175">        return featureScopeIncludes;</span>
+<span class="nc" id="L170">        return featureScopeIncludes;</span>
     }
 
     public void setFeaturescopeincludes(String featureScopeIncludes) {
-<span class="nc" id="L179">        this.featureScopeIncludes = featureScopeIncludes;</span>
-<span class="nc" id="L180">    }</span>
+<span class="nc" id="L174">        this.featureScopeIncludes = featureScopeIncludes;</span>
+<span class="nc" id="L175">    }</span>
 
     public String getFeaturescopeexcludes() {
-<span class="nc" id="L183">        return featureScopeExcludes;</span>
+<span class="nc" id="L178">        return featureScopeExcludes;</span>
     }
 
     public void setFeaturescopeexcludes(String featureScopeExcludes) {
-<span class="nc" id="L187">        this.featureScopeExcludes = featureScopeExcludes;</span>
-<span class="nc" id="L188">    }</span>
+<span class="nc" id="L182">        this.featureScopeExcludes = featureScopeExcludes;</span>
+<span class="nc" id="L183">    }</span>
 
     public String getFilterincludes() {
-<span class="nc" id="L191">        return filterIncludes;</span>
+<span class="nc" id="L186">        return filterIncludes;</span>
     }
 
     public void setFilterincludes(String filterIncludes) {
-<span class="nc" id="L195">        this.filterIncludes = filterIncludes;</span>
-<span class="nc" id="L196">    }</span>
+<span class="nc" id="L190">        this.filterIncludes = filterIncludes;</span>
+<span class="nc" id="L191">    }</span>
 
     public String getFilterexcludes() {
-<span class="nc" id="L199">        return filterExcludes;</span>
+<span class="nc" id="L194">        return filterExcludes;</span>
     }
 
     public void setFilterexcludes(String filterExcludes) {
-<span class="nc" id="L203">        this.filterExcludes = filterExcludes;</span>
-<span class="nc" id="L204">    }</span>
+<span class="nc" id="L198">        this.filterExcludes = filterExcludes;</span>
+<span class="nc" id="L199">    }</span>
 
     public boolean getPackagefilter() {
-<span class="nc" id="L207">        return packageFilter;</span>
+<span class="nc" id="L202">        return packageFilter;</span>
     }
 
     public void setPackagefilter(boolean packageFilter) {
-<span class="nc" id="L211">        this.packageFilter = packageFilter;</span>
-<span class="nc" id="L212">    }</span>
+<span class="nc" id="L206">        this.packageFilter = packageFilter;</span>
+<span class="nc" id="L207">    }</span>
 
     public String getPackagefilterincludes() {
-<span class="nc" id="L215">        return packageFilterIncludes;</span>
+<span class="nc" id="L210">        return packageFilterIncludes;</span>
     }
 
     public void setPackagefilterincludes(String packageFilterIncludes) {
-<span class="nc" id="L219">        this.packageFilterIncludes = packageFilterIncludes;</span>
-<span class="nc" id="L220">    }</span>
+<span class="nc" id="L214">        this.packageFilterIncludes = packageFilterIncludes;</span>
+<span class="nc" id="L215">    }</span>
 
     public String getPackagefilterexcludes() {
-<span class="nc" id="L223">        return packageFilterExcludes;</span>
+<span class="nc" id="L218">        return packageFilterExcludes;</span>
     }
 
     public void setPackagefilterexcludes(String packageFilterExcludes) {
-<span class="nc" id="L227">        this.packageFilterExcludes = packageFilterExcludes;</span>
-<span class="nc" id="L228">    }</span>
+<span class="nc" id="L222">        this.packageFilterExcludes = packageFilterExcludes;</span>
+<span class="nc" id="L223">    }</span>
 
     public boolean getClassfilter() {
-<span class="nc" id="L231">        return classFilter;</span>
+<span class="nc" id="L226">        return classFilter;</span>
     }
 
     public void setClassfilter(boolean classFilter) {
-<span class="nc" id="L235">        this.classFilter = classFilter;</span>
-<span class="nc" id="L236">    }</span>
+<span class="nc" id="L230">        this.classFilter = classFilter;</span>
+<span class="nc" id="L231">    }</span>
 
     public String getClassfilterincludes() {
-<span class="nc" id="L239">        return classFilterIncludes;</span>
+<span class="nc" id="L234">        return classFilterIncludes;</span>
     }
 
     public void setClassfilterincludes(String classFilterIncludes) {
-<span class="nc" id="L243">        this.classFilterIncludes = classFilterIncludes;</span>
-<span class="nc" id="L244">    }</span>
+<span class="nc" id="L238">        this.classFilterIncludes = classFilterIncludes;</span>
+<span class="nc" id="L239">    }</span>
 
     public String getClassfilterexcludes() {
-<span class="nc" id="L247">        return classFilterExcludes;</span>
+<span class="nc" id="L242">        return classFilterExcludes;</span>
     }
 
     public void setClassfilterexcludes(String classFilterExcludes) {
-<span class="nc" id="L251">        this.classFilterExcludes = classFilterExcludes;</span>
-<span class="nc" id="L252">    }</span>
+<span class="nc" id="L246">        this.classFilterExcludes = classFilterExcludes;</span>
+<span class="nc" id="L247">    }</span>
 
     public boolean getFeaturefilter() {
-<span class="nc" id="L255">        return featureFilter;</span>
+<span class="nc" id="L250">        return featureFilter;</span>
     }
 
     public void setFeaturefilter(boolean featureFilter) {
-<span class="nc" id="L259">        this.featureFilter = featureFilter;</span>
-<span class="nc" id="L260">    }</span>
+<span class="nc" id="L254">        this.featureFilter = featureFilter;</span>
+<span class="nc" id="L255">    }</span>
 
     public String getFeaturefilterincludes() {
-<span class="nc" id="L263">        return featureFilterIncludes;</span>
+<span class="nc" id="L258">        return featureFilterIncludes;</span>
     }
 
     public void setFeaturefilterincludes(String featureFilterIncludes) {
-<span class="nc" id="L267">        this.featureFilterIncludes = featureFilterIncludes;</span>
-<span class="nc" id="L268">    }</span>
+<span class="nc" id="L262">        this.featureFilterIncludes = featureFilterIncludes;</span>
+<span class="nc" id="L263">    }</span>
 
     public String getFeaturefilterexcludes() {
-<span class="nc" id="L271">        return featureFilterExcludes;</span>
+<span class="nc" id="L266">        return featureFilterExcludes;</span>
     }
 
     public void setFeaturefilterexcludes(String featureFilterExcludes) {
-<span class="nc" id="L275">        this.featureFilterExcludes = featureFilterExcludes;</span>
-<span class="nc" id="L276">    }</span>
+<span class="nc" id="L270">        this.featureFilterExcludes = featureFilterExcludes;</span>
+<span class="nc" id="L271">    }</span>
 
     public void setP2p(boolean value) {
-<span class="nc" id="L279">        setPackagescope(value);</span>
+<span class="nc" id="L274">        setPackagescope(value);</span>
+<span class="nc" id="L275">        setPackagefilter(value);</span>
+<span class="nc" id="L276">    }</span>
+
+    public void setC2p(boolean value) {
+<span class="nc" id="L279">        setClassscope(value);</span>
 <span class="nc" id="L280">        setPackagefilter(value);</span>
 <span class="nc" id="L281">    }</span>
 
-    public void setC2p(boolean value) {
+    public void setC2c(boolean value) {
 <span class="nc" id="L284">        setClassscope(value);</span>
-<span class="nc" id="L285">        setPackagefilter(value);</span>
+<span class="nc" id="L285">        setClassfilter(value);</span>
 <span class="nc" id="L286">    }</span>
 
-    public void setC2c(boolean value) {
-<span class="nc" id="L289">        setClassscope(value);</span>
-<span class="nc" id="L290">        setClassfilter(value);</span>
+    public void setF2f(boolean value) {
+<span class="nc" id="L289">        setFeaturescope(value);</span>
+<span class="nc" id="L290">        setFeaturefilter(value);</span>
 <span class="nc" id="L291">    }</span>
 
-    public void setF2f(boolean value) {
-<span class="nc" id="L294">        setFeaturescope(value);</span>
-<span class="nc" id="L295">        setFeaturefilter(value);</span>
+    public void setIncludes(String value) {
+<span class="nc" id="L294">        setScopeincludes(value);</span>
+<span class="nc" id="L295">        setFilterincludes(value);</span>
 <span class="nc" id="L296">    }</span>
 
-    public void setIncludes(String value) {
-<span class="nc" id="L299">        setScopeincludes(value);</span>
-<span class="nc" id="L300">        setFilterincludes(value);</span>
+    public void setExcludes(String value) {
+<span class="nc" id="L299">        setScopeexcludes(value);</span>
+<span class="nc" id="L300">        setFilterexcludes(value);</span>
 <span class="nc" id="L301">    }</span>
 
-    public void setExcludes(String value) {
-<span class="nc" id="L304">        setScopeexcludes(value);</span>
-<span class="nc" id="L305">        setFilterexcludes(value);</span>
-<span class="nc" id="L306">    }</span>
-
     public Path createScopeincludeslist() {
-<span class="nc bnc" id="L309" title="All 2 branches missed.">        if (scopeIncludesList == null) {</span>
-<span class="nc" id="L310">            scopeIncludesList = new Path(getProject());</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">        if (scopeIncludesList == null) {</span>
+<span class="nc" id="L305">            scopeIncludesList = new Path(getProject());</span>
         }
 
-<span class="nc" id="L313">        return scopeIncludesList;</span>
+<span class="nc" id="L308">        return scopeIncludesList;</span>
     }
 
     public Path getScopeincludeslist() {
-<span class="nc" id="L317">        return scopeIncludesList;</span>
+<span class="nc" id="L312">        return scopeIncludesList;</span>
     }
 
     public Path createScopeexcludeslist() {
-<span class="nc bnc" id="L321" title="All 2 branches missed.">        if (scopeExcludesList == null) {</span>
-<span class="nc" id="L322">            scopeExcludesList = new Path(getProject());</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (scopeExcludesList == null) {</span>
+<span class="nc" id="L317">            scopeExcludesList = new Path(getProject());</span>
         }
 
-<span class="nc" id="L325">        return scopeExcludesList;</span>
+<span class="nc" id="L320">        return scopeExcludesList;</span>
     }
 
     public Path getScopeexcludeslist() {
-<span class="nc" id="L329">        return scopeExcludesList;</span>
+<span class="nc" id="L324">        return scopeExcludesList;</span>
     }
 
     public Path createFilterincludeslist() {
-<span class="nc bnc" id="L333" title="All 2 branches missed.">        if (filterIncludesList == null) {</span>
-<span class="nc" id="L334">            filterIncludesList = new Path(getProject());</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">        if (filterIncludesList == null) {</span>
+<span class="nc" id="L329">            filterIncludesList = new Path(getProject());</span>
         }
 
-<span class="nc" id="L337">        return filterIncludesList;</span>
+<span class="nc" id="L332">        return filterIncludesList;</span>
     }
 
     public Path getFilterincludeslist() {
-<span class="nc" id="L341">        return filterIncludesList;</span>
+<span class="nc" id="L336">        return filterIncludesList;</span>
     }
 
     public Path createFilterexcludeslist() {
-<span class="nc bnc" id="L345" title="All 2 branches missed.">        if (filterExcludesList == null) {</span>
-<span class="nc" id="L346">            filterExcludesList = new Path(getProject());</span>
+<span class="nc bnc" id="L340" title="All 2 branches missed.">        if (filterExcludesList == null) {</span>
+<span class="nc" id="L341">            filterExcludesList = new Path(getProject());</span>
         }
 
-<span class="nc" id="L349">        return filterExcludesList;</span>
+<span class="nc" id="L344">        return filterExcludesList;</span>
     }
 
     public Path getFilterexcludeslist() {
-<span class="nc" id="L353">        return filterExcludesList;</span>
+<span class="nc" id="L348">        return filterExcludesList;</span>
     }
 
     public boolean getShowinbounds() {
-<span class="nc" id="L357">        return showInbounds;</span>
+<span class="nc" id="L352">        return showInbounds;</span>
     }
 
     public void setShowinbounds(boolean showInbounds) {
-<span class="nc" id="L361">        this.showInbounds = showInbounds;</span>
-<span class="nc" id="L362">    }</span>
+<span class="nc" id="L356">        this.showInbounds = showInbounds;</span>
+<span class="nc" id="L357">    }</span>
 
     public boolean getShowoutbounds() {
-<span class="nc" id="L365">        return showOutbounds;</span>
+<span class="nc" id="L360">        return showOutbounds;</span>
     }
 
     public void setShowoutbounds(boolean showOutbounds) {
-<span class="nc" id="L369">        this.showOutbounds = showOutbounds;</span>
-<span class="nc" id="L370">    }</span>
+<span class="nc" id="L364">        this.showOutbounds = showOutbounds;</span>
+<span class="nc" id="L365">    }</span>
 
     public boolean getShowemptynodes() {
-<span class="nc" id="L373">        return showEmptyNodes;</span>
+<span class="nc" id="L368">        return showEmptyNodes;</span>
     }
 
     public void setShowemptynodes(boolean showEmptyNodes) {
-<span class="nc" id="L377">        this.showEmptyNodes = showEmptyNodes;</span>
-<span class="nc" id="L378">    }</span>
+<span class="nc" id="L372">        this.showEmptyNodes = showEmptyNodes;</span>
+<span class="nc" id="L373">    }</span>
 
-    public void setShowAll(boolean showAll) {
-<span class="nc" id="L381">        setShowinbounds(showAll);</span>
-<span class="nc" id="L382">        setShowoutbounds(showAll);</span>
-<span class="nc" id="L383">        setShowemptynodes(showAll);</span>
-<span class="nc" id="L384">    }</span>
+    public void setShowall(boolean showAll) {
+<span class="nc" id="L376">        setShowinbounds(showAll);</span>
+<span class="nc" id="L377">        setShowoutbounds(showAll);</span>
+<span class="nc" id="L378">        setShowemptynodes(showAll);</span>
+<span class="nc" id="L379">    }</span>
 
-    public boolean getMinimize() {
-<span class="nc" id="L387">        return minimize;</span>
+    public boolean getHtml() {
+<span class="nc" id="L382">        return html;</span>
     }
 
-    public void setMinimize(boolean minimize) {
-<span class="nc" id="L391">        this.minimize = minimize;</span>
-<span class="nc" id="L392">    }</span>
+    public void setHtml(boolean html) {
+<span class="nc" id="L386">        this.html = html;</span>
+<span class="nc" id="L387">    }</span>
 
-    public boolean getMaximize() {
-<span class="nc" id="L395">        return maximize;</span>
+    public boolean getJson() {
+<span class="nc" id="L390">        return json;</span>
     }
 
-    public void setMaximize(boolean maximize) {
-<span class="nc" id="L399">        this.maximize = maximize;</span>
-<span class="nc" id="L400">    }</span>
+    public void setJson(boolean json) {
+<span class="nc" id="L394">        this.json = json;</span>
+<span class="nc" id="L395">    }</span>
 
-    public boolean getCopyOnly() {
-<span class="nc" id="L403">        return copyOnly;</span>
+    public boolean getText() {
+<span class="nc" id="L398">        return text;</span>
     }
 
-    public void setCopyOnly(boolean copyOnly) {
-<span class="nc" id="L407">        this.copyOnly = copyOnly;</span>
-<span class="nc" id="L408">    }</span>
+    public void setText(boolean text) {
+<span class="nc" id="L402">        this.text = text;</span>
+<span class="nc" id="L403">    }</span>
+
+    public void setTxt(boolean text) {
+<span class="nc" id="L406">        setText(text);</span>
+<span class="nc" id="L407">    }</span>
 
     public boolean getXml() {
-<span class="nc" id="L411">        return xml;</span>
+<span class="nc" id="L410">        return xml;</span>
     }
 
     public void setXml(boolean xml) {
-<span class="nc" id="L415">        this.xml = xml;</span>
-<span class="nc" id="L416">    }</span>
+<span class="nc" id="L414">        this.xml = xml;</span>
+<span class="nc" id="L415">    }</span>
+
+    public boolean getYaml() {
+<span class="nc" id="L418">        return yaml;</span>
+    }
+
+    public void setYaml(boolean yaml) {
+<span class="nc" id="L422">        this.yaml = yaml;</span>
+<span class="nc" id="L423">    }</span>
+
+    public void setYml(boolean yaml) {
+<span class="nc" id="L426">        setYaml(yaml);</span>
+<span class="nc" id="L427">    }</span>
+
+    public boolean getMinimize() {
+<span class="nc" id="L430">        return minimize;</span>
+    }
+
+    public void setMinimize(boolean minimize) {
+<span class="nc" id="L434">        this.minimize = minimize;</span>
+<span class="nc" id="L435">    }</span>
+
+    public boolean getMaximize() {
+<span class="nc" id="L438">        return maximize;</span>
+    }
+
+    public void setMaximize(boolean maximize) {
+<span class="nc" id="L442">        this.maximize = maximize;</span>
+<span class="nc" id="L443">    }</span>
+
+    public boolean getCopyonly() {
+<span class="nc" id="L446">        return copyOnly;</span>
+    }
+
+    public void setCopyonly(boolean copyOnly) {
+<span class="nc" id="L450">        this.copyOnly = copyOnly;</span>
+<span class="nc" id="L451">    }</span>
+
+    public boolean getIncludefilternodes() {
+<span class="nc" id="L454">        return includeFilterNodes;</span>
+    }
+
+    public void setIncludefilternodes(boolean includeFilterNodes) {
+<span class="nc" id="L458">        this.includeFilterNodes = includeFilterNodes;</span>
+<span class="nc" id="L459">    }</span>
+
+    public String getUrlFormat() {
+<span class="nc" id="L462">        return urlFormat;</span>
+    }
+
+    public void setUrlFormat(String urlFormat) {
+<span class="nc" id="L466">        this.urlFormat = urlFormat;</span>
+<span class="nc" id="L467">    }</span>
 
     public String getEncoding() {
-<span class="nc" id="L419">        return encoding;</span>
+<span class="nc" id="L470">        return encoding;</span>
     }
 
     public void setEncoding(String encoding) {
-<span class="nc" id="L423">        this.encoding = encoding;</span>
-<span class="nc" id="L424">    }</span>
+<span class="nc" id="L474">        this.encoding = encoding;</span>
+<span class="nc" id="L475">    }</span>
 
     public String getDtdprefix() {
-<span class="nc" id="L427">        return dtdPrefix;</span>
+<span class="nc" id="L478">        return dtdPrefix;</span>
     }
 
     public void setDtdprefix(String dtdPrefix) {
-<span class="nc" id="L431">        this.dtdPrefix = dtdPrefix;</span>
-<span class="nc" id="L432">    }</span>
+<span class="nc" id="L482">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L483">    }</span>
 
     public String getIndenttext() {
-<span class="nc" id="L435">        return indentText;</span>
+<span class="nc" id="L486">        return indentText;</span>
     }
 
     public void setIndenttext(String indentText) {
-<span class="nc" id="L439">        this.indentText = indentText;</span>
-<span class="nc" id="L440">    }</span>
+<span class="nc" id="L490">        this.indentText = indentText;</span>
+<span class="nc" id="L491">    }</span>
 
     protected void validateParameters() throws BuildException {
-<span class="nc" id="L443">        super.validateParameters();</span>
+<span class="nc" id="L494">        super.validateParameters();</span>
 
-<span class="nc bnc" id="L445" title="All 4 branches missed.">        if (hasScopeRegularExpressionSwitches() &amp;&amp; hasScopeListSwitches()) {</span>
-<span class="nc" id="L446">            throw new BuildException(&quot;Cannot have scope attributes for regular expressions and lists at the same time!&quot;);</span>
+<span class="nc bnc" id="L496" title="All 4 branches missed.">        if (hasScopeRegularExpressionSwitches() &amp;&amp; hasScopeListSwitches()) {</span>
+<span class="nc" id="L497">            throw new BuildException(&quot;Cannot have scope attributes for regular expressions and lists at the same time!&quot;);</span>
         }
 
-<span class="nc bnc" id="L449" title="All 4 branches missed.">        if (hasFilterRegularExpressionSwitches() &amp;&amp; hasFilterListSwitches()) {</span>
-<span class="nc" id="L450">            throw new BuildException(&quot;Cannot have filter attributes for regular expressions and lists at the same time!&quot;);</span>
+<span class="nc bnc" id="L500" title="All 4 branches missed.">        if (hasFilterRegularExpressionSwitches() &amp;&amp; hasFilterListSwitches()) {</span>
+<span class="nc" id="L501">            throw new BuildException(&quot;Cannot have filter attributes for regular expressions and lists at the same time!&quot;);</span>
         }
-<span class="nc" id="L452">    }</span>
+<span class="nc" id="L503">    }</span>
 
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
-<span class="nc" id="L456">        validateParameters();</span>
+<span class="nc" id="L507">        validateParameters();</span>
 
-<span class="nc" id="L458">        VerboseListener verboseListener = new VerboseListener(this);</span>
+<span class="nc" id="L509">        VerboseListener verboseListener = new VerboseListener(this);</span>
 
         try {
             GraphCopier copier;
-<span class="nc bnc" id="L462" title="All 4 branches missed.">            if (getCopyOnly() || getMaximize()) {</span>
-<span class="nc" id="L463">                copier = new GraphCopier(getStrategy());</span>
+<span class="nc bnc" id="L513" title="All 4 branches missed.">            if (getCopyonly() || getMaximize()) {</span>
+<span class="nc" id="L514">                copier = new GraphCopier(getStrategy());</span>
             } else {
-<span class="nc" id="L465">                copier = new GraphSummarizer(getScopeCriteria(), getFilterCriteria());</span>
+<span class="nc" id="L516">                copier = new GraphSummarizer(getScopeCriteria(), getFilterCriteria());</span>
             }
 
-<span class="nc bnc" id="L468" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
-<span class="nc" id="L469">                log(&quot;Reading graph from &quot; + filename);</span>
+<span class="nc bnc" id="L519" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
+<span class="nc" id="L520">                log(&quot;Reading graph from &quot; + filename);</span>
 
-<span class="nc" id="L471">                Collection&lt;PackageNode&gt; packages = Collections.emptyList();</span>
+<span class="nc" id="L522">                Collection&lt;PackageNode&gt; packages = Collections.emptyList();</span>
 
-<span class="nc bnc" id="L473" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
-<span class="nc" id="L474">                    NodeLoader loader = new NodeLoader(getValidate());</span>
-<span class="nc" id="L475">                    loader.addDependencyListener(verboseListener);</span>
-<span class="nc" id="L476">                    packages = loader.load(filename).getPackages().values();</span>
+<span class="nc bnc" id="L524" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L525">                    NodeLoader loader = new NodeLoader(getValidate());</span>
+<span class="nc" id="L526">                    loader.addDependencyListener(verboseListener);</span>
+<span class="nc" id="L527">                    packages = loader.load(filename).getPackages().values();</span>
                 }
 
-<span class="nc bnc" id="L479" title="All 2 branches missed.">                if (getMaximize()) {</span>
-<span class="nc" id="L480">                    log(&quot;Maximizing ...&quot;);</span>
-<span class="nc" id="L481">                    new LinkMaximizer().traverseNodes(packages);</span>
-<span class="nc bnc" id="L482" title="All 2 branches missed.">                } else if (getMinimize()) {</span>
-<span class="nc" id="L483">                    log(&quot;Minimizing ...&quot;);</span>
-<span class="nc" id="L484">                    new LinkMinimizer().traverseNodes(packages);</span>
+<span class="nc bnc" id="L530" title="All 2 branches missed.">                if (getMaximize()) {</span>
+<span class="nc" id="L531">                    log(&quot;Maximizing ...&quot;);</span>
+<span class="nc" id="L532">                    new LinkMaximizer().traverseNodes(packages);</span>
+<span class="nc bnc" id="L533" title="All 2 branches missed.">                } else if (getMinimize()) {</span>
+<span class="nc" id="L534">                    log(&quot;Minimizing ...&quot;);</span>
+<span class="nc" id="L535">                    new LinkMinimizer().traverseNodes(packages);</span>
                 }
 
-<span class="nc" id="L487">                copier.traverseNodes(packages);</span>
+<span class="nc" id="L538">                copier.traverseNodes(packages);</span>
             }
 
-<span class="nc" id="L490">            log(&quot;Saving dependency graph to &quot; + getDestfile().getAbsolutePath());</span>
+<span class="nc" id="L541">            log(&quot;Saving dependency graph to &quot; + getDestfile().getAbsolutePath());</span>
 
-<span class="nc" id="L492">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
+<span class="nc" id="L543">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
 
             Printer printer;
-<span class="nc bnc" id="L495" title="All 2 branches missed.">            if (getXml()) {</span>
-<span class="nc" id="L496">                printer = new XMLPrinter(out, getEncoding(), getDtdprefix());</span>
+<span class="nc bnc" id="L546" title="All 2 branches missed.">            if (getHtml()) {</span>
+<span class="nc" id="L547">                printer = new HTMLPrinter(out, getUrlFormat());</span>
+<span class="nc bnc" id="L548" title="All 2 branches missed.">            } else if (getJson()) {</span>
+<span class="nc" id="L549">                printer = new JSONPrinter(out);</span>
+<span class="nc bnc" id="L550" title="All 2 branches missed.">            } else if (getXml()) {</span>
+<span class="nc" id="L551">                printer = new XMLPrinter(out, getEncoding(), getDtdprefix());</span>
+<span class="nc bnc" id="L552" title="All 2 branches missed.">            } else if (getYaml()) {</span>
+<span class="nc" id="L553">                printer = new YAMLPrinter(out);</span>
             } else {
-<span class="nc" id="L498">                printer = new TextPrinter(out);</span>
+<span class="nc" id="L555">                printer = new TextPrinter(out);</span>
             }
 
-<span class="nc bnc" id="L501" title="All 2 branches missed.">            if (getIndenttext() != null) {</span>
-<span class="nc" id="L502">                printer.setIndentText(getIndenttext());</span>
+<span class="nc bnc" id="L558" title="All 2 branches missed.">            if (getIndenttext() != null) {</span>
+<span class="nc" id="L559">                printer.setIndentText(getIndenttext());</span>
             }
 
-<span class="nc bnc" id="L505" title="All 6 branches missed.">            if (getShowinbounds() || getShowoutbounds() || getShowemptynodes()) {</span>
-<span class="nc" id="L506">                printer.setShowInbounds(getShowinbounds());</span>
-<span class="nc" id="L507">                printer.setShowOutbounds(getShowoutbounds());</span>
-<span class="nc" id="L508">                printer.setShowEmptyNodes(getShowemptynodes());</span>
+<span class="nc bnc" id="L562" title="All 6 branches missed.">            if (getShowinbounds() || getShowoutbounds() || getShowemptynodes()) {</span>
+<span class="nc" id="L563">                printer.setShowInbounds(getShowinbounds());</span>
+<span class="nc" id="L564">                printer.setShowOutbounds(getShowoutbounds());</span>
+<span class="nc" id="L565">                printer.setShowEmptyNodes(getShowemptynodes());</span>
             }
 
-<span class="nc" id="L511">            printer.traverseNodes(copier.getScopeFactory().getPackages().values());</span>
+<span class="nc" id="L568">            var packages = copier.getScopeFactory().getPackages().values();</span>
 
-<span class="nc" id="L513">            out.close();</span>
-<span class="nc" id="L514">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
-<span class="nc" id="L515">            throw new BuildException(ex);</span>
-<span class="nc" id="L516">        }</span>
-<span class="nc" id="L517">    }</span>
+<span class="nc bnc" id="L570" title="All 2 branches missed.">            if (getIncludefilternodes()) {</span>
+<span class="nc" id="L571">                var nodeFactory = new NodeFactory();</span>
+<span class="nc" id="L572">                new GraphCopier(nodeFactory).traverseNodes(packages);</span>
+<span class="nc" id="L573">                packages = nodeFactory.getPackages().values();</span>
+            }
+
+<span class="nc" id="L576">            printer.traverseNodes(packages);</span>
+
+<span class="nc" id="L578">            out.close();</span>
+<span class="nc" id="L579">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
+<span class="nc" id="L580">            throw new BuildException(ex);</span>
+<span class="nc" id="L581">        }</span>
+<span class="nc" id="L582">    }</span>
 
     protected SelectionCriteria getScopeCriteria() throws BuildException {
-<span class="nc" id="L520">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
+<span class="nc" id="L585">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
 
-<span class="nc bnc" id="L522" title="All 2 branches missed.">        if (hasScopeRegularExpressionSwitches()) {</span>
-<span class="nc" id="L523">            result = createRegularExpressionScopeCriteria();</span>
-<span class="nc bnc" id="L524" title="All 2 branches missed.">        } else if (hasScopeListSwitches()) {</span>
-<span class="nc" id="L525">            result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());</span>
+<span class="nc bnc" id="L587" title="All 2 branches missed.">        if (hasScopeRegularExpressionSwitches()) {</span>
+<span class="nc" id="L588">            result = createRegularExpressionScopeCriteria();</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">        } else if (hasScopeListSwitches()) {</span>
+<span class="nc" id="L590">            result = createCollectionSelectionCriteria(getScopeincludeslist(), getScopeexcludeslist());</span>
         }
 
-<span class="nc" id="L528">        return result;</span>
+<span class="nc" id="L593">        return result;</span>
     }
 
     protected SelectionCriteria getFilterCriteria() throws BuildException {
-<span class="nc" id="L532">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
+<span class="nc" id="L597">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
 
-<span class="nc bnc" id="L534" title="All 2 branches missed.">        if (hasFilterRegularExpressionSwitches()) {</span>
-<span class="nc" id="L535">            result = createRegularExpressionFilterCriteria();</span>
-<span class="nc bnc" id="L536" title="All 2 branches missed.">        } else if (hasFilterListSwitches()) {</span>
-<span class="nc" id="L537">            result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());</span>
+<span class="nc bnc" id="L599" title="All 2 branches missed.">        if (hasFilterRegularExpressionSwitches()) {</span>
+<span class="nc" id="L600">            result = createRegularExpressionFilterCriteria();</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">        } else if (hasFilterListSwitches()) {</span>
+<span class="nc" id="L602">            result = createCollectionSelectionCriteria(getFilterincludeslist(), getFilterexcludeslist());</span>
         }
 
-<span class="nc" id="L540">        return result;</span>
+<span class="nc" id="L605">        return result;</span>
     }
 
     protected RegularExpressionSelectionCriteria createRegularExpressionScopeCriteria() throws BuildException {
-<span class="nc" id="L544">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+<span class="nc" id="L609">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
 
-<span class="nc bnc" id="L546" title="All 6 branches missed.">        if (getPackagescope() || getClassscope() || getFeaturescope()) {</span>
-<span class="nc" id="L547">            result.setMatchingPackages(getPackagescope());</span>
-<span class="nc" id="L548">            result.setMatchingClasses(getClassscope());</span>
-<span class="nc" id="L549">            result.setMatchingFeatures(getFeaturescope());</span>
+<span class="nc bnc" id="L611" title="All 6 branches missed.">        if (getPackagescope() || getClassscope() || getFeaturescope()) {</span>
+<span class="nc" id="L612">            result.setMatchingPackages(getPackagescope());</span>
+<span class="nc" id="L613">            result.setMatchingClasses(getClassscope());</span>
+<span class="nc" id="L614">            result.setMatchingFeatures(getFeaturescope());</span>
         }
 
-<span class="nc" id="L552">        result.setGlobalIncludes(getScopeincludes());</span>
-<span class="nc" id="L553">        result.setGlobalExcludes(getScopeexcludes());</span>
-<span class="nc" id="L554">        result.setPackageIncludes(getPackagescopeincludes());</span>
-<span class="nc" id="L555">        result.setPackageExcludes(getPackagescopeexcludes());</span>
-<span class="nc" id="L556">        result.setClassIncludes(getClassscopeincludes());</span>
-<span class="nc" id="L557">        result.setClassExcludes(getClassscopeexcludes());</span>
-<span class="nc" id="L558">        result.setFeatureIncludes(getFeaturescopeincludes());</span>
-<span class="nc" id="L559">        result.setFeatureExcludes(getFeaturescopeexcludes());</span>
+<span class="nc" id="L617">        result.setGlobalIncludes(getScopeincludes());</span>
+<span class="nc" id="L618">        result.setGlobalExcludes(getScopeexcludes());</span>
+<span class="nc" id="L619">        result.setPackageIncludes(getPackagescopeincludes());</span>
+<span class="nc" id="L620">        result.setPackageExcludes(getPackagescopeexcludes());</span>
+<span class="nc" id="L621">        result.setClassIncludes(getClassscopeincludes());</span>
+<span class="nc" id="L622">        result.setClassExcludes(getClassscopeexcludes());</span>
+<span class="nc" id="L623">        result.setFeatureIncludes(getFeaturescopeincludes());</span>
+<span class="nc" id="L624">        result.setFeatureExcludes(getFeaturescopeexcludes());</span>
 
-<span class="nc" id="L561">        return result;</span>
+<span class="nc" id="L626">        return result;</span>
     }
 
     protected RegularExpressionSelectionCriteria createRegularExpressionFilterCriteria() throws BuildException {
-<span class="nc" id="L565">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+<span class="nc" id="L630">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
 
-<span class="nc bnc" id="L567" title="All 6 branches missed.">        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {</span>
-<span class="nc" id="L568">            result.setMatchingPackages(getPackagefilter());</span>
-<span class="nc" id="L569">            result.setMatchingClasses(getClassfilter());</span>
-<span class="nc" id="L570">            result.setMatchingFeatures(getFeaturefilter());</span>
+<span class="nc bnc" id="L632" title="All 6 branches missed.">        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {</span>
+<span class="nc" id="L633">            result.setMatchingPackages(getPackagefilter());</span>
+<span class="nc" id="L634">            result.setMatchingClasses(getClassfilter());</span>
+<span class="nc" id="L635">            result.setMatchingFeatures(getFeaturefilter());</span>
         }
 
-<span class="nc" id="L573">        result.setGlobalIncludes(getFilterincludes());</span>
-<span class="nc" id="L574">        result.setGlobalExcludes(getFilterexcludes());</span>
-<span class="nc" id="L575">        result.setPackageIncludes(getPackagefilterincludes());</span>
-<span class="nc" id="L576">        result.setPackageExcludes(getPackagefilterexcludes());</span>
-<span class="nc" id="L577">        result.setClassIncludes(getClassfilterincludes());</span>
-<span class="nc" id="L578">        result.setClassExcludes(getClassfilterexcludes());</span>
-<span class="nc" id="L579">        result.setFeatureIncludes(getFeaturefilterincludes());</span>
-<span class="nc" id="L580">        result.setFeatureExcludes(getFeaturefilterexcludes());</span>
+<span class="nc" id="L638">        result.setGlobalIncludes(getFilterincludes());</span>
+<span class="nc" id="L639">        result.setGlobalExcludes(getFilterexcludes());</span>
+<span class="nc" id="L640">        result.setPackageIncludes(getPackagefilterincludes());</span>
+<span class="nc" id="L641">        result.setPackageExcludes(getPackagefilterexcludes());</span>
+<span class="nc" id="L642">        result.setClassIncludes(getClassfilterincludes());</span>
+<span class="nc" id="L643">        result.setClassExcludes(getClassfilterexcludes());</span>
+<span class="nc" id="L644">        result.setFeatureIncludes(getFeaturefilterincludes());</span>
+<span class="nc" id="L645">        result.setFeatureExcludes(getFeaturefilterexcludes());</span>
 
-<span class="nc" id="L582">        return result;</span>
+<span class="nc" id="L647">        return result;</span>
     }
 
     private boolean hasScopeRegularExpressionSwitches() {
-<span class="nc" id="L586">        return</span>
-<span class="nc bnc" id="L587" title="All 2 branches missed.">                !getScopeincludes().equals(&quot;//&quot;) ||</span>
-<span class="nc bnc" id="L588" title="All 2 branches missed.">                !getScopeexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L589" title="All 2 branches missed.">                getPackagescope() ||</span>
-<span class="nc bnc" id="L590" title="All 2 branches missed.">                !getPackagescopeincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L591" title="All 2 branches missed.">                !getPackagescopeexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L592" title="All 2 branches missed.">                getClassscope() ||</span>
-<span class="nc bnc" id="L593" title="All 2 branches missed.">                !getClassscopeincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L594" title="All 2 branches missed.">                !getClassscopeexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L595" title="All 2 branches missed.">                getFeaturescope() ||</span>
-<span class="nc bnc" id="L596" title="All 2 branches missed.">                !getFeaturescopeincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L597" title="All 2 branches missed.">                !getFeaturescopeexcludes().equals(&quot;&quot;);</span>
+<span class="nc" id="L651">        return</span>
+<span class="nc bnc" id="L652" title="All 2 branches missed.">                !getScopeincludes().equals(&quot;//&quot;) ||</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">                !getScopeexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L654" title="All 2 branches missed.">                getPackagescope() ||</span>
+<span class="nc bnc" id="L655" title="All 2 branches missed.">                !getPackagescopeincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L656" title="All 2 branches missed.">                !getPackagescopeexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L657" title="All 2 branches missed.">                getClassscope() ||</span>
+<span class="nc bnc" id="L658" title="All 2 branches missed.">                !getClassscopeincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L659" title="All 2 branches missed.">                !getClassscopeexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L660" title="All 2 branches missed.">                getFeaturescope() ||</span>
+<span class="nc bnc" id="L661" title="All 2 branches missed.">                !getFeaturescopeincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L662" title="All 2 branches missed.">                !getFeaturescopeexcludes().equals(&quot;&quot;);</span>
     }
 
     private boolean hasScopeListSwitches() {
-<span class="nc" id="L601">        return</span>
-<span class="nc bnc" id="L602" title="All 2 branches missed.">                getScopeincludeslist() != null ||</span>
-<span class="nc bnc" id="L603" title="All 2 branches missed.">                getScopeexcludeslist() != null;</span>
+<span class="nc" id="L666">        return</span>
+<span class="nc bnc" id="L667" title="All 2 branches missed.">                getScopeincludeslist() != null ||</span>
+<span class="nc bnc" id="L668" title="All 2 branches missed.">                getScopeexcludeslist() != null;</span>
     }
 
     private boolean hasFilterRegularExpressionSwitches() {
-<span class="nc" id="L607">        return</span>
-<span class="nc bnc" id="L608" title="All 2 branches missed.">                !getFilterincludes().equals(&quot;//&quot;) ||</span>
-<span class="nc bnc" id="L609" title="All 2 branches missed.">                !getFilterexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L610" title="All 2 branches missed.">                getPackagefilter() ||</span>
-<span class="nc bnc" id="L611" title="All 2 branches missed.">                !getPackagefilterincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L612" title="All 2 branches missed.">                !getPackagefilterexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L613" title="All 2 branches missed.">                getClassfilter() ||</span>
-<span class="nc bnc" id="L614" title="All 2 branches missed.">                !getClassfilterincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L615" title="All 2 branches missed.">                !getClassfilterexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L616" title="All 2 branches missed.">                getFeaturefilter() ||</span>
-<span class="nc bnc" id="L617" title="All 2 branches missed.">                !getFeaturefilterincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L618" title="All 2 branches missed.">                !getFeaturefilterexcludes().equals(&quot;&quot;);</span>
+<span class="nc" id="L672">        return</span>
+<span class="nc bnc" id="L673" title="All 2 branches missed.">                !getFilterincludes().equals(&quot;//&quot;) ||</span>
+<span class="nc bnc" id="L674" title="All 2 branches missed.">                !getFilterexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L675" title="All 2 branches missed.">                getPackagefilter() ||</span>
+<span class="nc bnc" id="L676" title="All 2 branches missed.">                !getPackagefilterincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L677" title="All 2 branches missed.">                !getPackagefilterexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L678" title="All 2 branches missed.">                getClassfilter() ||</span>
+<span class="nc bnc" id="L679" title="All 2 branches missed.">                !getClassfilterincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L680" title="All 2 branches missed.">                !getClassfilterexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L681" title="All 2 branches missed.">                getFeaturefilter() ||</span>
+<span class="nc bnc" id="L682" title="All 2 branches missed.">                !getFeaturefilterincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L683" title="All 2 branches missed.">                !getFeaturefilterexcludes().equals(&quot;&quot;);</span>
     }
 
     private boolean hasFilterListSwitches() {
-<span class="nc" id="L622">        return</span>
-<span class="nc bnc" id="L623" title="All 2 branches missed.">                getFilterincludeslist() != null ||</span>
-<span class="nc bnc" id="L624" title="All 2 branches missed.">                getFilterexcludeslist() != null;</span>
+<span class="nc" id="L687">        return</span>
+<span class="nc bnc" id="L688" title="All 2 branches missed.">                getFilterincludeslist() != null ||</span>
+<span class="nc bnc" id="L689" title="All 2 branches missed.">                getFilterexcludeslist() != null;</span>
     }
 
     private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) {
-<span class="nc" id="L628">        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));</span>
+<span class="nc" id="L693">        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));</span>
     }
 
     private TraversalStrategy getStrategy() throws BuildException {
-<span class="nc" id="L632">        return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());</span>
+<span class="nc" id="L697">        return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());</span>
     }
 
     private Collection&lt;String&gt; loadCollection(Path path) {
-<span class="nc" id="L636">        Collection&lt;String&gt; result = null;</span>
+<span class="nc" id="L701">        Collection&lt;String&gt; result = null;</span>
 
-<span class="nc bnc" id="L638" title="All 2 branches missed.">        if (path != null) {</span>
-<span class="nc" id="L639">            result = Arrays.stream(path.list())</span>
-<span class="nc" id="L640">                    .map(Paths::get)</span>
-<span class="nc" id="L641">                    .flatMap(filepath -&gt; {</span>
+<span class="nc bnc" id="L703" title="All 2 branches missed.">        if (path != null) {</span>
+<span class="nc" id="L704">            result = Arrays.stream(path.list())</span>
+<span class="nc" id="L705">                    .map(Paths::get)</span>
+<span class="nc" id="L706">                    .flatMap(filepath -&gt; {</span>
                         try {
-<span class="nc" id="L643">                            return Files.lines(filepath);</span>
-<span class="nc" id="L644">                        } catch (IOException ex) {</span>
-<span class="nc" id="L645">                            LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, filepath, ex);</span>
-<span class="nc" id="L646">                            return Stream.empty();</span>
+<span class="nc" id="L708">                            return Files.lines(filepath);</span>
+<span class="nc" id="L709">                        } catch (IOException ex) {</span>
+<span class="nc" id="L710">                            LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, filepath, ex);</span>
+<span class="nc" id="L711">                            return Stream.empty();</span>
                         }
-<span class="nc" id="L648">                    }).distinct()</span>
-<span class="nc" id="L649">                    .toList();</span>
+<span class="nc" id="L713">                    }).distinct()</span>
+<span class="nc" id="L714">                    .toList();</span>
         }
 
-<span class="nc" id="L652">        return result;</span>
+<span class="nc" id="L717">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

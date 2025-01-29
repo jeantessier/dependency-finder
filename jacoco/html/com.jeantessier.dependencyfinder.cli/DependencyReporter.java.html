@@ -64,122 +64,173 @@ import com.jeantessier.dependency.Visitor;
 <span class="fc" id="L64">        getCommandLine().addToggleSwitch(&quot;show-outbounds&quot;);</span>
 <span class="fc" id="L65">        getCommandLine().addToggleSwitch(&quot;show-empty-nodes&quot;);</span>
 
-<span class="fc" id="L67">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
-<span class="fc" id="L68">        getCommandLine().addToggleSwitch(&quot;minimize&quot;);</span>
-<span class="fc" id="L69">        getCommandLine().addToggleSwitch(&quot;maximize&quot;);</span>
-<span class="fc" id="L70">        getCommandLine().addToggleSwitch(&quot;copy-only&quot;);</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L67">        getCommandLine().addToggleSwitch(&quot;html&quot;);</span>
+<span class="fc" id="L68">        getCommandLine().addToggleSwitch(&quot;json&quot;);</span>
+<span class="fc" id="L69">        getCommandLine().addToggleSwitch(&quot;text&quot;);</span>
+<span class="fc" id="L70">        getCommandLine().addToggleSwitch(&quot;txt&quot;);</span>
+<span class="fc" id="L71">        getCommandLine().addToggleSwitch(&quot;xml&quot;);</span>
+<span class="fc" id="L72">        getCommandLine().addToggleSwitch(&quot;yaml&quot;);</span>
+<span class="fc" id="L73">        getCommandLine().addToggleSwitch(&quot;yml&quot;);</span>
+
+<span class="fc" id="L75">        getCommandLine().addToggleSwitch(&quot;minimize&quot;);</span>
+<span class="fc" id="L76">        getCommandLine().addToggleSwitch(&quot;maximize&quot;);</span>
+<span class="fc" id="L77">        getCommandLine().addToggleSwitch(&quot;copy-only&quot;);</span>
+<span class="fc" id="L78">        getCommandLine().addToggleSwitch(&quot;include-filter-nodes&quot;);</span>
+
+<span class="fc" id="L80">        getCommandLine().addSingleValueSwitch(&quot;url-format&quot;, HTMLPrinter.DEFAULT_URL_FORMAT);</span>
+<span class="fc" id="L81">    }</span>
 
     protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
-<span class="fc" id="L74">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+<span class="fc" id="L84">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
 
-<span class="fc" id="L76">        exceptions.addAll(validateCommandLineForScoping());</span>
-<span class="fc" id="L77">        exceptions.addAll(validateCommandLineForFiltering());</span>
+<span class="fc" id="L86">        exceptions.addAll(validateCommandLineForScoping());</span>
+<span class="fc" id="L87">        exceptions.addAll(validateCommandLineForFiltering());</span>
 
-<span class="pc bpc" id="L79" title="1 of 4 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;maximize&quot;) &amp;&amp; getCommandLine().getToggleSwitch(&quot;minimize&quot;)) {</span>
-<span class="fc" id="L80">            exceptions.add(new CommandLineException(&quot;Only one of -maximize or -minimize is allowed&quot;));</span>
+<span class="pc bpc" id="L89" title="1 of 4 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;maximize&quot;) &amp;&amp; getCommandLine().getToggleSwitch(&quot;minimize&quot;)) {</span>
+<span class="fc" id="L90">            exceptions.add(new CommandLineException(&quot;Only one of -maximize or -minimize is allowed&quot;));</span>
         }
 
-<span class="fc" id="L83">        return exceptions;</span>
+<span class="fc" id="L93">        int modeSwitch = 0;</span>
+
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;html&quot;)) {</span>
+<span class="nc" id="L96">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;json&quot;)) {</span>
+<span class="nc" id="L99">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;text&quot;)) {</span>
+<span class="nc" id="L102">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;txt&quot;)) {</span>
+<span class="nc" id="L105">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;xml&quot;)) {</span>
+<span class="nc" id="L108">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yaml&quot;)) {</span>
+<span class="nc" id="L111">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;yml&quot;)) {</span>
+<span class="nc" id="L114">            modeSwitch++;</span>
+        }
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (modeSwitch &gt; 1) {</span>
+<span class="nc" id="L117">            exceptions.add(new CommandLineException(&quot;Must have at most one of -html, -json, -text, -txt, -xml, -yml, or -yaml&quot;));</span>
+        }
+
+<span class="fc" id="L120">        return exceptions;</span>
     }
 
     protected void doProcessing() throws Exception {
-<span class="nc" id="L87">        SelectionCriteria scopeCriteria = getScopeCriteria();</span>
-<span class="nc" id="L88">        SelectionCriteria filterCriteria = getFilterCriteria();</span>
+<span class="nc" id="L124">        SelectionCriteria scopeCriteria = getScopeCriteria();</span>
+<span class="nc" id="L125">        SelectionCriteria filterCriteria = getFilterCriteria();</span>
 
         GraphCopier copier;
-<span class="nc bnc" id="L91" title="All 4 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;copy-only&quot;) || getCommandLine().getToggleSwitch(&quot;maximize&quot;)) {</span>
-<span class="nc" id="L92">            copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));</span>
+<span class="nc bnc" id="L128" title="All 4 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;copy-only&quot;) || getCommandLine().getToggleSwitch(&quot;maximize&quot;)) {</span>
+<span class="nc" id="L129">            copier = new GraphCopier(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));</span>
         } else {
-<span class="nc" id="L94">            copier = new GraphSummarizer(scopeCriteria, filterCriteria);</span>
+<span class="nc" id="L131">            copier = new GraphSummarizer(scopeCriteria, filterCriteria);</span>
         }
-<span class="nc" id="L96">        copyGraph(copier);</span>
+<span class="nc" id="L133">        copyGraph(copier);</span>
 
-<span class="nc" id="L98">        getVerboseListener().print(&quot;Printing the graph ...&quot;);</span>
+<span class="nc" id="L135">        getVerboseListener().print(&quot;Printing the graph ...&quot;);</span>
 
         Printer printer;
-<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
-<span class="nc" id="L102">            printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch(&quot;encoding&quot;), getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;));</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;html&quot;)) {</span>
+<span class="nc" id="L139">            printer = new HTMLPrinter(getOut(), getCommandLine().getSingleSwitch(&quot;url-format&quot;));</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;json&quot;)) {</span>
+<span class="nc" id="L141">            printer = new JSONPrinter(getOut());</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        } else if (getCommandLine().isPresent(&quot;xml&quot;)) {</span>
+<span class="nc" id="L143">            printer = new XMLPrinter(getOut(), getCommandLine().getSingleSwitch(&quot;encoding&quot;), getCommandLine().getSingleSwitch(&quot;dtd-prefix&quot;));</span>
+<span class="nc bnc" id="L144" title="All 4 branches missed.">        } else if (getCommandLine().isPresent(&quot;yaml&quot;) || getCommandLine().isPresent(&quot;yml&quot;)) {</span>
+<span class="nc" id="L145">            printer = new YAMLPrinter(getOut());</span>
         } else {
-<span class="nc" id="L104">            printer = new TextPrinter(getOut());</span>
+<span class="nc" id="L147">            printer = new TextPrinter(getOut());</span>
         }
 
-<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;indent-text&quot;)) {</span>
-<span class="nc" id="L108">            printer.setIndentText(getCommandLine().getSingleSwitch(&quot;indent-text&quot;));</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;indent-text&quot;)) {</span>
+<span class="nc" id="L151">            printer.setIndentText(getCommandLine().getSingleSwitch(&quot;indent-text&quot;));</span>
         }
 
-<span class="nc bnc" id="L111" title="All 6 branches missed.">        if (getCommandLine().isPresent(&quot;show-inbounds&quot;) || getCommandLine().isPresent(&quot;show-outbounds&quot;) || getCommandLine().isPresent(&quot;show-empty-nodes&quot;)) {</span>
-<span class="nc" id="L112">            printer.setShowInbounds(getCommandLine().isPresent(&quot;show-inbounds&quot;));</span>
-<span class="nc" id="L113">            printer.setShowOutbounds(getCommandLine().isPresent(&quot;show-outbounds&quot;));</span>
-<span class="nc" id="L114">            printer.setShowEmptyNodes(getCommandLine().isPresent(&quot;show-empty-nodes&quot;));</span>
+<span class="nc bnc" id="L154" title="All 6 branches missed.">        if (getCommandLine().isPresent(&quot;show-inbounds&quot;) || getCommandLine().isPresent(&quot;show-outbounds&quot;) || getCommandLine().isPresent(&quot;show-empty-nodes&quot;)) {</span>
+<span class="nc" id="L155">            printer.setShowInbounds(getCommandLine().isPresent(&quot;show-inbounds&quot;));</span>
+<span class="nc" id="L156">            printer.setShowOutbounds(getCommandLine().isPresent(&quot;show-outbounds&quot;));</span>
+<span class="nc" id="L157">            printer.setShowEmptyNodes(getCommandLine().isPresent(&quot;show-empty-nodes&quot;));</span>
         }
 
-<span class="nc" id="L117">        printer.traverseNodes(copier.getScopeFactory().getPackages().values());</span>
-<span class="nc" id="L118">    }</span>
+<span class="nc" id="L160">        var packages = copier.getScopeFactory().getPackages().values();</span>
+
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (getCommandLine().isPresent(&quot;include-filter-nodes&quot;)) {</span>
+<span class="nc" id="L163">            var nodeFactory = new NodeFactory();</span>
+<span class="nc" id="L164">            new GraphCopier(nodeFactory).traverseNodes(packages);</span>
+<span class="nc" id="L165">            packages = nodeFactory.getPackages().values();</span>
+        }
+
+<span class="nc" id="L168">        printer.traverseNodes(packages);</span>
+<span class="nc" id="L169">    }</span>
 
     private void copyGraph(Visitor copier) throws IOException, SAXException, ParserConfigurationException {
-<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (getCommandLine().getParameters().isEmpty()) {</span>
-<span class="nc" id="L122">            copyGraphFromSystemIn(copier);</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (getCommandLine().getParameters().isEmpty()) {</span>
+<span class="nc" id="L173">            copyGraphFromSystemIn(copier);</span>
         } else {
-<span class="nc" id="L124">            copyGraphFromFiles(copier);</span>
+<span class="nc" id="L175">            copyGraphFromFiles(copier);</span>
         }
-<span class="nc" id="L126">    }</span>
+<span class="nc" id="L177">    }</span>
 
     private void copyGraphFromSystemIn(Visitor copier) throws IOException, ParserConfigurationException, SAXException {
-<span class="nc" id="L129">        copyGraph(copier, loadGraphFromSystemIn());</span>
-<span class="nc" id="L130">    }</span>
+<span class="nc" id="L180">        copyGraph(copier, loadGraphFromSystemIn());</span>
+<span class="nc" id="L181">    }</span>
 
     private void copyGraphFromFiles(Visitor copier) throws IOException, SAXException, ParserConfigurationException {
-<span class="nc bnc" id="L133" title="All 2 branches missed.">        for (String filename : getCommandLine().getParameters()) {</span>
-<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (filename.endsWith(&quot;.xml&quot;)) {</span>
-<span class="nc" id="L135">                copyGraph(copier, loadGraphFromFile(filename));</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (String filename : getCommandLine().getParameters()) {</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L186">                copyGraph(copier, loadGraphFromFile(filename));</span>
             } else {
-<span class="nc" id="L137">                getVerboseListener().print(&quot;Skipping \&quot;&quot; + filename + &quot;\&quot;.&quot;);</span>
+<span class="nc" id="L188">                getVerboseListener().print(&quot;Skipping \&quot;&quot; + filename + &quot;\&quot;.&quot;);</span>
             }
 
-<span class="nc" id="L140">        }</span>
-<span class="nc" id="L141">    }</span>
+<span class="nc" id="L191">        }</span>
+<span class="nc" id="L192">    }</span>
 
     private void copyGraph(Visitor copier, Collection&lt;PackageNode&gt; packages) {
-<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;maximize&quot;)) {</span>
-<span class="nc" id="L145">            new LinkMaximizer().traverseNodes(packages);</span>
-<span class="nc bnc" id="L146" title="All 2 branches missed.">        } else if (getCommandLine().getToggleSwitch(&quot;minimize&quot;)) {</span>
-<span class="nc" id="L147">            new LinkMinimizer().traverseNodes(packages);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;maximize&quot;)) {</span>
+<span class="nc" id="L196">            new LinkMaximizer().traverseNodes(packages);</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        } else if (getCommandLine().getToggleSwitch(&quot;minimize&quot;)) {</span>
+<span class="nc" id="L198">            new LinkMinimizer().traverseNodes(packages);</span>
         }
 
-<span class="nc" id="L150">        copier.traverseNodes(packages);</span>
-<span class="nc" id="L151">    }</span>
+<span class="nc" id="L201">        copier.traverseNodes(packages);</span>
+<span class="nc" id="L202">    }</span>
 
     private Collection&lt;PackageNode&gt; loadGraphFromSystemIn() throws IOException, SAXException, ParserConfigurationException {
         Collection&lt;PackageNode&gt; packages;
 
-<span class="nc" id="L156">        getVerboseListener().print(&quot;Reading from standard input&quot;);</span>
+<span class="nc" id="L207">        getVerboseListener().print(&quot;Reading from standard input&quot;);</span>
 
-<span class="nc" id="L158">        NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch(&quot;validate&quot;));</span>
-<span class="nc" id="L159">        loader.addDependencyListener(getVerboseListener());</span>
-<span class="nc" id="L160">        packages = loader.load(System.in).getPackages().values();</span>
+<span class="nc" id="L209">        NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch(&quot;validate&quot;));</span>
+<span class="nc" id="L210">        loader.addDependencyListener(getVerboseListener());</span>
+<span class="nc" id="L211">        packages = loader.load(System.in).getPackages().values();</span>
 
-<span class="nc" id="L162">        getVerboseListener().print(&quot;Read from standard input.&quot;);</span>
+<span class="nc" id="L213">        getVerboseListener().print(&quot;Read from standard input.&quot;);</span>
 
-<span class="nc" id="L164">        return packages;</span>
+<span class="nc" id="L215">        return packages;</span>
     }
 
     private Collection&lt;PackageNode&gt; loadGraphFromFile(String filename) throws IOException, SAXException, ParserConfigurationException {
         Collection&lt;PackageNode&gt; packages;
 
-<span class="nc" id="L170">        getVerboseListener().print(&quot;Reading &quot; + filename);</span>
+<span class="nc" id="L221">        getVerboseListener().print(&quot;Reading &quot; + filename);</span>
 
-<span class="nc" id="L172">        NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch(&quot;validate&quot;));</span>
-<span class="nc" id="L173">        loader.addDependencyListener(getVerboseListener());</span>
-<span class="nc" id="L174">        packages = loader.load(filename).getPackages().values();</span>
+<span class="nc" id="L223">        NodeLoader loader = new NodeLoader(getCommandLine().getToggleSwitch(&quot;validate&quot;));</span>
+<span class="nc" id="L224">        loader.addDependencyListener(getVerboseListener());</span>
+<span class="nc" id="L225">        packages = loader.load(filename).getPackages().values();</span>
 
-<span class="nc" id="L176">        getVerboseListener().print(&quot;Read \&quot;&quot; + filename + &quot;\&quot;.&quot;);</span>
+<span class="nc" id="L227">        getVerboseListener().print(&quot;Read \&quot;&quot; + filename + &quot;\&quot;.&quot;);</span>
 
-<span class="nc" id="L178">        return packages;</span>
+<span class="nc" id="L229">        return packages;</span>
     }
 
     public static void main(String[] args) throws Exception {
-<span class="nc" id="L182">        new DependencyReporter().run(args);</span>
-<span class="nc" id="L183">    }</span>
+<span class="nc" id="L233">        new DependencyReporter().run(args);</span>
+<span class="nc" id="L234">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

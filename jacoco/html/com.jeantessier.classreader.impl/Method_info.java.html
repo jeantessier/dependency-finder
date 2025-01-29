@@ -168,46 +168,52 @@ public class Method_info extends Feature_info implements com.jeantessier.classre
 <span class="fc" id="L168">        return finder.getCode();</span>
     }
 
+    public Collection&lt;? extends com.jeantessier.classreader.Method_info&gt; locateMethodDeclarations() {
+<span class="fc" id="L172">        return getClassfile().locateMethodDeclarations(methodInfo -&gt;</span>
+<span class="nc bnc" id="L173" title="All 4 branches missed.">                methodInfo.getSignature().equals(getSignature()) &amp;&amp; methodInfo.getReturnType().equals(getReturnType())</span>
+        );
+    }
+
     public void accept(Visitor visitor) {
-<span class="fc" id="L172">        visitor.visitMethod_info(this);</span>
-<span class="fc" id="L173">    }</span>
+<span class="fc" id="L178">        visitor.visitMethod_info(this);</span>
+<span class="fc" id="L179">    }</span>
 
     public boolean equals(Object object) {
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (this == object) {</span>
-<span class="fc" id="L177">            return true;</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (this == object) {</span>
+<span class="fc" id="L183">            return true;</span>
         }
 
-<span class="nc bnc" id="L180" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
-<span class="nc" id="L181">            return false;</span>
+<span class="nc bnc" id="L186" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
+<span class="nc" id="L187">            return false;</span>
         }
 
-<span class="nc bnc" id="L184" title="All 2 branches missed.">        return compareTo((Method_info) object) == 0;</span>
+<span class="nc bnc" id="L190" title="All 2 branches missed.">        return compareTo((Method_info) object) == 0;</span>
     }
 
     public int hashCode() {
-<span class="nc" id="L188">        return getSignature().hashCode();</span>
+<span class="nc" id="L194">        return getSignature().hashCode();</span>
     }
 
     public int compareTo(com.jeantessier.classreader.Method_info other) {
-<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (this == other) {</span>
-<span class="nc" id="L193">            return 0;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (this == other) {</span>
+<span class="nc" id="L199">            return 0;</span>
         }
 
-<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (other == null) {</span>
-<span class="nc" id="L197">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        if (other == null) {</span>
+<span class="nc" id="L203">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
         }
 
-<span class="nc" id="L200">        int classCompare = getClassfile().compareTo(other.getClassfile());</span>
-<span class="nc bnc" id="L201" title="All 2 branches missed.">        if (classCompare != 0) {</span>
-<span class="nc" id="L202">            return classCompare;</span>
+<span class="nc" id="L206">        int classCompare = getClassfile().compareTo(other.getClassfile());</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        if (classCompare != 0) {</span>
+<span class="nc" id="L208">            return classCompare;</span>
         }
 
-<span class="nc" id="L205">        int nameCompare = getName().compareTo(other.getName());</span>
-<span class="nc bnc" id="L206" title="All 2 branches missed.">        if (nameCompare != 0) {</span>
-<span class="nc" id="L207">            return nameCompare;</span>
+<span class="nc" id="L211">        int nameCompare = getName().compareTo(other.getName());</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">        if (nameCompare != 0) {</span>
+<span class="nc" id="L213">            return nameCompare;</span>
         }
 
-<span class="nc" id="L210">        return getDescriptor().compareTo(other.getDescriptor());</span>
+<span class="nc" id="L216">        return getDescriptor().compareTo(other.getDescriptor());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

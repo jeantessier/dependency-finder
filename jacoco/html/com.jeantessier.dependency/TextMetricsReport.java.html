@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextMetricsReport.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">TextMetricsReport.java</span></div><h1>TextMetricsReport.java</h1><pre class="source lang-java linenums">/*
+ *  Copyright (c) 2001-2024, Jean Tessier
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *      * Redistributions of source code must retain the above copyright
+ *        notice, this list of conditions and the following disclaimer.
+ *  
+ *      * Redistributions in binary form must reproduce the above copyright
+ *        notice, this list of conditions and the following disclaimer in the
+ *        documentation and/or other materials provided with the distribution.
+ *  
+ *      * Neither the name of Jean Tessier nor the names of his contributors
+ *        may be used to endorse or promote products derived from this software
+ *        without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+ *  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ *  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ *  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.jeantessier.dependency;
+
+import java.io.*;
+import java.util.*;
+
+public class TextMetricsReport extends MetricsReport {
+    public TextMetricsReport(PrintWriter out) {
+<span class="nc" id="L40">        super(out);</span>
+<span class="nc" id="L41">    }</span>
+
+    public void process(MetricsGatherer metrics) {
+<span class="nc" id="L44">        printProgrammingElements(metrics);</span>
+
+<span class="nc" id="L46">        println();</span>
+
+<span class="nc" id="L48">        printDependencyStats(metrics);</span>
+
+<span class="nc" id="L50">        printHistograms(metrics);</span>
+<span class="nc" id="L51">        printChart(metrics);</span>
+<span class="nc" id="L52">    }</span>
+
+    private void printProgrammingElements(MetricsGatherer metrics) {
+<span class="nc" id="L55">        int nbPackages = metrics.getPackages().size();</span>
+<span class="nc" id="L56">        print(nbPackages + &quot; package(s)&quot;);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (nbPackages &gt; 0) {</span>
+<span class="nc" id="L58">            var nbConfirmedPackages = countConfirmedNodes(metrics.getPackages());</span>
+<span class="nc" id="L59">            print(&quot; (&quot; + nbConfirmedPackages + &quot; confirmed, &quot; + (nbConfirmedPackages / (double) nbPackages) + &quot;)&quot;);</span>
+        }
+<span class="nc" id="L61">        println();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (isListingElements()) {</span>
+<span class="nc" id="L63">            metrics.getPackages().stream().sorted().forEach(node -&gt; println(&quot;    &quot; + node));</span>
+        }
+
+<span class="nc" id="L66">        int nbClasses = metrics.getClasses().size();</span>
+<span class="nc" id="L67">        print(nbClasses + &quot; class(es)&quot;);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (nbClasses &gt; 0) {</span>
+<span class="nc" id="L69">            var nbConfirmedClasses = countConfirmedNodes(metrics.getClasses());</span>
+<span class="nc" id="L70">            print(&quot; (&quot; + nbConfirmedClasses + &quot; confirmed, &quot; + (nbConfirmedClasses / (double) nbClasses) + &quot;)&quot;);</span>
+        }
+<span class="nc" id="L72">        println();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (isListingElements()) {</span>
+<span class="nc" id="L74">            metrics.getClasses().stream().sorted().forEach(node -&gt; println(&quot;    &quot; + node));</span>
+        }
+
+<span class="nc" id="L77">        int nbFeatures = metrics.getFeatures().size();</span>
+<span class="nc" id="L78">        print(nbFeatures + &quot; feature(s)&quot;);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (nbFeatures &gt; 0) {</span>
+<span class="nc" id="L80">            var nbConfirmedFeatures = countConfirmedNodes(metrics.getFeatures());</span>
+<span class="nc" id="L81">            print(&quot; (&quot; + nbConfirmedFeatures + &quot; confirmed, &quot; + (nbConfirmedFeatures / (double) nbFeatures) + &quot;)&quot;);</span>
+        }
+<span class="nc" id="L83">        println();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (isListingElements()) {</span>
+<span class="nc" id="L85">            metrics.getFeatures().stream().sorted().forEach(node -&gt; println(&quot;    &quot; + node));</span>
+        }
+<span class="nc" id="L87">    }</span>
+
+    private void printDependencyStats(MetricsGatherer metrics) {
+<span class="nc" id="L90">        println(metrics.getNbOutbound() + &quot; outbound link(s)&quot;);</span>
+
+<span class="nc" id="L92">        int nbPackages = metrics.getPackages().size();</span>
+<span class="nc" id="L93">        long nbOutboundPackages = metrics.getNbOutboundPackages();</span>
+<span class="nc" id="L94">        print(&quot;    &quot; + nbOutboundPackages + &quot; from package(s)&quot;);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if (nbOutboundPackages &gt; 0 &amp;&amp; nbPackages &gt; 0) {</span>
+<span class="nc" id="L96">            print(&quot; (on average &quot; + (nbOutboundPackages / (double) nbPackages) + &quot; per package)&quot;);</span>
+        }
+<span class="nc" id="L98">        println();</span>
+
+<span class="nc" id="L100">        int nbClasses = metrics.getClasses().size();</span>
+<span class="nc" id="L101">        long nbOutboundClasses = metrics.getNbOutboundClasses();</span>
+<span class="nc" id="L102">        print(&quot;    &quot; + nbOutboundClasses + &quot; from class(es)&quot;);</span>
+<span class="nc bnc" id="L103" title="All 4 branches missed.">        if (nbOutboundClasses &gt; 0 &amp;&amp; nbClasses &gt; 0) {</span>
+<span class="nc" id="L104">            print(&quot; (on average &quot; + (nbOutboundClasses / (double) nbClasses) + &quot; per class)&quot;);</span>
+        }
+<span class="nc" id="L106">        println();</span>
+
+<span class="nc" id="L108">        int nbFeatures = metrics.getFeatures().size();</span>
+<span class="nc" id="L109">        long nbOutboundFeatures = metrics.getNbOutboundFeatures();</span>
+<span class="nc" id="L110">        print(&quot;    &quot; + nbOutboundFeatures + &quot; from feature(s)&quot;);</span>
+<span class="nc bnc" id="L111" title="All 4 branches missed.">        if (nbOutboundFeatures &gt; 0 &amp;&amp; nbFeatures &gt; 0) {</span>
+<span class="nc" id="L112">            print(&quot; (on average &quot; + (nbOutboundFeatures / (double) nbFeatures) + &quot; per feature)&quot;);</span>
+        }
+<span class="nc" id="L114">        println();</span>
+
+<span class="nc" id="L116">        println(metrics.getNbInbound() + &quot; inbound link(s)&quot;);</span>
+
+<span class="nc" id="L118">        long nbInboundPackages = metrics.getNbInboundPackages();</span>
+<span class="nc" id="L119">        print(&quot;    &quot; + nbInboundPackages + &quot; to package(s)&quot;);</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        if (nbInboundPackages &gt; 0 &amp;&amp; nbPackages &gt; 0) {</span>
+<span class="nc" id="L121">            print(&quot; (on average &quot; + (nbInboundPackages / (double) nbPackages) + &quot; per package)&quot;);</span>
+        }
+<span class="nc" id="L123">        println();</span>
+
+<span class="nc" id="L125">        long nbInboundClasses = metrics.getNbInboundClasses();</span>
+<span class="nc" id="L126">        print(&quot;    &quot; + nbInboundClasses + &quot; to class(es)&quot;);</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">        if (nbInboundClasses &gt; 0 &amp;&amp; nbClasses &gt; 0) {</span>
+<span class="nc" id="L128">            print(&quot; (on average &quot; + (nbInboundClasses / (double) nbClasses) + &quot; per class)&quot;);</span>
+        }
+<span class="nc" id="L130">        println();</span>
+
+<span class="nc" id="L132">        long nbInboundFeatures = metrics.getNbInboundFeatures();</span>
+<span class="nc" id="L133">        print(&quot;    &quot; + nbInboundFeatures + &quot; to feature(s)&quot;);</span>
+<span class="nc bnc" id="L134" title="All 4 branches missed.">        if (nbInboundFeatures &gt; 0 &amp;&amp; nbFeatures &gt; 0) {</span>
+<span class="nc" id="L135">            print(&quot; (on average &quot; + (nbInboundFeatures / (double) nbFeatures) + &quot; per feature)&quot;);</span>
+        }
+<span class="nc" id="L137">        println();</span>
+<span class="nc" id="L138">    }</span>
+
+    private void printHistograms(MetricsGatherer metrics) {
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (isShowingClassesPerPackageHistogram()) {</span>
+<span class="nc" id="L142">            printHistogram(metrics, MetricsGatherer.CLASSES_PER_PACKAGE, &quot;Classes per package histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (isShowingFeaturesPerClassHistogram()) {</span>
+<span class="nc" id="L146">            printHistogram(metrics, MetricsGatherer.FEATURES_PER_CLASS, &quot;Features per class histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (isShowingInboundsPerPackageHistogram()) {</span>
+<span class="nc" id="L150">            printHistogram(metrics, MetricsGatherer.INBOUNDS_PER_PACKAGE, &quot;Inbounds per package histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        if (isShowingOutboundsPerPackageHistogram()) {</span>
+<span class="nc" id="L154">            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_PACKAGE, &quot;Outbounds per package histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        if (isShowingInboundsPerClassHistogram()) {</span>
+<span class="nc" id="L158">            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_CLASS, &quot;Inbounds per class histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        if (isShowingOutboundsPerClassHistogram()) {</span>
+<span class="nc" id="L162">            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_CLASS, &quot;Outbounds per class histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (isShowingInboundsPerFeatureHistogram()) {</span>
+<span class="nc" id="L166">            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_FEATURE, &quot;Inbounds per feature histogram&quot;);</span>
+        }
+
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (isShowingOutboundsPerFeatureHistogram()) {</span>
+<span class="nc" id="L170">            printHistogram(metrics, MetricsGatherer.OUTBOUNDS_PER_FEATURE, &quot;Outbounds per feature histogram&quot;);</span>
+        }
+<span class="nc" id="L172">    }</span>
+
+    private void printHistogram(MetricsGatherer metrics, int chart, String title) {
+<span class="nc" id="L175">        println();</span>
+<span class="nc" id="L176">        println(title);</span>
+<span class="nc" id="L177">        new TreeMap&lt;&gt;(metrics.getHistogram(chart)).forEach((n, cardinality) -&gt; println(n + &quot;: &quot; + cardinality));</span>
+<span class="nc" id="L178">    }</span>
+
+    private void printChart(MetricsGatherer metrics) {
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        if (isShowingClassesPerPackageChart() ||</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">                isShowingFeaturesPerClassChart() ||</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">                isShowingInboundsPerPackageChart() ||</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">                isShowingOutboundsPerPackageChart() ||</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">                isShowingInboundsPerClassChart() ||</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">                isShowingOutboundsPerClassChart() ||</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">                isShowingInboundsPerFeatureChart() ||</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">                isShowingOutboundsPerFeatureChart()) {</span>
+
+<span class="nc" id="L190">            println();</span>
+
+<span class="nc" id="L192">            print(&quot;n&quot;);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            if (isShowingClassesPerPackageChart()) {</span>
+<span class="nc" id="L194">                print(&quot;, \&quot;classes per package\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L196" title="All 2 branches missed.">            if (isShowingFeaturesPerClassChart()) {</span>
+<span class="nc" id="L197">                print(&quot;, \&quot;features per class\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L199" title="All 2 branches missed.">            if (isShowingInboundsPerPackageChart()) {</span>
+<span class="nc" id="L200">                print(&quot;, \&quot;inbounds per package\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L202" title="All 2 branches missed.">            if (isShowingOutboundsPerPackageChart()) {</span>
+<span class="nc" id="L203">                print(&quot;, \&quot;outbounds per package\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L205" title="All 2 branches missed.">            if (isShowingInboundsPerClassChart()) {</span>
+<span class="nc" id="L206">                print(&quot;, \&quot;inbounds per class\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L208" title="All 2 branches missed.">            if (isShowingOutboundsPerClassChart()) {</span>
+<span class="nc" id="L209">                print(&quot;, \&quot;outbounds per class\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L211" title="All 2 branches missed.">            if (isShowingInboundsPerFeatureChart()) {</span>
+<span class="nc" id="L212">                print(&quot;, \&quot;inbounds per feature\&quot;&quot;);</span>
+            }
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            if (isShowingOutboundsPerFeatureChart()) {</span>
+<span class="nc" id="L215">                print(&quot;, \&quot;outbounds per feature\&quot;&quot;);</span>
+            }
+<span class="nc" id="L217">            println();</span>
+
+<span class="nc bnc" id="L219" title="All 2 branches missed.">            for (int k=0; k&lt;=metrics.getChartMaximum(); k++) {</span>
+<span class="nc" id="L220">                long[] dataPoint = metrics.getChartData(k);</span>
+
+<span class="nc" id="L222">                print(k);</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">                if (isShowingClassesPerPackageChart()) {</span>
+<span class="nc" id="L224">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.CLASSES_PER_PACKAGE]);</span>
+                }
+<span class="nc bnc" id="L226" title="All 2 branches missed.">                if (isShowingFeaturesPerClassChart()) {</span>
+<span class="nc" id="L227">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.FEATURES_PER_CLASS]);</span>
+                }
+<span class="nc bnc" id="L229" title="All 2 branches missed.">                if (isShowingInboundsPerPackageChart()) {</span>
+<span class="nc" id="L230">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.INBOUNDS_PER_PACKAGE]);</span>
+                }
+<span class="nc bnc" id="L232" title="All 2 branches missed.">                if (isShowingOutboundsPerPackageChart()) {</span>
+<span class="nc" id="L233">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.OUTBOUNDS_PER_PACKAGE]);</span>
+                }
+<span class="nc bnc" id="L235" title="All 2 branches missed.">                if (isShowingInboundsPerClassChart()) {</span>
+<span class="nc" id="L236">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.INBOUNDS_PER_CLASS]);</span>
+                }
+<span class="nc bnc" id="L238" title="All 2 branches missed.">                if (isShowingOutboundsPerClassChart()) {</span>
+<span class="nc" id="L239">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.OUTBOUNDS_PER_CLASS]);</span>
+                }
+<span class="nc bnc" id="L241" title="All 2 branches missed.">                if (isShowingInboundsPerFeatureChart()) {</span>
+<span class="nc" id="L242">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.INBOUNDS_PER_FEATURE]);</span>
+                }
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                if (isShowingOutboundsPerFeatureChart()) {</span>
+<span class="nc" id="L245">                    print(&quot;, &quot; + dataPoint[MetricsGatherer.OUTBOUNDS_PER_FEATURE]);</span>
+                }
+<span class="nc" id="L247">                println();</span>
+            }
+        }
+<span class="nc" id="L250">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

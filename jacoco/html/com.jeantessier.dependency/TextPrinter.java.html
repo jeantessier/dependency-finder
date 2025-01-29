@@ -77,7 +77,7 @@ public class TextPrinter extends Printer {
     protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
 <span class="pc" id="L78">        LogManager.getLogger(getClass()).debug(&quot;Package \&quot;{}\&quot; with {} inbounds and {} outbounds had {} dependencies.&quot;, () -&gt; node, () -&gt; node.getInboundDependencies().size(), () -&gt; node.getOutboundDependencies().size(), () -&gt; dependencies.size());</span>
         
-<span class="pc bpc" id="L80" title="1 of 4 branches missed.">        if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {</span>
+<span class="pc bpc" id="L80" title="3 of 4 branches missed.">        if (shouldShowPackageNode(node) || !dependencies.isEmpty()) {</span>
 <span class="fc" id="L81">            lowerIndent();</span>
 <span class="fc" id="L82">            indent().printScopeNodeName(node).eol();</span>
 <span class="fc" id="L83">            raiseIndent();</span>
@@ -123,7 +123,7 @@ public class TextPrinter extends Printer {
     protected void preprocessAfterDependenciesClassNode(ClassNode node) {
 <span class="pc" id="L124">        LogManager.getLogger(getClass()).debug(&quot;Class \&quot;{}\&quot; with {} inbounds and {} outbounds had {} dependencies.&quot;, () -&gt; node, () -&gt; node.getInboundDependencies().size(), () -&gt; node.getOutboundDependencies().size(), () -&gt; dependencies.size());</span>
         
-<span class="pc bpc" id="L126" title="1 of 4 branches missed.">        if (shouldShowClassNode(node) || !dependencies.isEmpty()) {</span>
+<span class="pc bpc" id="L126" title="3 of 4 branches missed.">        if (shouldShowClassNode(node) || !dependencies.isEmpty()) {</span>
 <span class="fc" id="L127">            lowerIndent();</span>
 <span class="fc" id="L128">            indent().printScopeNodeName(node, node.getSimpleName()).eol();</span>
 <span class="fc" id="L129">            raiseIndent();</span>
@@ -169,63 +169,57 @@ public class TextPrinter extends Printer {
     protected void postprocessFeatureNode(FeatureNode node) {
 <span class="pc" id="L170">        LogManager.getLogger(getClass()).debug(&quot;Feature \&quot;{}\&quot; with {} inbounds and {} outbounds had {} dependencies.&quot;, () -&gt; node, () -&gt; node.getInboundDependencies().size(), () -&gt; node.getOutboundDependencies().size(), () -&gt; dependencies.size());</span>
         
-<span class="pc bpc" id="L172" title="1 of 4 branches missed.">        if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {</span>
+<span class="pc bpc" id="L172" title="3 of 4 branches missed.">        if (shouldShowFeatureNode(node) || !dependencies.isEmpty()) {</span>
 <span class="fc" id="L173">            lowerIndent();</span>
-<span class="fc bfc" id="L174" title="All 2 branches covered.">            if (perl().match(&quot;/([^\\.]*\\(.*\\)(: \\S.*)?)$/&quot;, node.getName())) {</span>
-<span class="fc" id="L175">                indent().printScopeNodeName(node, perl().group(1)).eol();</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">            } else if (perl().match(&quot;/([^\\.]*)$/&quot;, node.getName())) {</span>
-<span class="fc" id="L177">                indent().printScopeNodeName(node, perl().group(1)).eol();</span>
-            } else {
-<span class="nc" id="L179">                indent().printScopeNodeName(node, node.getName().substring(node.getName().lastIndexOf('.') + 1)).eol();</span>
-            }
-<span class="fc" id="L181">            raiseIndent();</span>
+<span class="fc" id="L174">            indent().printScopeNodeName(node, node.getSimpleName()).eol();</span>
+<span class="fc" id="L175">            raiseIndent();</span>
         }
         
-<span class="fc" id="L184">        printDependencies(node, dependencies);</span>
+<span class="fc" id="L178">        printDependencies(node, dependencies);</span>
 
-<span class="fc" id="L186">        lowerIndent();</span>
+<span class="fc" id="L180">        lowerIndent();</span>
 
-<span class="fc" id="L188">        super.postprocessFeatureNode(node);</span>
-<span class="fc" id="L189">    }</span>
+<span class="fc" id="L182">        super.postprocessFeatureNode(node);</span>
+<span class="fc" id="L183">    }</span>
 
     public void visitInboundFeatureNode(FeatureNode node) {
-<span class="fc bfc" id="L192" title="All 2 branches covered.">        if (isShowInbounds()) {</span>
-<span class="fc" id="L193">            LogManager.getLogger(getClass()).debug(&quot;Printing \&quot;{}\&quot; &lt;-- \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
-<span class="fc" id="L194">            dependencies.merge(node, -1, Integer::sum);</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (isShowInbounds()) {</span>
+<span class="fc" id="L187">            LogManager.getLogger(getClass()).debug(&quot;Printing \&quot;{}\&quot; &lt;-- \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
+<span class="fc" id="L188">            dependencies.merge(node, -1, Integer::sum);</span>
         } else {
-<span class="fc" id="L196">            LogManager.getLogger(getClass()).debug(&quot;Ignoring \&quot;{}\&quot; &lt;-- \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
+<span class="fc" id="L190">            LogManager.getLogger(getClass()).debug(&quot;Ignoring \&quot;{}\&quot; &lt;-- \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
         }
-<span class="fc" id="L198">    }</span>
+<span class="fc" id="L192">    }</span>
 
     public void visitOutboundFeatureNode(FeatureNode node) {
-<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (isShowOutbounds()) {</span>
-<span class="fc" id="L202">            LogManager.getLogger(getClass()).debug(&quot;Printing \&quot;{}\&quot; --&gt; \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
-<span class="fc" id="L203">            dependencies.merge(node, 1, Integer::sum);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        if (isShowOutbounds()) {</span>
+<span class="fc" id="L196">            LogManager.getLogger(getClass()).debug(&quot;Printing \&quot;{}\&quot; --&gt; \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
+<span class="fc" id="L197">            dependencies.merge(node, 1, Integer::sum);</span>
         } else {
-<span class="fc" id="L205">            LogManager.getLogger(getClass()).debug(&quot;Ignoring \&quot;{}\&quot; --&gt; \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
+<span class="fc" id="L199">            LogManager.getLogger(getClass()).debug(&quot;Ignoring \&quot;{}\&quot; --&gt; \&quot;{}\&quot;&quot;, getCurrentNode(), node);</span>
         }
-<span class="fc" id="L207">    }</span>
+<span class="fc" id="L201">    }</span>
 
     protected Printer printNodeName(Node node, String name) {
-<span class="fc" id="L210">        super.printNodeName(node, name);</span>
+<span class="fc" id="L204">        super.printNodeName(node, name);</span>
 
-<span class="fc bfc" id="L212" title="All 4 branches covered.">        if (isShowInferred() &amp;&amp; !node.isConfirmed()) {</span>
-<span class="fc" id="L213">            append(&quot; *&quot;);</span>
+<span class="fc bfc" id="L206" title="All 4 branches covered.">        if (isShowInferred() &amp;&amp; !node.isConfirmed()) {</span>
+<span class="fc" id="L207">            append(&quot; *&quot;);</span>
         }
         
-<span class="fc" id="L216">        return this;</span>
+<span class="fc" id="L210">        return this;</span>
     }
     
     protected void printDependencies(Node node, Map&lt;Node, Integer&gt; dependencies) {
-<span class="fc" id="L220">        dependencies.forEach((dependency, value) -&gt; {</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">            if (value &lt; 0) {</span>
-<span class="fc" id="L222">                indent().append(&quot;&lt;-- &quot;).printDependencyNodeName(dependency).eol();</span>
-<span class="pc bpc" id="L223" title="1 of 2 branches missed.">            } else if (value &gt; 0) {</span>
-<span class="fc" id="L224">                indent().append(&quot;--&gt; &quot;).printDependencyNodeName(dependency).eol();</span>
+<span class="fc" id="L214">        dependencies.forEach((dependency, value) -&gt; {</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">            if (value &lt; 0) {</span>
+<span class="fc" id="L216">                indent().append(&quot;&lt;-- &quot;).printDependencyNodeName(dependency).eol();</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">            } else if (value &gt; 0) {</span>
+<span class="fc" id="L218">                indent().append(&quot;--&gt; &quot;).printDependencyNodeName(dependency).eol();</span>
             } else {
-<span class="nc" id="L226">                indent().append(&quot;&lt;-&gt; &quot;).printDependencyNodeName(dependency).eol();</span>
+<span class="nc" id="L220">                indent().append(&quot;&lt;-&gt; &quot;).printDependencyNodeName(dependency).eol();</span>
             }
-<span class="fc" id="L228">        });</span>
-<span class="fc" id="L229">    }</span>
+<span class="fc" id="L222">        });</span>
+<span class="fc" id="L223">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

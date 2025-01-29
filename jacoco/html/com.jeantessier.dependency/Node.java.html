@@ -50,45 +50,49 @@ public abstract class Node implements Comparable&lt;Node&gt; {
 <span class="fc" id="L50">        return name;</span>
     }
 
+    public String getSimpleName() {
+<span class="fc" id="L54">        return getName();</span>
+    }
+
     public boolean isConfirmed() {
-<span class="fc" id="L54">        return confirmed;</span>
+<span class="fc" id="L58">        return confirmed;</span>
     }
 
     // Only to be used by NodeFactory and DeletingVisitor
     void setConfirmed(boolean confirmed) {
-<span class="fc" id="L59">        this.confirmed = confirmed;</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L63">        this.confirmed = confirmed;</span>
+<span class="fc" id="L64">    }</span>
     
     public boolean canAddDependencyTo(Node node) {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        return !equals(node);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        return !equals(node);</span>
     }
     
     public void addDependency(Node node) {
-<span class="fc bfc" id="L67" title="All 4 branches covered.">        if (canAddDependencyTo(node) &amp;&amp; node.canAddDependencyTo(this)) {</span>
-<span class="fc" id="L68">            outbound.add(node);</span>
-<span class="fc" id="L69">            node.inbound.add(this);</span>
+<span class="fc bfc" id="L71" title="All 4 branches covered.">        if (canAddDependencyTo(node) &amp;&amp; node.canAddDependencyTo(this)) {</span>
+<span class="fc" id="L72">            outbound.add(node);</span>
+<span class="fc" id="L73">            node.inbound.add(this);</span>
         }
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L75">    }</span>
 
     public void addDependencies(Collection&lt;Node&gt; nodes) {
-<span class="nc" id="L74">        nodes.forEach(this::addDependency);</span>
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L78">        nodes.forEach(this::addDependency);</span>
+<span class="nc" id="L79">    }</span>
 
     public void removeDependency(Node node) {
-<span class="fc" id="L78">        outbound.remove(node);</span>
-<span class="fc" id="L79">        node.inbound.remove(this);</span>
-<span class="fc" id="L80">    }</span>
-
-    public void removeDependencies(Collection&lt;? extends Node&gt; nodes) {
-<span class="fc" id="L83">        nodes.forEach(this::removeDependency);</span>
+<span class="fc" id="L82">        outbound.remove(node);</span>
+<span class="fc" id="L83">        node.inbound.remove(this);</span>
 <span class="fc" id="L84">    }</span>
 
+    public void removeDependencies(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc" id="L87">        nodes.forEach(this::removeDependency);</span>
+<span class="fc" id="L88">    }</span>
+
     public Collection&lt;Node&gt; getInboundDependencies() {
-<span class="fc" id="L87">        return Collections.unmodifiableCollection(inbound);</span>
+<span class="fc" id="L91">        return Collections.unmodifiableCollection(inbound);</span>
     }
 
     public Collection&lt;Node&gt; getOutboundDependencies() {
-<span class="fc" id="L91">        return Collections.unmodifiableCollection(outbound);</span>
+<span class="fc" id="L95">        return Collections.unmodifiableCollection(outbound);</span>
     }
 
     public abstract void accept(Visitor visitor);
@@ -96,35 +100,35 @@ public abstract class Node implements Comparable&lt;Node&gt; {
     public abstract void acceptOutbound(Visitor visitor);
 
     public int hashCode() {
-<span class="fc" id="L99">        return getName().hashCode();</span>
+<span class="fc" id="L103">        return getName().hashCode();</span>
     }
 
     public boolean equals(Object object) {
-<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (this == object) {</span>
-<span class="fc" id="L104">            return true;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (this == object) {</span>
+<span class="fc" id="L108">            return true;</span>
         }
 
-<span class="pc bpc" id="L107" title="1 of 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
-<span class="fc" id="L108">            return false;</span>
+<span class="pc bpc" id="L111" title="1 of 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
+<span class="fc" id="L112">            return false;</span>
         }
 
-<span class="fc bfc" id="L111" title="All 2 branches covered.">        return compareTo((Node) object) == 0;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        return compareTo((Node) object) == 0;</span>
     }
 
     public int compareTo(Node other) {
-<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (this == other) {</span>
-<span class="fc" id="L116">            return 0;</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (this == other) {</span>
+<span class="fc" id="L120">            return 0;</span>
         }
 
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">        if (other == null) {</span>
-<span class="nc" id="L120">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (other == null) {</span>
+<span class="nc" id="L124">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
         }
 
-<span class="fc" id="L123">        return getName().compareTo(other.getName());</span>
+<span class="fc" id="L127">        return getName().compareTo(other.getName());</span>
     }
 
     public String toString() {
-<span class="fc" id="L127">        return getName();</span>
+<span class="fc" id="L131">        return getName();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>YAMLPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">YAMLPrinter.java</span></div><h1>YAMLPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.dependency;
+
+import java.io.*;
+import java.util.*;
+
+public class YAMLPrinter extends Printer {
+<span class="pc" id="L7">    private boolean atTopLevel = false;</span>
+
+    public YAMLPrinter(PrintWriter out) {
+<span class="fc" id="L10">        super(out);</span>
+<span class="fc" id="L11">    }</span>
+
+    public YAMLPrinter(TraversalStrategy strategy, PrintWriter out) {
+<span class="nc" id="L14">        super(strategy, out);</span>
+<span class="nc" id="L15">    }</span>
+
+    public void traverseNodes(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (atTopLevel) {</span>
+<span class="fc" id="L19">            super.traverseNodes(nodes);</span>
+        } else {
+<span class="fc" id="L21">            atTopLevel = true;</span>
+<span class="fc" id="L22">            indent().append(&quot;dependencies:&quot;).eol();</span>
+<span class="fc" id="L23">            raiseIndent();</span>
+<span class="fc" id="L24">            super.traverseNodes(nodes);</span>
+<span class="fc" id="L25">            lowerIndent();</span>
+<span class="fc" id="L26">            atTopLevel = false;</span>
+        }
+<span class="fc" id="L28">    }</span>
+
+    public void traverseOutbound(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc bfc" id="L31" title="All 4 branches covered.">        if (isShowOutbounds() &amp;&amp; !nodes.isEmpty()) {</span>
+<span class="fc" id="L32">            indent().append(&quot;  outbound:&quot;).eol();</span>
+<span class="fc" id="L33">            raiseIndent();</span>
+<span class="fc" id="L34">            super.traverseOutbound(nodes);</span>
+<span class="fc" id="L35">            lowerIndent();</span>
+        } else {
+<span class="fc" id="L37">            indent().append(&quot;  outbound: []&quot;).eol();</span>
+        }
+<span class="fc" id="L39">    }</span>
+
+    public void traverseInbound(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc bfc" id="L42" title="All 4 branches covered.">        if (isShowInbounds() &amp;&amp; !nodes.isEmpty()) {</span>
+<span class="fc" id="L43">            indent().append(&quot;  inbound:&quot;).eol();</span>
+<span class="fc" id="L44">            raiseIndent();</span>
+<span class="fc" id="L45">            super.traverseOutbound(nodes);</span>
+<span class="fc" id="L46">            lowerIndent();</span>
+        } else {
+<span class="fc" id="L48">            indent().append(&quot;  inbound: []&quot;).eol();</span>
+        }
+<span class="fc" id="L50">    }</span>
+
+    protected void preprocessPackageNode(PackageNode node) {
+<span class="fc" id="L53">        super.preprocessPackageNode(node);</span>
+
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (shouldShowPackageNode(node)) {</span>
+<span class="fc" id="L56">            indent().append(&quot;- type: package&quot;).eol();</span>
+<span class="fc" id="L57">            indent().append(&quot;  confirmed: &quot;).append(node.isConfirmed()).eol();</span>
+<span class="fc" id="L58">            indent().append(&quot;  name: &quot;).append(node.getName()).eol();</span>
+        }
+<span class="fc" id="L60">    }</span>
+
+    protected void preprocessAfterDependenciesPackageNode(PackageNode node) {
+<span class="fc" id="L63">        super.preprocessAfterDependenciesPackageNode(node);</span>
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (shouldShowPackageNode(node)) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            if (hasVisibleClasses(node)) {</span>
+<span class="fc" id="L67">                indent().append(&quot;  classes:&quot;).eol();</span>
+            } else {
+<span class="fc" id="L69">                indent().append(&quot;  classes: []&quot;).eol();</span>
+            }
+<span class="fc" id="L71">            raiseIndent();</span>
+        }
+<span class="fc" id="L73">    }</span>
+
+    protected void postprocessBeforeDependenciesPackageNode(PackageNode node) {
+<span class="fc" id="L76">        super.postprocessBeforeDependenciesPackageNode(node);</span>
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (shouldShowPackageNode(node)) {</span>
+<span class="fc" id="L79">            lowerIndent();</span>
+        }
+<span class="fc" id="L81">    }</span>
+
+    public void visitInboundPackageNode(PackageNode node) {
+<span class="nc" id="L84">        printDependency(node, &quot;package&quot;);</span>
+<span class="nc" id="L85">    }</span>
+
+    public void visitOutboundPackageNode(PackageNode node) {
+<span class="fc" id="L88">        printDependency(node, &quot;package&quot;);</span>
+<span class="fc" id="L89">    }</span>
+
+    protected void preprocessClassNode(ClassNode node) {
+<span class="fc" id="L92">        super.preprocessClassNode(node);</span>
+
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if (shouldShowClassNode(node)) {</span>
+<span class="fc" id="L95">            indent().append(&quot;- type: class&quot;).eol();</span>
+<span class="fc" id="L96">            indent().append(&quot;  confirmed: &quot;).append(node.isConfirmed()).eol();</span>
+<span class="fc" id="L97">            indent().append(&quot;  name: &quot;).append(node.getName()).eol();</span>
+        }
+<span class="fc" id="L99">    }</span>
+
+    protected void preprocessAfterDependenciesClassNode(ClassNode node) {
+<span class="fc" id="L102">        super.preprocessAfterDependenciesClassNode(node);</span>
+
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (shouldShowClassNode(node)) {</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (hasVisibleFeatures(node)) {</span>
+<span class="fc" id="L106">                indent().append(&quot;  features:&quot;).eol();</span>
+            } else {
+<span class="fc" id="L108">                indent().append(&quot;  features: []&quot;).eol();</span>
+            }
+<span class="fc" id="L110">            raiseIndent();</span>
+        }
+<span class="fc" id="L112">    }</span>
+
+    protected void postprocessBeforeDependenciesClassNode(ClassNode node) {
+<span class="fc" id="L115">        super.postprocessBeforeDependenciesClassNode(node);</span>
+
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if (shouldShowClassNode(node)) {</span>
+<span class="fc" id="L118">            lowerIndent();</span>
+        }
+<span class="fc" id="L120">    }</span>
+
+    public void visitInboundClassNode(ClassNode node) {
+<span class="nc" id="L123">        printDependency(node, &quot;class&quot;);</span>
+<span class="nc" id="L124">    }</span>
+
+    public void visitOutboundClassNode(ClassNode node) {
+<span class="fc" id="L127">        printDependency(node, &quot;class&quot;);</span>
+<span class="fc" id="L128">    }</span>
+
+    protected void preprocessFeatureNode(FeatureNode node) {
+<span class="fc" id="L131">        super.preprocessFeatureNode(node);</span>
+
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (shouldShowFeatureNode(node)) {</span>
+<span class="fc" id="L134">            indent().append(&quot;- type: feature&quot;).eol();</span>
+<span class="fc" id="L135">            indent().append(&quot;  confirmed: &quot;).append(node.isConfirmed()).eol();</span>
+<span class="fc" id="L136">            indent().append(&quot;  name: &quot;).append(node.getName()).eol();</span>
+        }
+<span class="fc" id="L138">    }</span>
+
+    public void visitInboundFeatureNode(FeatureNode node) {
+<span class="nc" id="L141">        printDependency(node, &quot;feature&quot;);</span>
+<span class="nc" id="L142">    }</span>
+
+    public void visitOutboundFeatureNode(FeatureNode node) {
+<span class="fc" id="L145">        printDependency(node, &quot;feature&quot;);</span>
+<span class="fc" id="L146">    }</span>
+
+    private void printDependency(Node node, String type) {
+<span class="fc" id="L149">        indent().append(&quot;- type: &quot;).append(type).eol();</span>
+<span class="fc" id="L150">        indent().append(&quot;  confirmed: &quot;).append(node.isConfirmed()).eol();</span>
+<span class="fc" id="L151">        indent().append(&quot;  name: &quot;).append(node.getName()).eol();</span>
+<span class="fc" id="L152">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

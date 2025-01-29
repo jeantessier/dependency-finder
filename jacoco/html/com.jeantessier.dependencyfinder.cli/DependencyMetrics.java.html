@@ -52,57 +52,89 @@ import com.jeantessier.dependency.*;
 <span class="fc" id="L52">        getCommandLine().addAliasSwitch(&quot;excludes&quot;, &quot;scope-excludes&quot;, &quot;filter-excludes&quot;);</span>
 
 <span class="fc" id="L54">        getCommandLine().addToggleSwitch(&quot;list&quot;);</span>
-<span class="fc" id="L55">        getCommandLine().addToggleSwitch(&quot;chart-classes-per-package&quot;);</span>
-<span class="fc" id="L56">        getCommandLine().addToggleSwitch(&quot;chart-features-per-class&quot;);</span>
-<span class="fc" id="L57">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-package&quot;);</span>
-<span class="fc" id="L58">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-package&quot;);</span>
-<span class="fc" id="L59">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-class&quot;);</span>
-<span class="fc" id="L60">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-class&quot;);</span>
-<span class="fc" id="L61">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-feature&quot;);</span>
-<span class="fc" id="L62">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-feature&quot;);</span>
 
-<span class="fc" id="L64">        getCommandLine().addAliasSwitch(&quot;chart-inbounds&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-inbounds-per-feature&quot;);</span>
-<span class="fc" id="L65">        getCommandLine().addAliasSwitch(&quot;chart-outbounds&quot;, &quot;chart-outbounds-per-package&quot;, &quot;chart-outbounds-per-class&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
-<span class="fc" id="L66">        getCommandLine().addAliasSwitch(&quot;chart-packages&quot;, &quot;chart-classes-per-package&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-outbounds-per-package&quot;);</span>
-<span class="fc" id="L67">        getCommandLine().addAliasSwitch(&quot;chart-classes&quot;, &quot;chart-features-per-class&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-outbounds-per-class&quot;);</span>
-<span class="fc" id="L68">        getCommandLine().addAliasSwitch(&quot;chart-features&quot;, &quot;chart-inbounds-per-feature&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
-<span class="fc" id="L69">        getCommandLine().addAliasSwitch(&quot;chart-all&quot;, &quot;chart-classes-per-package&quot;, &quot;chart-features-per-class&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-outbounds-per-package&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-outbounds-per-class&quot;, &quot;chart-inbounds-per-feature&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L56">        getCommandLine().addToggleSwitch(&quot;chart-classes-per-package&quot;);</span>
+<span class="fc" id="L57">        getCommandLine().addToggleSwitch(&quot;chart-features-per-class&quot;);</span>
+<span class="fc" id="L58">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-package&quot;);</span>
+<span class="fc" id="L59">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-package&quot;);</span>
+<span class="fc" id="L60">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-class&quot;);</span>
+<span class="fc" id="L61">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-class&quot;);</span>
+<span class="fc" id="L62">        getCommandLine().addToggleSwitch(&quot;chart-inbounds-per-feature&quot;);</span>
+<span class="fc" id="L63">        getCommandLine().addToggleSwitch(&quot;chart-outbounds-per-feature&quot;);</span>
+
+<span class="fc" id="L65">        getCommandLine().addAliasSwitch(&quot;chart-inbounds&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-inbounds-per-feature&quot;);</span>
+<span class="fc" id="L66">        getCommandLine().addAliasSwitch(&quot;chart-outbounds&quot;, &quot;chart-outbounds-per-package&quot;, &quot;chart-outbounds-per-class&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L67">        getCommandLine().addAliasSwitch(&quot;chart-packages&quot;, &quot;chart-classes-per-package&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-outbounds-per-package&quot;);</span>
+<span class="fc" id="L68">        getCommandLine().addAliasSwitch(&quot;chart-classes&quot;, &quot;chart-features-per-class&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-outbounds-per-class&quot;);</span>
+<span class="fc" id="L69">        getCommandLine().addAliasSwitch(&quot;chart-features&quot;, &quot;chart-inbounds-per-feature&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L70">        getCommandLine().addAliasSwitch(&quot;chart-all&quot;, &quot;chart-classes-per-package&quot;, &quot;chart-features-per-class&quot;, &quot;chart-inbounds-per-package&quot;, &quot;chart-outbounds-per-package&quot;, &quot;chart-inbounds-per-class&quot;, &quot;chart-outbounds-per-class&quot;, &quot;chart-inbounds-per-feature&quot;, &quot;chart-outbounds-per-feature&quot;);</span>
+
+<span class="fc" id="L72">        getCommandLine().addToggleSwitch(&quot;histogram-classes-per-package&quot;);</span>
+<span class="fc" id="L73">        getCommandLine().addToggleSwitch(&quot;histogram-features-per-class&quot;);</span>
+<span class="fc" id="L74">        getCommandLine().addToggleSwitch(&quot;histogram-inbounds-per-package&quot;);</span>
+<span class="fc" id="L75">        getCommandLine().addToggleSwitch(&quot;histogram-outbounds-per-package&quot;);</span>
+<span class="fc" id="L76">        getCommandLine().addToggleSwitch(&quot;histogram-inbounds-per-class&quot;);</span>
+<span class="fc" id="L77">        getCommandLine().addToggleSwitch(&quot;histogram-outbounds-per-class&quot;);</span>
+<span class="fc" id="L78">        getCommandLine().addToggleSwitch(&quot;histogram-inbounds-per-feature&quot;);</span>
+<span class="fc" id="L79">        getCommandLine().addToggleSwitch(&quot;histogram-outbounds-per-feature&quot;);</span>
+
+<span class="fc" id="L81">        getCommandLine().addAliasSwitch(&quot;histogram-inbounds&quot;, &quot;histogram-inbounds-per-package&quot;, &quot;histogram-inbounds-per-class&quot;, &quot;histogram-inbounds-per-feature&quot;);</span>
+<span class="fc" id="L82">        getCommandLine().addAliasSwitch(&quot;histogram-outbounds&quot;, &quot;histogram-outbounds-per-package&quot;, &quot;histogram-outbounds-per-class&quot;, &quot;histogram-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L83">        getCommandLine().addAliasSwitch(&quot;histogram-packages&quot;, &quot;histogram-classes-per-package&quot;, &quot;histogram-inbounds-per-package&quot;, &quot;histogram-outbounds-per-package&quot;);</span>
+<span class="fc" id="L84">        getCommandLine().addAliasSwitch(&quot;histogram-classes&quot;, &quot;histogram-features-per-class&quot;, &quot;histogram-inbounds-per-class&quot;, &quot;histogram-outbounds-per-class&quot;);</span>
+<span class="fc" id="L85">        getCommandLine().addAliasSwitch(&quot;histogram-features&quot;, &quot;histogram-inbounds-per-feature&quot;, &quot;histogram-outbounds-per-feature&quot;);</span>
+<span class="fc" id="L86">        getCommandLine().addAliasSwitch(&quot;histogram-all&quot;, &quot;histogram-classes-per-package&quot;, &quot;histogram-features-per-class&quot;, &quot;histogram-inbounds-per-package&quot;, &quot;histogram-outbounds-per-package&quot;, &quot;histogram-inbounds-per-class&quot;, &quot;histogram-outbounds-per-class&quot;, &quot;histogram-inbounds-per-feature&quot;, &quot;histogram-outbounds-per-feature&quot;);</span>
+
+<span class="fc" id="L88">        getCommandLine().addToggleSwitch(&quot;json&quot;);</span>
+<span class="fc" id="L89">    }</span>
 
     protected Collection&lt;CommandLineException&gt; parseCommandLine(String[] args) {
-<span class="fc" id="L73">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
+<span class="fc" id="L92">        Collection&lt;CommandLineException&gt; exceptions = super.parseCommandLine(args);</span>
 
-<span class="fc" id="L75">        exceptions.addAll(validateCommandLineForScoping());</span>
-<span class="fc" id="L76">        exceptions.addAll(validateCommandLineForFiltering());</span>
+<span class="fc" id="L94">        exceptions.addAll(validateCommandLineForScoping());</span>
+<span class="fc" id="L95">        exceptions.addAll(validateCommandLineForFiltering());</span>
 
-<span class="fc" id="L78">        return exceptions;</span>
+<span class="fc" id="L97">        return exceptions;</span>
     }
 
     public void doProcessing() throws Exception {
-<span class="nc" id="L82">        MetricsReport reporter = new MetricsReport(getOut());</span>
+        MetricsReport reporter;
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (getCommandLine().getToggleSwitch(&quot;json&quot;)) {</span>
+<span class="nc" id="L103">            reporter = new JSONMetricsReport(getOut());</span>
+        } else {
+<span class="nc" id="L105">            reporter = new TextMetricsReport(getOut());</span>
+        }
 
-<span class="nc" id="L84">        reporter.setListingElements(getCommandLine().getToggleSwitch(&quot;list&quot;));</span>
-<span class="nc" id="L85">        reporter.setChartingClassesPerPackage(getCommandLine().getToggleSwitch(&quot;chart-classes-per-package&quot;));</span>
-<span class="nc" id="L86">        reporter.setChartingFeaturesPerClass(getCommandLine().getToggleSwitch(&quot;chart-features-per-class&quot;));</span>
-<span class="nc" id="L87">        reporter.setChartingInboundsPerPackage(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-package&quot;));</span>
-<span class="nc" id="L88">        reporter.setChartingOutboundsPerPackage(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-package&quot;));</span>
-<span class="nc" id="L89">        reporter.setChartingInboundsPerClass(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-class&quot;));</span>
-<span class="nc" id="L90">        reporter.setChartingOutboundsPerClass(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-class&quot;));</span>
-<span class="nc" id="L91">        reporter.setChartingInboundsPerFeature(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-feature&quot;));</span>
-<span class="nc" id="L92">        reporter.setChartingOutboundsPerFeature(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-feature&quot;));</span>
+<span class="nc" id="L108">        reporter.setListingElements(getCommandLine().getToggleSwitch(&quot;list&quot;));</span>
+<span class="nc" id="L109">        reporter.setShowingClassesPerPackageChart(getCommandLine().getToggleSwitch(&quot;chart-classes-per-package&quot;));</span>
+<span class="nc" id="L110">        reporter.setShowingFeaturesPerClassChart(getCommandLine().getToggleSwitch(&quot;chart-features-per-class&quot;));</span>
+<span class="nc" id="L111">        reporter.setShowingInboundsPerPackageChart(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-package&quot;));</span>
+<span class="nc" id="L112">        reporter.setShowingOutboundsPerPackageChart(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-package&quot;));</span>
+<span class="nc" id="L113">        reporter.setShowingInboundsPerClassChart(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-class&quot;));</span>
+<span class="nc" id="L114">        reporter.setShowingOutboundsPerClassChart(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-class&quot;));</span>
+<span class="nc" id="L115">        reporter.setShowingInboundsPerFeatureChart(getCommandLine().getToggleSwitch(&quot;chart-inbounds-per-feature&quot;));</span>
+<span class="nc" id="L116">        reporter.setShowingOutboundsPerFeatureChart(getCommandLine().getToggleSwitch(&quot;chart-outbounds-per-feature&quot;));</span>
+<span class="nc" id="L117">        reporter.setShowingClassesPerPackageHistogram(getCommandLine().getToggleSwitch(&quot;histogram-classes-per-package&quot;));</span>
+<span class="nc" id="L118">        reporter.setShowingFeaturesPerClassHistogram(getCommandLine().getToggleSwitch(&quot;histogram-features-per-class&quot;));</span>
+<span class="nc" id="L119">        reporter.setShowingInboundsPerPackageHistogram(getCommandLine().getToggleSwitch(&quot;histogram-inbounds-per-package&quot;));</span>
+<span class="nc" id="L120">        reporter.setShowingOutboundsPerPackageHistogram(getCommandLine().getToggleSwitch(&quot;histogram-outbounds-per-package&quot;));</span>
+<span class="nc" id="L121">        reporter.setShowingInboundsPerClassHistogram(getCommandLine().getToggleSwitch(&quot;histogram-inbounds-per-class&quot;));</span>
+<span class="nc" id="L122">        reporter.setShowingOutboundsPerClassHistogram(getCommandLine().getToggleSwitch(&quot;histogram-outbounds-per-class&quot;));</span>
+<span class="nc" id="L123">        reporter.setShowingInboundsPerFeatureHistogram(getCommandLine().getToggleSwitch(&quot;histogram-inbounds-per-feature&quot;));</span>
+<span class="nc" id="L124">        reporter.setShowingOutboundsPerFeatureHistogram(getCommandLine().getToggleSwitch(&quot;histogram-outbounds-per-feature&quot;));</span>
 
-<span class="nc" id="L94">        SelectionCriteria scopeCriteria = getScopeCriteria();</span>
-<span class="nc" id="L95">        SelectionCriteria filterCriteria = getFilterCriteria();</span>
+<span class="nc" id="L126">        SelectionCriteria scopeCriteria = getScopeCriteria();</span>
+<span class="nc" id="L127">        SelectionCriteria filterCriteria = getFilterCriteria();</span>
 
-<span class="nc" id="L97">        getVerboseListener().print(&quot;Generating report ...&quot;);</span>
+<span class="nc" id="L129">        getVerboseListener().print(&quot;Generating report ...&quot;);</span>
 
-<span class="nc" id="L99">        MetricsGatherer metrics = new MetricsGatherer(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));</span>
-<span class="nc" id="L100">        metrics.traverseNodes(loadGraph().getPackages().values());</span>
-<span class="nc" id="L101">        reporter.process(metrics);</span>
-<span class="nc" id="L102">    }</span>
+<span class="nc" id="L131">        MetricsGatherer metrics = new MetricsGatherer(new SelectiveTraversalStrategy(scopeCriteria, filterCriteria));</span>
+<span class="nc" id="L132">        metrics.traverseNodes(loadGraph().getPackages().values());</span>
+<span class="nc" id="L133">        reporter.process(metrics);</span>
+<span class="nc" id="L134">    }</span>
 
     public static void main(String[] args) throws Exception {
-<span class="nc" id="L105">        new DependencyMetrics().run(args);</span>
-<span class="nc" id="L106">    }</span>
+<span class="nc" id="L137">        new DependencyMetrics().run(args);</span>
+<span class="nc" id="L138">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

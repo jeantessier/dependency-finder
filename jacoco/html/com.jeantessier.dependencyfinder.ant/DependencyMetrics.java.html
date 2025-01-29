@@ -66,423 +66,562 @@ import com.jeantessier.dependency.*;
 <span class="nc" id="L66">    private String  featureFilterIncludes = &quot;&quot;;</span>
 <span class="nc" id="L67">    private String  featureFilterExcludes = &quot;&quot;;</span>
 
-<span class="nc" id="L69">    private boolean list                     = false;</span>
-<span class="nc" id="L70">    private boolean chartClassesPerPackage   = false;</span>
-<span class="nc" id="L71">    private boolean chartFeaturesPerClass    = false;</span>
-<span class="nc" id="L72">    private boolean chartInboundsPerPackage  = false;</span>
-<span class="nc" id="L73">    private boolean chartOutboundsPerPackage = false;</span>
-<span class="nc" id="L74">    private boolean chartInboundsPerClass    = false;</span>
-<span class="nc" id="L75">    private boolean chartOutboundsPerClass   = false;</span>
-<span class="nc" id="L76">    private boolean chartInboundsPerFeature  = false;</span>
-<span class="nc" id="L77">    private boolean chartOutboundsPerFeature = false;</span>
+<span class="nc" id="L69">    private boolean list = false;</span>
+
+<span class="nc" id="L71">    private boolean chartClassesPerPackage   = false;</span>
+<span class="nc" id="L72">    private boolean chartFeaturesPerClass    = false;</span>
+<span class="nc" id="L73">    private boolean chartInboundsPerPackage  = false;</span>
+<span class="nc" id="L74">    private boolean chartOutboundsPerPackage = false;</span>
+<span class="nc" id="L75">    private boolean chartInboundsPerClass    = false;</span>
+<span class="nc" id="L76">    private boolean chartOutboundsPerClass   = false;</span>
+<span class="nc" id="L77">    private boolean chartInboundsPerFeature  = false;</span>
+<span class="nc" id="L78">    private boolean chartOutboundsPerFeature = false;</span>
+
+<span class="nc" id="L80">    private boolean histogramClassesPerPackage   = false;</span>
+<span class="nc" id="L81">    private boolean histogramFeaturesPerClass    = false;</span>
+<span class="nc" id="L82">    private boolean histogramInboundsPerPackage  = false;</span>
+<span class="nc" id="L83">    private boolean histogramOutboundsPerPackage = false;</span>
+<span class="nc" id="L84">    private boolean histogramInboundsPerClass    = false;</span>
+<span class="nc" id="L85">    private boolean histogramOutboundsPerClass   = false;</span>
+<span class="nc" id="L86">    private boolean histogramInboundsPerFeature  = false;</span>
+<span class="nc" id="L87">    private boolean histogramOutboundsPerFeature = false;</span>
+
+<span class="nc" id="L89">    private boolean json = false;</span>
 
     public String getScopeincludes() {
-<span class="nc" id="L80">        return scopeIncludes;</span>
+<span class="nc" id="L92">        return scopeIncludes;</span>
     }
 
     public void setScopeincludes(String scopeIncludes) {
-<span class="nc" id="L84">        this.scopeIncludes = scopeIncludes;</span>
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L96">        this.scopeIncludes = scopeIncludes;</span>
+<span class="nc" id="L97">    }</span>
     
     public String getScopeexcludes() {
-<span class="nc" id="L88">        return scopeExcludes;</span>
+<span class="nc" id="L100">        return scopeExcludes;</span>
     }
 
     public void setScopeexcludes(String scopeExcludes) {
-<span class="nc" id="L92">        this.scopeExcludes = scopeExcludes;</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L104">        this.scopeExcludes = scopeExcludes;</span>
+<span class="nc" id="L105">    }</span>
 
     public boolean getPackagescope() {
-<span class="nc" id="L96">        return packageScope;</span>
+<span class="nc" id="L108">        return packageScope;</span>
     }
 
     public void setPackagescope(boolean packageScope) {
-<span class="nc" id="L100">        this.packageScope = packageScope;</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L112">        this.packageScope = packageScope;</span>
+<span class="nc" id="L113">    }</span>
     
     public String getPackagescopeincludes() {
-<span class="nc" id="L104">        return packageScopeIncludes;</span>
+<span class="nc" id="L116">        return packageScopeIncludes;</span>
     }
 
     public void setPackagescopeincludes(String packageScopeIncludes) {
-<span class="nc" id="L108">        this.packageScopeIncludes = packageScopeIncludes;</span>
-<span class="nc" id="L109">    }</span>
+<span class="nc" id="L120">        this.packageScopeIncludes = packageScopeIncludes;</span>
+<span class="nc" id="L121">    }</span>
     
     public String getPackagescopeexcludes() {
-<span class="nc" id="L112">        return packageScopeExcludes;</span>
+<span class="nc" id="L124">        return packageScopeExcludes;</span>
     }
 
     public void setPackagescopeexcludes(String packageScopeExcludes) {
-<span class="nc" id="L116">        this.packageScopeExcludes = packageScopeExcludes;</span>
-<span class="nc" id="L117">    }</span>
+<span class="nc" id="L128">        this.packageScopeExcludes = packageScopeExcludes;</span>
+<span class="nc" id="L129">    }</span>
 
     public boolean getClassscope() {
-<span class="nc" id="L120">        return classScope;</span>
+<span class="nc" id="L132">        return classScope;</span>
     }
 
     public void setClassscope(boolean classScope) {
-<span class="nc" id="L124">        this.classScope = classScope;</span>
-<span class="nc" id="L125">    }</span>
+<span class="nc" id="L136">        this.classScope = classScope;</span>
+<span class="nc" id="L137">    }</span>
     
     public String getClassscopeincludes() {
-<span class="nc" id="L128">        return classScopeIncludes;</span>
+<span class="nc" id="L140">        return classScopeIncludes;</span>
     }
 
     public void setClassscopeincludes(String classScopeIncludes) {
-<span class="nc" id="L132">        this.classScopeIncludes = classScopeIncludes;</span>
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L144">        this.classScopeIncludes = classScopeIncludes;</span>
+<span class="nc" id="L145">    }</span>
     
     public String getClassscopeexcludes() {
-<span class="nc" id="L136">        return classScopeExcludes;</span>
+<span class="nc" id="L148">        return classScopeExcludes;</span>
     }
 
     public void setClassscopeexcludes(String classScopeExcludes) {
-<span class="nc" id="L140">        this.classScopeExcludes = classScopeExcludes;</span>
-<span class="nc" id="L141">    }</span>
+<span class="nc" id="L152">        this.classScopeExcludes = classScopeExcludes;</span>
+<span class="nc" id="L153">    }</span>
 
     public boolean getFeaturescope() {
-<span class="nc" id="L144">        return featureScope;</span>
+<span class="nc" id="L156">        return featureScope;</span>
     }
 
     public void setFeaturescope(boolean featureScope) {
-<span class="nc" id="L148">        this.featureScope = featureScope;</span>
-<span class="nc" id="L149">    }</span>
+<span class="nc" id="L160">        this.featureScope = featureScope;</span>
+<span class="nc" id="L161">    }</span>
     
     public String getFeaturescopeincludes() {
-<span class="nc" id="L152">        return featureScopeIncludes;</span>
+<span class="nc" id="L164">        return featureScopeIncludes;</span>
     }
 
     public void setFeaturescopeincludes(String featureScopeIncludes) {
-<span class="nc" id="L156">        this.featureScopeIncludes = featureScopeIncludes;</span>
-<span class="nc" id="L157">    }</span>
+<span class="nc" id="L168">        this.featureScopeIncludes = featureScopeIncludes;</span>
+<span class="nc" id="L169">    }</span>
     
     public String getFeaturescopeexcludes() {
-<span class="nc" id="L160">        return featureScopeExcludes;</span>
+<span class="nc" id="L172">        return featureScopeExcludes;</span>
     }
 
     public void setFeaturescopeexcludes(String featureScopeExcludes) {
-<span class="nc" id="L164">        this.featureScopeExcludes = featureScopeExcludes;</span>
-<span class="nc" id="L165">    }</span>
+<span class="nc" id="L176">        this.featureScopeExcludes = featureScopeExcludes;</span>
+<span class="nc" id="L177">    }</span>
 
     public String getFilterincludes() {
-<span class="nc" id="L168">        return filterIncludes;</span>
+<span class="nc" id="L180">        return filterIncludes;</span>
     }
 
     public void setFilterincludes(String filterIncludes) {
-<span class="nc" id="L172">        this.filterIncludes = filterIncludes;</span>
-<span class="nc" id="L173">    }</span>
+<span class="nc" id="L184">        this.filterIncludes = filterIncludes;</span>
+<span class="nc" id="L185">    }</span>
     
     public String getFilterexcludes() {
-<span class="nc" id="L176">        return filterExcludes;</span>
+<span class="nc" id="L188">        return filterExcludes;</span>
     }
 
     public void setFilterexcludes(String filterExcludes) {
-<span class="nc" id="L180">        this.filterExcludes = filterExcludes;</span>
-<span class="nc" id="L181">    }</span>
+<span class="nc" id="L192">        this.filterExcludes = filterExcludes;</span>
+<span class="nc" id="L193">    }</span>
 
     public boolean getPackagefilter() {
-<span class="nc" id="L184">        return packageFilter;</span>
+<span class="nc" id="L196">        return packageFilter;</span>
     }
 
     public void setPackagefilter(boolean packageFilter) {
-<span class="nc" id="L188">        this.packageFilter = packageFilter;</span>
-<span class="nc" id="L189">    }</span>
+<span class="nc" id="L200">        this.packageFilter = packageFilter;</span>
+<span class="nc" id="L201">    }</span>
     
     public String getPackagefilterincludes() {
-<span class="nc" id="L192">        return packageFilterIncludes;</span>
+<span class="nc" id="L204">        return packageFilterIncludes;</span>
     }
 
     public void setPackagefilterincludes(String packageFilterIncludes) {
-<span class="nc" id="L196">        this.packageFilterIncludes = packageFilterIncludes;</span>
-<span class="nc" id="L197">    }</span>
+<span class="nc" id="L208">        this.packageFilterIncludes = packageFilterIncludes;</span>
+<span class="nc" id="L209">    }</span>
     
     public String getPackagefilterexcludes() {
-<span class="nc" id="L200">        return packageFilterExcludes;</span>
+<span class="nc" id="L212">        return packageFilterExcludes;</span>
     }
 
     public void setPackagefilterexcludes(String packageFilterExcludes) {
-<span class="nc" id="L204">        this.packageFilterExcludes = packageFilterExcludes;</span>
-<span class="nc" id="L205">    }</span>
+<span class="nc" id="L216">        this.packageFilterExcludes = packageFilterExcludes;</span>
+<span class="nc" id="L217">    }</span>
 
     public boolean getClassfilter() {
-<span class="nc" id="L208">        return classFilter;</span>
+<span class="nc" id="L220">        return classFilter;</span>
     }
 
     public void setClassfilter(boolean classFilter) {
-<span class="nc" id="L212">        this.classFilter = classFilter;</span>
-<span class="nc" id="L213">    }</span>
+<span class="nc" id="L224">        this.classFilter = classFilter;</span>
+<span class="nc" id="L225">    }</span>
     
     public String getClassfilterincludes() {
-<span class="nc" id="L216">        return classFilterIncludes;</span>
+<span class="nc" id="L228">        return classFilterIncludes;</span>
     }
 
     public void setClassfilterincludes(String classFilterIncludes) {
-<span class="nc" id="L220">        this.classFilterIncludes = classFilterIncludes;</span>
-<span class="nc" id="L221">    }</span>
+<span class="nc" id="L232">        this.classFilterIncludes = classFilterIncludes;</span>
+<span class="nc" id="L233">    }</span>
     
     public String getClassfilterexcludes() {
-<span class="nc" id="L224">        return classFilterExcludes;</span>
+<span class="nc" id="L236">        return classFilterExcludes;</span>
     }
 
     public void setClassfilterexcludes(String classFilterExcludes) {
-<span class="nc" id="L228">        this.classFilterExcludes = classFilterExcludes;</span>
-<span class="nc" id="L229">    }</span>
+<span class="nc" id="L240">        this.classFilterExcludes = classFilterExcludes;</span>
+<span class="nc" id="L241">    }</span>
 
     public boolean getFeaturefilter() {
-<span class="nc" id="L232">        return featureFilter;</span>
+<span class="nc" id="L244">        return featureFilter;</span>
     }
 
     public void setFeaturefilter(boolean featureFilter) {
-<span class="nc" id="L236">        this.featureFilter = featureFilter;</span>
-<span class="nc" id="L237">    }</span>
+<span class="nc" id="L248">        this.featureFilter = featureFilter;</span>
+<span class="nc" id="L249">    }</span>
     
     public String getFeaturefilterincludes() {
-<span class="nc" id="L240">        return featureFilterIncludes;</span>
+<span class="nc" id="L252">        return featureFilterIncludes;</span>
     }
 
     public void setFeaturefilterincludes(String featureFilterIncludes) {
-<span class="nc" id="L244">        this.featureFilterIncludes = featureFilterIncludes;</span>
-<span class="nc" id="L245">    }</span>
+<span class="nc" id="L256">        this.featureFilterIncludes = featureFilterIncludes;</span>
+<span class="nc" id="L257">    }</span>
     
     public String getFeaturefilterexcludes() {
-<span class="nc" id="L248">        return featureFilterExcludes;</span>
+<span class="nc" id="L260">        return featureFilterExcludes;</span>
     }
 
     public void setFeaturefilterexcludes(String featureFilterExcludes) {
-<span class="nc" id="L252">        this.featureFilterExcludes = featureFilterExcludes;</span>
-<span class="nc" id="L253">    }</span>
+<span class="nc" id="L264">        this.featureFilterExcludes = featureFilterExcludes;</span>
+<span class="nc" id="L265">    }</span>
 
     public void setP2p(boolean value) {
-<span class="nc" id="L256">        setPackagescope(value);</span>
-<span class="nc" id="L257">        setPackagefilter(value);</span>
-<span class="nc" id="L258">    }</span>
+<span class="nc" id="L268">        setPackagescope(value);</span>
+<span class="nc" id="L269">        setPackagefilter(value);</span>
+<span class="nc" id="L270">    }</span>
     
     public void setC2p(boolean value) {
-<span class="nc" id="L261">        setClassscope(value);</span>
-<span class="nc" id="L262">        setPackagefilter(value);</span>
-<span class="nc" id="L263">    }</span>
+<span class="nc" id="L273">        setClassscope(value);</span>
+<span class="nc" id="L274">        setPackagefilter(value);</span>
+<span class="nc" id="L275">    }</span>
 
     public void setC2c(boolean value) {
-<span class="nc" id="L266">        setClassscope(value);</span>
-<span class="nc" id="L267">        setClassfilter(value);</span>
-<span class="nc" id="L268">    }</span>
+<span class="nc" id="L278">        setClassscope(value);</span>
+<span class="nc" id="L279">        setClassfilter(value);</span>
+<span class="nc" id="L280">    }</span>
 
     public void setF2f(boolean value) {
-<span class="nc" id="L271">        setFeaturescope(value);</span>
-<span class="nc" id="L272">        setFeaturefilter(value);</span>
-<span class="nc" id="L273">    }</span>
+<span class="nc" id="L283">        setFeaturescope(value);</span>
+<span class="nc" id="L284">        setFeaturefilter(value);</span>
+<span class="nc" id="L285">    }</span>
 
     public void setIncludes(String value) {
-<span class="nc" id="L276">        setScopeincludes(value);</span>
-<span class="nc" id="L277">        setFilterincludes(value);</span>
-<span class="nc" id="L278">    }</span>
+<span class="nc" id="L288">        setScopeincludes(value);</span>
+<span class="nc" id="L289">        setFilterincludes(value);</span>
+<span class="nc" id="L290">    }</span>
 
     public void setExcludes(String value) {
-<span class="nc" id="L281">        setScopeexcludes(value);</span>
-<span class="nc" id="L282">        setFilterexcludes(value);</span>
-<span class="nc" id="L283">    }</span>
+<span class="nc" id="L293">        setScopeexcludes(value);</span>
+<span class="nc" id="L294">        setFilterexcludes(value);</span>
+<span class="nc" id="L295">    }</span>
 
     public boolean getList() {
-<span class="nc" id="L286">        return list;</span>
+<span class="nc" id="L298">        return list;</span>
     }
     
     public void setList(boolean list) {
-<span class="nc" id="L290">        this.list = list;</span>
-<span class="nc" id="L291">    }</span>
+<span class="nc" id="L302">        this.list = list;</span>
+<span class="nc" id="L303">    }</span>
 
     public boolean getChartclassesperpackage() {
-<span class="nc" id="L294">        return chartClassesPerPackage;</span>
+<span class="nc" id="L306">        return chartClassesPerPackage;</span>
     }
     
     public void setChartclassesperpackage(boolean chartClassesPerPackage) {
-<span class="nc" id="L298">        this.chartClassesPerPackage = chartClassesPerPackage;</span>
-<span class="nc" id="L299">    }</span>
+<span class="nc" id="L310">        this.chartClassesPerPackage = chartClassesPerPackage;</span>
+<span class="nc" id="L311">    }</span>
 
     public boolean getChartfeaturesperclass() {
-<span class="nc" id="L302">        return chartFeaturesPerClass;</span>
+<span class="nc" id="L314">        return chartFeaturesPerClass;</span>
     }
     
     public void setChartfeaturesperclass(boolean chartFeaturesPerClass) {
-<span class="nc" id="L306">        this.chartFeaturesPerClass = chartFeaturesPerClass;</span>
-<span class="nc" id="L307">    }</span>
+<span class="nc" id="L318">        this.chartFeaturesPerClass = chartFeaturesPerClass;</span>
+<span class="nc" id="L319">    }</span>
 
     public boolean getChartinboundsperpackage() {
-<span class="nc" id="L310">        return chartInboundsPerPackage;</span>
+<span class="nc" id="L322">        return chartInboundsPerPackage;</span>
     }
     
     public void setChartinboundsperpackage(boolean chartInboundsPerPackage) {
-<span class="nc" id="L314">        this.chartInboundsPerPackage = chartInboundsPerPackage;</span>
-<span class="nc" id="L315">    }</span>
+<span class="nc" id="L326">        this.chartInboundsPerPackage = chartInboundsPerPackage;</span>
+<span class="nc" id="L327">    }</span>
 
     public boolean getChartoutboundsperpackage() {
-<span class="nc" id="L318">        return chartOutboundsPerPackage;</span>
+<span class="nc" id="L330">        return chartOutboundsPerPackage;</span>
     }
     
     public void setChartoutboundsperpackage(boolean chartOutboundsPerPackage) {
-<span class="nc" id="L322">        this.chartOutboundsPerPackage = chartOutboundsPerPackage;</span>
-<span class="nc" id="L323">    }</span>
+<span class="nc" id="L334">        this.chartOutboundsPerPackage = chartOutboundsPerPackage;</span>
+<span class="nc" id="L335">    }</span>
 
     public boolean getChartinboundsperclass() {
-<span class="nc" id="L326">        return chartInboundsPerClass;</span>
+<span class="nc" id="L338">        return chartInboundsPerClass;</span>
     }
     
     public void setChartinboundsperclass(boolean chartInboundsPerClass) {
-<span class="nc" id="L330">        this.chartInboundsPerClass = chartInboundsPerClass;</span>
-<span class="nc" id="L331">    }</span>
+<span class="nc" id="L342">        this.chartInboundsPerClass = chartInboundsPerClass;</span>
+<span class="nc" id="L343">    }</span>
 
     public boolean getChartoutboundsperclass() {
-<span class="nc" id="L334">        return chartOutboundsPerClass;</span>
+<span class="nc" id="L346">        return chartOutboundsPerClass;</span>
     }
     
     public void setChartoutboundsperclass(boolean chartOutboundsPerClass) {
-<span class="nc" id="L338">        this.chartOutboundsPerClass = chartOutboundsPerClass;</span>
-<span class="nc" id="L339">    }</span>
+<span class="nc" id="L350">        this.chartOutboundsPerClass = chartOutboundsPerClass;</span>
+<span class="nc" id="L351">    }</span>
     
     public boolean getChartinboundsperfeature() {
-<span class="nc" id="L342">        return chartInboundsPerFeature;</span>
+<span class="nc" id="L354">        return chartInboundsPerFeature;</span>
     }
     
     public void setChartinboundsperfeature(boolean chartInboundsPerFeature) {
-<span class="nc" id="L346">        this.chartInboundsPerFeature = chartInboundsPerFeature;</span>
-<span class="nc" id="L347">    }</span>
+<span class="nc" id="L358">        this.chartInboundsPerFeature = chartInboundsPerFeature;</span>
+<span class="nc" id="L359">    }</span>
 
     public boolean getChartoutboundsperfeature() {
-<span class="nc" id="L350">        return chartOutboundsPerFeature;</span>
+<span class="nc" id="L362">        return chartOutboundsPerFeature;</span>
     }
     
     public void setChartoutboundsperfeature(boolean chartOutboundsPerFeature) {
-<span class="nc" id="L354">        this.chartOutboundsPerFeature = chartOutboundsPerFeature;</span>
-<span class="nc" id="L355">    }</span>
-
-    public void setChartinbounds(boolean chartInbounds) {
-<span class="nc" id="L358">        setChartinboundsperpackage(chartInbounds);</span>
-<span class="nc" id="L359">        setChartinboundsperclass(chartInbounds);</span>
-<span class="nc" id="L360">        setChartinboundsperfeature(chartInbounds);</span>
-<span class="nc" id="L361">    }</span>
-
-    public void setChartoutbounds(boolean chartOutbounds) {
-<span class="nc" id="L364">        setChartoutboundsperpackage(chartOutbounds);</span>
-<span class="nc" id="L365">        setChartoutboundsperclass(chartOutbounds);</span>
-<span class="nc" id="L366">        setChartoutboundsperfeature(chartOutbounds);</span>
+<span class="nc" id="L366">        this.chartOutboundsPerFeature = chartOutboundsPerFeature;</span>
 <span class="nc" id="L367">    }</span>
 
-    public void setChartpackages(boolean chartPackages) {
-<span class="nc" id="L370">        setChartclassesperpackage(chartPackages);</span>
-<span class="nc" id="L371">        setChartinboundsperpackage(chartPackages);</span>
-<span class="nc" id="L372">        setChartoutboundsperpackage(chartPackages);</span>
+    public void setChartinbounds(boolean chartInbounds) {
+<span class="nc" id="L370">        setChartinboundsperpackage(chartInbounds);</span>
+<span class="nc" id="L371">        setChartinboundsperclass(chartInbounds);</span>
+<span class="nc" id="L372">        setChartinboundsperfeature(chartInbounds);</span>
 <span class="nc" id="L373">    }</span>
 
-    public void setChartclasses(boolean chartClasses) {
-<span class="nc" id="L376">        setChartfeaturesperclass(chartClasses);</span>
-<span class="nc" id="L377">        setChartinboundsperclass(chartClasses);</span>
-<span class="nc" id="L378">        setChartoutboundsperclass(chartClasses);</span>
+    public void setChartoutbounds(boolean chartOutbounds) {
+<span class="nc" id="L376">        setChartoutboundsperpackage(chartOutbounds);</span>
+<span class="nc" id="L377">        setChartoutboundsperclass(chartOutbounds);</span>
+<span class="nc" id="L378">        setChartoutboundsperfeature(chartOutbounds);</span>
 <span class="nc" id="L379">    }</span>
 
+    public void setChartpackages(boolean chartPackages) {
+<span class="nc" id="L382">        setChartclassesperpackage(chartPackages);</span>
+<span class="nc" id="L383">        setChartinboundsperpackage(chartPackages);</span>
+<span class="nc" id="L384">        setChartoutboundsperpackage(chartPackages);</span>
+<span class="nc" id="L385">    }</span>
+
+    public void setChartclasses(boolean chartClasses) {
+<span class="nc" id="L388">        setChartfeaturesperclass(chartClasses);</span>
+<span class="nc" id="L389">        setChartinboundsperclass(chartClasses);</span>
+<span class="nc" id="L390">        setChartoutboundsperclass(chartClasses);</span>
+<span class="nc" id="L391">    }</span>
+
     public void setChartfeatures(boolean chartFeatures) {
-<span class="nc" id="L382">        setChartinboundsperfeature(chartFeatures);</span>
-<span class="nc" id="L383">        setChartoutboundsperfeature(chartFeatures);</span>
-<span class="nc" id="L384">    }</span>
+<span class="nc" id="L394">        setChartinboundsperfeature(chartFeatures);</span>
+<span class="nc" id="L395">        setChartoutboundsperfeature(chartFeatures);</span>
+<span class="nc" id="L396">    }</span>
 
     public void setChartall(boolean chartAll) {
-<span class="nc" id="L387">        setChartclassesperpackage(chartAll);</span>
-<span class="nc" id="L388">        setChartfeaturesperclass(chartAll);</span>
-<span class="nc" id="L389">        setChartinboundsperpackage(chartAll);</span>
-<span class="nc" id="L390">        setChartoutboundsperpackage(chartAll);</span>
-<span class="nc" id="L391">        setChartinboundsperclass(chartAll);</span>
-<span class="nc" id="L392">        setChartoutboundsperclass(chartAll);</span>
-<span class="nc" id="L393">        setChartinboundsperfeature(chartAll);</span>
-<span class="nc" id="L394">        setChartoutboundsperfeature(chartAll);</span>
-<span class="nc" id="L395">    }</span>
+<span class="nc" id="L399">        setChartclassesperpackage(chartAll);</span>
+<span class="nc" id="L400">        setChartfeaturesperclass(chartAll);</span>
+<span class="nc" id="L401">        setChartinboundsperpackage(chartAll);</span>
+<span class="nc" id="L402">        setChartoutboundsperpackage(chartAll);</span>
+<span class="nc" id="L403">        setChartinboundsperclass(chartAll);</span>
+<span class="nc" id="L404">        setChartoutboundsperclass(chartAll);</span>
+<span class="nc" id="L405">        setChartinboundsperfeature(chartAll);</span>
+<span class="nc" id="L406">        setChartoutboundsperfeature(chartAll);</span>
+<span class="nc" id="L407">    }</span>
+
+    public boolean getHistogramclassesperpackage() {
+<span class="nc" id="L410">        return histogramClassesPerPackage;</span>
+    }
+
+    public void setHistogramclassesperpackage(boolean histogramClassesPerPackage) {
+<span class="nc" id="L414">        this.histogramClassesPerPackage = histogramClassesPerPackage;</span>
+<span class="nc" id="L415">    }</span>
+
+    public boolean getHistogramfeaturesperclass() {
+<span class="nc" id="L418">        return histogramFeaturesPerClass;</span>
+    }
+
+    public void setHistogramfeaturesperclass(boolean histogramFeaturesPerClass) {
+<span class="nc" id="L422">        this.histogramFeaturesPerClass = histogramFeaturesPerClass;</span>
+<span class="nc" id="L423">    }</span>
+
+    public boolean getHistograminboundsperpackage() {
+<span class="nc" id="L426">        return histogramInboundsPerPackage;</span>
+    }
+
+    public void setHistograminboundsperpackage(boolean histogramInboundsPerPackage) {
+<span class="nc" id="L430">        this.histogramInboundsPerPackage = histogramInboundsPerPackage;</span>
+<span class="nc" id="L431">    }</span>
+
+    public boolean getHistogramoutboundsperpackage() {
+<span class="nc" id="L434">        return histogramOutboundsPerPackage;</span>
+    }
+
+    public void setHistogramoutboundsperpackage(boolean histogramOutboundsPerPackage) {
+<span class="nc" id="L438">        this.histogramOutboundsPerPackage = histogramOutboundsPerPackage;</span>
+<span class="nc" id="L439">    }</span>
+
+    public boolean getHistograminboundsperclass() {
+<span class="nc" id="L442">        return histogramInboundsPerClass;</span>
+    }
+
+    public void setHistograminboundsperclass(boolean histogramInboundsPerClass) {
+<span class="nc" id="L446">        this.histogramInboundsPerClass = histogramInboundsPerClass;</span>
+<span class="nc" id="L447">    }</span>
+
+    public boolean getHistogramoutboundsperclass() {
+<span class="nc" id="L450">        return histogramOutboundsPerClass;</span>
+    }
+
+    public void setHistogramoutboundsperclass(boolean histogramOutboundsPerClass) {
+<span class="nc" id="L454">        this.histogramOutboundsPerClass = histogramOutboundsPerClass;</span>
+<span class="nc" id="L455">    }</span>
+
+    public boolean getHistograminboundsperfeature() {
+<span class="nc" id="L458">        return histogramInboundsPerFeature;</span>
+    }
+
+    public void setHistograminboundsperfeature(boolean histogramInboundsPerFeature) {
+<span class="nc" id="L462">        this.histogramInboundsPerFeature = histogramInboundsPerFeature;</span>
+<span class="nc" id="L463">    }</span>
+
+    public boolean getHistogramoutboundsperfeature() {
+<span class="nc" id="L466">        return histogramOutboundsPerFeature;</span>
+    }
+
+    public void setHistogramoutboundsperfeature(boolean histogramOutboundsPerFeature) {
+<span class="nc" id="L470">        this.histogramOutboundsPerFeature = histogramOutboundsPerFeature;</span>
+<span class="nc" id="L471">    }</span>
+
+    public void setHistograminbounds(boolean histogramInbounds) {
+<span class="nc" id="L474">        setHistograminboundsperpackage(histogramInbounds);</span>
+<span class="nc" id="L475">        setHistograminboundsperclass(histogramInbounds);</span>
+<span class="nc" id="L476">        setHistograminboundsperfeature(histogramInbounds);</span>
+<span class="nc" id="L477">    }</span>
+
+    public void setHistogramoutbounds(boolean histogramOutbounds) {
+<span class="nc" id="L480">        setHistogramoutboundsperpackage(histogramOutbounds);</span>
+<span class="nc" id="L481">        setHistogramoutboundsperclass(histogramOutbounds);</span>
+<span class="nc" id="L482">        setHistogramoutboundsperfeature(histogramOutbounds);</span>
+<span class="nc" id="L483">    }</span>
+
+    public void setHistogrampackages(boolean histogramPackages) {
+<span class="nc" id="L486">        setHistogramclassesperpackage(histogramPackages);</span>
+<span class="nc" id="L487">        setHistograminboundsperpackage(histogramPackages);</span>
+<span class="nc" id="L488">        setHistogramoutboundsperpackage(histogramPackages);</span>
+<span class="nc" id="L489">    }</span>
+
+    public void setHistogramclasses(boolean histogramClasses) {
+<span class="nc" id="L492">        setHistogramfeaturesperclass(histogramClasses);</span>
+<span class="nc" id="L493">        setHistograminboundsperclass(histogramClasses);</span>
+<span class="nc" id="L494">        setHistogramoutboundsperclass(histogramClasses);</span>
+<span class="nc" id="L495">    }</span>
+
+    public void setHistogramfeatures(boolean histogramFeatures) {
+<span class="nc" id="L498">        setHistograminboundsperfeature(histogramFeatures);</span>
+<span class="nc" id="L499">        setHistogramoutboundsperfeature(histogramFeatures);</span>
+<span class="nc" id="L500">    }</span>
+
+    public void setHistogramall(boolean histogramAll) {
+<span class="nc" id="L503">        setHistogramclassesperpackage(histogramAll);</span>
+<span class="nc" id="L504">        setHistogramfeaturesperclass(histogramAll);</span>
+<span class="nc" id="L505">        setHistograminboundsperpackage(histogramAll);</span>
+<span class="nc" id="L506">        setHistogramoutboundsperpackage(histogramAll);</span>
+<span class="nc" id="L507">        setHistograminboundsperclass(histogramAll);</span>
+<span class="nc" id="L508">        setHistogramoutboundsperclass(histogramAll);</span>
+<span class="nc" id="L509">        setHistograminboundsperfeature(histogramAll);</span>
+<span class="nc" id="L510">        setHistogramoutboundsperfeature(histogramAll);</span>
+<span class="nc" id="L511">    }</span>
+
+    public boolean getJson() {
+<span class="nc" id="L514">        return json;</span>
+    }
+
+    public void setJson(boolean json) {
+<span class="nc" id="L518">        this.json = json;</span>
+<span class="nc" id="L519">    }</span>
 
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
-<span class="nc" id="L399">        validateParameters();</span>
+<span class="nc" id="L523">        validateParameters();</span>
 
-<span class="nc" id="L401">        VerboseListener verboseListener = new VerboseListener(this);</span>
+<span class="nc" id="L525">        VerboseListener verboseListener = new VerboseListener(this);</span>
 
         try {
-<span class="nc" id="L404">            NodeFactory factory = new NodeFactory();</span>
+<span class="nc" id="L528">            NodeFactory factory = new NodeFactory();</span>
 
-<span class="nc bnc" id="L406" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
-<span class="nc" id="L407">                log(&quot;Reading graph from &quot; + filename);</span>
+<span class="nc bnc" id="L530" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
+<span class="nc" id="L531">                log(&quot;Reading graph from &quot; + filename);</span>
 
-<span class="nc bnc" id="L409" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
-<span class="nc" id="L410">                    NodeLoader loader = new NodeLoader(factory, getValidate());</span>
-<span class="nc" id="L411">                    loader.addDependencyListener(verboseListener);</span>
-<span class="nc" id="L412">                    loader.load(filename);</span>
+<span class="nc bnc" id="L533" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L534">                    NodeLoader loader = new NodeLoader(factory, getValidate());</span>
+<span class="nc" id="L535">                    loader.addDependencyListener(verboseListener);</span>
+<span class="nc" id="L536">                    loader.load(filename);</span>
                 }
             }
 
-<span class="nc" id="L416">            log(&quot;Saving metrics report to &quot; + getDestfile().getAbsolutePath());</span>
+<span class="nc" id="L540">            log(&quot;Saving metrics report to &quot; + getDestfile().getAbsolutePath());</span>
 
-<span class="nc" id="L418">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
+<span class="nc" id="L542">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
 
-<span class="nc" id="L420">            MetricsReport reporter = new MetricsReport(out);</span>
+            MetricsReport reporter;
+<span class="nc bnc" id="L545" title="All 2 branches missed.">            if (getJson()) {</span>
+<span class="nc" id="L546">                reporter = new JSONMetricsReport(out);</span>
+            } else {
+<span class="nc" id="L548">                reporter = new TextMetricsReport(out);</span>
+            }
 
-<span class="nc" id="L422">            reporter.setListingElements(getList());</span>
-<span class="nc" id="L423">            reporter.setChartingClassesPerPackage(getChartclassesperpackage());</span>
-<span class="nc" id="L424">            reporter.setChartingFeaturesPerClass(getChartfeaturesperclass());</span>
-<span class="nc" id="L425">            reporter.setChartingInboundsPerPackage(getChartinboundsperpackage());</span>
-<span class="nc" id="L426">            reporter.setChartingOutboundsPerPackage(getChartoutboundsperpackage());</span>
-<span class="nc" id="L427">            reporter.setChartingInboundsPerClass(getChartinboundsperclass());</span>
-<span class="nc" id="L428">            reporter.setChartingOutboundsPerClass(getChartoutboundsperclass());</span>
-<span class="nc" id="L429">            reporter.setChartingInboundsPerFeature(getChartinboundsperfeature());</span>
-<span class="nc" id="L430">            reporter.setChartingOutboundsPerFeature(getChartoutboundsperfeature());</span>
+<span class="nc" id="L551">            reporter.setListingElements(getList());</span>
 
-<span class="nc" id="L432">            MetricsGatherer metrics = new MetricsGatherer(getStrategy());</span>
-<span class="nc" id="L433">            metrics.traverseNodes(factory.getPackages().values());</span>
-<span class="nc" id="L434">            reporter.process(metrics);</span>
+<span class="nc" id="L553">            reporter.setShowingClassesPerPackageChart(getChartclassesperpackage());</span>
+<span class="nc" id="L554">            reporter.setShowingFeaturesPerClassChart(getChartfeaturesperclass());</span>
+<span class="nc" id="L555">            reporter.setShowingInboundsPerPackageChart(getChartinboundsperpackage());</span>
+<span class="nc" id="L556">            reporter.setShowingOutboundsPerPackageChart(getChartoutboundsperpackage());</span>
+<span class="nc" id="L557">            reporter.setShowingInboundsPerClassChart(getChartinboundsperclass());</span>
+<span class="nc" id="L558">            reporter.setShowingOutboundsPerClassChart(getChartoutboundsperclass());</span>
+<span class="nc" id="L559">            reporter.setShowingInboundsPerFeatureChart(getChartinboundsperfeature());</span>
+<span class="nc" id="L560">            reporter.setShowingOutboundsPerFeatureChart(getChartoutboundsperfeature());</span>
 
-<span class="nc" id="L436">            out.close();</span>
-<span class="nc" id="L437">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
-<span class="nc" id="L438">            throw new BuildException(ex);</span>
-<span class="nc" id="L439">        }</span>
-<span class="nc" id="L440">    }</span>
+<span class="nc" id="L562">            reporter.setShowingClassesPerPackageHistogram(getHistogramclassesperpackage());</span>
+<span class="nc" id="L563">            reporter.setShowingFeaturesPerClassHistogram(getHistogramfeaturesperclass());</span>
+<span class="nc" id="L564">            reporter.setShowingInboundsPerPackageHistogram(getHistograminboundsperpackage());</span>
+<span class="nc" id="L565">            reporter.setShowingOutboundsPerPackageHistogram(getHistogramoutboundsperpackage());</span>
+<span class="nc" id="L566">            reporter.setShowingInboundsPerClassHistogram(getHistograminboundsperclass());</span>
+<span class="nc" id="L567">            reporter.setShowingOutboundsPerClassHistogram(getHistogramoutboundsperclass());</span>
+<span class="nc" id="L568">            reporter.setShowingInboundsPerFeatureHistogram(getHistograminboundsperfeature());</span>
+<span class="nc" id="L569">            reporter.setShowingOutboundsPerFeatureHistogram(getHistogramoutboundsperfeature());</span>
+
+<span class="nc" id="L571">            MetricsGatherer metrics = new MetricsGatherer(getStrategy());</span>
+<span class="nc" id="L572">            metrics.traverseNodes(factory.getPackages().values());</span>
+<span class="nc" id="L573">            reporter.process(metrics);</span>
+
+<span class="nc" id="L575">            out.close();</span>
+<span class="nc" id="L576">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
+<span class="nc" id="L577">            throw new BuildException(ex);</span>
+<span class="nc" id="L578">        }</span>
+<span class="nc" id="L579">    }</span>
 
     private SelectionCriteria getScopeCriteria() throws BuildException {
-<span class="nc" id="L443">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+<span class="nc" id="L582">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
 
-<span class="nc bnc" id="L445" title="All 6 branches missed.">        if (getPackagescope() || getClassscope() || getFeaturescope()) {</span>
-<span class="nc" id="L446">            result.setMatchingPackages(getPackagescope());</span>
-<span class="nc" id="L447">            result.setMatchingClasses(getClassscope());</span>
-<span class="nc" id="L448">            result.setMatchingFeatures(getFeaturescope());</span>
+<span class="nc bnc" id="L584" title="All 6 branches missed.">        if (getPackagescope() || getClassscope() || getFeaturescope()) {</span>
+<span class="nc" id="L585">            result.setMatchingPackages(getPackagescope());</span>
+<span class="nc" id="L586">            result.setMatchingClasses(getClassscope());</span>
+<span class="nc" id="L587">            result.setMatchingFeatures(getFeaturescope());</span>
         }
 
-<span class="nc" id="L451">        result.setGlobalIncludes(getScopeincludes());</span>
-<span class="nc" id="L452">        result.setGlobalExcludes(getScopeexcludes());</span>
-<span class="nc" id="L453">        result.setPackageIncludes(getPackagescopeincludes());</span>
-<span class="nc" id="L454">        result.setPackageExcludes(getPackagescopeexcludes());</span>
-<span class="nc" id="L455">        result.setClassIncludes(getClassscopeincludes());</span>
-<span class="nc" id="L456">        result.setClassExcludes(getClassscopeexcludes());</span>
-<span class="nc" id="L457">        result.setFeatureIncludes(getFeaturescopeincludes());</span>
-<span class="nc" id="L458">        result.setFeatureExcludes(getFeaturescopeexcludes());</span>
+<span class="nc" id="L590">        result.setGlobalIncludes(getScopeincludes());</span>
+<span class="nc" id="L591">        result.setGlobalExcludes(getScopeexcludes());</span>
+<span class="nc" id="L592">        result.setPackageIncludes(getPackagescopeincludes());</span>
+<span class="nc" id="L593">        result.setPackageExcludes(getPackagescopeexcludes());</span>
+<span class="nc" id="L594">        result.setClassIncludes(getClassscopeincludes());</span>
+<span class="nc" id="L595">        result.setClassExcludes(getClassscopeexcludes());</span>
+<span class="nc" id="L596">        result.setFeatureIncludes(getFeaturescopeincludes());</span>
+<span class="nc" id="L597">        result.setFeatureExcludes(getFeaturescopeexcludes());</span>
 
-<span class="nc" id="L460">        return result;</span>
+<span class="nc" id="L599">        return result;</span>
     }
 
     private SelectionCriteria getFilterCriteria() throws BuildException {
-<span class="nc" id="L464">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+<span class="nc" id="L603">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
 
-<span class="nc bnc" id="L466" title="All 6 branches missed.">        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {</span>
-<span class="nc" id="L467">            result.setMatchingPackages(getPackagefilter());</span>
-<span class="nc" id="L468">            result.setMatchingClasses(getClassfilter());</span>
-<span class="nc" id="L469">            result.setMatchingFeatures(getFeaturefilter());</span>
+<span class="nc bnc" id="L605" title="All 6 branches missed.">        if (getPackagefilter() || getClassfilter() || getFeaturefilter()) {</span>
+<span class="nc" id="L606">            result.setMatchingPackages(getPackagefilter());</span>
+<span class="nc" id="L607">            result.setMatchingClasses(getClassfilter());</span>
+<span class="nc" id="L608">            result.setMatchingFeatures(getFeaturefilter());</span>
         }
 
-<span class="nc" id="L472">        result.setGlobalIncludes(getFilterincludes());</span>
-<span class="nc" id="L473">        result.setGlobalExcludes(getFilterexcludes());</span>
-<span class="nc" id="L474">        result.setPackageIncludes(getPackagefilterincludes());</span>
-<span class="nc" id="L475">        result.setPackageExcludes(getPackagefilterexcludes());</span>
-<span class="nc" id="L476">        result.setClassIncludes(getClassfilterincludes());</span>
-<span class="nc" id="L477">        result.setClassExcludes(getClassfilterexcludes());</span>
-<span class="nc" id="L478">        result.setFeatureIncludes(getFeaturefilterincludes());</span>
-<span class="nc" id="L479">        result.setFeatureExcludes(getFeaturefilterexcludes());</span>
+<span class="nc" id="L611">        result.setGlobalIncludes(getFilterincludes());</span>
+<span class="nc" id="L612">        result.setGlobalExcludes(getFilterexcludes());</span>
+<span class="nc" id="L613">        result.setPackageIncludes(getPackagefilterincludes());</span>
+<span class="nc" id="L614">        result.setPackageExcludes(getPackagefilterexcludes());</span>
+<span class="nc" id="L615">        result.setClassIncludes(getClassfilterincludes());</span>
+<span class="nc" id="L616">        result.setClassExcludes(getClassfilterexcludes());</span>
+<span class="nc" id="L617">        result.setFeatureIncludes(getFeaturefilterincludes());</span>
+<span class="nc" id="L618">        result.setFeatureExcludes(getFeaturefilterexcludes());</span>
 
-<span class="nc" id="L481">        return result;</span>
+<span class="nc" id="L620">        return result;</span>
     }
     
     private TraversalStrategy getStrategy() throws BuildException {
-<span class="nc" id="L485">        return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());</span>
+<span class="nc" id="L624">        return new SelectiveTraversalStrategy(getScopeCriteria(), getFilterCriteria());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

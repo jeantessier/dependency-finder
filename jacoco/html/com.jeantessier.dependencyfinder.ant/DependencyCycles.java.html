@@ -32,17 +32,7 @@
 
 package com.jeantessier.dependencyfinder.ant;
 
-import com.jeantessier.dependency.CollectionSelectionCriteria;
-import com.jeantessier.dependency.ComprehensiveSelectionCriteria;
-import com.jeantessier.dependency.CycleDetector;
-import com.jeantessier.dependency.CyclePrinter;
-import com.jeantessier.dependency.NodeFactory;
-import com.jeantessier.dependency.NodeLoader;
-import com.jeantessier.dependency.RegularExpressionSelectionCriteria;
-import com.jeantessier.dependency.SelectionCriteria;
-import com.jeantessier.dependency.TextCyclePrinter;
-import com.jeantessier.dependency.XMLCyclePrinter;
-import com.jeantessier.dependency.XMLPrinter;
+import com.jeantessier.dependency.*;
 import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.Path;
@@ -54,279 +44,290 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-<span class="nc" id="L57">public class DependencyCycles extends GraphTask {</span>
-<span class="nc" id="L58">    private String startIncludes = &quot;//&quot;;</span>
-<span class="nc" id="L59">    private String startExcludes = &quot;&quot;;</span>
-<span class="nc" id="L60">    private String packageStartIncludes = &quot;&quot;;</span>
-<span class="nc" id="L61">    private String packageStartExcludes = &quot;&quot;;</span>
-<span class="nc" id="L62">    private String classStartIncludes = &quot;&quot;;</span>
-<span class="nc" id="L63">    private String classStartExcludes = &quot;&quot;;</span>
-<span class="nc" id="L64">    private String featureStartIncludes = &quot;&quot;;</span>
-<span class="nc" id="L65">    private String featureStartExcludes = &quot;&quot;;</span>
+<span class="nc" id="L47">public class DependencyCycles extends GraphTask {</span>
+<span class="nc" id="L48">    private String startIncludes = &quot;//&quot;;</span>
+<span class="nc" id="L49">    private String startExcludes = &quot;&quot;;</span>
+<span class="nc" id="L50">    private String packageStartIncludes = &quot;&quot;;</span>
+<span class="nc" id="L51">    private String packageStartExcludes = &quot;&quot;;</span>
+<span class="nc" id="L52">    private String classStartIncludes = &quot;&quot;;</span>
+<span class="nc" id="L53">    private String classStartExcludes = &quot;&quot;;</span>
+<span class="nc" id="L54">    private String featureStartIncludes = &quot;&quot;;</span>
+<span class="nc" id="L55">    private String featureStartExcludes = &quot;&quot;;</span>
 
     private Path startIncludesList;
     private Path startExcludesList;
 
-<span class="nc" id="L70">    private String  maximumCycleLenth  = &quot;&quot;;</span>
+<span class="nc" id="L60">    private String  maximumCycleLenth  = &quot;&quot;;</span>
 
-<span class="nc" id="L72">    private boolean xml = false;</span>
-<span class="nc" id="L73">    private String encoding = XMLPrinter.DEFAULT_ENCODING;</span>
-<span class="nc" id="L74">    private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;</span>
+<span class="nc" id="L62">    private boolean json = false;</span>
+<span class="nc" id="L63">    private boolean xml = false;</span>
+<span class="nc" id="L64">    private String encoding = XMLPrinter.DEFAULT_ENCODING;</span>
+<span class="nc" id="L65">    private String dtdPrefix = XMLPrinter.DEFAULT_DTD_PREFIX;</span>
     private String indentText;
 
     public String getStartincludes() {
-<span class="nc" id="L78">        return startIncludes;</span>
+<span class="nc" id="L69">        return startIncludes;</span>
     }
 
     public void setStartincludes(String startIncludes) {
-<span class="nc" id="L82">        this.startIncludes = startIncludes;</span>
-<span class="nc" id="L83">    }</span>
+<span class="nc" id="L73">        this.startIncludes = startIncludes;</span>
+<span class="nc" id="L74">    }</span>
 
     public String getStartexcludes() {
-<span class="nc" id="L86">        return startExcludes;</span>
+<span class="nc" id="L77">        return startExcludes;</span>
     }
 
     public void setStartexcludes(String startExcludes) {
-<span class="nc" id="L90">        this.startExcludes = startExcludes;</span>
-<span class="nc" id="L91">    }</span>
+<span class="nc" id="L81">        this.startExcludes = startExcludes;</span>
+<span class="nc" id="L82">    }</span>
 
     public String getPackagestartincludes() {
-<span class="nc" id="L94">        return packageStartIncludes;</span>
+<span class="nc" id="L85">        return packageStartIncludes;</span>
     }
 
     public void setPackagestartincludes(String packageStartIncludes) {
-<span class="nc" id="L98">        this.packageStartIncludes = packageStartIncludes;</span>
-<span class="nc" id="L99">    }</span>
+<span class="nc" id="L89">        this.packageStartIncludes = packageStartIncludes;</span>
+<span class="nc" id="L90">    }</span>
 
     public String getPackagestartexcludes() {
-<span class="nc" id="L102">        return packageStartExcludes;</span>
+<span class="nc" id="L93">        return packageStartExcludes;</span>
     }
 
     public void setPackagestartexcludes(String packageStartExcludes) {
-<span class="nc" id="L106">        this.packageStartExcludes = packageStartExcludes;</span>
-<span class="nc" id="L107">    }</span>
+<span class="nc" id="L97">        this.packageStartExcludes = packageStartExcludes;</span>
+<span class="nc" id="L98">    }</span>
 
     public String getClassstartincludes() {
-<span class="nc" id="L110">        return classStartIncludes;</span>
+<span class="nc" id="L101">        return classStartIncludes;</span>
     }
 
     public void setClassstartincludes(String classStartIncludes) {
-<span class="nc" id="L114">        this.classStartIncludes = classStartIncludes;</span>
-<span class="nc" id="L115">    }</span>
+<span class="nc" id="L105">        this.classStartIncludes = classStartIncludes;</span>
+<span class="nc" id="L106">    }</span>
 
     public String getClassstartexcludes() {
-<span class="nc" id="L118">        return classStartExcludes;</span>
+<span class="nc" id="L109">        return classStartExcludes;</span>
     }
 
     public void setClassstartexcludes(String classStartExcludes) {
-<span class="nc" id="L122">        this.classStartExcludes = classStartExcludes;</span>
-<span class="nc" id="L123">    }</span>
+<span class="nc" id="L113">        this.classStartExcludes = classStartExcludes;</span>
+<span class="nc" id="L114">    }</span>
 
     public String getFeaturestartincludes() {
-<span class="nc" id="L126">        return featureStartIncludes;</span>
+<span class="nc" id="L117">        return featureStartIncludes;</span>
     }
 
     public void setFeaturestartincludes(String featureStartIncludes) {
-<span class="nc" id="L130">        this.featureStartIncludes = featureStartIncludes;</span>
-<span class="nc" id="L131">    }</span>
+<span class="nc" id="L121">        this.featureStartIncludes = featureStartIncludes;</span>
+<span class="nc" id="L122">    }</span>
 
     public String getFeaturestartexcludes() {
-<span class="nc" id="L134">        return featureStartExcludes;</span>
+<span class="nc" id="L125">        return featureStartExcludes;</span>
     }
 
     public void setFeaturestartexcludes(String featureStartExcludes) {
-<span class="nc" id="L138">        this.featureStartExcludes = featureStartExcludes;</span>
-<span class="nc" id="L139">    }</span>
+<span class="nc" id="L129">        this.featureStartExcludes = featureStartExcludes;</span>
+<span class="nc" id="L130">    }</span>
 
     public Path createStartincludeslist() {
-<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (startIncludesList == null) {</span>
-<span class="nc" id="L143">            startIncludesList = new Path(getProject());</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (startIncludesList == null) {</span>
+<span class="nc" id="L134">            startIncludesList = new Path(getProject());</span>
         }
 
-<span class="nc" id="L146">        return startIncludesList;</span>
+<span class="nc" id="L137">        return startIncludesList;</span>
     }
 
     public Path getStartincludeslist() {
-<span class="nc" id="L150">        return startIncludesList;</span>
+<span class="nc" id="L141">        return startIncludesList;</span>
     }
 
     public Path createStartexcludeslist() {
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (startExcludesList == null) {</span>
-<span class="nc" id="L155">            startExcludesList = new Path(getProject());</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (startExcludesList == null) {</span>
+<span class="nc" id="L146">            startExcludesList = new Path(getProject());</span>
         }
 
-<span class="nc" id="L158">        return startExcludesList;</span>
+<span class="nc" id="L149">        return startExcludesList;</span>
     }
 
     public Path getStartexcludeslist() {
-<span class="nc" id="L162">        return startExcludesList;</span>
+<span class="nc" id="L153">        return startExcludesList;</span>
     }
 
     public String getMaximumcyclelength() {
-<span class="nc" id="L166">        return maximumCycleLenth;</span>
+<span class="nc" id="L157">        return maximumCycleLenth;</span>
     }
 
     public void setMaximumcyclelength(String maximumCycleLenth) {
-<span class="nc" id="L170">        this.maximumCycleLenth = maximumCycleLenth;</span>
-<span class="nc" id="L171">    }</span>
+<span class="nc" id="L161">        this.maximumCycleLenth = maximumCycleLenth;</span>
+<span class="nc" id="L162">    }</span>
+
+    public boolean getJson() {
+<span class="nc" id="L165">        return json;</span>
+    }
+
+    public void setJson(boolean json) {
+<span class="nc" id="L169">        this.json = json;</span>
+<span class="nc" id="L170">    }</span>
 
     public boolean getXml() {
-<span class="nc" id="L174">        return xml;</span>
+<span class="nc" id="L173">        return xml;</span>
     }
 
     public void setXml(boolean xml) {
-<span class="nc" id="L178">        this.xml = xml;</span>
-<span class="nc" id="L179">    }</span>
+<span class="nc" id="L177">        this.xml = xml;</span>
+<span class="nc" id="L178">    }</span>
 
     public String getEncoding() {
-<span class="nc" id="L182">        return encoding;</span>
+<span class="nc" id="L181">        return encoding;</span>
     }
 
     public void setEncoding(String encoding) {
-<span class="nc" id="L186">        this.encoding = encoding;</span>
-<span class="nc" id="L187">    }</span>
+<span class="nc" id="L185">        this.encoding = encoding;</span>
+<span class="nc" id="L186">    }</span>
 
     public String getDtdprefix() {
-<span class="nc" id="L190">        return dtdPrefix;</span>
+<span class="nc" id="L189">        return dtdPrefix;</span>
     }
 
     public void setDtdprefix(String dtdPrefix) {
-<span class="nc" id="L194">        this.dtdPrefix = dtdPrefix;</span>
-<span class="nc" id="L195">    }</span>
+<span class="nc" id="L193">        this.dtdPrefix = dtdPrefix;</span>
+<span class="nc" id="L194">    }</span>
 
     public String getIndenttext() {
-<span class="nc" id="L198">        return indentText;</span>
+<span class="nc" id="L197">        return indentText;</span>
     }
 
     public void setIndenttext(String indentText) {
-<span class="nc" id="L202">        this.indentText = indentText;</span>
-<span class="nc" id="L203">    }</span>
+<span class="nc" id="L201">        this.indentText = indentText;</span>
+<span class="nc" id="L202">    }</span>
 
     protected void validateParameters() throws BuildException {
-<span class="nc" id="L206">        super.validateParameters();</span>
+<span class="nc" id="L205">        super.validateParameters();</span>
 
-<span class="nc bnc" id="L208" title="All 4 branches missed.">        if (hasStartRegularExpressionSwitches() &amp;&amp; hasStartListSwitches()) {</span>
-<span class="nc" id="L209">            throw new BuildException(&quot;Cannot have start attributes for regular expressions and lists at the same time!&quot;);</span>
+<span class="nc bnc" id="L207" title="All 4 branches missed.">        if (hasStartRegularExpressionSwitches() &amp;&amp; hasStartListSwitches()) {</span>
+<span class="nc" id="L208">            throw new BuildException(&quot;Cannot have start attributes for regular expressions and lists at the same time!&quot;);</span>
         }
-<span class="nc" id="L211">    }</span>
+<span class="nc" id="L210">    }</span>
 
     public void execute() throws BuildException {
         // first off, make sure that we've got what we need
-<span class="nc" id="L215">        validateParameters();</span>
+<span class="nc" id="L214">        validateParameters();</span>
 
-<span class="nc" id="L217">        VerboseListener verboseListener = new VerboseListener(this);</span>
+<span class="nc" id="L216">        VerboseListener verboseListener = new VerboseListener(this);</span>
 
         try {
-<span class="nc" id="L220">            NodeFactory factory = new NodeFactory();</span>
+<span class="nc" id="L219">            NodeFactory factory = new NodeFactory();</span>
 
-<span class="nc bnc" id="L222" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
-<span class="nc" id="L223">                log(&quot;Reading graph from &quot; + filename);</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">            for (String filename : getSrc().list()) {</span>
+<span class="nc" id="L222">                log(&quot;Reading graph from &quot; + filename);</span>
 
-<span class="nc bnc" id="L225" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
-<span class="nc" id="L226">                    NodeLoader loader = new NodeLoader(factory, getValidate());</span>
-<span class="nc" id="L227">                    loader.addDependencyListener(verboseListener);</span>
-<span class="nc" id="L228">                    loader.load(filename);</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                if (filename.endsWith(&quot;.xml&quot;)) {</span>
+<span class="nc" id="L225">                    NodeLoader loader = new NodeLoader(factory, getValidate());</span>
+<span class="nc" id="L226">                    loader.addDependencyListener(verboseListener);</span>
+<span class="nc" id="L227">                    loader.load(filename);</span>
                 }
             }
 
-<span class="nc" id="L232">            CycleDetector detector = new CycleDetector(getStartCriteria());</span>
+<span class="nc" id="L231">            CycleDetector detector = new CycleDetector(getStartCriteria());</span>
 
-<span class="nc bnc" id="L234" title="All 2 branches missed.">            if (getMaximumcyclelength() != null) {</span>
-<span class="nc" id="L235">                detector.setMaximumCycleLength(Integer.parseInt(getMaximumcyclelength()));</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">            if (getMaximumcyclelength() != null) {</span>
+<span class="nc" id="L234">                detector.setMaximumCycleLength(Integer.parseInt(getMaximumcyclelength()));</span>
             }
 
-<span class="nc" id="L238">            detector.traverseNodes(factory.getPackages().values());</span>
+<span class="nc" id="L237">            detector.traverseNodes(factory.getPackages().values());</span>
 
-<span class="nc" id="L240">            log(&quot;Saving dependency cycles to &quot; + getDestfile().getAbsolutePath());</span>
+<span class="nc" id="L239">            log(&quot;Saving dependency cycles to &quot; + getDestfile().getAbsolutePath());</span>
 
-<span class="nc" id="L242">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
+<span class="nc" id="L241">            PrintWriter out = new PrintWriter(new FileWriter(getDestfile()));</span>
 
             CyclePrinter printer;
-<span class="nc bnc" id="L245" title="All 2 branches missed.">            if (getXml()) {</span>
-<span class="nc" id="L246">                printer = new XMLCyclePrinter(out, getEncoding(), getDtdprefix());</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">            if (getXml()) {</span>
+<span class="nc" id="L245">                printer = new XMLCyclePrinter(out, getEncoding(), getDtdprefix());</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">            } else if (getJson()) {</span>
+<span class="nc" id="L247">                printer = new JSONCyclePrinter(out);</span>
             } else {
-<span class="nc" id="L248">                printer = new TextCyclePrinter(out);</span>
+<span class="nc" id="L249">                printer = new TextCyclePrinter(out);</span>
             }
 
-<span class="nc bnc" id="L251" title="All 2 branches missed.">            if (getIndenttext() != null) {</span>
-<span class="nc" id="L252">                printer.setIndentText(getIndenttext());</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">            if (getIndenttext() != null) {</span>
+<span class="nc" id="L253">                printer.setIndentText(getIndenttext());</span>
             }
 
-<span class="nc" id="L255">            printer.visitCycles(detector.getCycles());</span>
+<span class="nc" id="L256">            printer.visitCycles(detector.getCycles());</span>
 
-<span class="nc" id="L257">            out.close();</span>
-<span class="nc" id="L258">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
-<span class="nc" id="L259">            throw new BuildException(ex);</span>
-<span class="nc" id="L260">        }</span>
-<span class="nc" id="L261">    }</span>
+<span class="nc" id="L258">            out.close();</span>
+<span class="nc" id="L259">        } catch (SAXException | ParserConfigurationException | IOException ex) {</span>
+<span class="nc" id="L260">            throw new BuildException(ex);</span>
+<span class="nc" id="L261">        }</span>
+<span class="nc" id="L262">    }</span>
 
     protected SelectionCriteria getStartCriteria() throws BuildException {
-<span class="nc" id="L264">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
+<span class="nc" id="L265">        SelectionCriteria result = new ComprehensiveSelectionCriteria();</span>
 
-<span class="nc bnc" id="L266" title="All 2 branches missed.">        if (hasStartRegularExpressionSwitches()) {</span>
-<span class="nc" id="L267">            result = createRegularExpressionStartCriteria();</span>
-<span class="nc bnc" id="L268" title="All 2 branches missed.">        } else if (hasStartListSwitches()) {</span>
-<span class="nc" id="L269">            result = createCollectionSelectionCriteria(getStartincludeslist(), getStartexcludeslist());</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">        if (hasStartRegularExpressionSwitches()) {</span>
+<span class="nc" id="L268">            result = createRegularExpressionStartCriteria();</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">        } else if (hasStartListSwitches()) {</span>
+<span class="nc" id="L270">            result = createCollectionSelectionCriteria(getStartincludeslist(), getStartexcludeslist());</span>
         }
 
-<span class="nc" id="L272">        return result;</span>
+<span class="nc" id="L273">        return result;</span>
     }
 
     protected RegularExpressionSelectionCriteria createRegularExpressionStartCriteria() throws BuildException {
-<span class="nc" id="L276">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
+<span class="nc" id="L277">        RegularExpressionSelectionCriteria result = new RegularExpressionSelectionCriteria();</span>
 
-<span class="nc" id="L278">        result.setGlobalIncludes(getStartincludes());</span>
-<span class="nc" id="L279">        result.setGlobalExcludes(getStartexcludes());</span>
-<span class="nc" id="L280">        result.setPackageIncludes(getPackagestartincludes());</span>
-<span class="nc" id="L281">        result.setPackageExcludes(getPackagestartexcludes());</span>
-<span class="nc" id="L282">        result.setClassIncludes(getClassstartincludes());</span>
-<span class="nc" id="L283">        result.setClassExcludes(getClassstartexcludes());</span>
-<span class="nc" id="L284">        result.setFeatureIncludes(getFeaturestartincludes());</span>
-<span class="nc" id="L285">        result.setFeatureExcludes(getFeaturestartexcludes());</span>
+<span class="nc" id="L279">        result.setGlobalIncludes(getStartincludes());</span>
+<span class="nc" id="L280">        result.setGlobalExcludes(getStartexcludes());</span>
+<span class="nc" id="L281">        result.setPackageIncludes(getPackagestartincludes());</span>
+<span class="nc" id="L282">        result.setPackageExcludes(getPackagestartexcludes());</span>
+<span class="nc" id="L283">        result.setClassIncludes(getClassstartincludes());</span>
+<span class="nc" id="L284">        result.setClassExcludes(getClassstartexcludes());</span>
+<span class="nc" id="L285">        result.setFeatureIncludes(getFeaturestartincludes());</span>
+<span class="nc" id="L286">        result.setFeatureExcludes(getFeaturestartexcludes());</span>
 
-<span class="nc" id="L287">        return result;</span>
+<span class="nc" id="L288">        return result;</span>
     }
 
     private CollectionSelectionCriteria createCollectionSelectionCriteria(Path includes, Path excludes) {
-<span class="nc" id="L291">        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));</span>
+<span class="nc" id="L292">        return new CollectionSelectionCriteria(loadCollection(includes), loadCollection(excludes));</span>
     }
 
     private boolean hasStartRegularExpressionSwitches() {
-<span class="nc" id="L295">        return</span>
-<span class="nc bnc" id="L296" title="All 2 branches missed.">                !getStartincludes().equals(&quot;//&quot;) ||</span>
-<span class="nc bnc" id="L297" title="All 2 branches missed.">                !getStartexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L298" title="All 2 branches missed.">                !getPackagestartincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L299" title="All 2 branches missed.">                !getPackagestartexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L300" title="All 2 branches missed.">                !getClassstartincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L301" title="All 2 branches missed.">                !getClassstartexcludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L302" title="All 2 branches missed.">                !getFeaturestartincludes().equals(&quot;&quot;) ||</span>
-<span class="nc bnc" id="L303" title="All 2 branches missed.">                !getFeaturestartexcludes().equals(&quot;&quot;);</span>
+<span class="nc" id="L296">        return</span>
+<span class="nc bnc" id="L297" title="All 2 branches missed.">                !getStartincludes().equals(&quot;//&quot;) ||</span>
+<span class="nc bnc" id="L298" title="All 2 branches missed.">                !getStartexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">                !getPackagestartincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">                !getPackagestartexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">                !getClassstartincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">                !getClassstartexcludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">                !getFeaturestartincludes().equals(&quot;&quot;) ||</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">                !getFeaturestartexcludes().equals(&quot;&quot;);</span>
     }
 
     private boolean hasStartListSwitches() {
-<span class="nc" id="L307">        return</span>
-<span class="nc bnc" id="L308" title="All 2 branches missed.">                getStartincludeslist() != null ||</span>
-<span class="nc bnc" id="L309" title="All 2 branches missed.">                getStartexcludeslist() != null;</span>
+<span class="nc" id="L308">        return</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">                getStartincludeslist() != null ||</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">                getStartexcludeslist() != null;</span>
     }
 
     private Collection&lt;String&gt; loadCollection(Path path) {
-<span class="nc" id="L313">        Collection&lt;String&gt; result = null;</span>
+<span class="nc" id="L314">        Collection&lt;String&gt; result = null;</span>
 
-<span class="nc bnc" id="L315" title="All 2 branches missed.">        if (path != null) {</span>
-<span class="nc" id="L316">            result = Arrays.stream(path.list())</span>
-<span class="nc" id="L317">                    .map(Paths::get)</span>
-<span class="nc" id="L318">                    .flatMap(filepath -&gt; {</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (path != null) {</span>
+<span class="nc" id="L317">            result = Arrays.stream(path.list())</span>
+<span class="nc" id="L318">                    .map(Paths::get)</span>
+<span class="nc" id="L319">                    .flatMap(filepath -&gt; {</span>
                         try {
-<span class="nc" id="L320">                            return Files.lines(filepath);</span>
-<span class="nc" id="L321">                        } catch (IOException ex) {</span>
-<span class="nc" id="L322">                            LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, filepath, ex);</span>
-<span class="nc" id="L323">                            return Stream.empty();</span>
+<span class="nc" id="L321">                            return Files.lines(filepath);</span>
+<span class="nc" id="L322">                        } catch (IOException ex) {</span>
+<span class="nc" id="L323">                            LogManager.getLogger(getClass()).error(&quot;Couldn't read file {}&quot;, filepath, ex);</span>
+<span class="nc" id="L324">                            return Stream.empty();</span>
                         }
-<span class="nc" id="L325">                    }).distinct()</span>
-<span class="nc" id="L326">                    .toList();</span>
+<span class="nc" id="L326">                    }).distinct()</span>
+<span class="nc" id="L327">                    .toList();</span>
         }
 
-<span class="nc" id="L329">        return result;</span>
+<span class="nc" id="L330">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

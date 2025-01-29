@@ -86,104 +86,130 @@ public abstract class Printer extends VisitorBase {
     public void setShowEmptyNodes(boolean showEmptyNodes) {
 <span class="fc" id="L87">        this.showEmptyNodes = showEmptyNodes;</span>
 <span class="fc" id="L88">    }</span>
-    
+
+    public void visitPackageNode(PackageNode node) {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (shouldShowPackageNode(node)) {</span>
+<span class="fc" id="L92">            super.visitPackageNode(node);</span>
+        }
+<span class="fc" id="L94">    }</span>
+
+    public void visitClassNode(ClassNode node) {
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if (shouldShowClassNode(node)) {</span>
+<span class="fc" id="L98">            super.visitClassNode(node);</span>
+        }
+<span class="fc" id="L100">    }</span>
+
+    public void visitFeatureNode(FeatureNode node) {
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if (shouldShowFeatureNode(node)) {</span>
+<span class="fc" id="L104">            super.visitFeatureNode(node);</span>
+        }
+<span class="fc" id="L106">    }</span>
+
     protected Printer append(boolean b) {
-<span class="nc" id="L91">        out.print(b);</span>
-<span class="nc" id="L92">        return this;</span>
+<span class="fc" id="L109">        out.print(b);</span>
+<span class="fc" id="L110">        return this;</span>
     }
 
     protected Printer append(char c) {
-<span class="nc" id="L96">        out.print(c);</span>
-<span class="nc" id="L97">        return this;</span>
+<span class="nc" id="L114">        out.print(c);</span>
+<span class="nc" id="L115">        return this;</span>
     }
 
     protected Printer append(char[] s) {
-<span class="nc" id="L101">        out.print(s);</span>
-<span class="nc" id="L102">        return this;</span>
+<span class="nc" id="L119">        out.print(s);</span>
+<span class="nc" id="L120">        return this;</span>
     }
 
     protected Printer append(double d) {
-<span class="nc" id="L106">        out.print(d);</span>
-<span class="nc" id="L107">        return this;</span>
+<span class="nc" id="L124">        out.print(d);</span>
+<span class="nc" id="L125">        return this;</span>
     }
 
     protected Printer append(float f) {
-<span class="nc" id="L111">        out.print(f);</span>
-<span class="nc" id="L112">        return this;</span>
+<span class="nc" id="L129">        out.print(f);</span>
+<span class="nc" id="L130">        return this;</span>
     }
 
     protected Printer append(int i) {
-<span class="nc" id="L116">        out.print(i);</span>
-<span class="nc" id="L117">        return this;</span>
+<span class="nc" id="L134">        out.print(i);</span>
+<span class="nc" id="L135">        return this;</span>
     }
 
     protected Printer append(long l) {
-<span class="nc" id="L121">        out.print(l);</span>
-<span class="nc" id="L122">        return this;</span>
+<span class="nc" id="L139">        out.print(l);</span>
+<span class="nc" id="L140">        return this;</span>
     }
 
     protected Printer append(Object obj) {
-<span class="nc" id="L126">        out.print(obj);</span>
-<span class="nc" id="L127">        return this;</span>
+<span class="nc" id="L144">        out.print(obj);</span>
+<span class="nc" id="L145">        return this;</span>
     }
 
     protected Printer append(String s) {
-<span class="fc" id="L131">        out.print(s);</span>
-<span class="fc" id="L132">        return this;</span>
+<span class="fc" id="L149">        out.print(s);</span>
+<span class="fc" id="L150">        return this;</span>
     }
 
     protected Printer indent() {
-<span class="fc" id="L136">        append(getIndentText().repeat(indentLevel));</span>
-<span class="fc" id="L137">        return this;</span>
+<span class="fc" id="L154">        append(getIndentText().repeat(indentLevel));</span>
+<span class="fc" id="L155">        return this;</span>
     }
 
     protected Printer eol() {
-<span class="fc" id="L141">        out.println();</span>
-<span class="fc" id="L142">        return this;</span>
+<span class="fc" id="L159">        out.println();</span>
+<span class="fc" id="L160">        return this;</span>
     }
 
     protected final Printer printScopeNodeName(Node node) {
-<span class="fc" id="L146">        return printScopeNodeName(node, node.getName());</span>
+<span class="fc" id="L164">        return printScopeNodeName(node, node.getName());</span>
     }
 
     protected Printer printScopeNodeName(Node node, String name) {
-<span class="fc" id="L150">        return printNodeName(node, name);</span>
+<span class="fc" id="L168">        return printNodeName(node, name);</span>
     }
 
     protected final Printer printDependencyNodeName(Node node) {
-<span class="fc" id="L154">        return printDependencyNodeName(node, node.getName());</span>
+<span class="fc" id="L172">        return printDependencyNodeName(node, node.getName());</span>
     }
 
     protected Printer printDependencyNodeName(Node node, String name) {
-<span class="fc" id="L158">        return printNodeName(node, name);</span>
+<span class="fc" id="L176">        return printNodeName(node, name);</span>
     }
 
     protected Printer printNodeName(Node node, String name) {
-<span class="fc" id="L162">        return append(name);</span>
+<span class="fc" id="L180">        return append(name);</span>
     }
     
     protected void raiseIndent() {
-<span class="fc" id="L166">        indentLevel++;</span>
-<span class="fc" id="L167">    }</span>
+<span class="fc" id="L184">        indentLevel++;</span>
+<span class="fc" id="L185">    }</span>
 
     protected void lowerIndent() {
-<span class="fc" id="L170">        indentLevel--;</span>
-<span class="fc" id="L171">    }</span>
+<span class="fc" id="L188">        indentLevel--;</span>
+<span class="fc" id="L189">    }</span>
 
     protected boolean shouldShowPackageNode(PackageNode node) {
-<span class="fc bfc" id="L174" title="All 4 branches covered.">        return shouldShowNode(node) || node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);</span>
+<span class="fc bfc" id="L192" title="All 4 branches covered.">        return shouldShowNode(node) || hasVisibleClasses(node);</span>
+    }
+
+    protected boolean hasVisibleClasses(PackageNode node) {
+<span class="fc" id="L196">        return node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);</span>
     }
 
     protected boolean shouldShowClassNode(ClassNode node) {
-<span class="fc bfc" id="L178" title="All 4 branches covered.">        return shouldShowNode(node) || node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);</span>
+<span class="fc bfc" id="L200" title="All 4 branches covered.">        return shouldShowNode(node) || hasVisibleFeatures(node);</span>
     }
-    
+
+    protected boolean hasVisibleFeatures(ClassNode node) {
+<span class="fc" id="L204">        return node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);</span>
+    }
+
     protected boolean shouldShowFeatureNode(FeatureNode node) {
-<span class="fc" id="L182">        return shouldShowNode(node);</span>
+<span class="fc" id="L208">        return shouldShowNode(node);</span>
     }
     
     protected boolean shouldShowNode(Node node) {
-<span class="pc bpc" id="L186" title="2 of 10 branches missed.">        return isShowEmptyNodes() || (isShowOutbounds() &amp;&amp; !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() &amp;&amp; !node.getInboundDependencies().isEmpty());</span>
+<span class="pc bpc" id="L212" title="2 of 10 branches missed.">        return isShowEmptyNodes() || (isShowOutbounds() &amp;&amp; !node.getOutboundDependencies().isEmpty()) || (isShowInbounds() &amp;&amp; !node.getInboundDependencies().isEmpty());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

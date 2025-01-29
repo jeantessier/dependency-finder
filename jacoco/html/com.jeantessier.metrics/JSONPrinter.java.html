@@ -235,13 +235,13 @@ public class JSONPrinter extends Printer {
 
 <span class="fc" id="L236">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
 <span class="fc" id="L237">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
-<span class="fc" id="L238">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L239">        indent().append(&quot;\&quot;minimum\&quot;: &quot;).append(measurement.getMinimum()).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L240">        indent().append(&quot;\&quot;median\&quot;: &quot;).append(measurement.getMedian()).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L241">        indent().append(&quot;\&quot;average\&quot;: &quot;).append(measurement.getAverage()).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L242">        indent().append(&quot;\&quot;standard-deviation\&quot;: &quot;).append(measurement.getStandardDeviation()).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L243">        indent().append(&quot;\&quot;maximum\&quot;: &quot;).append(measurement.getMaximum()).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L244">        indent().append(&quot;\&quot;sum\&quot;: &quot;).append(measurement.getSum()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L238">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L239">        indent().append(&quot;\&quot;minimum\&quot;: &quot;).append(formatValue(measurement.getMinimum())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L240">        indent().append(&quot;\&quot;median\&quot;: &quot;).append(formatValue(measurement.getMedian())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L241">        indent().append(&quot;\&quot;average\&quot;: &quot;).append(formatValue(measurement.getAverage())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L242">        indent().append(&quot;\&quot;standard-deviation\&quot;: &quot;).append(formatValue(measurement.getStandardDeviation())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L243">        indent().append(&quot;\&quot;maximum\&quot;: &quot;).append(formatValue(measurement.getMaximum())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L244">        indent().append(&quot;\&quot;sum\&quot;: &quot;).append(formatValue(measurement.getSum())).append(&quot;,&quot;).eol();</span>
 
 <span class="fc" id="L246">        var requestedPercentiles = measurement.getRequestedPercentiles();</span>
 <span class="fc bfc" id="L247" title="All 2 branches covered.">        if (requestedPercentiles.isEmpty()) {</span>
@@ -255,7 +255,7 @@ public class JSONPrinter extends Printer {
 <span class="fc bfc" id="L255" title="All 2 branches covered.">            while (i.hasNext()) {</span>
 <span class="fc" id="L256">                var percentile = i.next();</span>
 <span class="fc" id="L257">                indent();</span>
-<span class="fc" id="L258">                append(&quot;\&quot;p&quot;).append(percentile).append(&quot;\&quot;: &quot;).append(measurement.getPercentile(percentile));</span>
+<span class="fc" id="L258">                append(&quot;\&quot;p&quot;).append(percentile).append(&quot;\&quot;: &quot;).append(formatValue(measurement.getPercentile(percentile)));</span>
 <span class="fc bfc" id="L259" title="All 2 branches covered.">                if (i.hasNext()) {</span>
 <span class="fc" id="L260">                    append(&quot;,&quot;);</span>
                 }
@@ -289,10 +289,10 @@ public class JSONPrinter extends Printer {
 <span class="fc" id="L289">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
 
 <span class="fc bfc" id="L291" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
-<span class="fc" id="L292">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L292">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).append(&quot;,&quot;).eol();</span>
 <span class="fc" id="L293">            indent().append(&quot;\&quot;members\&quot;: [&quot;).append(measurement.getValues().stream().sorted().map(value -&gt; &quot;\&quot;&quot; + value + &quot;\&quot;&quot;).collect(joining(&quot;, &quot;))).append(&quot;]&quot;).eol();</span>
         } else {
-<span class="fc" id="L295">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).eol();</span>
+<span class="fc" id="L295">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).eol();</span>
         }
 
 <span class="fc" id="L298">        lowerIndent();</span>
@@ -304,22 +304,38 @@ public class JSONPrinter extends Printer {
 <span class="fc" id="L304">        raiseIndent();</span>
 <span class="fc" id="L305">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
 <span class="fc" id="L306">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
-<span class="fc" id="L307">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(measurement.getValue()).eol();</span>
+<span class="fc" id="L307">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).eol();</span>
 <span class="fc" id="L308">        lowerIndent();</span>
 <span class="fc" id="L309">        indent().append(&quot;}&quot;);</span>
 <span class="fc" id="L310">    }</span>
 
+    private String formatValue(Number value) {
+<span class="pc bpc" id="L313" title="1 of 2 branches missed.">        if (value == null) {</span>
+<span class="nc" id="L314">            return &quot;null&quot;;</span>
+        }
+
+<span class="fc" id="L317">        return formatValue(value.doubleValue());</span>
+    }
+
+    private String formatValue(double value) {
+<span class="fc bfc" id="L321" title="All 4 branches covered.">        if (Double.isNaN(value) || Double.isInfinite(value)) {</span>
+<span class="fc" id="L322">            return &quot;null&quot;;</span>
+        }
+
+<span class="fc" id="L325">        return String.valueOf(value);</span>
+    }
+
     private JSONPrinter clonePrinter(StringWriter out) {
-<span class="fc" id="L313">        JSONPrinter result = new JSONPrinter(new PrintWriter(out), configuration);</span>
+<span class="fc" id="L329">        JSONPrinter result = new JSONPrinter(new PrintWriter(out), configuration);</span>
 
-<span class="fc" id="L315">        result.setIndentLevel(getIndentLevel());</span>
-<span class="fc" id="L316">        result.setIndentText(getIndentText());</span>
-<span class="fc" id="L317">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
-<span class="fc" id="L318">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
-<span class="fc" id="L319">        result.setExpandCollectionMeasurements(isExpandCollectionMeasurements());</span>
-<span class="fc" id="L320">        result.setComparator(getComparator());</span>
+<span class="fc" id="L331">        result.setIndentLevel(getIndentLevel());</span>
+<span class="fc" id="L332">        result.setIndentText(getIndentText());</span>
+<span class="fc" id="L333">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
+<span class="fc" id="L334">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
+<span class="fc" id="L335">        result.setExpandCollectionMeasurements(isExpandCollectionMeasurements());</span>
+<span class="fc" id="L336">        result.setComparator(getComparator());</span>
 
-<span class="fc" id="L322">        return result;</span>
+<span class="fc" id="L338">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

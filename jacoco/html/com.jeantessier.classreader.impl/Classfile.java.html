@@ -224,7 +224,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public boolean hasSuperclass() {
-<span class="pc bpc" id="L227" title="1 of 2 branches missed.">        return getSuperclassIndex() != 0;</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        return getSuperclassIndex() != 0;</span>
     }
 
     public Class_info getRawSuperclass() {
@@ -232,11 +232,11 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public String getSuperclassName() {
-<span class="pc bpc" id="L235" title="1 of 2 branches missed.">        if (hasSuperclass()) {</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">        if (hasSuperclass()) {</span>
 <span class="fc" id="L236">            return getRawSuperclass().getName();</span>
         }
         
-<span class="nc" id="L239">        return &quot;&quot;;</span>
+<span class="fc" id="L239">        return &quot;&quot;;</span>
     }
 
     public Class_info getInterface(String name) {
@@ -326,186 +326,205 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 <span class="fc" id="L326">        return null;</span>
     }
 
+    public Collection&lt;? extends com.jeantessier.classreader.Method_info&gt; locateMethodDeclarations(Predicate&lt;com.jeantessier.classreader.Method_info&gt; filter) {
+<span class="fc" id="L330">        var declarations = Stream.concat(</span>
+<span class="fc" id="L331">                    getAllInterfaces().stream().map(com.jeantessier.classreader.Class_info::getName),</span>
+<span class="fc" id="L332">                    Stream.of(getSuperclassName())</span>
+                )
+<span class="fc" id="L334">                .map(className -&gt; getLoader().getClassfile(className))</span>
+<span class="fc" id="L335">                .filter(Objects::nonNull)</span>
+<span class="fc" id="L336">                .flatMap(classfile -&gt; classfile.locateMethodDeclarations(filter).stream())</span>
+<span class="fc" id="L337">                .toList();</span>
+
+<span class="fc bfc" id="L339" title="All 2 branches covered.">        if (!declarations.isEmpty()) {</span>
+<span class="fc" id="L340">            return declarations;</span>
+        }
+
+<span class="fc" id="L343">        return getAllMethods().stream()</span>
+<span class="fc" id="L344">                .filter(filter)</span>
+<span class="fc" id="L345">                .toList();</span>
+    }
+
     public Collection&lt;Attribute_info&gt; getAttributes() {
-<span class="fc" id="L330">        return attributes;</span>
+<span class="fc" id="L349">        return attributes;</span>
     }
 
     public boolean isPublic() {
-<span class="fc bfc" id="L334" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_PUBLIC) != 0;</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_PUBLIC) != 0;</span>
     }
 
     public boolean isPackage() {
-<span class="pc bpc" id="L338" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_PUBLIC) == 0;</span>
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_PUBLIC) == 0;</span>
     }
 
     public boolean isFinal() {
-<span class="fc bfc" id="L342" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_FINAL) != 0;</span>
+<span class="fc bfc" id="L361" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_FINAL) != 0;</span>
     }
 
     public boolean isSuper() {
-<span class="fc bfc" id="L346" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_SUPER) != 0;</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_SUPER) != 0;</span>
     }
 
     public boolean isInterface() {
-<span class="fc bfc" id="L350" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_INTERFACE) != 0;</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_INTERFACE) != 0;</span>
     }
 
     public boolean isAbstract() {
-<span class="fc bfc" id="L354" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ABSTRACT) != 0;</span>
+<span class="fc bfc" id="L373" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ABSTRACT) != 0;</span>
     }
 
     public boolean isSynthetic() {
-<span class="pc bpc" id="L358" title="2 of 4 branches missed.">        return isSyntheticFromAccessFlags() || isSyntheticFromAttribute();</span>
+<span class="pc bpc" id="L377" title="2 of 4 branches missed.">        return isSyntheticFromAccessFlags() || isSyntheticFromAttribute();</span>
     }
 
     public boolean isAnnotation() {
-<span class="fc bfc" id="L362" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ANNOTATION) != 0;</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ANNOTATION) != 0;</span>
     }
 
     public boolean isEnum() {
-<span class="fc bfc" id="L366" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ENUM) != 0;</span>
+<span class="fc bfc" id="L385" title="All 2 branches covered.">        return (getAccessFlags() &amp; ACC_ENUM) != 0;</span>
     }
 
     public boolean isModule() {
-<span class="pc bpc" id="L370" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_MODULE) != 0;</span>
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_MODULE) != 0;</span>
     }
 
     private boolean isSyntheticFromAccessFlags() {
-<span class="pc bpc" id="L374" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_SYNTHETIC) != 0;</span>
+<span class="pc bpc" id="L393" title="1 of 2 branches missed.">        return (getAccessFlags() &amp; ACC_SYNTHETIC) != 0;</span>
     }
 
     private boolean isSyntheticFromAttribute() {
-<span class="fc" id="L378">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Synthetic_attribute);</span>
+<span class="fc" id="L397">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Synthetic_attribute);</span>
     }
 
     public boolean isDeprecated() {
-<span class="fc" id="L382">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Deprecated_attribute);</span>
+<span class="fc" id="L401">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Deprecated_attribute);</span>
     }
 
     public boolean isGeneric() {
-<span class="fc" id="L386">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Signature_attribute);</span>
+<span class="fc" id="L405">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Signature_attribute);</span>
     }
 
     public String getDeclaration() {
-<span class="fc" id="L390">        var result = new StringBuilder();</span>
+<span class="fc" id="L409">        var result = new StringBuilder();</span>
 
-<span class="pc bpc" id="L392" title="1 of 2 branches missed.">        if (isPublic()) result.append(&quot;public &quot;);</span>
-<span class="fc bfc" id="L393" title="All 2 branches covered.">        if (isFinal()) result.append(&quot;final &quot;);</span>
+<span class="pc bpc" id="L411" title="1 of 2 branches missed.">        if (isPublic()) result.append(&quot;public &quot;);</span>
+<span class="fc bfc" id="L412" title="All 2 branches covered.">        if (isFinal()) result.append(&quot;final &quot;);</span>
 
-<span class="fc bfc" id="L395" title="All 2 branches covered.">        if (isInterface()) {</span>
-<span class="fc" id="L396">            result.append(&quot;interface &quot;).append(getClassName());</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">        if (isInterface()) {</span>
+<span class="fc" id="L415">            result.append(&quot;interface &quot;).append(getClassName());</span>
 
-<span class="fc bfc" id="L398" title="All 2 branches covered.">            if (!getAllInterfaces().isEmpty()) {</span>
-<span class="fc" id="L399">                result.append(&quot; extends &quot;);</span>
-<span class="fc" id="L400">                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(&quot;, &quot;)));</span>
+<span class="fc bfc" id="L417" title="All 2 branches covered.">            if (!getAllInterfaces().isEmpty()) {</span>
+<span class="fc" id="L418">                result.append(&quot; extends &quot;);</span>
+<span class="fc" id="L419">                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(&quot;, &quot;)));</span>
             }
         } else {
-<span class="pc bpc" id="L403" title="1 of 2 branches missed.">            if (isAbstract()) result.append(&quot;abstract &quot;);</span>
-<span class="fc" id="L404">            result.append(&quot;class &quot;).append(getClassName());</span>
+<span class="pc bpc" id="L422" title="1 of 2 branches missed.">            if (isAbstract()) result.append(&quot;abstract &quot;);</span>
+<span class="fc" id="L423">            result.append(&quot;class &quot;).append(getClassName());</span>
 
-<span class="pc bpc" id="L406" title="1 of 2 branches missed.">            if (hasSuperclass()) {</span>
-<span class="fc" id="L407">                result.append(&quot; extends &quot;).append(getSuperclassName());</span>
+<span class="pc bpc" id="L425" title="1 of 2 branches missed.">            if (hasSuperclass()) {</span>
+<span class="fc" id="L426">                result.append(&quot; extends &quot;).append(getSuperclassName());</span>
             }
             
-<span class="fc bfc" id="L410" title="All 2 branches covered.">            if (!getAllInterfaces().isEmpty()) {</span>
-<span class="fc" id="L411">                result.append(&quot; implements &quot;);</span>
-<span class="fc" id="L412">                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(&quot;, &quot;)));</span>
+<span class="fc bfc" id="L429" title="All 2 branches covered.">            if (!getAllInterfaces().isEmpty()) {</span>
+<span class="fc" id="L430">                result.append(&quot; implements &quot;);</span>
+<span class="fc" id="L431">                result.append(getAllInterfaces().stream().map(Class_info::toString).collect(joining(&quot;, &quot;)));</span>
             }
         }
 
-<span class="fc" id="L416">        return result.toString();</span>
+<span class="fc" id="L435">        return result.toString();</span>
     }
 
     public void accept(Visitor visitor) {
-<span class="fc" id="L420">        visitor.visitClassfile(this);</span>
-<span class="fc" id="L421">    }</span>
+<span class="fc" id="L439">        visitor.visitClassfile(this);</span>
+<span class="fc" id="L440">    }</span>
 
     public String toString() {
-<span class="fc" id="L424">        return getClassName();</span>
+<span class="fc" id="L443">        return getClassName();</span>
     }
 
     public boolean isInnerClass() {
-<span class="fc bfc" id="L428" title="All 2 branches covered.">        return getMatchingInnerClass() != null;</span>
+<span class="fc bfc" id="L447" title="All 2 branches covered.">        return getMatchingInnerClass() != null;</span>
     }
 
     public boolean isMemberClass() {
-<span class="nc" id="L432">        var innerClass = getMatchingInnerClass();</span>
-<span class="nc bnc" id="L433" title="All 2 branches missed.">        if (innerClass != null) {</span>
-<span class="nc" id="L434">            return innerClass.isMemberClass();</span>
-        }
-
-<span class="nc" id="L437">        return false;</span>
-    }
-
-    public boolean isLocalClass() {
-<span class="nc" id="L441">        var innerClass = getMatchingInnerClass();</span>
-<span class="nc" id="L442">        var enclosingMethod = getEnclosingMethod();</span>
-<span class="nc bnc" id="L443" title="All 4 branches missed.">        if (innerClass != null &amp;&amp; enclosingMethod != null) {</span>
-<span class="nc bnc" id="L444" title="All 2 branches missed.">            return !innerClass.isAnonymousClass();</span>
-        }
-
-<span class="nc" id="L447">        return false;</span>
-    }
-
-    public boolean isAnonymousClass() {
 <span class="nc" id="L451">        var innerClass = getMatchingInnerClass();</span>
 <span class="nc bnc" id="L452" title="All 2 branches missed.">        if (innerClass != null) {</span>
-<span class="nc" id="L453">            return innerClass.isAnonymousClass();</span>
+<span class="nc" id="L453">            return innerClass.isMemberClass();</span>
         }
 
 <span class="nc" id="L456">        return false;</span>
     }
 
-    private InnerClass getMatchingInnerClass() {
-<span class="fc bfc" id="L460" title="All 2 branches covered.">        for (var attribute : getAttributes()) {</span>
-<span class="pc bpc" id="L461" title="1 of 2 branches missed.">            if (attribute instanceof InnerClasses_attribute innerClasses_attribute) {</span>
-<span class="fc bfc" id="L462" title="All 2 branches covered.">                for (var innerClass : innerClasses_attribute.getInnerClasses()) {</span>
-<span class="fc bfc" id="L463" title="All 2 branches covered.">                    if (innerClass.getInnerClassInfo().equals(getClassName())) {</span>
-<span class="fc" id="L464">                        return innerClass;</span>
-                    }
-<span class="fc" id="L466">                }</span>
-            }
-<span class="fc" id="L468">        }</span>
+    public boolean isLocalClass() {
+<span class="nc" id="L460">        var innerClass = getMatchingInnerClass();</span>
+<span class="nc" id="L461">        var enclosingMethod = getEnclosingMethod();</span>
+<span class="nc bnc" id="L462" title="All 4 branches missed.">        if (innerClass != null &amp;&amp; enclosingMethod != null) {</span>
+<span class="nc bnc" id="L463" title="All 2 branches missed.">            return !innerClass.isAnonymousClass();</span>
+        }
 
-<span class="fc" id="L470">        return null;</span>
+<span class="nc" id="L466">        return false;</span>
+    }
+
+    public boolean isAnonymousClass() {
+<span class="nc" id="L470">        var innerClass = getMatchingInnerClass();</span>
+<span class="nc bnc" id="L471" title="All 2 branches missed.">        if (innerClass != null) {</span>
+<span class="nc" id="L472">            return innerClass.isAnonymousClass();</span>
+        }
+
+<span class="nc" id="L475">        return false;</span>
+    }
+
+    private InnerClass getMatchingInnerClass() {
+<span class="fc bfc" id="L479" title="All 2 branches covered.">        for (var attribute : getAttributes()) {</span>
+<span class="pc bpc" id="L480" title="1 of 2 branches missed.">            if (attribute instanceof InnerClasses_attribute innerClasses_attribute) {</span>
+<span class="fc bfc" id="L481" title="All 2 branches covered.">                for (var innerClass : innerClasses_attribute.getInnerClasses()) {</span>
+<span class="fc bfc" id="L482" title="All 2 branches covered.">                    if (innerClass.getInnerClassInfo().equals(getClassName())) {</span>
+<span class="fc" id="L483">                        return innerClass;</span>
+                    }
+<span class="fc" id="L485">                }</span>
+            }
+<span class="fc" id="L487">        }</span>
+
+<span class="fc" id="L489">        return null;</span>
     }
 
     private EnclosingMethod_attribute getEnclosingMethod() {
-<span class="nc bnc" id="L474" title="All 2 branches missed.">        for (var attribute : getAttributes()) {</span>
-<span class="nc bnc" id="L475" title="All 2 branches missed.">            if (attribute instanceof EnclosingMethod_attribute enclosingMethod_attribute) {</span>
-<span class="nc" id="L476">                return enclosingMethod_attribute;</span>
+<span class="nc bnc" id="L493" title="All 2 branches missed.">        for (var attribute : getAttributes()) {</span>
+<span class="nc bnc" id="L494" title="All 2 branches missed.">            if (attribute instanceof EnclosingMethod_attribute enclosingMethod_attribute) {</span>
+<span class="nc" id="L495">                return enclosingMethod_attribute;</span>
             }
-<span class="nc" id="L478">        }</span>
+<span class="nc" id="L497">        }</span>
 
-<span class="nc" id="L480">        return null;</span>
+<span class="nc" id="L499">        return null;</span>
     }
 
     public boolean equals(Object object) {
-<span class="pc bpc" id="L484" title="1 of 2 branches missed.">        if (this == object) {</span>
-<span class="fc" id="L485">            return true;</span>
+<span class="pc bpc" id="L503" title="1 of 2 branches missed.">        if (this == object) {</span>
+<span class="fc" id="L504">            return true;</span>
         }
 
-<span class="nc bnc" id="L488" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
-<span class="nc" id="L489">            return false;</span>
+<span class="nc bnc" id="L507" title="All 4 branches missed.">        if (object == null || getClass() != object.getClass()) {</span>
+<span class="nc" id="L508">            return false;</span>
         }
 
-<span class="nc bnc" id="L492" title="All 2 branches missed.">        return compareTo((Classfile) object) == 0;</span>
+<span class="nc bnc" id="L511" title="All 2 branches missed.">        return compareTo((Classfile) object) == 0;</span>
     }
 
     public int hashCode() {
-<span class="nc" id="L496">        return getClassName().hashCode();</span>
+<span class="nc" id="L515">        return getClassName().hashCode();</span>
     }
 
     public int compareTo(com.jeantessier.classreader.Classfile other) {
-<span class="nc bnc" id="L500" title="All 2 branches missed.">        if (this == other) {</span>
-<span class="nc" id="L501">            return 0;</span>
+<span class="nc bnc" id="L519" title="All 2 branches missed.">        if (this == other) {</span>
+<span class="nc" id="L520">            return 0;</span>
         }
 
-<span class="nc bnc" id="L504" title="All 2 branches missed.">        if (other == null) {</span>
-<span class="nc" id="L505">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
+<span class="nc bnc" id="L523" title="All 2 branches missed.">        if (other == null) {</span>
+<span class="nc" id="L524">            throw new ClassCastException(&quot;compareTo: expected a &quot; + getClass().getName() + &quot; but got null&quot;);</span>
         }
 
-<span class="nc" id="L508">        return getClassName().compareTo(other.getClassName());</span>
+<span class="nc" id="L527">        return getClassName().compareTo(other.getClassName());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

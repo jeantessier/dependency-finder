@@ -37,7 +37,7 @@ import java.util.Collection;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = &quot;utf-8&quot;;
-    public static final String DEFAULT_DTD_PREFIX = &quot;https://depfind.sourceforge.io/dtd&quot;;
+    public static final String DEFAULT_DTD_PREFIX = &quot;https://jeantessier.github.io/dependency-finder/dtd&quot;;
 
 <span class="pc" id="L42">    private boolean atTopLevel = false;</span>
 
@@ -85,7 +85,7 @@ public class XMLPrinter extends Printer {
     protected void preprocessPackageNode(PackageNode node) {
 <span class="fc" id="L86">        super.preprocessPackageNode(node);</span>
 
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (shouldShowPackageNode(node)) {</span>
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        if (shouldShowPackageNode(node)) {</span>
 <span class="fc bfc" id="L89" title="All 2 branches covered.">            indent().append(&quot;&lt;package confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).eol();</span>
 <span class="fc" id="L90">            raiseIndent();</span>
 <span class="fc" id="L91">            indent().printScopeNodeName(node).eol();</span>
@@ -93,7 +93,7 @@ public class XMLPrinter extends Printer {
 <span class="fc" id="L93">    }</span>
 
     protected void postprocessPackageNode(PackageNode node) {
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        if (shouldShowPackageNode(node)) {</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (shouldShowPackageNode(node)) {</span>
 <span class="fc" id="L97">            lowerIndent();</span>
 <span class="fc" id="L98">            indent().append(&quot;&lt;/package&gt;&quot;).eol();</span>
         }
@@ -110,7 +110,7 @@ public class XMLPrinter extends Printer {
     protected void preprocessClassNode(ClassNode node) {
 <span class="fc" id="L111">        super.preprocessClassNode(node);</span>
 
-<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (shouldShowClassNode(node)) {</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">        if (shouldShowClassNode(node)) {</span>
 <span class="fc bfc" id="L114" title="All 2 branches covered.">            indent().append(&quot;&lt;class confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).eol();</span>
 <span class="fc" id="L115">            raiseIndent();</span>
 <span class="fc" id="L116">            indent().printScopeNodeName(node).eol();</span>
@@ -118,7 +118,7 @@ public class XMLPrinter extends Printer {
 <span class="fc" id="L118">    }</span>
 
     protected void postprocessClassNode(ClassNode node) {
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (shouldShowClassNode(node)) {</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (shouldShowClassNode(node)) {</span>
 <span class="fc" id="L122">            lowerIndent();</span>
 <span class="fc" id="L123">            indent().append(&quot;&lt;/class&gt;&quot;).eol();</span>
         }
@@ -135,7 +135,7 @@ public class XMLPrinter extends Printer {
     protected void preprocessFeatureNode(FeatureNode node) {
 <span class="fc" id="L136">        super.preprocessFeatureNode(node);</span>
 
-<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (shouldShowFeatureNode(node)) {</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (shouldShowFeatureNode(node)) {</span>
 <span class="fc bfc" id="L139" title="All 2 branches covered.">            indent().append(&quot;&lt;feature confirmed=\&quot;&quot;).append(node.isConfirmed() ? &quot;yes&quot; : &quot;no&quot;).append(&quot;\&quot;&gt;&quot;).eol();</span>
 <span class="fc" id="L140">            raiseIndent();</span>
 <span class="fc" id="L141">            indent().printScopeNodeName(node).eol();</span>
@@ -143,7 +143,7 @@ public class XMLPrinter extends Printer {
 <span class="fc" id="L143">    }</span>
 
     protected void postprocessFeatureNode(FeatureNode node) {
-<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (shouldShowFeatureNode(node)) {</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (shouldShowFeatureNode(node)) {</span>
 <span class="fc" id="L147">            lowerIndent();</span>
 <span class="fc" id="L148">            indent().append(&quot;&lt;/feature&gt;&quot;).eol();</span>
         }
@@ -170,7 +170,7 @@ public class XMLPrinter extends Printer {
 <span class="fc" id="L170">    }</span>
 
     protected Printer printScopeNodeName(Node node, String name) {
-<span class="fc" id="L173">        append(&quot;&lt;name&gt;&quot;);</span>
+<span class="fc" id="L173">        append(&quot;&lt;name simple-name=\&quot;&quot;).append(node.getSimpleName()).append(&quot;\&quot;&gt;&quot;);</span>
 <span class="fc" id="L174">        super.printScopeNodeName(node, name);</span>
 <span class="fc" id="L175">        append(&quot;&lt;/name&gt;&quot;);</span>
 

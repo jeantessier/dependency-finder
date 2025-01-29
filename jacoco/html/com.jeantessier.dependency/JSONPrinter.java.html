@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">JSONPrinter.java</span></div><h1>JSONPrinter.java</h1><pre class="source lang-java linenums">package com.jeantessier.dependency;
+
+import java.io.*;
+import java.util.*;
+
+import static java.util.stream.Collectors.*;
+
+public class JSONPrinter extends Printer {
+    public JSONPrinter(PrintWriter out) {
+<span class="fc" id="L10">        super(out);</span>
+<span class="fc" id="L11">    }</span>
+
+    public JSONPrinter(TraversalStrategy strategy, PrintWriter out) {
+<span class="nc" id="L14">        super(strategy, out);</span>
+<span class="nc" id="L15">    }</span>
+
+    public void traverseNodes(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc" id="L18">        append(printNodes(nodes));</span>
+<span class="fc" id="L19">    }</span>
+
+    public String printNodes(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc" id="L22">        return &quot;[&quot; +</span>
+<span class="fc" id="L23">                getStrategy().order(nodes).stream()</span>
+<span class="fc" id="L24">                        .map(this::printNode)</span>
+<span class="fc" id="L25">                        .filter(Objects::nonNull)</span>
+<span class="fc" id="L26">                        .collect(joining(&quot;,&quot;))</span>
+        + &quot;]&quot;;
+    }
+
+    private String printNode(Node node) {
+<span class="fc bfc" id="L31" title="All 4 branches covered.">        if (node instanceof PackageNode packageNode &amp;&amp; shouldShowPackageNode(packageNode)) {</span>
+<span class="fc" id="L32">            return printPackageNode(packageNode);</span>
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        } else if (node instanceof ClassNode classNode &amp;&amp; shouldShowClassNode(classNode)) {</span>
+<span class="fc" id="L34">            return printClassNode(classNode);</span>
+<span class="pc bpc" id="L35" title="1 of 4 branches missed.">        } else if (node instanceof FeatureNode featureNode &amp;&amp; shouldShowFeatureNode(featureNode)) {</span>
+<span class="fc" id="L36">            return printFeatureNode(featureNode);</span>
+        } else {
+<span class="fc" id="L38">            return null;</span>
+        }
+    }
+
+    private String printPackageNode(PackageNode packageNode) {
+<span class="fc bfc" id="L43" title="All 4 branches covered.">        return &quot;{\&quot;type\&quot;:\&quot;package\&quot;,\&quot;confirmed\&quot;:&quot; + packageNode.isConfirmed() + &quot;,\&quot;name\&quot;:\&quot;&quot; + packageNode.getName() + &quot;\&quot;,\&quot;outbound\&quot;:&quot; + (isShowOutbounds() ? printDependencyNodes(packageNode.getOutboundDependencies()) : &quot;[]&quot;) + &quot;,\&quot;inbound\&quot;:&quot; + (isShowInbounds() ? printDependencyNodes(packageNode.getInboundDependencies()) : &quot;[]&quot;) + &quot;,\&quot;classes\&quot;:&quot; + printNodes(packageNode.getClasses()) + &quot;}&quot;;</span>
+    }
+
+    private String printClassNode(ClassNode classNode) {
+<span class="fc bfc" id="L47" title="All 4 branches covered.">        return &quot;{\&quot;type\&quot;:\&quot;class\&quot;,\&quot;confirmed\&quot;:&quot; + classNode.isConfirmed() + &quot;,\&quot;name\&quot;:\&quot;&quot; + classNode.getName() + &quot;\&quot;,\&quot;outbound\&quot;:&quot; + (isShowOutbounds() ? printDependencyNodes(classNode.getOutboundDependencies()) : &quot;[]&quot;) + &quot;,\&quot;inbound\&quot;:&quot; + (isShowInbounds() ? printDependencyNodes(classNode.getInboundDependencies()) : &quot;[]&quot;) + &quot;,\&quot;features\&quot;:&quot; + printNodes(classNode.getFeatures()) + &quot;}&quot;;</span>
+    }
+
+    private String printFeatureNode(FeatureNode featureNode) {
+<span class="fc bfc" id="L51" title="All 4 branches covered.">        return &quot;{\&quot;type\&quot;:\&quot;feature\&quot;,\&quot;confirmed\&quot;:&quot; + featureNode.isConfirmed() + &quot;,\&quot;name\&quot;:\&quot;&quot; + featureNode.getName() + &quot;\&quot;,\&quot;outbound\&quot;:&quot; + (isShowOutbounds() ? printDependencyNodes(featureNode.getOutboundDependencies()) : &quot;[]&quot;) + &quot;,\&quot;inbound\&quot;:&quot; + (isShowInbounds() ? printDependencyNodes(featureNode.getInboundDependencies()) : &quot;[]&quot;) + &quot;}&quot;;</span>
+    }
+
+    public String printDependencyNodes(Collection&lt;? extends Node&gt; nodes) {
+<span class="fc" id="L55">        return &quot;[&quot; +</span>
+<span class="fc" id="L56">                getStrategy().order(nodes).stream()</span>
+<span class="fc" id="L57">                        .map(this::printDependencyNode)</span>
+<span class="fc" id="L58">                        .collect(joining(&quot;,&quot;))</span>
+                + &quot;]&quot;;
+    }
+
+    private String printDependencyNode(Node node) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (node instanceof PackageNode) {</span>
+<span class="fc" id="L64">            return printDependency(node, &quot;package&quot;);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        } else if (node instanceof ClassNode) {</span>
+<span class="fc" id="L66">            return printDependency(node, &quot;class&quot;);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        } else if (node instanceof FeatureNode) {</span>
+<span class="fc" id="L68">            return printDependency(node, &quot;feature&quot;);</span>
+        } else {
+<span class="nc" id="L70">            throw new IllegalArgumentException(&quot;Unknown node type: &quot; + node.getClass());</span>
+        }
+    }
+
+    private String printDependency(Node node, String type) {
+<span class="fc" id="L75">        return &quot;{\&quot;type\&quot;:\&quot;&quot; + type + &quot;\&quot;,\&quot;confirmed\&quot;:&quot; + node.isConfirmed() + &quot;,\&quot;name\&quot;:\&quot;&quot; + node.getName() + &quot;\&quot;}&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

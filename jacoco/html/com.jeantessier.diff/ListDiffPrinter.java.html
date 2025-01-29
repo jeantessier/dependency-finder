@@ -56,212 +56,220 @@ public class ListDiffPrinter {
 <span class="fc" id="L56">    private final Collection&lt;String&gt; removed = new TreeSet&lt;&gt;();</span>
 <span class="fc" id="L57">    private final Collection&lt;String&gt; added = new TreeSet&lt;&gt;();</span>
 
-<span class="fc" id="L59">    public ListDiffPrinter(boolean compress, String indentText, String encoding, String dtdPrefix) {</span>
-<span class="fc" id="L60">        this.buffer = new PrinterBuffer(indentText);</span>
-<span class="fc" id="L61">        this.compress = compress;</span>
+    public ListDiffPrinter() {
+<span class="fc" id="L60">        this(DEFAULT_COMPRESS, DEFAULT_INDENT_TEXT, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="fc" id="L61">    }</span>
 
-<span class="fc" id="L63">        appendHeader(encoding, dtdPrefix);</span>
-<span class="fc" id="L64">    }</span>
+    public ListDiffPrinter(boolean compress) {
+<span class="fc" id="L64">        this(compress, DEFAULT_INDENT_TEXT, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="fc" id="L65">    }</span>
+
+<span class="fc" id="L67">    public ListDiffPrinter(boolean compress, String indentText, String encoding, String dtdPrefix) {</span>
+<span class="fc" id="L68">        this.buffer = new PrinterBuffer(indentText);</span>
+<span class="fc" id="L69">        this.compress = compress;</span>
+
+<span class="fc" id="L71">        appendHeader(encoding, dtdPrefix);</span>
+<span class="fc" id="L72">    }</span>
 
     private void appendHeader(String encoding, String dtdPrefix) {
-<span class="fc" id="L67">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
-<span class="fc" id="L68">        eol();</span>
-<span class="fc" id="L69">        append(&quot;&lt;!DOCTYPE list-diff SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/list-diff.dtd\&quot;&gt;&quot;).eol();</span>
-<span class="fc" id="L70">        eol();</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L75">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
+<span class="fc" id="L76">        eol();</span>
+<span class="fc" id="L77">        append(&quot;&lt;!DOCTYPE list-diff SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/list-diff.dtd\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L78">        eol();</span>
+<span class="fc" id="L79">    }</span>
 
     public String getName() {
-<span class="fc" id="L74">        return name;</span>
+<span class="fc" id="L82">        return name;</span>
     }
 
     public void setName(String name) {
-<span class="nc" id="L78">        this.name = name;</span>
-<span class="nc" id="L79">    }</span>
+<span class="nc" id="L86">        this.name = name;</span>
+<span class="nc" id="L87">    }</span>
 
     public String getOldVersion() {
-<span class="fc" id="L82">        return oldVersion;</span>
+<span class="fc" id="L90">        return oldVersion;</span>
     }
 
     public void setOldVersion(String oldVersion) {
-<span class="nc" id="L86">        this.oldVersion = oldVersion;</span>
-<span class="nc" id="L87">    }</span>
+<span class="nc" id="L94">        this.oldVersion = oldVersion;</span>
+<span class="nc" id="L95">    }</span>
 
     public String getNewVersion() {
-<span class="fc" id="L90">        return newVersion;</span>
+<span class="fc" id="L98">        return newVersion;</span>
     }
 
     public void setNewVersion(String newVersion) {
-<span class="nc" id="L94">        this.newVersion = newVersion;</span>
-<span class="nc" id="L95">    }</span>
+<span class="nc" id="L102">        this.newVersion = newVersion;</span>
+<span class="nc" id="L103">    }</span>
     
     public Collection&lt;String&gt; getRemoved() {
-<span class="fc" id="L98">        return Collections.unmodifiableCollection(removed);</span>
+<span class="fc" id="L106">        return Collections.unmodifiableCollection(removed);</span>
     }
 
     public void remove(String line) {
-<span class="fc" id="L102">        this.removed.add(line);</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc" id="L110">        this.removed.add(line);</span>
+<span class="fc" id="L111">    }</span>
     
     public Collection&lt;String&gt; getAdded() {
-<span class="fc" id="L106">        return Collections.unmodifiableCollection(added);</span>
+<span class="fc" id="L114">        return Collections.unmodifiableCollection(added);</span>
     }
 
     public void add(String line) {
-<span class="fc" id="L110">        this.added.add(line);</span>
-<span class="fc" id="L111">    }</span>
+<span class="fc" id="L118">        this.added.add(line);</span>
+<span class="fc" id="L119">    }</span>
 
     protected ListDiffPrinter append(boolean b) {
-<span class="nc" id="L114">        buffer.append(b);</span>
-<span class="nc" id="L115">        return this;</span>
+<span class="nc" id="L122">        buffer.append(b);</span>
+<span class="nc" id="L123">        return this;</span>
     }
 
     protected ListDiffPrinter append(char c) {
-<span class="nc" id="L119">        buffer.append(c);</span>
-<span class="nc" id="L120">        return this;</span>
+<span class="nc" id="L127">        buffer.append(c);</span>
+<span class="nc" id="L128">        return this;</span>
     }
 
     protected ListDiffPrinter append(char[] str, int offset, int len) {
-<span class="nc" id="L124">        buffer.append(str, offset, len);</span>
-<span class="nc" id="L125">        return this;</span>
+<span class="nc" id="L132">        buffer.append(str, offset, len);</span>
+<span class="nc" id="L133">        return this;</span>
     }
 
     protected ListDiffPrinter append(char[] str) {
-<span class="nc" id="L129">        buffer.append(str);</span>
-<span class="nc" id="L130">        return this;</span>
+<span class="nc" id="L137">        buffer.append(str);</span>
+<span class="nc" id="L138">        return this;</span>
     }
 
     protected ListDiffPrinter append(double d) {
-<span class="nc" id="L134">        buffer.append(d);</span>
-<span class="nc" id="L135">        return this;</span>
+<span class="nc" id="L142">        buffer.append(d);</span>
+<span class="nc" id="L143">        return this;</span>
     }
 
     protected ListDiffPrinter append(float f) {
-<span class="nc" id="L139">        buffer.append(f);</span>
-<span class="nc" id="L140">        return this;</span>
+<span class="nc" id="L147">        buffer.append(f);</span>
+<span class="nc" id="L148">        return this;</span>
     }
 
     protected ListDiffPrinter append(int i) {
-<span class="nc" id="L144">        buffer.append(i);</span>
-<span class="nc" id="L145">        return this;</span>
+<span class="nc" id="L152">        buffer.append(i);</span>
+<span class="nc" id="L153">        return this;</span>
     }
 
     protected ListDiffPrinter append(long l) {
-<span class="nc" id="L149">        buffer.append(l);</span>
-<span class="nc" id="L150">        return this;</span>
+<span class="nc" id="L157">        buffer.append(l);</span>
+<span class="nc" id="L158">        return this;</span>
     }
 
     protected ListDiffPrinter append(Object obj) {
-<span class="nc" id="L154">        buffer.append(obj);</span>
-<span class="nc" id="L155">        return this;</span>
+<span class="nc" id="L162">        buffer.append(obj);</span>
+<span class="nc" id="L163">        return this;</span>
     }
 
     protected ListDiffPrinter append(String str) {
-<span class="fc" id="L159">        buffer.append(str);</span>
-<span class="fc" id="L160">        return this;</span>
+<span class="fc" id="L167">        buffer.append(str);</span>
+<span class="fc" id="L168">        return this;</span>
     }
 
     protected ListDiffPrinter indent() {
-<span class="fc" id="L164">        buffer.indent();</span>
-<span class="fc" id="L165">        return this;</span>
+<span class="fc" id="L172">        buffer.indent();</span>
+<span class="fc" id="L173">        return this;</span>
     }
 
     protected ListDiffPrinter eol() {
-<span class="fc" id="L169">        buffer.eol();</span>
-<span class="fc" id="L170">        return this;</span>
+<span class="fc" id="L177">        buffer.eol();</span>
+<span class="fc" id="L178">        return this;</span>
     }
 
     protected void raiseIndent() {
-<span class="fc" id="L174">        buffer.raiseIndent();</span>
-<span class="fc" id="L175">    }</span>
+<span class="fc" id="L182">        buffer.raiseIndent();</span>
+<span class="fc" id="L183">    }</span>
 
     protected void lowerIndent() {
-<span class="fc" id="L178">        buffer.lowerIndent();</span>
-<span class="fc" id="L179">    }</span>
+<span class="fc" id="L186">        buffer.lowerIndent();</span>
+<span class="fc" id="L187">    }</span>
 
     public String toString() {
-<span class="fc" id="L182">        indent().append(&quot;&lt;list-diff&gt;&quot;).eol();</span>
-<span class="fc" id="L183">        raiseIndent();</span>
+<span class="fc" id="L190">        indent().append(&quot;&lt;list-diff&gt;&quot;).eol();</span>
+<span class="fc" id="L191">        raiseIndent();</span>
         
-<span class="fc" id="L185">        indent().append(&quot;&lt;name&gt;&quot;).append(getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
-<span class="fc" id="L186">        indent().append(&quot;&lt;old&gt;&quot;).append(getOldVersion()).append(&quot;&lt;/old&gt;&quot;).eol();</span>
-<span class="fc" id="L187">        indent().append(&quot;&lt;new&gt;&quot;).append(getNewVersion()).append(&quot;&lt;/new&gt;&quot;).eol();</span>
+<span class="fc" id="L193">        indent().append(&quot;&lt;name&gt;&quot;).append(getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc" id="L194">        indent().append(&quot;&lt;old&gt;&quot;).append(getOldVersion()).append(&quot;&lt;/old&gt;&quot;).eol();</span>
+<span class="fc" id="L195">        indent().append(&quot;&lt;new&gt;&quot;).append(getNewVersion()).append(&quot;&lt;/new&gt;&quot;).eol();</span>
         
-<span class="fc" id="L189">        indent().append(&quot;&lt;removed&gt;&quot;).eol();</span>
-<span class="fc" id="L190">        raiseIndent();</span>
-<span class="fc bfc" id="L191" title="All 2 branches covered.">        printLines(compress ? compress(getRemoved()) : getRemoved());</span>
-<span class="fc" id="L192">        lowerIndent();</span>
-<span class="fc" id="L193">        indent().append(&quot;&lt;/removed&gt;&quot;).eol();</span>
+<span class="fc" id="L197">        indent().append(&quot;&lt;removed&gt;&quot;).eol();</span>
+<span class="fc" id="L198">        raiseIndent();</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        printLines(compress ? compress(getRemoved()) : getRemoved());</span>
+<span class="fc" id="L200">        lowerIndent();</span>
+<span class="fc" id="L201">        indent().append(&quot;&lt;/removed&gt;&quot;).eol();</span>
         
-<span class="fc" id="L195">        indent().append(&quot;&lt;added&gt;&quot;).eol();</span>
-<span class="fc" id="L196">        raiseIndent();</span>
-<span class="fc bfc" id="L197" title="All 2 branches covered.">        printLines(compress ? compress(getAdded()) : getAdded());</span>
-<span class="fc" id="L198">        lowerIndent();</span>
-<span class="fc" id="L199">        indent().append(&quot;&lt;/added&gt;&quot;).eol();</span>
+<span class="fc" id="L203">        indent().append(&quot;&lt;added&gt;&quot;).eol();</span>
+<span class="fc" id="L204">        raiseIndent();</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        printLines(compress ? compress(getAdded()) : getAdded());</span>
+<span class="fc" id="L206">        lowerIndent();</span>
+<span class="fc" id="L207">        indent().append(&quot;&lt;/added&gt;&quot;).eol();</span>
         
-<span class="fc" id="L201">        lowerIndent();</span>
-<span class="fc" id="L202">        indent().append(&quot;&lt;/list-diff&gt;&quot;).eol();</span>
+<span class="fc" id="L209">        lowerIndent();</span>
+<span class="fc" id="L210">        indent().append(&quot;&lt;/list-diff&gt;&quot;).eol();</span>
         
-<span class="fc" id="L204">        return buffer.toString();</span>
+<span class="fc" id="L212">        return buffer.toString();</span>
     }
 
     private void printLines(Collection&lt;String&gt; lines) {
-<span class="fc" id="L208">        lines.forEach(line -&gt; {</span>
-<span class="fc" id="L209">            int pos = line.lastIndexOf(&quot; [&quot;);</span>
-<span class="fc bfc" id="L210" title="All 2 branches covered.">            if (pos != -1) {</span>
-<span class="fc" id="L211">                indent().append(&quot;&lt;line&gt;&quot;).append(line.substring(0, pos)).append(&quot;&lt;/line&gt;&quot;).eol();</span>
+<span class="fc" id="L216">        lines.forEach(line -&gt; {</span>
+<span class="fc" id="L217">            int pos = line.lastIndexOf(&quot; [&quot;);</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            if (pos != -1) {</span>
+<span class="fc" id="L219">                indent().append(&quot;&lt;line&gt;&quot;).append(line.substring(0, pos)).append(&quot;&lt;/line&gt;&quot;).eol();</span>
             } else {
-<span class="fc" id="L213">                indent().append(&quot;&lt;line&gt;&quot;).append(line).append(&quot;&lt;/line&gt;&quot;).eol();</span>
+<span class="fc" id="L221">                indent().append(&quot;&lt;line&gt;&quot;).append(line).append(&quot;&lt;/line&gt;&quot;).eol();</span>
             }
-<span class="fc" id="L215">        });</span>
-<span class="fc" id="L216">    }</span>
+<span class="fc" id="L223">        });</span>
+<span class="fc" id="L224">    }</span>
 
     private Collection&lt;String&gt; compress(Collection&lt;String&gt; lines) {
-<span class="fc" id="L219">        Collection&lt;String&gt; result = new TreeSet&lt;&gt;();</span>
+<span class="fc" id="L227">        Collection&lt;String&gt; result = new TreeSet&lt;&gt;();</span>
 
-<span class="fc" id="L221">        lines.forEach(line -&gt; {</span>
-<span class="fc" id="L222">            boolean add = true;</span>
-<span class="fc bfc" id="L223" title="All 2 branches covered.">            if (line.endsWith(&quot; [C]&quot;)) {</span>
-<span class="fc" id="L224">                String packageName = extractPackageName(line);</span>
+<span class="fc" id="L229">        lines.forEach(line -&gt; {</span>
+<span class="fc" id="L230">            boolean add = true;</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">            if (line.endsWith(&quot; [C]&quot;)) {</span>
+<span class="fc" id="L232">                String packageName = extractPackageName(line);</span>
 
-<span class="fc bfc" id="L226" title="All 2 branches covered.">                add = !lines.contains(packageName + &quot; [P]&quot;);</span>
-<span class="fc bfc" id="L227" title="All 2 branches covered.">            } else if (line.endsWith(&quot; [F]&quot;)) {</span>
-<span class="fc" id="L228">                String className = extractClassName(line);</span>
-<span class="fc" id="L229">                String packageName = extractPackageName(className);</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">                add = !lines.contains(packageName + &quot; [P]&quot;);</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">            } else if (line.endsWith(&quot; [F]&quot;)) {</span>
+<span class="fc" id="L236">                String className = extractClassName(line);</span>
+<span class="fc" id="L237">                String packageName = extractPackageName(className);</span>
 
-<span class="fc bfc" id="L231" title="All 4 branches covered.">                add = !lines.contains(packageName + &quot; [P]&quot;) &amp;&amp; !lines.contains(className + &quot; [C]&quot;);</span>
+<span class="fc bfc" id="L239" title="All 4 branches covered.">                add = !lines.contains(packageName + &quot; [P]&quot;) &amp;&amp; !lines.contains(className + &quot; [C]&quot;);</span>
             }
 
-<span class="fc bfc" id="L234" title="All 2 branches covered.">            if (add) {</span>
-<span class="fc" id="L235">                result.add(line);</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">            if (add) {</span>
+<span class="fc" id="L243">                result.add(line);</span>
             }
-<span class="fc" id="L237">        });</span>
+<span class="fc" id="L245">        });</span>
 
-<span class="fc" id="L239">        return result;</span>
+<span class="fc" id="L247">        return result;</span>
     }
 
     private String extractPackageName(String className) {
-<span class="fc" id="L243">        String result = &quot;&quot;;</span>
+<span class="fc" id="L251">        String result = &quot;&quot;;</span>
 
-<span class="fc" id="L245">        int pos = className.lastIndexOf('.');</span>
-<span class="pc bpc" id="L246" title="1 of 2 branches missed.">        if (pos != -1) {</span>
-<span class="fc" id="L247">            result = className.substring(0, pos);</span>
+<span class="fc" id="L253">        int pos = className.lastIndexOf('.');</span>
+<span class="pc bpc" id="L254" title="1 of 2 branches missed.">        if (pos != -1) {</span>
+<span class="fc" id="L255">            result = className.substring(0, pos);</span>
         }
         
-<span class="fc" id="L250">        return result;</span>
+<span class="fc" id="L258">        return result;</span>
     }
 
     private String extractClassName(String featureName) {
-<span class="fc" id="L254">        String result = &quot;&quot;;</span>
+<span class="fc" id="L262">        String result = &quot;&quot;;</span>
 
-<span class="fc" id="L256">        synchronized (perl) {</span>
-<span class="fc bfc" id="L257" title="All 2 branches covered.">            if (perl.match(&quot;/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?/&quot;, featureName)) {</span>
-<span class="fc" id="L258">                result = perl.group(1);</span>
-<span class="pc bpc" id="L259" title="1 of 2 branches missed.">            } else if (perl.match(&quot;/^(.*)\\.[\\^.]*/&quot;, featureName)) {</span>
-<span class="fc" id="L260">                result = perl.group(1);</span>
+<span class="fc" id="L264">        synchronized (perl) {</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">            if (perl.match(&quot;/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?/&quot;, featureName)) {</span>
+<span class="fc" id="L266">                result = perl.group(1);</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            } else if (perl.match(&quot;/^(.*)\\.[\\^.]*/&quot;, featureName)) {</span>
+<span class="fc" id="L268">                result = perl.group(1);</span>
             }
-<span class="fc" id="L262">        }</span>
+<span class="fc" id="L270">        }</span>
         
-<span class="fc" id="L264">        return result;</span>
+<span class="fc" id="L272">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
