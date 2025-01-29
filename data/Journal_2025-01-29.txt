@@ -1,0 +1,20 @@
+Dependency Finder is now 24 years old.
+
+Looking at code coverage data, I realized there was a missing Fit test for
+=ListDynamicInstructions=.
+
+There are no Fit tests for =ClassDump= either.  But that is because it is not
+even a proper =Command=-based CLI tool.  It was always meant to stand on its
+own, with no dependencies outside the JDK.  When =ClassDump= encounters a
+=.class= file, it reads it one byte at a time, in a =while (true) {}= loop.
+The =EOFException= when it reads past the end of the file will kill it out of
+the infinite loop.  This is not very clean, but the I/O interfaces are not very
+good at letting me detect the end of the file.
+
+I was curious how big my =.class= files got to be.  The largest one I could
+find in the Dependency Finder codebase was =TestXMLPrinter=, in the
+=:integration-tests= subproject, at 115KB.  It has a lot of tests and most
+of them use jMock to re-create specific situations.  Since most tests didn't
+interact with the file system, I broke it down between unit tests and the few
+legitimate integration tests.  196 tests ended up moving to the =:lib=
+subproject.
