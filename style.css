@@ -47,3 +47,13 @@ a:hover {
 code {
     color: green;
 }
+
+.off-white {
+    background-color: #fffff8;
+}
+
+.title {
+    font-size: xx-large;
+    font-weight: bold;
+    margin-left: 1rem;
+}
