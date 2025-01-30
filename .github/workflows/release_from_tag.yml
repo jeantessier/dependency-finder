@@ -34,8 +34,10 @@ jobs:
         with:
           body: |
             Release ${{ github.ref_name }}
-            
-            Compiled with Java 17.
+
+            **Full Changelog**: https://github.com/jeantessier/dependency-finder/compare/${{ github.ref_name }}...${{ github.ref_name }}
+
+            Compiled for Java 17.
           files: dist/*
 
       - name: URL to new release
