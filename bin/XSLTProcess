@@ -42,4 +42,18 @@ do
 done
 readonly DEPENDENCYFINDER_CLASSPATH="$DEPENDENCYFINDER_CLASSPATH:$CLASSPATH"
 
-$JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -classpath "$DEPENDENCYFINDER_CLASSPATH" net.sf.saxon.Transform $*
+readonly SPACE_REGEX="[[:space:]]"
+
+PARAMS=""
+while [[ $1 ]]
+do
+    if [[ $1 =~ $SPACE_REGEX ]]
+    then
+        PARAMS="${PARAMS} \"$1\""
+    else
+        PARAMS="${PARAMS} $1"
+    fi
+    shift
+done
+
+eval "$JAVA_HOME/bin/java $DEPENDENCYFINDER_OPTS -classpath \"$DEPENDENCYFINDER_CLASSPATH\" net.sf.saxon.Transform $PARAMS"
