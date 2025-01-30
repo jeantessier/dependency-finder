@@ -28,16 +28,21 @@
 
 <pre class="highlight">
     
-    C:\> DependencyExtractor -xml -out DependencyFinder-graph-1.2.1.xml DependencyFinder.jar
+    C:\> DependencyExtractor -xml -out DependencyFinder-graph-1.4.1.xml DependencyFinder-1.4.1/lib/DependencyFinder.jar
     
-    C:\> DependencyGraphToHTML -in  DependencyFinder-graph-1.2.1.xml     \
-                               -out DependencyFinder-graph-1.2.1.html
+    C:\> DependencyGraphToHTML -s:DependencyFinder-graph-1.4.1.xml     \
+                               -o:DependencyFinder-graph-1.4.1.html
     
 </pre>
 
 <p><font color="red"><b>Warning</b>:</font> <i>each one of these files is about 4MB.</i></p>
 
 <table cellspacing="3">
+    <tr>
+        <td>1.4.1</td>
+        <td><a target="_blank" href="141.xml.gz">XML</a> (compressed)</td>
+        <td><a target="_blank" href="141.html">HTML</a></td>
+    </tr>
     <tr>
         <td>1.4.0</td>
         <td><a target="_blank" href="140.xml.gz">XML</a> (compressed)</td>
@@ -140,17 +145,17 @@ software packages, including Dependency Finder itself.</p>
 <pre class="highlight">
     
     JarJarDiff -name "Dependency Finder"                                              \
-               -old-label 1.3.1 -old DependencyFinder-1.3.1/lib/DependencyFinder.jar  \
-               -new-label 1.4.0 -new DependencyFinder-1.4.0/lib/DependencyFinder.jar  \
-               -out DependencyFinder-diff-1.3.1-1.4.0.xml
+               -old-label 1.4.0 -old DependencyFinder-1.4.0/lib/DependencyFinder.jar  \
+               -new-label 1.4.1 -new DependencyFinder-1.4.1/lib/DependencyFinder.jar  \
+               -out DependencyFinder-diff-1.4.0-1.4.1.xml
     
-    DiffToHTML -s:DependencyFinder-diff-1.3.1-1.4.0.xml   \
-               -o:DependencyFinder-diff-1.3.1-1.4.0.html
+    DiffToHTML -s:DependencyFinder-diff-1.4.0-1.4.1.xml   \
+               -o:DependencyFinder-diff-1.4.0-1.4.1.html
     
 </pre>
 
 <ul>
-    <li><a target="_blank" href="DependencyFinder.html">Dependency Finder</a> <i>(1,600 KB)</i></li>
+    <li><a target="_blank" href="DependencyFinder.html">Dependency Finder</a> <i>(1,700 KB)</i></li>
     <li><a target="_blank" href="junit.html">JUnit</a> <i>(159 KB)</i></li>
     <li><a target="_blank" href="log4j.html">Log4J</a> <i>(67 KB)</i></li>
     <li><a target="_blank" href="oro.html">Jakarta-ORO</a> <i>(2 KB)</i></li>
@@ -166,6 +171,7 @@ software packages, including Dependency Finder itself.</p>
 Dependency Finder.</p>
 
 <ul>
+    <li><a target="_blank" href="140-141.xml">1.4.0 - 1.4.1</a></li>
     <li><a target="_blank" href="131-140.xml">1.3.1 - 1.4.0</a></li>
     <li><a target="_blank" href="130-131.xml">1.3.0 - 1.3.1</a></li>
     <li><a target="_blank" href="121b6-130.xml">1.2.1 beta 6 - 1.3.0</a></li>
@@ -193,11 +199,17 @@ Dependency Finder.</p>
 
 <pre class="highlight">
     
-    OOMetrics -txt -project-name "Dependency Finder" -out DependencyFinder-metrics-1.2.1 DependencyFinder.jar
+    OOMetrics DependencyFinder-1.4.1/lib/DependencyFinder.jar \
+              -project-name "Dependency Finder"               \
+              -out DependencyFinder-metrics-1.4.1             \
+              -txt
     
-    OOMetrics -xml -project-name "Dependency Finder" -out DependencyFinder-metrics-1.2.1 DependencyFinder.jar
-    
-    MetricsToHTML -s:DependencyFinder-metrics-1.2.1.xml     \
+    OOMetrics DependencyFinder-1.4.1/lib/DependencyFinder.jar \
+              -project-name "Dependency Finder"               \
+              -out DependencyFinder-metrics-1.4.1             \
+              -xml
+
+    MetricsToHTML -s:DependencyFinder-metrics-1.2.1.xml       \
                   -o:DependencyFinder-metrics-1.2.1.html
     
 </pre>
@@ -206,9 +218,15 @@ Dependency Finder.</p>
 
 <table cellspacing="3">
     <tr>
+        <td>1.4.1</td>
+        <td><a target="_blank" href="141.metrics.xml.gz">XML</a> (compressed)</td>
+        <td><a target="_blank" href="141.metrics.html">HTML</a></td>
+        <td><a target="_blank" href="141.metrics.txt">TXT</a></td>
+    </tr>
+    <tr>
         <td>1.4.0</td>
-        <td><a target="_blank" href="140.metrics.xml.gz">XML</a> (compressed)</td>
-        <td><a target="_blank" href="140.metrics.html">HTML</a></td>
+        <td>XML</td>
+        <td>HTML</td>
         <td><a target="_blank" href="140.metrics.txt">TXT</a></td>
     </tr>
     <tr>

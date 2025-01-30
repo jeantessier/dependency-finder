@@ -16,6 +16,7 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.4.1">1.4.0 to 1.4.1</a></li>
 <li><a href="#1.4.0">1.3.1 to 1.4.0</a></li>
 <li><a href="#1.3.1">1.3.0 to 1.3.1</a></li>
 <li><a href="#1.3.0">1.2.1-beta6 to 1.3.0</a></li>
@@ -38,6 +39,882 @@
 <li><a href="#20020127">20020115 to 20020127</a></li>
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
+</ul>
+
+<hr>
+
+<a name="1.4.1"></a><h2>1.4.0 to 1.4.1</h2>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.classreader.Classfile</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public abstract java.util.Collection locateMethodDeclarations(java.util.function.Predicate)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.Method_info</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public abstract java.util.Collection locateMethodDeclarations()</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.CyclePrinter</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public abstract void setIndentText(java.lang.String)<br><b>new:</b>public void setIndentText(java.lang.String)</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Annotation</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.AnnotationElementValue</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.Annotation getAnnotation()<br><b>new:</b>public com.jeantessier.classreader.impl.Annotation getAnnotation()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private static boolean lambda$isDeprecated$7(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$isGeneric$8(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$isSyntheticFromAttribute$6(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
+            </li>
+        </ul>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.ConstantPool getConstantPool()<br><b>new:</b>public com.jeantessier.classreader.ConstantPool getConstantPool()</code></nobr>
+            </p>
+        </blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private static boolean lambda$isDeprecated$9(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$isGeneric$10(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$isSyntheticFromAttribute$8(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Classfile lambda$locateMethodDeclarations$6(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.util.stream.Stream lambda$locateMethodDeclarations$7(java.util.function.Predicate,
+                    com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.util.Collection locateMethodDeclarations(java.util.function.Predicate)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.ConstantPool</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.Classfile getClassfile()<br><b>new:</b>public com.jeantessier.classreader.impl.Classfile getClassfile()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Field_info</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.ConstantValue_attribute getConstantValue()<br><b>new:</b>public com.jeantessier.classreader.ConstantValue_attribute getConstantValue()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.InnerClass</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.InnerClasses_attribute getInnerClasses()<br><b>new:</b>public com.jeantessier.classreader.InnerClasses_attribute getInnerClasses()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawInnerClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawInnerClassInfo()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawInnerName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawInnerName()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawOuterClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawOuterClassInfo()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.LocalVariable</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTable_attribute getLocalVariableTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTable_attribute getLocalVariableTable()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawName()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.LocalVariableType</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTypeTable_attribute getLocalVariableTypeTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTypeTable_attribute getLocalVariableTypeTable()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawSignature()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawSignature()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Method_info</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean lambda$locateMethodDeclarations$2(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.util.Collection locateMethodDeclarations()</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.ModulePackage</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Package_info getRawPackage()<br><b>new:</b>public com.jeantessier.classreader.Package_info getRawPackage()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.ModuleRequires</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.Module_info getRawRequires()<br><b>new:</b>public com.jeantessier.classreader.impl.Module_info getRawRequires()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawRequiresVersion()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawRequiresVersion()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Module_attribute</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Module_info getRawModuleName()<br><b>new:</b>public com.jeantessier.classreader.Module_info getRawModuleName()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawModuleVersion()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawModuleVersion()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Module_info</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.NameAndType_info</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.impl.TypeAnnotation</code></h4>
+    <blockquote>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawType()</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.GraphCopier</code></h4>
+    <blockquote>
+        <h5>New Constructors:</h5>
+        <ul>
+            <li>
+                <nobr><code>public GraphCopier(com.jeantessier.dependency.NodeFactory)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private GraphCopier(com.jeantessier.dependency.NodeFactory, com.jeantessier.dependency.NodeFactory)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public GraphCopier(com.jeantessier.dependency.TraversalStrategy, com.jeantessier.dependency.NodeFactory)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public GraphCopier(com.jeantessier.dependency.TraversalStrategy, com.jeantessier.dependency.NodeFactory,
+                    com.jeantessier.dependency.NodeFactory)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.HTMLPrinter</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>public static final java.lang.String DEFAULT_URL_FORMAT</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.MetricsGatherer</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public long[] getChart(int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.util.Map getHistogram(int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private long lambda$getChart$0(int, int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean lambda$getHistogram$1(int, int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.Long lambda$getHistogram$2(int, java.lang.Integer)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.MetricsReport</code></h4>
+    <blockquote>
+        <h5>Declaration Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public class com.jeantessier.dependency.MetricsReport extends java.lang.Object<br><b>new:</b>public abstract class com.jeantessier.dependency.MetricsReport extends java.lang.Object</code></nobr>
+            </p>
+        </blockquote>
+        <h5>Removed Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean chartingClassesPerPackage</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingFeaturesPerClass</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingInboundsPerClass</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingInboundsPerFeature</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingInboundsPerPackage</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingOutboundsPerClass</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingOutboundsPerFeature</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean chartingOutboundsPerPackage</code></nobr>
+            </li>
+        </ul>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isChartingClassesPerPackage()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingFeaturesPerClass()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingInboundsPerClass()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingInboundsPerFeature()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingInboundsPerPackage()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingOutboundsPerClass()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingOutboundsPerFeature()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isChartingOutboundsPerPackage()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$process$0(com.jeantessier.dependency.PackageNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$process$1(com.jeantessier.dependency.ClassNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$process$2(com.jeantessier.dependency.FeatureNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingClassesPerPackage(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingFeaturesPerClass(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingInboundsPerClass(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingInboundsPerFeature(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingInboundsPerPackage(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingOutboundsPerClass(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingOutboundsPerFeature(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setChartingOutboundsPerPackage(boolean)</code></nobr>
+            </li>
+        </ul>
+        <h5>Method Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>private long countConfirmedNodes(java.util.Collection)<br><b>new:</b>protected long countConfirmedNodes(java.util.Collection)</code></nobr>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>public void process(com.jeantessier.dependency.MetricsGatherer)<br><b>new:</b>public abstract void process(com.jeantessier.dependency.MetricsGatherer)</code></nobr>
+            </p>
+        </blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean showingClassesPerPackageChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingClassesPerPackageHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingFeaturesPerClassChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingFeaturesPerClassHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingInboundsPerClassChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingInboundsPerClassHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingInboundsPerFeatureChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingInboundsPerFeatureHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingInboundsPerPackageChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingInboundsPerPackageHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingOutboundsPerClassChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingOutboundsPerClassHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingOutboundsPerFeatureChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingOutboundsPerFeatureHistogram</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingOutboundsPerPackageChart</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean showingOutboundsPerPackageHistogram</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isShowingClassesPerPackageChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingClassesPerPackageHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingFeaturesPerClassChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingFeaturesPerClassHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingInboundsPerClassChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingInboundsPerClassHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingInboundsPerFeatureChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingInboundsPerFeatureHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingInboundsPerPackageChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingInboundsPerPackageHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingOutboundsPerClassChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingOutboundsPerClassHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingOutboundsPerFeatureChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingOutboundsPerFeatureHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingOutboundsPerPackageChart()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean isShowingOutboundsPerPackageHistogram()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>protected void print(int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>protected void print(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>protected void println()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>protected void println(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingClassesPerPackageChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingClassesPerPackageHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingFeaturesPerClassChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingFeaturesPerClassHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingInboundsPerClassChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingInboundsPerClassHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingInboundsPerFeatureChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingInboundsPerFeatureHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingInboundsPerPackageChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingInboundsPerPackageHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingOutboundsPerClassChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingOutboundsPerClassHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingOutboundsPerFeatureChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingOutboundsPerFeatureHistogram(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingOutboundsPerPackageChart(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowingOutboundsPerPackageHistogram(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.Node</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public java.lang.String getSimpleName()</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.Printer</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>protected boolean hasVisibleClasses(com.jeantessier.dependency.PackageNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>protected boolean hasVisibleFeatures(com.jeantessier.dependency.ClassNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitClassNode(com.jeantessier.dependency.ClassNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitFeatureNode(com.jeantessier.dependency.FeatureNode)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitPackageNode(com.jeantessier.dependency.PackageNode)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependencyfinder.ant.DependencyCycles</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean json</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean getJson()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setJson(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependencyfinder.ant.DependencyMetrics</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean histogramClassesPerPackage</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramFeaturesPerClass</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramInboundsPerClass</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramInboundsPerFeature</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramInboundsPerPackage</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramOutboundsPerClass</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramOutboundsPerFeature</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean histogramOutboundsPerPackage</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean json</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean getHistogramclassesperpackage()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistogramfeaturesperclass()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistograminboundsperclass()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistograminboundsperfeature()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistograminboundsperpackage()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistogramoutboundsperclass()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistogramoutboundsperfeature()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHistogramoutboundsperpackage()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getJson()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramall(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramclasses(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramclassesperpackage(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramfeatures(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramfeaturesperclass(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistograminbounds(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistograminboundsperclass(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistograminboundsperfeature(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistograminboundsperpackage(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramoutbounds(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramoutboundsperclass(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramoutboundsperfeature(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogramoutboundsperpackage(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHistogrampackages(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setJson(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependencyfinder.ant.DependencyReporter</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean getCopyOnly()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setCopyOnly(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowAll(boolean)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean html</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean includeFilterNodes</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean json</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean text</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String urlFormat</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean yaml</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean getCopyonly()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getHtml()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getIncludefilternodes()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getJson()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getText()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.lang.String getUrlFormat()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getYaml()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setCopyonly(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setHtml(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setIncludefilternodes(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setJson(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setShowall(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setText(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setTxt(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setUrlFormat(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setYaml(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setYml(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.diff.ListDiffPrinter</code></h4>
+    <blockquote>
+        <h5>New Constructors:</h5>
+        <ul>
+            <li>
+                <nobr><code>public ListDiffPrinter()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public ListDiffPrinter(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.JSONPrinter</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.String formatValue(double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String formatValue(java.lang.Number)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.NbSubMetricsMeasurement</code></h4>
+    <blockquote>
+        <h5>Field Declaration Changes:</h5>
+        <blockquote>
+            <p>
+                <nobr><code><b>old:</b>private static final java.lang.String OPERATORS_REGULAR_EXPRESSION<br><b>new:</b>static final java.lang.String OPERATORS_REGULAR_EXPRESSION</code></nobr>
+            </p>
+        </blockquote>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.YAMLPrinter</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.String formatValue(double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String formatValue(java.lang.Number)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+</blockquote>
+<h3>New Classes:</h3>
+<ul>
+    <li>
+        <nobr><code>com.jeantessier.dependency.JSONCyclePrinter</code></nobr>
+    </li>
+    <li>
+        <nobr><code>com.jeantessier.dependency.JSONMetricsReport</code></nobr>
+    </li>
+    <li>
+        <nobr><code>com.jeantessier.dependency.JSONPrinter</code></nobr>
+    </li>
+    <li>
+        <nobr><code>com.jeantessier.dependency.TextMetricsReport</code></nobr>
+    </li>
+    <li>
+        <nobr><code>com.jeantessier.dependency.YAMLPrinter</code></nobr>
+    </li>
 </ul>
 
 <hr>
