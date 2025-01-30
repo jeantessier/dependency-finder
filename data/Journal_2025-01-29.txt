@@ -21,3 +21,16 @@ subproject.
 
 I added a navigation bar to the React app.  I couldn't find a standard way of
 doing this in React or Vite, so I went with a custom component for now.
+
+I pushed out version =1.4.1=.  While I was following instructions to generate
+the sample data for the new release, I realized the Linux scripts were not
+escaping spaces correctly.  For example, when I called:
+
+    JarJarDiff -name "Dependency Finder" ...
+
+The differences report had a name of "Dependency" only.  I had to fix the
+launching scripts to handle escaped spaces correctly.
+
+I pushed out version =1.4.1.1= with the fixed scripts.  The launching scripts
+are the only thing that's changed, so I will not update the documentation and
+everything at this time.
