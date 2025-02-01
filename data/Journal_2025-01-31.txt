@@ -1,0 +1,23 @@
+Figured out how to use environment variables and
+[[https://docs.micronaut.io/latest/guide/#propertySource][Docker settings]] to
+point the Micronaut service to custom code and dependency graph locations.  The
+defaults in `application.properties` are for running the service locally,
+outside of Docker.  When running it in a container, I can use environment
+variables to point the service to `/code`, like the Dependency Finder webapp,
+and then mount volumes at these locations.
+
+I wrote some integration
+[[https://micronaut-projects.github.io/micronaut-test/latest/guide/][tests for Micronaut]].
+I started with =LoadController= and =ExtractController=.  I was able to do
+simple GET requests and verify the load and extract metadata.  I could put
+test-specific properties using special =.properties= files, but I was not
+successful is making POST requests to trigger loading or extracting.
+
+I broke up the single =micronaut.depfind.test= package into:
+
+    * =com.jeantessier.dependencyfinder.micronaut=
+    * =com.jeantessier.dependencyfinder.micronaut.controllers=
+    * =com.jeantessier.dependencyfinder.micronaut.services=
+
+The whole Micronaut service is still called =micronaut-depfind-test=, but it's
+a start.
