@@ -108,9 +108,9 @@ lib/*.jar
 .gradle
 build
 build.example.xml
-df.xml
-docs/api
-reports/
+
+# Dependency graphs
+*df.xml
 
 # Code coverage byproducts
 cobertura
