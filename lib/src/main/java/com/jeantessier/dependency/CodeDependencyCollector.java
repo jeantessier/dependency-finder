@@ -93,12 +93,16 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
         if (classfile.hasSuperclass()) {
             Class_info superclass = classfile.getRawSuperclass();
             superclass.accept(this);
-            currentClass.addParent(getFactory().createClass(superclass.getName()));
+            if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(superclass.getName())) {
+                currentClass.addParent(getFactory().createClass(superclass.getName()));
+            }
         }
 
         for (Class_info class_info : classfile.getAllInterfaces()) {
             class_info.accept(this);
-            currentClass.addParent(getFactory().createClass(class_info.getName()));
+            if (filterCriteria.isMatchingClasses() && filterCriteria.matchesClassName(class_info.getName())) {
+                currentClass.addParent(getFactory().createClass(class_info.getName()));
+            }
         }
 
         super.visitClassfile(classfile);

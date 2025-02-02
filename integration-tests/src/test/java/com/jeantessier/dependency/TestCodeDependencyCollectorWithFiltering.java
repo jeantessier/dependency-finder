@@ -51,7 +51,7 @@ public class TestCodeDependencyCollectorWithFiltering {
     @BeforeEach
     void setUp() {
         var filterCriteria = new RegularExpressionSelectionCriteria("//");
-        filterCriteria.setGlobalExcludes("/java.util/");
+        filterCriteria.setGlobalExcludes(List.of("/^java.util/", "/^java.lang/"));
 
         var loader = new TransientClassfileLoader();
         loader.addLoadListener(new LoadListenerVisitorAdapter(new CodeDependencyCollector(factory, filterCriteria)));
@@ -63,8 +63,7 @@ public class TestCodeDependencyCollectorWithFiltering {
         assertNodes(
                 Map.of(
                         "", true,
-                        "java.io", false,
-                        "java.lang", false
+                        "java.io", false
                 ),
                 factory.getPackages()
         );
@@ -75,11 +74,7 @@ public class TestCodeDependencyCollectorWithFiltering {
         assertNodes(
                 Map.of(
                         "test", true,
-                        "java.io.PrintStream", false,
-                        "java.lang.NullPointerException", false,
-                        "java.lang.Object", false,
-                        "java.lang.String", false,
-                        "java.lang.System", false
+                        "java.io.PrintStream", false
                 ),
                 factory.getClasses()
         );
@@ -91,9 +86,7 @@ public class TestCodeDependencyCollectorWithFiltering {
                 Map.of(
                         "test.main(java.lang.String[]): void", true,
                         "test.test()", true,
-                        "java.io.PrintStream.println(java.lang.Object): void", false,
-                        "java.lang.Object.Object()", false,
-                        "java.lang.System.out", false
+                        "java.io.PrintStream.println(java.lang.Object): void", false
                 ),
                 factory.getFeatures()
         );
