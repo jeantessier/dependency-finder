@@ -16,10 +16,10 @@ the home page.  You can reach the Extract action by going to =/api/extract=.
 
 There are a few things I still need to work on:
 
-    1 The Micronaut app needs a better name than =[[https://github.com/jeantessier/micronaut-depfind-test][micronaut-depfind-test]]=.
+    1 The Micronaut app needs a better name than =micronaut-depfind-test=.
     1 I don't like the package name for the Groovy code, =micronaut.depfind.test=.
     1 The names of code and dependency graph files need to be more user-friendly, given that it is hard to change them in a running container.
-    1 The Home page for the [[https://github.com/jeantessier/dependencyfinder-react-app][React app]] is still the default Vite demo page.
+    1 The Home page for the [[https://github.com/jeantessier/dependency-finder-react][React app]] is still the default Vite demo page.
     1 I need to make the navigation accessible on all pages in a way congruent with Vite.
 
 But, all the major functionality is there.

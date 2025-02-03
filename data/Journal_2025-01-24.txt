@@ -4,9 +4,9 @@ to run Dependency Finder Micronaut app and React frontend in a Docker
 container.
 
 I built the
-[[https://github.com/jeantessier/dependencyfinder-react-app][React app]] and
+[[https://github.com/jeantessier/dependency-finder-react][React app]] and
 dropped it in the
-[[https://github.com/jeantessier/micronaut-depfind-test][Micronaut app]]'s
+[[https://github.com/jeantessier/dependency-finder-micronaut][Micronaut app]]'s
 =src/main/resources/static/frontend/= folder.  This way, it is included when
 the Micronaut app gets deployed.  If I run it in a Docker container and export
 port =8080=, my browser can download the React app from =http://localhost:8080=

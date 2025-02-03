@@ -1,0 +1,5 @@
+Renamed the Micronaut and React projects to more official Dependency Finder
+names.
+
+    * =micronaut-depfind-test= &rArr; =[[https://github.com/jeantessier/dependency-finder-micronaut][dependency-finder-micronaut]]=
+    * =dependencyfinder-react-app= &rArr; =[[https://github.com/jeantessier/dependency-finder-react][dependency-finder-react]]=
