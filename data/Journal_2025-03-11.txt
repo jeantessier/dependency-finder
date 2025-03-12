@@ -1,0 +1,52 @@
+Kent Beck was discussing
+[[https://tidyfirst.substack.com/p/how-long-should-functions-be][how long should functions be]]
+and I started thinking that I could use =OOMetrics= to find that out.  The
+default configuration includes =SLOC= measurements, but they include a value of
+=1= for abstract methods.  Synthetic methods and methods that do not have a
+=Code_attribute= get a value of =0=, although "not definitive" would be more
+accurate.  The =CounterMeasurement= type of measurements does not have an
+_indeterminate_ state, so =0= will have to do.
+
+I could create a new measurement for _function length_ and populate it based on
+=LineNumberTable_attribute=.  I could either count the entries in the
+attribute, or do arithmetic with the line numbers it contains.  I could even
+possibly refactor the existing =SLOC= measurement calculation to make use of
+it.
+
+For example, take the =load(DataInput)= method of =ClassfileLoader=.  It is an
+abstract method in an abstract base class.
+
+    line 62      protected Classfile load(DataInput in) throws IOException;
+
+It _is_ a line of code, so it should be included in the =SLOC= measurement.
+And, its length is clearly zero.
+
+Now, consider its implementation in =AggregatingClassfileLoader=.
+
+    line 75      protected Classfile load(DataInput in) throws IOException {
+    line 76          var result = getFactory().create(this, in);
+    line 77
+    line 78          classfiles.put(result.getClassName(), result);
+    line 79
+    line 80          return result;
+    line 81      }
+
+Its =LineNumberTable_attribute= only includes lines 76, 78, and 80.
+
+Its =SLOC= measurement is =3=.  Looks like a bug is causing it to ignore the
+method declaration on line 75.
+
+The _function length_ is more ambiguous.  Do we count the declaration (line
+75)?  Do we count the closing brace on line 81?  There are 3 active lines in
+the body, but 5 lines in total.  Should the length be 3?  4?  5?  7?
+
+Kent Beck's article shows many 1-line and 2-line functions.  So I feel he is
+not including the method declaration and closing brace in his definition.  He's
+only looking at the body of the method.  Most people don't include empty lines
+and comments either, but the article does not say.
+
+I am tempted to add two new measurements: a _raw_ count that is simply
+=max<sub>line numbers</sub> - min<sub>line numbers</sub> + 1= and an _actual_
+count that is the count of line numbers.  For the =load(DataInput)= method
+implementation, the _raw_ count would be =80 - 76 + 1=, so =5=.  The _actual_
+count would be =3=.  Its =SLOC= measurement should be =4=.
