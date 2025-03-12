@@ -133,16 +133,16 @@ public class MetricsGatherer extends VisitorBase {
 
         LogManager.getLogger(getClass()).debug("visitClassfile():");
         LogManager.getLogger(getClass()).debug("    class = \"{}\"", className);
-        LogManager.getLogger(getClass()).debug("    access flag: {}", () -> classfile.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("    public: {}", () -> classfile.isPublic());
-        LogManager.getLogger(getClass()).debug("    final: {}", () -> classfile.isFinal());
-        LogManager.getLogger(getClass()).debug("    super: {}", () -> classfile.isSuper());
-        LogManager.getLogger(getClass()).debug("    interface: {}", () -> classfile.isInterface());
-        LogManager.getLogger(getClass()).debug("    abstract: {}", () -> classfile.isAbstract());
-        LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> classfile.isSynthetic());
-        LogManager.getLogger(getClass()).debug("    annotation: {}", () -> classfile.isAnnotation());
-        LogManager.getLogger(getClass()).debug("    enum: {}", () -> classfile.isEnum());
-        LogManager.getLogger(getClass()).debug("    module: {}", () -> classfile.isModule());
+        LogManager.getLogger(getClass()).debug("    access flag: {}", classfile::getAccessFlags);
+        LogManager.getLogger(getClass()).debug("    public: {}", classfile::isPublic);
+        LogManager.getLogger(getClass()).debug("    final: {}", classfile::isFinal);
+        LogManager.getLogger(getClass()).debug("    super: {}", classfile::isSuper);
+        LogManager.getLogger(getClass()).debug("    interface: {}", classfile::isInterface);
+        LogManager.getLogger(getClass()).debug("    abstract: {}", classfile::isAbstract);
+        LogManager.getLogger(getClass()).debug("    synthetic: {}", classfile::isSynthetic);
+        LogManager.getLogger(getClass()).debug("    annotation: {}", classfile::isAnnotation);
+        LogManager.getLogger(getClass()).debug("    enum: {}", classfile::isEnum);
+        LogManager.getLogger(getClass()).debug("    module: {}", classfile::isModule);
 
         fireBeginClass(classfile);
         
@@ -245,7 +245,7 @@ public class MetricsGatherer extends VisitorBase {
     // ConstantPool entries
     public void visitClass_info(Class_info entry) {
         LogManager.getLogger(getClass()).debug("visitClass_info():");
-        LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getName());
+        LogManager.getLogger(getClass()).debug("    name = \"{}\"", entry::getName);
         if (entry.getName().startsWith("[")) {
             addClassDependencies(processDescriptor(entry.getName()));
         } else {
@@ -255,7 +255,7 @@ public class MetricsGatherer extends VisitorBase {
     
     public void visitFieldRef_info(FieldRef_info entry) {
         LogManager.getLogger(getClass()).debug("visitFieldRef_info():");
-        LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", entry::getClassName);
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
 
@@ -266,7 +266,7 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitMethodRef_info(MethodRef_info entry) {
         LogManager.getLogger(getClass()).debug("visitMethodRef_info():");
-        LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", entry::getClassName);
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
         addMethodDependency(entry.getFullUniqueName());
@@ -275,7 +275,7 @@ public class MetricsGatherer extends VisitorBase {
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
         LogManager.getLogger(getClass()).debug("visitInterfaceMethodRef_info():");
-        LogManager.getLogger(getClass()).debug("    class = \"{}\"", () -> entry.getClassName());
+        LogManager.getLogger(getClass()).debug("    class = \"{}\"", entry::getClassName);
         LogManager.getLogger(getClass()).debug("    name = \"{}\"", () -> entry.getRawNameAndType().getName());
         LogManager.getLogger(getClass()).debug("    type = \"{}\"", () -> entry.getRawNameAndType().getType());
         addMethodDependency(entry.getFullUniqueName());
@@ -285,18 +285,18 @@ public class MetricsGatherer extends VisitorBase {
     public void visitField_info(Field_info entry) {
         String fullUniqueName = entry.getFullUniqueName();
 
-        LogManager.getLogger(getClass()).debug("visitField_info({})", () -> entry.getFullSignature());
+        LogManager.getLogger(getClass()).debug("visitField_info({})", entry::getFullSignature);
         LogManager.getLogger(getClass()).debug("    current class: {}", () -> getCurrentClass().getName());
-        LogManager.getLogger(getClass()).debug("    access flag: {}", () -> entry.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("    public: {}", () -> entry.isPublic());
-        LogManager.getLogger(getClass()).debug("    private: {}", () -> entry.isPrivate());
-        LogManager.getLogger(getClass()).debug("    protected: {}", () -> entry.isProtected());
-        LogManager.getLogger(getClass()).debug("    static: {}", () -> entry.isStatic());
-        LogManager.getLogger(getClass()).debug("    final: {}", () -> entry.isFinal());
-        LogManager.getLogger(getClass()).debug("    volatile: {}", () -> entry.isVolatile());
-        LogManager.getLogger(getClass()).debug("    transient: {}", () -> entry.isTransient());
-        LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> entry.isSynthetic());
-        LogManager.getLogger(getClass()).debug("    enum: {}", () -> entry.isEnum());
+        LogManager.getLogger(getClass()).debug("    access flag: {}", entry::getAccessFlags);
+        LogManager.getLogger(getClass()).debug("    public: {}", entry::isPublic);
+        LogManager.getLogger(getClass()).debug("    private: {}", entry::isPrivate);
+        LogManager.getLogger(getClass()).debug("    protected: {}", entry::isProtected);
+        LogManager.getLogger(getClass()).debug("    static: {}", entry::isStatic);
+        LogManager.getLogger(getClass()).debug("    final: {}", entry::isFinal);
+        LogManager.getLogger(getClass()).debug("    volatile: {}", entry::isVolatile);
+        LogManager.getLogger(getClass()).debug("    transient: {}", entry::isTransient);
+        LogManager.getLogger(getClass()).debug("    synthetic: {}", entry::isSynthetic);
+        LogManager.getLogger(getClass()).debug("    enum: {}", entry::isEnum);
 
         getCurrentClass().addToMeasurement(BasicMeasurements.ATTRIBUTES, fullUniqueName);
 
@@ -355,21 +355,21 @@ public class MetricsGatherer extends VisitorBase {
         setCurrentMethod(getMetricsFactory().createMethodMetrics(entry.getFullUniqueName()));
         getMetricsFactory().includeMethodMetrics(getCurrentMethod());
         
-        LogManager.getLogger(getClass()).debug("visitMethod_info({})", () -> entry.getFullSignature());
+        LogManager.getLogger(getClass()).debug("visitMethod_info({})", entry::getFullSignature);
         LogManager.getLogger(getClass()).debug("    current class: {}", () -> getCurrentClass().getName());
-        LogManager.getLogger(getClass()).debug("    access flag: {}", () -> entry.getAccessFlags());
-        LogManager.getLogger(getClass()).debug("    public: {}", () -> entry.isPublic());
-        LogManager.getLogger(getClass()).debug("    private: {}", () -> entry.isPrivate());
-        LogManager.getLogger(getClass()).debug("    protected: {}", () -> entry.isProtected());
-        LogManager.getLogger(getClass()).debug("    static: {}", () -> entry.isStatic());
-        LogManager.getLogger(getClass()).debug("    final: {}", () -> entry.isFinal());
-        LogManager.getLogger(getClass()).debug("    synchronized: {}", () -> entry.isSynchronized());
-        LogManager.getLogger(getClass()).debug("    bridge: {}", () -> entry.isBridge());
-        LogManager.getLogger(getClass()).debug("    varars: {}", () -> entry.isVarargs());
-        LogManager.getLogger(getClass()).debug("    native: {}", () -> entry.isNative());
-        LogManager.getLogger(getClass()).debug("    abstract: {}", () -> entry.isAbstract());
-        LogManager.getLogger(getClass()).debug("    strict: {}", () -> entry.isStrict());
-        LogManager.getLogger(getClass()).debug("    synthetic: {}", () -> entry.isSynthetic());
+        LogManager.getLogger(getClass()).debug("    access flag: {}", entry::getAccessFlags);
+        LogManager.getLogger(getClass()).debug("    public: {}", entry::isPublic);
+        LogManager.getLogger(getClass()).debug("    private: {}", entry::isPrivate);
+        LogManager.getLogger(getClass()).debug("    protected: {}", entry::isProtected);
+        LogManager.getLogger(getClass()).debug("    static: {}", entry::isStatic);
+        LogManager.getLogger(getClass()).debug("    final: {}", entry::isFinal);
+        LogManager.getLogger(getClass()).debug("    synchronized: {}", entry::isSynchronized);
+        LogManager.getLogger(getClass()).debug("    bridge: {}", entry::isBridge);
+        LogManager.getLogger(getClass()).debug("    varars: {}", entry::isVarargs);
+        LogManager.getLogger(getClass()).debug("    native: {}", entry::isNative);
+        LogManager.getLogger(getClass()).debug("    abstract: {}", entry::isAbstract);
+        LogManager.getLogger(getClass()).debug("    strict: {}", entry::isStrict);
+        LogManager.getLogger(getClass()).debug("    synthetic: {}", entry::isSynthetic);
 
         sloc = 0;
 
@@ -575,7 +575,7 @@ public class MetricsGatherer extends VisitorBase {
     }
 
     public void visitLocalVariable(LocalVariable helper) {
-        LogManager.getLogger(getClass()).debug("visitLocalVariable({})", () -> helper.getName());
+        LogManager.getLogger(getClass()).debug("visitLocalVariable({})", helper::getName);
 
         getCurrentMethod().addToMeasurement(BasicMeasurements.LOCAL_VARIABLES, helper.getName());
 
