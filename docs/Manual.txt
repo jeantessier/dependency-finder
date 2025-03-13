@@ -4038,6 +4038,13 @@ The current types of measurement are as follow:
     <dt>=CounterMeasurement=</dt>
     <dd>A simple counter, it tallies the values that are put in it.
     If you try to add a non-number, it simply adds 1.</dd>
+    <dt>=HistogramMeasurement=</dt>
+    <dd>Computes a histogram of the values of a given measurement
+    across the submetrics of the measurement's context.  Given a
+    measurement name, it explores the tree of metrics rooted at the
+    context and finds the numerical value of these named measurements
+    in the tree.  It rounds them up to the nearest integer before
+    adding them to the histogram.</dd>
     <dt>=NameListMeasurement=</dt>
     <dd>Accumulates a set of values.  Its numerical value is the
     cardinality (i.e., size) of the set.  =OOMetrics= uses it to
@@ -4078,7 +4085,7 @@ The current types of measurement are as follow:
     [[https://en.wikipedia.org/wiki/Median#Finite%5Fset%5Fof%5Fnumbers][median]]
     on Wikipedia.</p>
     <p>You can also pull specific percentile values by specifying them as part
-    of the configuration.  =p50= is akin to he median.  =p100= is the maximum
+    of the configuration.  =p50= is akin to the median.  =p100= is the maximum
     value.</p>
     </dd>
     <dt>=SubMetricsAccumulatorMeasurement=</dt>
@@ -4104,6 +4111,7 @@ These measurements can potentially refer to other measurements and make use of
 the disposition feature when dealing with =StatisticalMeasurement=:
 
    * =ContextAccumulatorMeasurement=
+   * =HistogramMeasurement=
    * =NbSubMetricsMeasurement=
    * =RatioMeasurement=
    * =StatisticalMeasurement=
