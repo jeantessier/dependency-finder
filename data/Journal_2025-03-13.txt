@@ -1,0 +1,3 @@
+Added =HistogramMeasurement= to all the =OOMetrics= printers.  JSON, text, XML,
+and YAML printers can print the actual histogram data, but the CSV printer
+cannot.  This is just like it cannot expand collection measurements.
