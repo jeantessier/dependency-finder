@@ -37,6 +37,7 @@ import org.apache.logging.log4j.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.function.IntSupplier;
 import java.util.regex.*;
 
 /**
@@ -119,6 +120,28 @@ public class StatisticalMeasurement extends MeasurementBase {
     /** Use NbDataPoints() value on StatisticalMeasurements */
     public static final int DISPOSE_NB_DATA_POINTS = 7;
 
+    public static int getDispose(String disposeText) {
+        return getDispose(disposeText, DISPOSE_IGNORE);
+    }
+
+    public static int getDispose(String disposeText, int defaultValue) {
+        return getDispose(disposeText, () -> defaultValue);
+    }
+
+    public static int getDispose(String disposeText, IntSupplier defaultSupplier) {
+        return switch (disposeText.toUpperCase()) {
+            case "DISPOSE_IGNORE" -> DISPOSE_IGNORE;
+            case "DISPOSE_MINIMUM" -> DISPOSE_MINIMUM;
+            case "DISPOSE_MEDIAN" -> DISPOSE_MEDIAN;
+            case "DISPOSE_AVERAGE" -> DISPOSE_AVERAGE;
+            case "DISPOSE_STANDARD_DEVIATION" -> DISPOSE_STANDARD_DEVIATION;
+            case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
+            case "DISPOSE_SUM" -> DISPOSE_SUM;
+            case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
+            default -> defaultSupplier.getAsInt();
+        };
+    }
+
     public static String getDisposeLabel(int dispose) {
         return switch (dispose) {
             case DISPOSE_MINIMUM -> "minimum";
@@ -196,21 +219,10 @@ public class StatisticalMeasurement extends MeasurementBase {
                     monitoredMeasurement = perl().group(1);
 
                     String disposeText = perl().group(2);
-
-                    dispose = switch (disposeText.toUpperCase()) {
-                        case "DISPOSE_IGNORE" -> DISPOSE_IGNORE;
-                        case "DISPOSE_MINIMUM" -> DISPOSE_MINIMUM;
-                        case "DISPOSE_MEDIAN" -> DISPOSE_MEDIAN;
-                        case "DISPOSE_AVERAGE" -> DISPOSE_AVERAGE;
-                        case "DISPOSE_STANDARD_DEVIATION" -> DISPOSE_STANDARD_DEVIATION;
-                        case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
-                        case "DISPOSE_SUM" -> DISPOSE_SUM;
-                        case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
-                        default -> {
-                            LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for monitored measurement \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, monitoredMeasurement, descriptor.getLongName());
-                            yield DISPOSE_IGNORE;
-                        }
-                    };
+                    dispose = getDispose(disposeText, () -> {
+                        LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for monitored measurement \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, monitoredMeasurement, descriptor.getLongName());
+                        return DISPOSE_IGNORE;
+                    });
                 } else {
                     dispose = DISPOSE_IGNORE;
                 }
@@ -218,22 +230,10 @@ public class StatisticalMeasurement extends MeasurementBase {
 
             String selfDisposeText = in.readLine();
             if (selfDisposeText != null && perl().match("/(dispose_\\w+)/i", selfDisposeText)) {
-                selfDisposeText = selfDisposeText.trim();
-
-                selfDispose = switch (selfDisposeText.toUpperCase()) {
-                    case "DISPOSE_IGNORE" -> DISPOSE_IGNORE;
-                    case "DISPOSE_MINIMUM" -> DISPOSE_MINIMUM;
-                    case "DISPOSE_MEDIAN" -> DISPOSE_MEDIAN;
-                    case "DISPOSE_AVERAGE" -> DISPOSE_AVERAGE;
-                    case "DISPOSE_STANDARD_DEVIATION" -> DISPOSE_STANDARD_DEVIATION;
-                    case "DISPOSE_MAXIMUM" -> DISPOSE_MAXIMUM;
-                    case "DISPOSE_SUM" -> DISPOSE_SUM;
-                    case "DISPOSE_NB_DATA_POINTS" -> DISPOSE_NB_DATA_POINTS;
-                    default -> {
-                        LogManager.getLogger(getClass()).error("Unknown self-dispose value \"{}\" for measurement \"{}\", defaulting to DISPOSE_AVERAGE", selfDisposeText, descriptor.getLongName());
-                        yield DISPOSE_AVERAGE;
-                    }
-                };
+                selfDispose = getDispose(selfDisposeText.trim(), () -> {
+                    LogManager.getLogger(getClass()).error("Unknown self-dispose value \"{}\" for measurement \"{}\", defaulting to DISPOSE_AVERAGE", selfDisposeText, descriptor.getLongName());
+                    return DISPOSE_AVERAGE;
+                });
             } else {
                 selfDispose = DISPOSE_AVERAGE;
             }

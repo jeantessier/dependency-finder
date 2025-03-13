@@ -63,27 +63,17 @@ public class RatioMeasurement extends MeasurementBase {
     public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
 
-        try {
-            BufferedReader in = new BufferedReader(new StringReader(initText));
-
+        try (var in = new BufferedReader(new StringReader(initText))) {
             synchronized (perl()) {
                 baseName = in.readLine().trim();
                 if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", baseName)) {
                     baseName = perl().group(1);
                     
                     String disposeText = perl().group(2);
-
-                    baseDispose = switch (disposeText.toUpperCase()) {
-                        case "DISPOSE_IGNORE" -> StatisticalMeasurement.DISPOSE_IGNORE;
-                        case "DISPOSE_MINIMUM" -> StatisticalMeasurement.DISPOSE_MINIMUM;
-                        case "DISPOSE_MEDIAN" -> StatisticalMeasurement.DISPOSE_MEDIAN;
-                        case "DISPOSE_AVERAGE" -> StatisticalMeasurement.DISPOSE_AVERAGE;
-                        case "DISPOSE_STANDARD_DEVIATION" -> StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-                        case "DISPOSE_MAXIMUM" -> StatisticalMeasurement.DISPOSE_MAXIMUM;
-                        case "DISPOSE_SUM" -> StatisticalMeasurement.DISPOSE_SUM;
-                        case "DISPOSE_NB_DATA_POINTS" -> StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
-                        default -> StatisticalMeasurement.DISPOSE_IGNORE;
-                    };
+                    baseDispose = StatisticalMeasurement.getDispose(disposeText, () -> {
+                        LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for base \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, baseName, descriptor.getLongName());
+                        return StatisticalMeasurement.DISPOSE_IGNORE;
+                    });
                 } else {
                     baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }
@@ -93,24 +83,14 @@ public class RatioMeasurement extends MeasurementBase {
                     dividerName = perl().group(1);
                     
                     String disposeText = perl().group(2);
-
-                    dividerDispose = switch (disposeText) {
-                        case "DISPOSE_IGNORE" -> StatisticalMeasurement.DISPOSE_IGNORE;
-                        case "DISPOSE_MINIMUM" -> StatisticalMeasurement.DISPOSE_MINIMUM;
-                        case "DISPOSE_MEDIAN" -> StatisticalMeasurement.DISPOSE_MEDIAN;
-                        case "DISPOSE_AVERAGE" -> StatisticalMeasurement.DISPOSE_AVERAGE;
-                        case "DISPOSE_STANDARD_DEVIATION" -> StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-                        case "DISPOSE_MAXIMUM" -> StatisticalMeasurement.DISPOSE_MAXIMUM;
-                        case "DISPOSE_SUM" -> StatisticalMeasurement.DISPOSE_SUM;
-                        case "DISPOSE_NB_DATA_POINTS" -> StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
-                        default -> StatisticalMeasurement.DISPOSE_IGNORE;
-                    };
+                    dividerDispose = StatisticalMeasurement.getDispose(disposeText, () -> {
+                        LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for divider \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, dividerName, descriptor.getLongName());
+                        return StatisticalMeasurement.DISPOSE_IGNORE;
+                    });
                 } else {
                     dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }
             }
-
-            in.close();
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             baseName    = null;

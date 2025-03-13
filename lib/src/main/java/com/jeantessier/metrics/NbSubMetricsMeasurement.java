@@ -226,31 +226,18 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
 
         if (!name.isEmpty()) {
             int dispose;
-
             synchronized (perl()) {
                 if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
                     name = perl().group(1);
                     
                     String disposeText = perl().group(2);
-
-                    dispose = switch (disposeText.toUpperCase()) {
-                        case "DISPOSE_IGNORE" -> StatisticalMeasurement.DISPOSE_IGNORE;
-                        case "DISPOSE_MINIMUM" -> StatisticalMeasurement.DISPOSE_MINIMUM;
-                        case "DISPOSE_MEDIAN" -> StatisticalMeasurement.DISPOSE_MEDIAN;
-                        case "DISPOSE_AVERAGE" -> StatisticalMeasurement.DISPOSE_AVERAGE;
-                        case "DISPOSE_STANDARD_DEVIATION" -> StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;
-                        case "DISPOSE_MAXIMUM" -> StatisticalMeasurement.DISPOSE_MAXIMUM;
-                        case "DISPOSE_SUM" -> StatisticalMeasurement.DISPOSE_SUM;
-                        case "DISPOSE_NB_DATA_POINTS" -> StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;
-                        default -> StatisticalMeasurement.DISPOSE_IGNORE;
-                    };
+                    dispose = StatisticalMeasurement.getDispose(disposeText);
                 } else {
                     dispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }
             }
             
             Measurement measurement = metrics.getMeasurement(name);
-            
             if (measurement instanceof StatisticalMeasurement stats) {
                 result = switch (dispose) {
                     case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
