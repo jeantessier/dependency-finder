@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+    Copyright (c) 2001-2024, Jean Tessier
+    All rights reserved.
+    
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+    
+        * Redistributions of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+    
+        * Redistributions in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentation and/or other materials provided with the distribution.
+    
+        * Neither the name of Jean Tessier nor the names of his contributors
+          may be used to endorse or promote products derived from this software
+          without specific prior written permission.
+    
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR
+    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!DOCTYPE metrics-configuration SYSTEM "https://jeantessier.github.io/dependency-finder/dtd/metrics-configuration.dtd">
+
+<!--
+        <measurement>
+            <short-name></short-name>
+            <long-name></long-name>
+            <class>com.jeantessier.metrics.</class>
+            <init>
+            </init>
+            <lower-threshold></lower-threshold>
+            <upper-threshold></upper-threshold>
+        </measurement>
+-->
+
+<metrics-configuration>
+    <project-measurements>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                M DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AM</short-name>
+            <long-name>Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                AM DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AMR</short-name>
+            <long-name>Ratio of Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>method SLOC</short-name>
+            <long-name>Lines of Code for methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SLOC DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>total SLOC</short-name>
+            <long-name>Total Lines of Code</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                total SLOC
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>RML</short-name>
+            <long-name>Raw Method Length</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                RML DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EML</short-name>
+            <long-name>Effective Method Length</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                EML DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EMLR</short-name>
+            <long-name>Effective-to-Raw Method Length Ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EML
+                RML
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EML histo</short-name>
+            <long-name>Histogram of Method Lengths</long-name>
+            <class>com.jeantessier.metrics.HistogramMeasurement</class>
+            <init>
+                EML
+            </init>
+        </measurement>
+    </project-measurements>
+    <!--
+    <group-definitions>
+        <group-definition>
+            <name>test</name>
+            <pattern>/Test/</pattern>
+        </group-definition>
+    </group-definitions>
+    -->
+    <group-measurements>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                M DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AM</short-name>
+            <long-name>Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                AM DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>AMR</short-name>
+            <long-name>Ratio of Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AM
+                M
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>SLOC</short-name>
+            <long-name>Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SLOC DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>total SLOC</short-name>
+            <long-name>Total Lines of Code</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                total SLOC
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>RML</short-name>
+            <long-name>Raw Method Length</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                RML DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EML</short-name>
+            <long-name>Effective Method Length</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                EML DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EMLR</short-name>
+            <long-name>Effective-to-Raw Method Length Ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EML
+                RML
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EML histo</short-name>
+            <long-name>Histogram of Method Lengths</long-name>
+            <class>com.jeantessier.metrics.HistogramMeasurement</class>
+            <init>
+                EML
+            </init>
+        </measurement>
+    </group-measurements>
+    <class-measurements>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods</long-name>
+            <class>com.jeantessier.metrics.NbSubMetricsMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AM</short-name>
+            <long-name>Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>AMR</short-name>
+            <long-name>Ratio of Abstract Methods</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                AM
+                M
+            </init>
+        </measurement>
+        <measurement visible="no">
+            <short-name>class SLOC</short-name>
+            <long-name>Lines of Code for the class definition</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement visible="no">
+            <short-name>methods SLOC</short-name>
+            <long-name>Lines of Code for the class methods</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                SLOC DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>total SLOC</short-name>
+            <long-name>Total Lines of Code for Class</long-name>
+            <class>com.jeantessier.metrics.SumMeasurement</class>
+            <init>
+                class SLOC
+                methods SLOC
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>RML</short-name>
+            <long-name>Raw Method Length</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                RML DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EML</short-name>
+            <long-name>Effective Method Length</long-name>
+            <class>com.jeantessier.metrics.StatisticalMeasurement</class>
+            <init>
+                EML DISPOSE_IGNORE
+                DISPOSE_SUM
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EMLR</short-name>
+            <long-name>Effective-to-Raw Method Length Ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EML
+                RML
+            </init>
+        </measurement>
+        <measurement>
+            <short-name>EML histo</short-name>
+            <long-name>Histogram of Method Lengths</long-name>
+            <class>com.jeantessier.metrics.HistogramMeasurement</class>
+            <init>
+                EML
+            </init>
+        </measurement>
+    </class-measurements>
+    <method-measurements>
+        <measurement>
+            <short-name>SLOC</short-name>
+            <long-name>Single Lines of Code</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+            <upper-threshold>50</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>RML</short-name>
+            <long-name>Raw Method Length</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>EML</short-name>
+            <long-name>Effective Method Length</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>EMLR</short-name>
+            <long-name>Effective-to-Raw Method Length Ratio</long-name>
+            <class>com.jeantessier.metrics.RatioMeasurement</class>
+            <init>
+                EML
+                RML
+            </init>
+        </measurement>
+    </method-measurements>
+</metrics-configuration>

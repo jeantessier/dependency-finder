@@ -68,4 +68,8 @@ public interface MeasurementVisitor {
     default void visitSumMeasurement(SumMeasurement measurement) {
         // Do nothing
     }
+
+    default void visitHistogramMeasurement(HistogramMeasurement measurement) {
+        // Do nothing
+    }
 }
