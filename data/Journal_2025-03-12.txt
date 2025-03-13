@@ -1,0 +1,23 @@
+Added new =OOMetrics= measurements for _raw method length_ (=RML=) and
+_effective method length_ (=EML=).  =RML= is based on
+=max<sub>line numbers</sub> - min<sub>line numbers</sub> + 1=, and =EML= is
+based on =|line numbers|= (the cardinality of line number entries).
+
+I also fixed =SLOC= for methods so it includes the method's definition.  For
+most methods, it works just fine.  But it also adds 1 "line" to static
+initializers.  =SLOC= remains an approximation that is _close enough_.
+
+I made a change to =StatisticalMeasurement=.  When it is empty, it used to
+return =NaN= for its sum.  This caused problems when I tried to aggregate
+methods lengths at the class, group, or project levels.  I think it is
+reasonable to have sum return =0= when the measurement is empty.  I am
+beginning to think it wouldn't be a bad thing to have some kind of
+_indeterminate_ state for measurements that don't have a definitive value, like
+empty stats or some counters that have not been added to.
+
+I started working on a =HistogramMeasurement=.  It aggregates values from
+submetrics.  One challenge is figuring out what its =getValue()= should return.
+For now, I'm having it return the value of the largest bucket in the histogram.
+I am also having it use integer buckets.  It rounds up values to the nearest
+integer.  I will need to modify all the measurement printers so they handle
+histograms properly.
