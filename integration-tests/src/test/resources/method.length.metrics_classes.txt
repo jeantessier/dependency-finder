@@ -1,0 +1,19 @@
+Class metrics
+-------------
+client.Client
+    Methods (M): 2
+    Abstract Methods (AM): 0 (0%)
+    Total Lines of Code for Class (total SLOC): 7
+    Raw Method Length (RML): 5 [2 2.5/2.5 0.5 3 5 (2)]
+    Effective Method Length (EML): 4 (80%) [2 2/2 0 2 4 (2)]
+    Histogram of Method Lengths (EML histo): 2 [2:2]
+
+provider.Provider
+    Methods (M): 4
+    Abstract Methods (AM): 0 (0%)
+    Total Lines of Code for Class (total SLOC): 12
+    Raw Method Length (RML): 8 [1 2/2 0.71 3 8 (4)]
+    Effective Method Length (EML): 7 (88%) [1 2/1.75 0.43 2 7 (4)]
+    Histogram of Method Lengths (EML histo): 2 [1:1, 2:3]
+
+

@@ -1,0 +1,33 @@
+Method metrics
+--------------
+client.Client.Client()
+    Single Lines of Code (SLOC): 3
+    Raw Method Length (RML): 3
+    Effective Method Length (EML): 2 (67%)
+
+client.Client.m1(): void
+    Single Lines of Code (SLOC): 3
+    Raw Method Length (RML): 2
+    Effective Method Length (EML): 2 (100%)
+
+provider.Provider.Provider()
+    Single Lines of Code (SLOC): 3
+    Raw Method Length (RML): 3
+    Effective Method Length (EML): 2 (67%)
+
+provider.Provider.internal(): void
+    Single Lines of Code (SLOC): 2
+    Raw Method Length (RML): 1
+    Effective Method Length (EML): 1 (100%)
+
+provider.Provider.m1(): void
+    Single Lines of Code (SLOC): 3
+    Raw Method Length (RML): 2
+    Effective Method Length (EML): 2 (100%)
+
+provider.Provider.m2(): void
+    Single Lines of Code (SLOC): 3
+    Raw Method Length (RML): 2
+    Effective Method Length (EML): 2 (100%)
+
+

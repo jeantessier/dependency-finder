@@ -1,0 +1,21 @@
+Group metrics
+-------------
+client
+    Methods (M): 2 [2 2/2 0 2 2 (1)]
+    Abstract Methods (AM): 0 (0%) [0 0/0 0 0 0 (1)]
+    Single Lines of Code (SLOC): 6 [3 3/3 0 3 6 (2)]
+    Total Lines of Code (total SLOC): 7 [7 7/7 0 7 7 (1)]
+    Raw Method Length (RML): 5 [2 2.5/2.5 0.5 3 5 (2)]
+    Effective Method Length (EML): 4 (80%) [2 2/2 0 2 4 (2)]
+    Histogram of Method Lengths (EML histo): 2 [2:2]
+
+provider
+    Methods (M): 4 [4 4/4 0 4 4 (1)]
+    Abstract Methods (AM): 0 (0%) [0 0/0 0 0 0 (1)]
+    Single Lines of Code (SLOC): 11 [2 3/2.75 0.43 3 11 (4)]
+    Total Lines of Code (total SLOC): 12 [12 12/12 0 12 12 (1)]
+    Raw Method Length (RML): 8 [1 2/2 0.71 3 8 (4)]
+    Effective Method Length (EML): 7 (88%) [1 2/1.75 0.43 2 7 (4)]
+    Histogram of Method Lengths (EML histo): 2 [1:1, 2:3]
+
+

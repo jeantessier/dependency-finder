@@ -1,0 +1,9 @@
+"name", "Single Lines of Code", "Raw Method Length", "Effective Method Length", "Effective-to-Raw Method Length Ratio"
+, "SLOC", "RML", "EML", "EMLR"
+, , , , 
+"client.Client.Client()", 3.0, 3.0, 2.0, 0.6666666666666666
+"client.Client.m1(): void", 3.0, 2.0, 2.0, 1.0
+"provider.Provider.Provider()", 3.0, 3.0, 2.0, 0.6666666666666666
+"provider.Provider.internal(): void", 2.0, 1.0, 1.0, 1.0
+"provider.Provider.m1(): void", 3.0, 2.0, 2.0, 1.0
+"provider.Provider.m2(): void", 3.0, 2.0, 2.0, 1.0

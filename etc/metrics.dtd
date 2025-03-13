@@ -44,7 +44,7 @@
 
 <!ELEMENT name (#PCDATA) >
 
-<!ELEMENT measurement (short-name, long-name, value, (members? | (minimum, median, average, standard-deviation, maximum, sum, nb-data-points, percentile*))) >
+<!ELEMENT measurement (short-name, long-name, value, (members? | (minimum, median, average, standard-deviation, maximum, sum, nb-data-points, percentile*) | histogram?)) >
 
 <!ELEMENT short-name (#PCDATA) >
 
@@ -73,4 +73,12 @@
 <!ELEMENT percentile (#PCDATA) >
 <!ATTLIST percentile
           p-value CDATA #REQUIRED
+>
+
+<!ELEMENT histogram (interval*) >
+
+<!ELEMENT interval EMPTY >
+<!ATTLIST interval
+        value CDATA #REQUIRED
+        count CDATA #REQUIRED
 >

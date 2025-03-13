@@ -1,0 +1,474 @@
+metrics:
+    -
+        name: Project
+        measurements:
+            -
+                short-name: M
+                long-name: Methods
+                value: 6.0
+                minimum: 2.0
+                median: 3.0
+                average: 3.0
+                standard-deviation: 1.0
+                maximum: 4.0
+                sum: 6.0
+                nb-data-points: 2
+            -
+                short-name: AM
+                long-name: Abstract Methods
+                value: 0.0
+                minimum: 0.0
+                median: 0.0
+                average: 0.0
+                standard-deviation: 0.0
+                maximum: 0.0
+                sum: 0.0
+                nb-data-points: 2
+            -
+                short-name: AMR
+                long-name: Ratio of Abstract Methods
+                value: 0.0
+            -
+                short-name: method SLOC
+                long-name: Lines of Code for methods
+                value: 17.0
+                minimum: 2.0
+                median: 3.0
+                average: 2.8333333333333335
+                standard-deviation: 0.3726779962499649
+                maximum: 3.0
+                sum: 17.0
+                nb-data-points: 6
+            -
+                short-name: total SLOC
+                long-name: Total Lines of Code
+                value: 19.0
+                minimum: 7.0
+                median: 9.5
+                average: 9.5
+                standard-deviation: 2.5
+                maximum: 12.0
+                sum: 19.0
+                nb-data-points: 2
+            -
+                short-name: RML
+                long-name: Raw Method Length
+                value: 13.0
+                minimum: 1.0
+                median: 2.0
+                average: 2.1666666666666665
+                standard-deviation: 0.6871842709362768
+                maximum: 3.0
+                sum: 13.0
+                nb-data-points: 6
+            -
+                short-name: EML
+                long-name: Effective Method Length
+                value: 11.0
+                minimum: 1.0
+                median: 2.0
+                average: 1.8333333333333333
+                standard-deviation: 0.3726779962499649
+                maximum: 2.0
+                sum: 11.0
+                nb-data-points: 6
+            -
+                short-name: EMLR
+                long-name: Effective-to-Raw Method Length Ratio
+                value: 0.8461538461538461
+            -
+                short-name: EML histo
+                long-name: Histogram of Method Lengths
+                value: 2.0
+                histogram:
+                    - [1, 1]
+                    - [2, 5]
+        groups:
+            -
+                name: client
+                measurements:
+                    -
+                        short-name: M
+                        long-name: Methods
+                        value: 2.0
+                        minimum: 2.0
+                        median: 2.0
+                        average: 2.0
+                        standard-deviation: 0.0
+                        maximum: 2.0
+                        sum: 2.0
+                        nb-data-points: 1
+                    -
+                        short-name: AM
+                        long-name: Abstract Methods
+                        value: 0.0
+                        minimum: 0.0
+                        median: 0.0
+                        average: 0.0
+                        standard-deviation: 0.0
+                        maximum: 0.0
+                        sum: 0.0
+                        nb-data-points: 1
+                    -
+                        short-name: AMR
+                        long-name: Ratio of Abstract Methods
+                        value: 0.0
+                    -
+                        short-name: SLOC
+                        long-name: Single Lines of Code
+                        value: 6.0
+                        minimum: 3.0
+                        median: 3.0
+                        average: 3.0
+                        standard-deviation: 0.0
+                        maximum: 3.0
+                        sum: 6.0
+                        nb-data-points: 2
+                    -
+                        short-name: total SLOC
+                        long-name: Total Lines of Code
+                        value: 7.0
+                        minimum: 7.0
+                        median: 7.0
+                        average: 7.0
+                        standard-deviation: 0.0
+                        maximum: 7.0
+                        sum: 7.0
+                        nb-data-points: 1
+                    -
+                        short-name: RML
+                        long-name: Raw Method Length
+                        value: 5.0
+                        minimum: 2.0
+                        median: 2.5
+                        average: 2.5
+                        standard-deviation: 0.5
+                        maximum: 3.0
+                        sum: 5.0
+                        nb-data-points: 2
+                    -
+                        short-name: EML
+                        long-name: Effective Method Length
+                        value: 4.0
+                        minimum: 2.0
+                        median: 2.0
+                        average: 2.0
+                        standard-deviation: 0.0
+                        maximum: 2.0
+                        sum: 4.0
+                        nb-data-points: 2
+                    -
+                        short-name: EMLR
+                        long-name: Effective-to-Raw Method Length Ratio
+                        value: 0.8
+                    -
+                        short-name: EML histo
+                        long-name: Histogram of Method Lengths
+                        value: 2.0
+                        histogram:
+                            - [2, 2]
+                classes:
+                    -
+                        name: client.Client
+                        measurements:
+                            -
+                                short-name: M
+                                long-name: Methods
+                                value: 2.0
+                            -
+                                short-name: AM
+                                long-name: Abstract Methods
+                                value: 0.0
+                            -
+                                short-name: AMR
+                                long-name: Ratio of Abstract Methods
+                                value: 0.0
+                            -
+                                short-name: total SLOC
+                                long-name: Total Lines of Code for Class
+                                value: 7.0
+                            -
+                                short-name: RML
+                                long-name: Raw Method Length
+                                value: 5.0
+                                minimum: 2.0
+                                median: 2.5
+                                average: 2.5
+                                standard-deviation: 0.5
+                                maximum: 3.0
+                                sum: 5.0
+                                nb-data-points: 2
+                            -
+                                short-name: EML
+                                long-name: Effective Method Length
+                                value: 4.0
+                                minimum: 2.0
+                                median: 2.0
+                                average: 2.0
+                                standard-deviation: 0.0
+                                maximum: 2.0
+                                sum: 4.0
+                                nb-data-points: 2
+                            -
+                                short-name: EMLR
+                                long-name: Effective-to-Raw Method Length Ratio
+                                value: 0.8
+                            -
+                                short-name: EML histo
+                                long-name: Histogram of Method Lengths
+                                value: 2.0
+                                histogram:
+                                    - [2, 2]
+                        methods:
+                            -
+                                name: client.Client.Client()
+                                measurements:
+                                    -
+                                        short-name: SLOC
+                                        long-name: Single Lines of Code
+                                        value: 3.0
+                                    -
+                                        short-name: RML
+                                        long-name: Raw Method Length
+                                        value: 3.0
+                                    -
+                                        short-name: EML
+                                        long-name: Effective Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EMLR
+                                        long-name: Effective-to-Raw Method Length Ratio
+                                        value: 0.6666666666666666
+                            -
+                                name: "client.Client.m1(): void"
+                                measurements:
+                                    -
+                                        short-name: SLOC
+                                        long-name: Single Lines of Code
+                                        value: 3.0
+                                    -
+                                        short-name: RML
+                                        long-name: Raw Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EML
+                                        long-name: Effective Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EMLR
+                                        long-name: Effective-to-Raw Method Length Ratio
+                                        value: 1.0
+            -
+                name: provider
+                measurements:
+                    -
+                        short-name: M
+                        long-name: Methods
+                        value: 4.0
+                        minimum: 4.0
+                        median: 4.0
+                        average: 4.0
+                        standard-deviation: 0.0
+                        maximum: 4.0
+                        sum: 4.0
+                        nb-data-points: 1
+                    -
+                        short-name: AM
+                        long-name: Abstract Methods
+                        value: 0.0
+                        minimum: 0.0
+                        median: 0.0
+                        average: 0.0
+                        standard-deviation: 0.0
+                        maximum: 0.0
+                        sum: 0.0
+                        nb-data-points: 1
+                    -
+                        short-name: AMR
+                        long-name: Ratio of Abstract Methods
+                        value: 0.0
+                    -
+                        short-name: SLOC
+                        long-name: Single Lines of Code
+                        value: 11.0
+                        minimum: 2.0
+                        median: 3.0
+                        average: 2.75
+                        standard-deviation: 0.4330127018922193
+                        maximum: 3.0
+                        sum: 11.0
+                        nb-data-points: 4
+                    -
+                        short-name: total SLOC
+                        long-name: Total Lines of Code
+                        value: 12.0
+                        minimum: 12.0
+                        median: 12.0
+                        average: 12.0
+                        standard-deviation: 0.0
+                        maximum: 12.0
+                        sum: 12.0
+                        nb-data-points: 1
+                    -
+                        short-name: RML
+                        long-name: Raw Method Length
+                        value: 8.0
+                        minimum: 1.0
+                        median: 2.0
+                        average: 2.0
+                        standard-deviation: 0.7071067811865476
+                        maximum: 3.0
+                        sum: 8.0
+                        nb-data-points: 4
+                    -
+                        short-name: EML
+                        long-name: Effective Method Length
+                        value: 7.0
+                        minimum: 1.0
+                        median: 2.0
+                        average: 1.75
+                        standard-deviation: 0.4330127018922193
+                        maximum: 2.0
+                        sum: 7.0
+                        nb-data-points: 4
+                    -
+                        short-name: EMLR
+                        long-name: Effective-to-Raw Method Length Ratio
+                        value: 0.875
+                    -
+                        short-name: EML histo
+                        long-name: Histogram of Method Lengths
+                        value: 2.0
+                        histogram:
+                            - [1, 1]
+                            - [2, 3]
+                classes:
+                    -
+                        name: provider.Provider
+                        measurements:
+                            -
+                                short-name: M
+                                long-name: Methods
+                                value: 4.0
+                            -
+                                short-name: AM
+                                long-name: Abstract Methods
+                                value: 0.0
+                            -
+                                short-name: AMR
+                                long-name: Ratio of Abstract Methods
+                                value: 0.0
+                            -
+                                short-name: total SLOC
+                                long-name: Total Lines of Code for Class
+                                value: 12.0
+                            -
+                                short-name: RML
+                                long-name: Raw Method Length
+                                value: 8.0
+                                minimum: 1.0
+                                median: 2.0
+                                average: 2.0
+                                standard-deviation: 0.7071067811865476
+                                maximum: 3.0
+                                sum: 8.0
+                                nb-data-points: 4
+                            -
+                                short-name: EML
+                                long-name: Effective Method Length
+                                value: 7.0
+                                minimum: 1.0
+                                median: 2.0
+                                average: 1.75
+                                standard-deviation: 0.4330127018922193
+                                maximum: 2.0
+                                sum: 7.0
+                                nb-data-points: 4
+                            -
+                                short-name: EMLR
+                                long-name: Effective-to-Raw Method Length Ratio
+                                value: 0.875
+                            -
+                                short-name: EML histo
+                                long-name: Histogram of Method Lengths
+                                value: 2.0
+                                histogram:
+                                    - [1, 1]
+                                    - [2, 3]
+                        methods:
+                            -
+                                name: provider.Provider.Provider()
+                                measurements:
+                                    -
+                                        short-name: SLOC
+                                        long-name: Single Lines of Code
+                                        value: 3.0
+                                    -
+                                        short-name: RML
+                                        long-name: Raw Method Length
+                                        value: 3.0
+                                    -
+                                        short-name: EML
+                                        long-name: Effective Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EMLR
+                                        long-name: Effective-to-Raw Method Length Ratio
+                                        value: 0.6666666666666666
+                            -
+                                name: "provider.Provider.internal(): void"
+                                measurements:
+                                    -
+                                        short-name: SLOC
+                                        long-name: Single Lines of Code
+                                        value: 2.0
+                                    -
+                                        short-name: RML
+                                        long-name: Raw Method Length
+                                        value: 1.0
+                                    -
+                                        short-name: EML
+                                        long-name: Effective Method Length
+                                        value: 1.0
+                                    -
+                                        short-name: EMLR
+                                        long-name: Effective-to-Raw Method Length Ratio
+                                        value: 1.0
+                            -
+                                name: "provider.Provider.m1(): void"
+                                measurements:
+                                    -
+                                        short-name: SLOC
+                                        long-name: Single Lines of Code
+                                        value: 3.0
+                                    -
+                                        short-name: RML
+                                        long-name: Raw Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EML
+                                        long-name: Effective Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EMLR
+                                        long-name: Effective-to-Raw Method Length Ratio
+                                        value: 1.0
+                            -
+                                name: "provider.Provider.m2(): void"
+                                measurements:
+                                    -
+                                        short-name: SLOC
+                                        long-name: Single Lines of Code
+                                        value: 3.0
+                                    -
+                                        short-name: RML
+                                        long-name: Raw Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EML
+                                        long-name: Effective Method Length
+                                        value: 2.0
+                                    -
+                                        short-name: EMLR
+                                        long-name: Effective-to-Raw Method Length Ratio
+                                        value: 1.0

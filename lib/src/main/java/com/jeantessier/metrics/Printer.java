@@ -208,6 +208,10 @@ public abstract class Printer implements MeasurementVisitor {
         visitMeasurement(measurement);
     }
 
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+        visitMeasurement(measurement);
+    }
+
     protected abstract void visitMeasurement(Measurement measurement);
 
     protected boolean hasVisibleMetrics(Collection<Metrics> metrics) {

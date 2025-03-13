@@ -1,0 +1,5 @@
+"name", "Methods", "Abstract Methods", "Ratio of Abstract Methods", "Total Lines of Code for Class", "Raw Method Length", "Raw Method Length", "Raw Method Length", "Raw Method Length", "Raw Method Length", "Raw Method Length", "Raw Method Length", "Effective Method Length", "Effective Method Length", "Effective Method Length", "Effective Method Length", "Effective Method Length", "Effective Method Length", "Effective Method Length", "Effective-to-Raw Method Length Ratio", "Histogram of Method Lengths"
+, "M", "AM", "AMR", "total SLOC", "RML", "RML", "RML", "RML", "RML", "RML", "RML", "EML", "EML", "EML", "EML", "EML", "EML", "EML", "EMLR", "EML histo"
+, , , , , "minimum", "median", "average", "std dev", "maximum", "sum", "nb", "minimum", "median", "average", "std dev", "maximum", "sum", "nb", , 
+"client.Client", 2.0, 0.0, 0.0, 7.0, 2.0, 2.5, 2.5, 0.5, 3.0, 5.0, 2, 2.0, 2.0, 2.0, 0.0, 2.0, 4.0, 2, 0.8, 2.0
+"provider.Provider", 4.0, 0.0, 0.0, 12.0, 1.0, 2.0, 2.0, 0.7071067811865476, 3.0, 8.0, 4, 1.0, 2.0, 1.75, 0.4330127018922193, 2.0, 7.0, 4, 0.875, 2.0

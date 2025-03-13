@@ -33,6 +33,7 @@
 package com.jeantessier.metrics;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
@@ -162,7 +163,26 @@ public class XMLPrinter extends Printer {
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         visitCollectionMeasurement(measurement);
     }
-    
+
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+        indent().append("<measurement>").eol();
+        raiseIndent();
+        indent().append("<short-name>").append(measurement.getShortName()).append("</short-name>").eol();
+        indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
+        indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
+
+        indent().append("<histogram>").eol();
+        raiseIndent();
+        measurement.getHistogram().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> indent().append("<interval value=\"").append(entry.getKey()).append("\" count=\"").append(entry.getValue()).append("\"/>").eol());
+        lowerIndent();
+        indent().append("</histogram>").eol();
+
+        lowerIndent();
+        indent().append("</measurement>").eol();
+    }
+
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         indent().append("<measurement>").eol();
         raiseIndent();

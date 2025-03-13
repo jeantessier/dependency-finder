@@ -12,7 +12,6 @@ public class TestPrinterVisibilityBase {
     private static final Path CLASSES_DIR = Paths.get("metrics/build/classes/java/main");
     private static final String CLIENT_CLASSPATH = CLASSES_DIR.resolve("client").toString();
     private static final String PROVIDER_CLASSPATH = CLASSES_DIR.resolve("provider").toString();
-    private static final String CONFIGURATION_FILENAME = Paths.get("../etc/MartinConfig.xml").toString();
 
     protected MetricsConfiguration configuration;
     protected Collection<Metrics> projectMetrics;
@@ -20,9 +19,9 @@ public class TestPrinterVisibilityBase {
     protected Collection<Metrics> classMetrics;
     protected Collection<Metrics> methodMetrics;
 
-    @BeforeEach
-    public void loadTestData() throws Exception {
-        configuration = new MetricsConfigurationLoader().load(CONFIGURATION_FILENAME);
+    public void loadTestData(String configurationName) throws Exception {
+        var configurationFilename = Paths.get("../etc/" + configurationName + ".xml").toString();
+        configuration = new MetricsConfigurationLoader().load(configurationFilename);
 
         MetricsFactory factory = new MetricsFactory("Project", configuration);
 

@@ -281,7 +281,36 @@ public class JSONPrinter extends Printer {
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         visitCollectionMeasurement(measurement);
     }
-    
+
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+        append("{").eol();
+        raiseIndent();
+
+        indent().append("\"short-name\": \"").append(measurement.getShortName()).append("\",").eol();
+        indent().append("\"long-name\": \"").append(measurement.getLongName()).append("\",").eol();
+        indent().append("\"value\": ").append(formatValue(measurement.getValue())).append(",").eol();
+
+        indent().append("\"histogram\": [").eol();
+        raiseIndent();
+
+        var i = measurement.getHistogram().entrySet().iterator();
+        while (i.hasNext()) {
+            var entry = i.next();
+            indent();
+            append("[").append(entry.getKey()).append(", ").append(entry.getValue()).append("]");
+            if (i.hasNext()) {
+                append(",");
+            }
+            eol();
+        }
+
+        lowerIndent();
+        indent().append("]").eol();
+
+        lowerIndent();
+        indent().append("}");
+    }
+
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         append("{").eol();
         raiseIndent();

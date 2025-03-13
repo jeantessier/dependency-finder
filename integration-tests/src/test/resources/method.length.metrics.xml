@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE metrics SYSTEM "https://jeantessier.github.io/dependency-finder/dtd/metrics.dtd">
+
+<metrics>
+    <project>
+        <name>Project</name>
+        <measurement>
+            <short-name>M</short-name>
+            <long-name>Methods</long-name>
+            <value>6.0</value>
+            <minimum>2.0</minimum>
+            <median>3.0</median>
+            <average>3.0</average>
+            <standard-deviation>1.0</standard-deviation>
+            <maximum>4.0</maximum>
+            <sum>6.0</sum>
+            <nb-data-points>2</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>AM</short-name>
+            <long-name>Abstract Methods</long-name>
+            <value>0.0</value>
+            <minimum>0.0</minimum>
+            <median>0.0</median>
+            <average>0.0</average>
+            <standard-deviation>0.0</standard-deviation>
+            <maximum>0.0</maximum>
+            <sum>0.0</sum>
+            <nb-data-points>2</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>AMR</short-name>
+            <long-name>Ratio of Abstract Methods</long-name>
+            <value>0.0</value>
+        </measurement>
+        <measurement>
+            <short-name>method SLOC</short-name>
+            <long-name>Lines of Code for methods</long-name>
+            <value>17.0</value>
+            <minimum>2.0</minimum>
+            <median>3.0</median>
+            <average>2.8333333333333335</average>
+            <standard-deviation>0.3726779962499649</standard-deviation>
+            <maximum>3.0</maximum>
+            <sum>17.0</sum>
+            <nb-data-points>6</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>total SLOC</short-name>
+            <long-name>Total Lines of Code</long-name>
+            <value>19.0</value>
+            <minimum>7.0</minimum>
+            <median>9.5</median>
+            <average>9.5</average>
+            <standard-deviation>2.5</standard-deviation>
+            <maximum>12.0</maximum>
+            <sum>19.0</sum>
+            <nb-data-points>2</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>RML</short-name>
+            <long-name>Raw Method Length</long-name>
+            <value>13.0</value>
+            <minimum>1.0</minimum>
+            <median>2.0</median>
+            <average>2.1666666666666665</average>
+            <standard-deviation>0.6871842709362768</standard-deviation>
+            <maximum>3.0</maximum>
+            <sum>13.0</sum>
+            <nb-data-points>6</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>EML</short-name>
+            <long-name>Effective Method Length</long-name>
+            <value>11.0</value>
+            <minimum>1.0</minimum>
+            <median>2.0</median>
+            <average>1.8333333333333333</average>
+            <standard-deviation>0.3726779962499649</standard-deviation>
+            <maximum>2.0</maximum>
+            <sum>11.0</sum>
+            <nb-data-points>6</nb-data-points>
+        </measurement>
+        <measurement>
+            <short-name>EMLR</short-name>
+            <long-name>Effective-to-Raw Method Length Ratio</long-name>
+            <value>0.8461538461538461</value>
+        </measurement>
+        <measurement>
+            <short-name>EML histo</short-name>
+            <long-name>Histogram of Method Lengths</long-name>
+            <value>2.0</value>
+            <histogram>
+                <interval value="1" count="1"/>
+                <interval value="2" count="5"/>
+            </histogram>
+        </measurement>
+        <group>
+            <name>client</name>
+            <measurement>
+                <short-name>M</short-name>
+                <long-name>Methods</long-name>
+                <value>2.0</value>
+                <minimum>2.0</minimum>
+                <median>2.0</median>
+                <average>2.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>2.0</maximum>
+                <sum>2.0</sum>
+                <nb-data-points>1</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>AM</short-name>
+                <long-name>Abstract Methods</long-name>
+                <value>0.0</value>
+                <minimum>0.0</minimum>
+                <median>0.0</median>
+                <average>0.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>0.0</maximum>
+                <sum>0.0</sum>
+                <nb-data-points>1</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>AMR</short-name>
+                <long-name>Ratio of Abstract Methods</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>SLOC</short-name>
+                <long-name>Single Lines of Code</long-name>
+                <value>6.0</value>
+                <minimum>3.0</minimum>
+                <median>3.0</median>
+                <average>3.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>3.0</maximum>
+                <sum>6.0</sum>
+                <nb-data-points>2</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>total SLOC</short-name>
+                <long-name>Total Lines of Code</long-name>
+                <value>7.0</value>
+                <minimum>7.0</minimum>
+                <median>7.0</median>
+                <average>7.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>7.0</maximum>
+                <sum>7.0</sum>
+                <nb-data-points>1</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>RML</short-name>
+                <long-name>Raw Method Length</long-name>
+                <value>5.0</value>
+                <minimum>2.0</minimum>
+                <median>2.5</median>
+                <average>2.5</average>
+                <standard-deviation>0.5</standard-deviation>
+                <maximum>3.0</maximum>
+                <sum>5.0</sum>
+                <nb-data-points>2</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>EML</short-name>
+                <long-name>Effective Method Length</long-name>
+                <value>4.0</value>
+                <minimum>2.0</minimum>
+                <median>2.0</median>
+                <average>2.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>2.0</maximum>
+                <sum>4.0</sum>
+                <nb-data-points>2</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>EMLR</short-name>
+                <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                <value>0.8</value>
+            </measurement>
+            <measurement>
+                <short-name>EML histo</short-name>
+                <long-name>Histogram of Method Lengths</long-name>
+                <value>2.0</value>
+                <histogram>
+                    <interval value="2" count="2"/>
+                </histogram>
+            </measurement>
+            <class>
+                <name>client.Client</name>
+                <measurement>
+                    <short-name>M</short-name>
+                    <long-name>Methods</long-name>
+                    <value>2.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>AM</short-name>
+                    <long-name>Abstract Methods</long-name>
+                    <value>0.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>AMR</short-name>
+                    <long-name>Ratio of Abstract Methods</long-name>
+                    <value>0.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>total SLOC</short-name>
+                    <long-name>Total Lines of Code for Class</long-name>
+                    <value>7.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>RML</short-name>
+                    <long-name>Raw Method Length</long-name>
+                    <value>5.0</value>
+                    <minimum>2.0</minimum>
+                    <median>2.5</median>
+                    <average>2.5</average>
+                    <standard-deviation>0.5</standard-deviation>
+                    <maximum>3.0</maximum>
+                    <sum>5.0</sum>
+                    <nb-data-points>2</nb-data-points>
+                </measurement>
+                <measurement>
+                    <short-name>EML</short-name>
+                    <long-name>Effective Method Length</long-name>
+                    <value>4.0</value>
+                    <minimum>2.0</minimum>
+                    <median>2.0</median>
+                    <average>2.0</average>
+                    <standard-deviation>0.0</standard-deviation>
+                    <maximum>2.0</maximum>
+                    <sum>4.0</sum>
+                    <nb-data-points>2</nb-data-points>
+                </measurement>
+                <measurement>
+                    <short-name>EMLR</short-name>
+                    <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                    <value>0.8</value>
+                </measurement>
+                <measurement>
+                    <short-name>EML histo</short-name>
+                    <long-name>Histogram of Method Lengths</long-name>
+                    <value>2.0</value>
+                    <histogram>
+                        <interval value="2" count="2"/>
+                    </histogram>
+                </measurement>
+                <method>
+                    <name>client.Client.Client()</name>
+                    <measurement>
+                        <short-name>SLOC</short-name>
+                        <long-name>Single Lines of Code</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>RML</short-name>
+                        <long-name>Raw Method Length</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EML</short-name>
+                        <long-name>Effective Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EMLR</short-name>
+                        <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                        <value>0.6666666666666666</value>
+                    </measurement>
+                </method>
+                <method>
+                    <name>client.Client.m1(): void</name>
+                    <measurement>
+                        <short-name>SLOC</short-name>
+                        <long-name>Single Lines of Code</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>RML</short-name>
+                        <long-name>Raw Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EML</short-name>
+                        <long-name>Effective Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EMLR</short-name>
+                        <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                        <value>1.0</value>
+                    </measurement>
+                </method>
+            </class>
+        </group>
+        <group>
+            <name>provider</name>
+            <measurement>
+                <short-name>M</short-name>
+                <long-name>Methods</long-name>
+                <value>4.0</value>
+                <minimum>4.0</minimum>
+                <median>4.0</median>
+                <average>4.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>4.0</maximum>
+                <sum>4.0</sum>
+                <nb-data-points>1</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>AM</short-name>
+                <long-name>Abstract Methods</long-name>
+                <value>0.0</value>
+                <minimum>0.0</minimum>
+                <median>0.0</median>
+                <average>0.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>0.0</maximum>
+                <sum>0.0</sum>
+                <nb-data-points>1</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>AMR</short-name>
+                <long-name>Ratio of Abstract Methods</long-name>
+                <value>0.0</value>
+            </measurement>
+            <measurement>
+                <short-name>SLOC</short-name>
+                <long-name>Single Lines of Code</long-name>
+                <value>11.0</value>
+                <minimum>2.0</minimum>
+                <median>3.0</median>
+                <average>2.75</average>
+                <standard-deviation>0.4330127018922193</standard-deviation>
+                <maximum>3.0</maximum>
+                <sum>11.0</sum>
+                <nb-data-points>4</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>total SLOC</short-name>
+                <long-name>Total Lines of Code</long-name>
+                <value>12.0</value>
+                <minimum>12.0</minimum>
+                <median>12.0</median>
+                <average>12.0</average>
+                <standard-deviation>0.0</standard-deviation>
+                <maximum>12.0</maximum>
+                <sum>12.0</sum>
+                <nb-data-points>1</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>RML</short-name>
+                <long-name>Raw Method Length</long-name>
+                <value>8.0</value>
+                <minimum>1.0</minimum>
+                <median>2.0</median>
+                <average>2.0</average>
+                <standard-deviation>0.7071067811865476</standard-deviation>
+                <maximum>3.0</maximum>
+                <sum>8.0</sum>
+                <nb-data-points>4</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>EML</short-name>
+                <long-name>Effective Method Length</long-name>
+                <value>7.0</value>
+                <minimum>1.0</minimum>
+                <median>2.0</median>
+                <average>1.75</average>
+                <standard-deviation>0.4330127018922193</standard-deviation>
+                <maximum>2.0</maximum>
+                <sum>7.0</sum>
+                <nb-data-points>4</nb-data-points>
+            </measurement>
+            <measurement>
+                <short-name>EMLR</short-name>
+                <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                <value>0.875</value>
+            </measurement>
+            <measurement>
+                <short-name>EML histo</short-name>
+                <long-name>Histogram of Method Lengths</long-name>
+                <value>2.0</value>
+                <histogram>
+                    <interval value="1" count="1"/>
+                    <interval value="2" count="3"/>
+                </histogram>
+            </measurement>
+            <class>
+                <name>provider.Provider</name>
+                <measurement>
+                    <short-name>M</short-name>
+                    <long-name>Methods</long-name>
+                    <value>4.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>AM</short-name>
+                    <long-name>Abstract Methods</long-name>
+                    <value>0.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>AMR</short-name>
+                    <long-name>Ratio of Abstract Methods</long-name>
+                    <value>0.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>total SLOC</short-name>
+                    <long-name>Total Lines of Code for Class</long-name>
+                    <value>12.0</value>
+                </measurement>
+                <measurement>
+                    <short-name>RML</short-name>
+                    <long-name>Raw Method Length</long-name>
+                    <value>8.0</value>
+                    <minimum>1.0</minimum>
+                    <median>2.0</median>
+                    <average>2.0</average>
+                    <standard-deviation>0.7071067811865476</standard-deviation>
+                    <maximum>3.0</maximum>
+                    <sum>8.0</sum>
+                    <nb-data-points>4</nb-data-points>
+                </measurement>
+                <measurement>
+                    <short-name>EML</short-name>
+                    <long-name>Effective Method Length</long-name>
+                    <value>7.0</value>
+                    <minimum>1.0</minimum>
+                    <median>2.0</median>
+                    <average>1.75</average>
+                    <standard-deviation>0.4330127018922193</standard-deviation>
+                    <maximum>2.0</maximum>
+                    <sum>7.0</sum>
+                    <nb-data-points>4</nb-data-points>
+                </measurement>
+                <measurement>
+                    <short-name>EMLR</short-name>
+                    <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                    <value>0.875</value>
+                </measurement>
+                <measurement>
+                    <short-name>EML histo</short-name>
+                    <long-name>Histogram of Method Lengths</long-name>
+                    <value>2.0</value>
+                    <histogram>
+                        <interval value="1" count="1"/>
+                        <interval value="2" count="3"/>
+                    </histogram>
+                </measurement>
+                <method>
+                    <name>provider.Provider.Provider()</name>
+                    <measurement>
+                        <short-name>SLOC</short-name>
+                        <long-name>Single Lines of Code</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>RML</short-name>
+                        <long-name>Raw Method Length</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EML</short-name>
+                        <long-name>Effective Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EMLR</short-name>
+                        <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                        <value>0.6666666666666666</value>
+                    </measurement>
+                </method>
+                <method>
+                    <name>provider.Provider.internal(): void</name>
+                    <measurement>
+                        <short-name>SLOC</short-name>
+                        <long-name>Single Lines of Code</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>RML</short-name>
+                        <long-name>Raw Method Length</long-name>
+                        <value>1.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EML</short-name>
+                        <long-name>Effective Method Length</long-name>
+                        <value>1.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EMLR</short-name>
+                        <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                        <value>1.0</value>
+                    </measurement>
+                </method>
+                <method>
+                    <name>provider.Provider.m1(): void</name>
+                    <measurement>
+                        <short-name>SLOC</short-name>
+                        <long-name>Single Lines of Code</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>RML</short-name>
+                        <long-name>Raw Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EML</short-name>
+                        <long-name>Effective Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EMLR</short-name>
+                        <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                        <value>1.0</value>
+                    </measurement>
+                </method>
+                <method>
+                    <name>provider.Provider.m2(): void</name>
+                    <measurement>
+                        <short-name>SLOC</short-name>
+                        <long-name>Single Lines of Code</long-name>
+                        <value>3.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>RML</short-name>
+                        <long-name>Raw Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EML</short-name>
+                        <long-name>Effective Method Length</long-name>
+                        <value>2.0</value>
+                    </measurement>
+                    <measurement>
+                        <short-name>EMLR</short-name>
+                        <long-name>Effective-to-Raw Method Length Ratio</long-name>
+                        <value>1.0</value>
+                    </measurement>
+                </method>
+            </class>
+        </group>
+    </project>
+</metrics>

@@ -34,6 +34,7 @@ package com.jeantessier.metrics;
 
 import java.io.*;
 import java.util.Collection;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class YAMLPrinter extends Printer {
@@ -164,7 +165,24 @@ public class YAMLPrinter extends Printer {
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
         visitCollectionMeasurement(measurement);
     }
-    
+
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+        indent().append("-").eol();
+        raiseIndent();
+        indent().append("short-name: ").append(measurement.getShortName()).eol();
+        indent().append("long-name: ").append(measurement.getLongName()).eol();
+        indent().append("value: ").append(formatValue(measurement.getValue())).eol();
+
+        indent().append("histogram:").eol();
+        raiseIndent();
+        measurement.getHistogram().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> indent().append("- ").append("[").append(entry.getKey()).append(", ").append(entry.getValue()).append("]").eol());
+        lowerIndent();
+
+        lowerIndent();
+    }
+
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         indent().append("-").eol();
         raiseIndent();

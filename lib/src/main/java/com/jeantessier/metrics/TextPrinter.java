@@ -114,7 +114,21 @@ public class TextPrinter extends Printer {
 
         visitCollectionMeasurement(measurement);
     }
-    
+
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
+
+        append(" [");
+
+        append(measurement.getHistogram().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> entry.getKey() + ":" + entry.getValue())
+                .collect(joining(", "))
+        );
+
+        append("]").eol();
+    }
+
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
         if (isExpandCollectionMeasurements()) {
             raiseIndent();
