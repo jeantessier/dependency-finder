@@ -405,7 +405,7 @@ public class TestJSONPrinter {
                 "                \"average\": null,",
                 "                \"standard-deviation\": null,",
                 "                \"maximum\": null,",
-                "                \"sum\": null,",
+                "                \"sum\": 0.0,",
                 "                \"nb-data-points\": 0",
                 "            }",
                 "        ],",
@@ -475,7 +475,7 @@ public class TestJSONPrinter {
                         "                \"average\": null,",
                         "                \"standard-deviation\": null,",
                         "                \"maximum\": null,",
-                        "                \"sum\": null,",
+                        "                \"sum\": 0.0,",
                         "                \"nb-data-points\": 0,",
                         "                \"percentiles\": {"
                 ),

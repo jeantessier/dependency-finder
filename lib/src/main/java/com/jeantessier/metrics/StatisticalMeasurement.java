@@ -333,7 +333,7 @@ public class StatisticalMeasurement extends MeasurementBase {
                     nbDataPoints = data.size();
                     sum = data.stream()
                             .reduce(Double::sum)
-                            .orElse(Double.NaN);
+                            .orElse(0.0);
                     average = sum / nbDataPoints;
 
                     if (data.isEmpty()) {

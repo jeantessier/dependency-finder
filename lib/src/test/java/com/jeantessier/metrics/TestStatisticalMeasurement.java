@@ -64,7 +64,7 @@ public class TestStatisticalMeasurement {
         assertTrue(Double.isNaN(measurement.getAverage()), "average");
         assertTrue(Double.isNaN(measurement.getStandardDeviation()), "standard deviation");
         assertTrue(Double.isNaN(measurement.getMaximum()), "maximum");
-        assertTrue(Double.isNaN(measurement.getSum()), "sum");
+        assertEquals(0.0, measurement.getSum(), 0.01, "sum");
     }
 
     @Test

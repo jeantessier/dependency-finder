@@ -345,7 +345,8 @@ public class TestCSVPrinter {
                 Stream
                         .of(
                                 Stream.of(metricsName).map(this::formatName),
-                                Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
+                                Collections.nCopies(numStandardSubnames - 2, Float.NaN).stream().map(this::formatValue),
+                                DoubleStream.of(0).mapToObj(String::valueOf),
                                 IntStream.of(0).mapToObj(String::valueOf))
                         .flatMap(Function.identity())
                         .collect(joining(", "));
@@ -401,7 +402,8 @@ public class TestCSVPrinter {
                 Stream
                         .of(
                                 Stream.of(metricsName).map(this::formatName),
-                                Collections.nCopies(numStandardSubnames - 1, Float.NaN).stream().map(this::formatValue),
+                                Collections.nCopies(numStandardSubnames - 2, Float.NaN).stream().map(this::formatValue),
+                                DoubleStream.of(0).mapToObj(String::valueOf),
                                 IntStream.of(0).mapToObj(String::valueOf),
                                 Collections.nCopies(numPercentiles, Float.NaN).stream().map(this::formatValue))
                         .flatMap(Function.identity())

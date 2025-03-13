@@ -86,7 +86,7 @@ public class TestMetricsGatherer {
     public void test_test_test() {
         Metrics metrics = factory.createMethodMetrics("test.test()");
 
-        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 1);
+        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 2);
         assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 0);
         assertMeasurementEquals(metrics, BasicMeasurements.LOCAL_VARIABLES, 1);
 
@@ -104,7 +104,7 @@ public class TestMetricsGatherer {
     public void test_test_main() {
         Metrics metrics = factory.createMethodMetrics("test.main(java.lang.String[]): void");
 
-        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 5);
+        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 6);
         assertMeasurementEquals(metrics, BasicMeasurements.PARAMETERS, 1);
         assertMeasurementEquals(metrics, BasicMeasurements.LOCAL_VARIABLES, 3);
 
@@ -125,7 +125,8 @@ public class TestMetricsGatherer {
         assertMeasurementEquals(metrics, BasicMeasurements.MAJOR_VERSION, classfile.getMajorVersion());
         assertMeasurementEquals(metrics, BasicMeasurements.MINOR_VERSION, classfile.getMinorVersion());
 
-        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 7);
+        assertMeasurementEquals(metrics, BasicMeasurements.CLASS_SLOC, 1);
+        assertMeasurementEquals(metrics, BasicMeasurements.SLOC, 9);
 
         assertMeasurementEquals(metrics, BasicMeasurements.METHODS, 2);
         assertMeasurementEquals(metrics, BasicMeasurements.PUBLIC_METHODS, 2);
@@ -194,12 +195,12 @@ public class TestMetricsGatherer {
 
     @Test
     public void test_() {
-        assertMeasurementEquals(factory.createGroupMetrics(""), BasicMeasurements.SLOC, 7);
+        assertMeasurementEquals(factory.createGroupMetrics(""), BasicMeasurements.SLOC, 9);
     }
 
     @Test
     public void testProject() {
-        assertMeasurementEquals(factory.createProjectMetrics("test"), BasicMeasurements.SLOC, 7);
+        assertMeasurementEquals(factory.createProjectMetrics("test"), BasicMeasurements.SLOC, 9);
     }
 
     private void assertCollectionEquals(String message, Collection<String> names, String ... values) {

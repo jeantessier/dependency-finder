@@ -1341,7 +1341,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1387,7 +1387,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1433,7 +1433,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1479,7 +1479,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1526,7 +1526,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1620,7 +1620,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1768,7 +1768,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1815,7 +1815,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1862,7 +1862,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1909,7 +1909,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -1956,7 +1956,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -2003,7 +2003,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
                 will(returnValue("()V"));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 0);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);
@@ -2051,7 +2051,7 @@ public class TestMetricsGathererAccumulators extends MockObjectTestCase {
             ignoring (mockMetrics).addToMeasurement(with(equal(BasicMeasurements.OUTBOUND_EXTRA_PACKAGE_CLASS_DEPENDENCIES)), with(any(String.class)));
             oneOf (mockMetrics).addToMeasurement(BasicMeasurements.PARAMETERS, 2);
             ignoring (mockMethod).getAttributes();
-            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 0);
+            oneOf (mockMetrics).addToMeasurement(BasicMeasurements.SLOC, 1);
         }});
 
         MetricsGatherer sut = new MetricsGatherer(mockFactory);

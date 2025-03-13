@@ -150,7 +150,7 @@
             <long-name>Single Lines of Code</long-name>
             <class>com.jeantessier.metrics.StatisticalMeasurement</class>
             <init>
-                SLOC DISPOSE_SUM
+                SLOC DISPOSE_IGNORE
                 DISPOSE_SUM
             </init>
         </measurement>
@@ -360,7 +360,7 @@
             <long-name>Single Lines of Code</long-name>
             <class>com.jeantessier.metrics.StatisticalMeasurement</class>
             <init>
-                SLOC DISPOSE_SUM
+                SLOC DISPOSE_IGNORE
                 DISPOSE_SUM
             </init>
         </measurement>
@@ -1054,6 +1054,16 @@
             <long-name>Single Lines of Code</long-name>
             <class>com.jeantessier.metrics.CounterMeasurement</class>
             <upper-threshold>50</upper-threshold>
+        </measurement>
+        <measurement>
+            <short-name>RML</short-name>
+            <long-name>Raw Method Length</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
+        </measurement>
+        <measurement>
+            <short-name>EML</short-name>
+            <long-name>Effective Method Length</long-name>
+            <class>com.jeantessier.metrics.CounterMeasurement</class>
         </measurement>
         <measurement>
             <short-name>PARAM</short-name>

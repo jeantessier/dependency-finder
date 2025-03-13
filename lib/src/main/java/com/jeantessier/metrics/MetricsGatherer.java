@@ -371,7 +371,7 @@ public class MetricsGatherer extends VisitorBase {
         LogManager.getLogger(getClass()).debug("    strict: {}", entry::isStrict);
         LogManager.getLogger(getClass()).debug("    synthetic: {}", entry::isSynthetic);
 
-        sloc = 0;
+        sloc = 1;
 
         getCurrentClass().addToMeasurement(BasicMeasurements.METHODS, getCurrentMethod().getName());
 
@@ -391,7 +391,6 @@ public class MetricsGatherer extends VisitorBase {
 
         if (entry.isAbstract()) {
             getCurrentClass().addToMeasurement(BasicMeasurements.ABSTRACT_METHODS, getCurrentMethod().getName());
-            sloc = 1;
         }
 
         if (entry.isDeprecated()) {
@@ -570,8 +569,20 @@ public class MetricsGatherer extends VisitorBase {
         return result;
     }
 
+    public void visitLineNumberTable_attribute(LineNumberTable_attribute attribute) {
+        super.visitLineNumberTable_attribute(attribute);
+
+        if (!attribute.getLineNumbers().isEmpty()) {
+            var minLineNumber = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).min(Integer::compareTo).orElse(0);
+            var maxLineNumber = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).max(Integer::compareTo).orElse(0);
+
+            getCurrentMethod().addToMeasurement(BasicMeasurements.RAW_METHOD_LENGTH, maxLineNumber - minLineNumber + 1);
+        }
+    }
+
     public void visitLineNumber(LineNumber helper) {
         sloc++;
+        getCurrentMethod().addToMeasurement(BasicMeasurements.EFFECTIVE_METHOD_LENGTH, 1);
     }
 
     public void visitLocalVariable(LocalVariable helper) {

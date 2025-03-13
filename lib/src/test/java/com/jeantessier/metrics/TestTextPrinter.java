@@ -142,7 +142,7 @@ public class TestTextPrinter {
         // and
         var expectedLines = Stream.of(
                 metricsName,
-                "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN NaN (0)]",
+                "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN 0 (0)]",
                 ""
         );
 
@@ -195,7 +195,7 @@ public class TestTextPrinter {
         // and
         var expectedLines = Stream.of(
                 metricsName,
-                "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN NaN (0)] " + expectedPercentiles,
+                "    " + longName + " (" + shortName + "): NaN [NaN NaN/NaN NaN NaN 0 (0)] " + expectedPercentiles,
                 ""
         );
 

@@ -3584,13 +3584,23 @@ The following are simple numerical measurements taken against the method.
     <dt>Parameters (PARAM)</dt>
     <dd>Number of parameters for the method.  Very long signatures are often
     seen as a sign of poor design.</dd>
+    <dt>Raw Method Length (RML)</dt>
+    <dd>Number of lines in the method's body, including empty lines and
+    comments.</dd>
+    <dt>Effective Method Length (EML)</dt>
+    <dd>Number of lines in the method's body, not counting empty lines and
+    comments.</dd>
     <dt>Single Line of Code (SLOC)</dt>
-    <dd>Number of code lines in the method.  Comments and empty lines are not
-    counted.  Large methods are usually a sign of poor design.</dd>
+    <dd>Number of code lines for the method.  It includes the method's
+    declaration, but comments and empty lines are not counted.  Large methods
+    are often a sign of poor design.</dd>
     <dt>Local Variables (LVAR)</dt>
     <dd>Number of local variables use by the method.</dd>
 </dl>
 </blockquote>
+
+The =RML=, +EML=, and =SLOC= measurements require debug information from the
+compiler, usually by using the =-g= compilation switch.
 
 The following measurements list classes, methods, and fields that have a
 dependency to or from this method.
@@ -3635,8 +3645,8 @@ The following are simple numerical measurements taken against the class.
     <dd>The major version number of the =.class= file, set by the compiler, and
     tells which version of the virtual machine can execute it.</dd>
     <dt>Single Line of Code (SLOC)</dt>
-    <dd>Number of code lines in the class.  Comments and empty lines are not
-    counted.  Large classes are usually a sign of poor design.</dd>
+    <dd>Number of code lines for the class.  Comments and empty lines are not
+    counted.  Large classes are often a sign of poor design.</dd>
     <dt>Subclasses (SUB)</dt>
     <dd>Number of direct subclasses of this class.</dd>
     <dt>Depth of Inheritance (DOI)</dt>

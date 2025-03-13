@@ -100,6 +100,8 @@ public enum BasicMeasurements {
     CLASS_SLOC("class SLOC"),
 
     SLOC("SLOC"),
+    RAW_METHOD_LENGTH("RML"),
+    EFFECTIVE_METHOD_LENGTH("EML"),
     PARAMETERS("PARAM"),
     LOCAL_VARIABLES("LVAR"),
 

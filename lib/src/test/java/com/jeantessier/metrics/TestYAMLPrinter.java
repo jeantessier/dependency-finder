@@ -383,7 +383,7 @@ public class TestYAMLPrinter {
                 "                average: .NaN",
                 "                standard-deviation: .NaN",
                 "                maximum: .NaN",
-                "                sum: .NaN",
+                "                sum: 0.0",
                 "                nb-data-points: 0",
                 "        groups:"
         );
@@ -447,7 +447,7 @@ public class TestYAMLPrinter {
                         "                average: .NaN",
                         "                standard-deviation: .NaN",
                         "                maximum: .NaN",
-                        "                sum: .NaN",
+                        "                sum: 0.0",
                         "                nb-data-points: 0",
                         "                percentiles:"
                 ),
