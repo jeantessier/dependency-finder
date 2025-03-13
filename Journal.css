@@ -8,6 +8,7 @@ code {
     padding: .2em .4em;
     margin: 0;
     text-shadow: none;
+    text-wrap: nowrap;
 }
 
 dl {
