@@ -65,6 +65,8 @@ a {
     display: grid;
     grid-template-columns: max-content minmax(1rem, max-content) max-content;
     margin: 0 0 0 2rem;
+    height: 200px;
+    width: 400px;
 }
 
 .histogram span {

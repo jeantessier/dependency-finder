@@ -45,6 +45,7 @@
         </head>
 
         <body>
+            <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js" />
             <xsl:apply-templates/>
         </body>
 
@@ -92,11 +93,44 @@
     </xsl:template>
 
     <xsl:template match="histogram">
-        <div class="histogram"><xsl:apply-templates/></div>
+        <div id="{../../name} -- {../short-name} -- histogram" class="histogram">
+            <script type="text/javascript">
+                echarts
+                .init(document.getElementById('<xsl:value-of select="../../name"/> -- <xsl:value-of select="../short-name"/> -- histogram'))
+                    .setOption({
+                        xAxis: {
+                            type: 'log',
+                            min: 1,
+                            max: 'dataMax',
+                            name: '<xsl:value-of select="../short-name"/>',
+                            nameLocation: 'middle',
+                            nameGap: 25,
+                        },
+                        yAxis: {
+                            type: 'log',
+                            min: 1,
+                            max: 'dataMax',
+                            name: 'n',
+                            nameLocation: 'end',
+                            nameGap: 25,
+                        },
+                        series: [
+                            {
+                                name: '<xsl:value-of select="../short-name"/>',
+                                type: 'scatter',
+                                itemStyle: {
+                                    color: '#39f',
+                                },
+                                data: [<xsl:apply-templates/>],
+                            },
+                        ],
+                    })
+            </script>
+        </div>
     </xsl:template>
 
     <xsl:template match="interval">
-        <span class="value"><xsl:value-of select="@value"/></span><span>:</span><span class="count"><xsl:value-of select="@count"/></span>
+        <xsl:text>[</xsl:text><xsl:value-of select="@value"/><xsl:text>, </xsl:text><xsl:value-of select="@count"/><xsl:text>], </xsl:text>
     </xsl:template>
 
 </xsl:stylesheet>
