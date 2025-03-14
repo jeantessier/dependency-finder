@@ -76,9 +76,12 @@
 >
 
 <!ELEMENT histogram (interval*) >
+<!ATTLIST histogram
+          plot (linear | log-lin | lin-log | log-log) #IMPLIED
+>
 
 <!ELEMENT interval EMPTY >
 <!ATTLIST interval
-        value CDATA #REQUIRED
-        count CDATA #REQUIRED
+          value CDATA #REQUIRED
+          count CDATA #REQUIRED
 >

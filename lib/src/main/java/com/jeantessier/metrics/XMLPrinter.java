@@ -171,7 +171,7 @@ public class XMLPrinter extends Printer {
         indent().append("<long-name>").append(measurement.getLongName()).append("</long-name>").eol();
         indent().append("<value>").append(measurement.getValue()).append("</value>").eol();
 
-        indent().append("<histogram>").eol();
+        indent().append("<histogram plot=\"").append(measurement.getPlot().getLabel()).append("\">").eol();
         raiseIndent();
         measurement.getHistogram().entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())

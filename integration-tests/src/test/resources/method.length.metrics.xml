@@ -91,7 +91,7 @@
             <short-name>EML histo</short-name>
             <long-name>Histogram of Method Lengths</long-name>
             <value>2.0</value>
-            <histogram>
+            <histogram plot="log-log">
                 <interval value="1" count="1"/>
                 <interval value="2" count="5"/>
             </histogram>
@@ -184,7 +184,7 @@
                 <short-name>EML histo</short-name>
                 <long-name>Histogram of Method Lengths</long-name>
                 <value>2.0</value>
-                <histogram>
+                <histogram plot="log-log">
                     <interval value="2" count="2"/>
                 </histogram>
             </measurement>
@@ -243,7 +243,7 @@
                     <short-name>EML histo</short-name>
                     <long-name>Histogram of Method Lengths</long-name>
                     <value>2.0</value>
-                    <histogram>
+                    <histogram plot="log-log">
                         <interval value="2" count="2"/>
                     </histogram>
                 </measurement>
@@ -383,7 +383,7 @@
                 <short-name>EML histo</short-name>
                 <long-name>Histogram of Method Lengths</long-name>
                 <value>2.0</value>
-                <histogram>
+                <histogram plot="log-log">
                     <interval value="1" count="1"/>
                     <interval value="2" count="3"/>
                 </histogram>
@@ -443,7 +443,7 @@
                     <short-name>EML histo</short-name>
                     <long-name>Histogram of Method Lengths</long-name>
                     <value>2.0</value>
-                    <histogram>
+                    <histogram plot="log-log">
                         <interval value="1" count="1"/>
                         <interval value="2" count="3"/>
                     </histogram>

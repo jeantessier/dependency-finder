@@ -4,8 +4,13 @@ import org.jmock.*;
 import org.jmock.junit5.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
 public class TestHistogramMeasurement {
     @RegisterExtension
@@ -14,6 +19,37 @@ public class TestHistogramMeasurement {
     private final Metrics metrics = new Metrics("foo");
 
     private final HistogramMeasurement measurement = new HistogramMeasurement(null, metrics, "bar");
+
+    static Stream<Arguments> plotDataProvider() {
+        return Stream.of(
+                arguments("plot_linear", HistogramMeasurement.Plot.LINEAR),
+                arguments("PLOT_LINEAR", HistogramMeasurement.Plot.LINEAR),
+                arguments("plot_log_linear", HistogramMeasurement.Plot.LOG_LINEAR),
+                arguments("PLOT_LOG_LINEAR", HistogramMeasurement.Plot.LOG_LINEAR),
+                arguments("PLOT_LOG_LIN", HistogramMeasurement.Plot.LOG_LINEAR),
+                arguments("PLOT_LOG_LINE", null),
+                arguments("plot_linear_log", HistogramMeasurement.Plot.LINEAR_LOG),
+                arguments("PLOT_LINEAR_LOG", HistogramMeasurement.Plot.LINEAR_LOG),
+                arguments("PLOT_LIN_LOG", HistogramMeasurement.Plot.LINEAR_LOG),
+                arguments("PLOT_LINE_LOG", null),
+                arguments("plot_log_log", HistogramMeasurement.Plot.LOG_LOG),
+                arguments("PLOT_LOG_LOG", HistogramMeasurement.Plot.LOG_LOG),
+                arguments("", null)
+        );
+    }
+
+    @DisplayName("Histogram Plot")
+    @ParameterizedTest(name = "for name \"{0}\" should have value {1}")
+    @MethodSource("plotDataProvider")
+    public void testPlotValue(String name, HistogramMeasurement.Plot expectedValue) throws Exception {
+        // Given
+
+        // When
+        var actualValue = HistogramMeasurement.Plot.forName(name);
+
+        // Then
+        assertEquals(expectedValue, actualValue);
+    }
 
     @Test
     void testAdd() {

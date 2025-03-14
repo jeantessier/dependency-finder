@@ -99,7 +99,7 @@
                 .init(document.getElementById('<xsl:value-of select="../../name"/> -- <xsl:value-of select="../short-name"/> -- histogram'))
                     .setOption({
                         xAxis: {
-                            type: 'log',
+                            type: '<xsl:choose><xsl:when test="starts-with(@plot, 'log')">log</xsl:when><xsl:otherwise>value</xsl:otherwise></xsl:choose>',
                             min: 1,
                             max: 'dataMax',
                             name: '<xsl:value-of select="../short-name"/>',
@@ -107,7 +107,7 @@
                             nameGap: 25,
                         },
                         yAxis: {
-                            type: 'log',
+                            type: '<xsl:choose><xsl:when test="ends-with(@plot, 'log')">log</xsl:when><xsl:otherwise>value</xsl:otherwise></xsl:choose>',
                             min: 1,
                             max: 'dataMax',
                             name: 'n',

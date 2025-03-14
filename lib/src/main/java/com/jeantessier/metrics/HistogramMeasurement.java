@@ -1,6 +1,8 @@
 package com.jeantessier.metrics;
 
+import com.jeantessier.classreader.AttributeType;
 import org.apache.logging.log4j.LogManager;
+import org.apache.oro.text.perl.Perl5Util;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -15,14 +17,62 @@ import java.util.*;
  *  <pre>
  *  &lt;init&gt;
  *      measurement name [DISPOSE_x]
+ *      [PLOT_x]
  *  &lt;/init&gt;
  *  </pre>
  */
 public class HistogramMeasurement extends MeasurementBase {
+    public enum Plot {
+        /**
+         * Plot both the x-axis and y-axis using a linear scale.
+         */
+        LINEAR("linear", "/plot_linear$/i"),
+
+        /**
+         * Plot the x-axis using a linear scale and the y-axis using a logarithmic scale.
+         * Log-lin plot.  https://en.wikipedia.org/wiki/Semi-log_plot.
+         */
+        LOG_LINEAR("log-lin", "/plot_log_lin(ear)?$/i"),
+
+        /**
+         * Plot the x-axis using a logarithmic scale and the y-axis using a linear scale.
+         * Lin-log plot.  https://en.wikipedia.org/wiki/Semi-log_plot.
+         */
+        LINEAR_LOG("lin-log", "/plot_lin(ear)?_log$/i"),
+
+        /**
+         * Plot both the x-axis and y-axis using a logarithmic scale.
+         * Log-log plot.  See https://en.wikipedia.org/wiki/Log%E2%80%93log_plot.
+         */
+        LOG_LOG("log-log", "/plot_log_log$/i");
+
+        private final static Perl5Util perl = new Perl5Util();
+
+        private final String label;
+        private final String regex;
+
+        Plot(String label, String regex) {
+            this.label = label;
+            this.regex = regex;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public static Plot forName(String name) {
+            return Arrays.stream(values())
+                    .filter(plot -> perl.match(plot.regex, name))
+                    .findFirst()
+                    .orElse(null);
+        }
+    }
+
     private String monitoredMeasurement;
     private int dispose;
 
     private Map<Integer, Integer> histogram = new HashMap<>();
+    private Plot plot;
 
     private int nbSubmetrics = -1;
 
@@ -45,6 +95,14 @@ public class HistogramMeasurement extends MeasurementBase {
                     dispose = StatisticalMeasurement.DISPOSE_IGNORE;
                 }
             }
+
+            String plotText = in.readLine();
+            if (plotText != null) {
+                plot = Plot.forName(plotText);
+            }
+            if (plot == null) {
+                plot = Plot.LINEAR;
+            }
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             monitoredMeasurement = null;
@@ -54,6 +112,10 @@ public class HistogramMeasurement extends MeasurementBase {
     public Map<Integer, Integer> getHistogram() {
         collectData();
         return histogram;
+    }
+
+    public Plot getPlot() {
+        return plot;
     }
 
     private void collectData() {

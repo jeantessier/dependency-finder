@@ -126,6 +126,7 @@
             <class>com.jeantessier.metrics.HistogramMeasurement</class>
             <init>
                 EML
+                PLOT_LOG_LOG
             </init>
         </measurement>
     </project-measurements>
@@ -216,6 +217,7 @@
             <class>com.jeantessier.metrics.HistogramMeasurement</class>
             <init>
                 EML
+                PLOT_LOG_LOG
             </init>
         </measurement>
     </group-measurements>
@@ -295,6 +297,7 @@
             <class>com.jeantessier.metrics.HistogramMeasurement</class>
             <init>
                 EML
+                PLOT_LOG_LOG
             </init>
         </measurement>
     </class-measurements>
