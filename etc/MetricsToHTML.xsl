@@ -58,7 +58,7 @@
     </xsl:template>
 
     <xsl:template match="group">
-        <div class="groupname"><a name="{name}"><xsl:value-of select="name"/></a></div>
+        <div class="groupname"><a name="{name}"><xsl:choose><xsl:when test="string-length(name) > 0"><xsl:value-of select="name"/></xsl:when><xsl:otherwise><xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text></xsl:otherwise></xsl:choose></a></div>
         <div class="measurements"><xsl:apply-templates select="measurement"/></div>
         <div class="classes"><xsl:apply-templates select="class"/></div>
     </xsl:template>
@@ -76,7 +76,7 @@
 
     <xsl:template match="measurement">
         <span class="measurementname"><xsl:value-of select="long-name"/></span>: <span class="measurementvalue"><xsl:value-of select="value"/></span><br />
-        <xsl:apply-templates select="members"/>
+        <xsl:apply-templates select="members|histogram"/>
     </xsl:template>
 
     <xsl:template match="measurement[minimum]">
@@ -89,6 +89,14 @@
 
     <xsl:template match="member">
         <span class="member"><a href="#{text()}"><xsl:value-of select="text()"/></a></span><br />
+    </xsl:template>
+
+    <xsl:template match="histogram">
+        <div class="histogram"><xsl:apply-templates/></div>
+    </xsl:template>
+
+    <xsl:template match="interval">
+        <span class="value"><xsl:value-of select="@value"/></span><span>:</span><span class="count"><xsl:value-of select="@count"/></span>
     </xsl:template>
 
 </xsl:stylesheet>

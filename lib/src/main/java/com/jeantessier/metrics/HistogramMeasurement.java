@@ -149,10 +149,14 @@ public class HistogramMeasurement extends MeasurementBase {
     protected double compute() {
         collectData();
 
+        if (histogram.isEmpty()) {
+            return Double.NaN;
+        }
+
         return histogram.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
-                .orElse(0);
+                .get();
     }
 
     public String toString() {

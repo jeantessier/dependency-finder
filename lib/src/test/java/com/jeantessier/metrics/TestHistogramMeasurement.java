@@ -26,7 +26,7 @@ public class TestHistogramMeasurement {
     @Test
     void testComputeEmpty() {
         assertEquals(0, measurement.getHistogram().size(), "histogram size");
-        assertEquals(0, measurement.compute(), "compute returns largest bucket");
+        assertTrue(Double.isNaN(measurement.compute()), "compute returns NaN for empty histogram");
     }
 
     @Test

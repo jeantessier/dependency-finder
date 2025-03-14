@@ -7,14 +7,6 @@ a {
     text-decoration: none;
 }
 
-a:visited {
-    color: blue;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
 .projectname {
     font-weight: bold;
     font-size: larger;
@@ -32,7 +24,7 @@ a:hover {
 }
 
 .classes {
-    margin: 15px 0 15px 50px;
+    margin: 15px 0 15px 2rem;
 }
 
 .classname {
@@ -41,7 +33,7 @@ a:hover {
 }
 
 .methods {
-    margin: 15px 0 15px 50px;
+    margin: 15px 0 15px 2rem;
 }
 
 .methodname {
@@ -49,7 +41,7 @@ a:hover {
 }
 
 .measurements {
-    margin: 15px 0 15px 50px;
+    margin: 15px 0 15px 2rem;
 }
 
 .measurementname {
@@ -61,10 +53,30 @@ a:hover {
 }
 
 .members {
-    margin: 0 0 0 50px;
+    margin: 0 0 0 2rem;
 }
 
 .member {
     font-family: monospace;
     font-size: smaller;
+}
+
+.histogram {
+    display: grid;
+    grid-template-columns: max-content minmax(1rem, max-content) max-content;
+    margin: 0 0 0 2rem;
+}
+
+.histogram span {
+    font-family: monospace;
+    font-size: smaller;
+    text-align: center;
+}
+
+.histogram .value {
+    text-align: right;
+}
+
+.histogram .count {
+    text-align: left;
 }
