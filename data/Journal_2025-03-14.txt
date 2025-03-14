@@ -1,0 +1,44 @@
+Changed the HTML metrics report to draw =EML= histograms using
+[[https://echarts.apache.org/][Apache ECharts]].  I used a log-log plot to
+highlight how it might be a power law, as suggested by
+[[https://tidyfirst.substack.com/p/how-long-should-functions-be][Kent Beck]].
+
+Here is an example of the distribution of method length in Dependency Finder.
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5/dist/echarts.min.js"></script>
+
+<div id%3D"sample_eml_histogram" style%3D"height: 200px; width: 400px;"></div>
+<script type="text/javascript">
+echarts
+    .init(document.getElementById('sample_eml_histogram'))
+    .setOption({
+        xAxis: {
+            type: 'log',
+            min: 1,
+            max: 'dataMax',
+            name: 'EML',
+            nameLocation: 'middle',
+            nameGap: 25,
+        },
+        yAxis: {
+            type: 'log',
+            min: 1,
+            max: 'dataMax',
+            name: 'n',
+            nameLocation: 'end',
+            nameGap: 25,
+        },
+        series: [
+            {
+                name: 'EML',
+                type: 'scatter',
+                itemStyle: {
+                    color: '#39f',
+                },
+                data: [
+                    [0, 1520], [1, 2389], [2, 1119], [3, 378], [4, 258], [5, 208], [6, 213], [7, 98], [8, 85], [9, 62], [10, 41], [11, 43], [12, 24], [13, 23], [14, 29], [15, 18], [16, 20], [17, 15], [18, 17], [19, 8], [20, 10], [21, 7], [22, 8], [23, 7], [24, 6], [25, 12], [26, 4], [27, 6], [28, 2], [29, 6], [30, 8], [31, 4], [33, 2], [34, 2], [35, 6], [36, 2], [38, 4], [40, 7], [41, 1], [44, 1], [45, 1], [47, 1], [48, 1], [49, 2], [50, 2], [52, 1], [54, 1], [56, 1], [59, 1], [71, 1], [72, 1], [76, 1], [80, 1], [83, 1], [85, 1], [92, 1], [113, 2], [205, 1], [515, 1]
+                ],
+            },
+        ],
+    })
+</script>
