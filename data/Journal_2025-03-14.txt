@@ -1,7 +1,11 @@
 Changed the HTML metrics report to draw =EML= histograms using
-[[https://echarts.apache.org/][Apache ECharts]].  I used a log-log plot to
-highlight how it might be a power law, as suggested by
+[[https://echarts.apache.org/][Apache ECharts]].  At first, I hard-coded a
+log-log plot to highlight how =EML= might be a power law, as suggested by
 [[https://tidyfirst.substack.com/p/how-long-should-functions-be][Kent Beck]].
+But =HistogramMeasurement= can be used with more than method lengths and for
+measurements that might not be power laws.  So, I added a parameter in its
+=&lt;init&gt;= tag to specify the preferred plot for that histogram
+measurement.  For now, it is only applicable to the HTML report.
 
 Here is an example of the distribution of method length in Dependency Finder.
 
