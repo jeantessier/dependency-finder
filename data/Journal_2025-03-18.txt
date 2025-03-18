@@ -1,0 +1,4 @@
+[[https://blogs.oracle.com/java/post/the-arrival-of-java-24][Java 24]] is out.
+I looked at the
+[[https://docs.oracle.com/javase/specs/index.html][JVM specification]], and I
+couldn't find any changes to the =.class= file format.  Good.
