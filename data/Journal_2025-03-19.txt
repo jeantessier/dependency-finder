@@ -1,0 +1,5 @@
+I removed all references to
+[[https://sourceforge.net/projects/cobertura/][Cobertura]],
+[[https://cenqua.com/][Clover]], and
+[[http://sourceforge.net/projects/emma][EMMA]], now that I use
+[[https://www.jacoco.org/index.html][JaCoCo]] for code coverage.
