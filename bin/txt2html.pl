@@ -175,7 +175,17 @@ END {
 
     $TEXT =~ s/<TITLE \/>/$TITLE/g;
 
-    $TEXT =~ s/<VERSION \/>/$ENV{"TXT2HTML_VERSION"}/g;
+    $VERSION = $ENV{"TXT2HTML_VERSION"};
+    $NEXTVERSION = $VERSION . "-FUTURE";
+
+    @VERSION = split(/\./, $VERSION);
+    if (@VERSION > 1) {
+        @VERSION[-1] += 1;
+        $NEXTVERSION = join(".", @VERSION);
+    }
+
+    $TEXT =~ s/<VERSION \/>/$VERSION/g;
+    $TEXT =~ s/<NEXTVERSION \/>/$NEXTVERSION/g;
 
     print $TEXT;
 }
