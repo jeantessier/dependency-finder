@@ -1,0 +1,11 @@
+I tried to generate some representations of Dependency Finder using
+[[https://chatgpt.com/][ChatGPT]].  I asked it to do them in the style of
+Studio Ghibli.
+
+Here is one for Dependency Finder:
+
+[[../images/2025-04-02%5FDependencyFinder%5FGhibli.png]]
+
+And here is one for =OOMetrics=:
+
+[[../images/2025-04-02%5FOOMetrics%5FGhibli.png]]
