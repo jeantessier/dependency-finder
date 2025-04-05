@@ -1447,7 +1447,7 @@ run:
 </p>
 
 <pre>
-    <code>and jar</code>
+    <code>ant jar</code>
 </pre>
 
 <a name="BuildingtheDocumentation"></a>
@@ -1476,47 +1476,12 @@ This target will create a set of distribution files from a clean build.
 <h3>Testing the Build</h3>
 
 <p>
-Before you can compile and run the tests, you need to set the following
-environment variables in addition to those for compiling Dependency Finder:
-</p>
-
-<ul>
-<li><code>JUNIT_HOME</code> to your <a href="http://junit.org/">JUnit</a> installation</li>
-<li><code>JMOCK_HOME</code> to your <a href="http://jmock.org/">jMock</a> installation</li>
-<li><code>FITLIBRARY_HOME</code> to your <a href="http://fitlibrary.sourceforge.net/">FitLibrary</a> installation</li>
-<li><code>HTTPUNIT_HOME</code> to your <a href="http://httpunit.sourceforge.net/">HttpUnit</a> installation</li>
-</ul>
-
-<p>
-You will also need to put <code>junit.jar</code> on Ant's <code>CLASSPATH</code>.  For this, you can
-either set the <code>CLASSPATH</code> environment variable, or with Ant 1.6 and above, you
-can copy <code>junit.jar</code> to <code>${user.home}/.ant/lib</code>, where <code>${user.home}</code> is the
-home directory for the current user.  This depends on your operating system.
-On Unix, it is <code>$HOME</code> and is typically <code>/home/<i>username</i></code>.  On Windows, it is
-typically <code>C:\Documents&nbsp;and&nbsp;Settings\<i>username</i></code>.
-</p>
-
-<p>
-I recommend you use JUnit 4.4 or later, where the JAR file is named
-<code>junit-X.Y.jar</code>, but everything should work as is with any version of JUnit 3.8
-and above (where the JAR file was named <code>junit.jar</code>), and even some older ones.
-</p>
-
-<p>
 To run all tests and generate test reports in the <code>reports</code> directory:
 </p>
 
-<ol>
-<li><code>ant</code></li>
-</ol>
-
-<p>
-or, to run tests manually:
-</p>
-
-<ol>
-<li><code>./gradlew lib:check integration-tests:check fit-tests:check</code></li>
-</ol>
+<pre>
+    <code>./gradlew check</code>
+</pre>
 
 <a name="MakingaRelease"></a>
 <h3>Making a Release</h3>
