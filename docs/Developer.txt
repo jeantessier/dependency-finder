@@ -1060,7 +1060,7 @@ This target will create everything you need to run Dependency Finder in-place.
 If you make a change, and you simply want to refresh the executable, simply
 run:
 
-    =and jar=
+    =ant jar=
 
 ---+++ Building the Documentation
 
@@ -1076,32 +1076,9 @@ This target will create a set of distribution files from a clean build.
 
 ---+++ Testing the Build
 
-Before you can compile and run the tests, you need to set the following
-environment variables in addition to those for compiling Dependency Finder:
-
-    * =JUNIT_HOME= to your [[http://junit.org/][JUnit]] installation
-    * =JMOCK_HOME= to your [[http://jmock.org/][jMock]] installation
-    * =FITLIBRARY_HOME= to your [[http://fitlibrary.sourceforge.net/][FitLibrary]] installation
-    * =HTTPUNIT_HOME= to your [[http://httpunit.sourceforge.net/][HttpUnit]] installation
-
-You will also need to put =junit.jar= on Ant's =CLASSPATH=.  For this, you can
-either set the =CLASSPATH= environment variable, or with Ant 1.6 and above, you
-can copy =junit.jar= to =${user.home}/.ant/lib=, where =${user.home}= is the
-home directory for the current user.  This depends on your operating system.
-On Unix, it is =$HOME= and is typically =/home/_username_=.  On Windows, it is
-typically =C:\Documents&nbsp;and&nbsp;Settings\_username_=.
-
-I recommend you use JUnit 4.4 or later, where the JAR file is named
-=junit-X.Y.jar=, but everything should work as is with any version of JUnit 3.8
-and above (where the JAR file was named =junit.jar=), and even some older ones.
-
 To run all tests and generate test reports in the =reports= directory:
 
-    1 =ant=
-
-or, to run tests manually:
-
-    1 =./gradlew lib:check integration-tests:check fit-tests:check=
+    =./gradlew check=
 
 ---+++ Making a Release
 
