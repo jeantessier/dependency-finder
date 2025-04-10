@@ -37,7 +37,7 @@ can use =NULl= in class and feature positions for package-related dependencies.
 +--------------+------------+--------------+----------------+------------+-------------+---------------------------------+--------------+-------------+
 | package%5Ffrom | class%5Ffrom | feature%5Ffrom | confirmed%5Ffrom | package%5Fto | class%5Fto    | feature%5Fto                      | confirmed%5Fto | cardinality |
 +--------------+------------+--------------+----------------+------------+-------------+---------------------------------+--------------+-------------+
-|              | Test       | NULL         | true           | java.lang  | Object      | NULL                            | false        | 1            |
+|              | Test       | NULL         | true           | java.lang  | Object      | NULL                            | false        | 1           |
 |              | Test       | Test()       | true           | java.lang  | Object      | Object()                        | false        | 1           |
 |              | Test       | Test()       | true           | java.lang  | System      | out                             | false        | 2           |
 |              | Test       | Test()       | true           | java.io    | PrintStream | NULL                            | false        | 2           |
