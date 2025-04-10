@@ -1,0 +1,116 @@
+I have been toying with the idea of listening to =dependency= events using
+=DependencyListener= and feeding the dependencies to a relational database.
+The schema could separate package, class, and feature names.  It could also
+track the cardinality of each dependency.
+
+For example, take the following class =Test=:
+
+    public class Test {{
+        System.out.println("abc");
+        System.out.println("123");
+    }}
+
+When extracting dependencies, a listener receives the following =dependency=
+events:
+
+    Test --> java.lang.Object *
+    Test.Test() --> java.lang.Object.Object() *
+    Test.Test() --> java.lang.System.out *
+    Test.Test() --> java.io.PrintStream *
+    Test.Test() --> java.io.PrintStream.println(java.lang.String): void *
+    Test.Test() --> java.lang.String *
+    Test.Test() --> java.lang.System.out *
+    Test.Test() --> java.io.PrintStream *
+    Test.Test() --> java.io.PrintStream.println(java.lang.String): void *
+    Test.Test() --> java.lang.String *
+
+The =Test.Test()= constructor depends on class =java.io.PrintStream= twice.  It
+depends on method =java.io.PrintStream.println(java.lang.String): void= twice.
+Currently, Dependency Finder collapses these multiples into a single edge in
+the dependency graph.  Is there some value to this information?  I don't know.
+
+I toyed with a schema that would split each node into its constituents.  It can
+use =NULL= in feature positions for class-related dependencies.  Likewise, it
+can use =NULl= in class and feature positions for package-related dependencies.
+
+<pre>
++--------------+------------+--------------+----------------+------------+-------------+---------------------------------+--------------+-------------+
+| package%5Ffrom | class%5Ffrom | feature%5Ffrom | confirmed%5Ffrom | package%5Fto | class%5Fto    | feature%5Fto                      | confirmed%5Fto | cardinality |
++--------------+------------+--------------+----------------+------------+-------------+---------------------------------+--------------+-------------+
+|              | Test       | NULL         | true           | java.lang  | Object      | NULL                            | false        | 1            |
+|              | Test       | Test()       | true           | java.lang  | Object      | Object()                        | false        | 1           |
+|              | Test       | Test()       | true           | java.lang  | System      | out                             | false        | 2           |
+|              | Test       | Test()       | true           | java.io    | PrintStream | NULL                            | false        | 2           |
+|              | Test       | Test()       | true           | java.io    | PrintStream | println(java.lang.String): void | false        | 2           |
+|              | Test       | Test()       | true           | java.lang  | String      | NULL                            | false        | 2           |
++--------------+------------+--------------+----------------+------------+-------------+---------------------------------+--------------+-------------+
+</pre>
+
+In SQL, we can roll up dependency counts with some =GROUP BY= statements.
+Here is an example that sums outbound dependencies by method.
+
+    SELECT
+        package_from,
+        class_from,
+        feature_from,
+        SUM(cardinality)
+    FROM
+        dependencies
+    WHERE
+        class_from IS NOT NULL AND
+        feature_from IS NOT NULL
+    GROUP BY
+        package_from,
+        class_from,
+        feature_from
+    ;
+
+Here is another example that sums them up by package.
+
+    SELECT
+        package_from,
+        SUM(cardinality)
+    FROM
+        dependencies
+    GROUP BY
+        package_from
+    ;
+
+And here is an example for inbound dependencies, summed up by class:
+
+    SELECT
+        package_to,
+        class_to,
+        SUM(cardinality)
+    FROM
+        dependencies
+    WHERE
+        class_to IS NOT NULL
+    GROUP BY
+        package_to,
+        class_to
+    ;
+
+I struggled to use an =ON DUPLICATE KEY UPDATE= clause to increment the
+=cardinality= column and update the =confirmed_*= in a single pass.  Otherwise,
+I would have to accumulate all events in memory and write the final status
+after extracting dependencies.  More on this later, maybe.
+
+Another question that arose was how wide should these columns be?  I don't want
+to use CLOB columns, so I have to give them a size large enough to contain all
+values.  Is 1,024 too much and wasteful?  Is 256 too small?
+
+I added some measurements in =OOMetrics=, with a =StatisticalMeasurement= at
+the project level to find the largest value.  Is it useful enough to warrant
+adding them to the codebase?  I found an alternate way to get mostly the same
+information with =ListSymbols= and some creative =bash= scripting.
+
+    ListSymbols lib/DependencyFinder.jar -txt -methods \
+    | perl -n -e 'chomp; print sprintf("%6d\t%s\n", length($%5F), $%5F)' \
+    | sort -n -r \
+    | head
+
+=OOMetrics= does a better job of separating package, class and feature portions
+of each fully qualified symbol.  But, maybe I don't need that level of
+precision.  And, =ListSymbols= has fine controls to also look at fields and
+local variables, which are outside the reach of =OOMetrics=.
