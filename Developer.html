@@ -451,7 +451,7 @@ One easy solution is to have a class that implements both <code>LoadListener</co
 You might end up having quite a few visitors, all duplicating this piece of
 code.  So we already provide it as part of the Dependency Finder library.  The
 class <code>LoadListenerVisitorAdapter</code> takes a <code>Visitor</code> and hands it over to
-<code>Classfile</code> instances are they are made available by the <code>ClassfileLoader</code>.
+<code>Classfile</code> instances as they are made available by the <code>ClassfileLoader</code>.
 With it, your class only needs to implement the <code>Visitor</code> interface and can
 focus on the processing at hand, instead needing a series of empty methods to
 satisfy the <code>LoadListener</code> contract.
