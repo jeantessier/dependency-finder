@@ -269,7 +269,7 @@ One easy solution is to have a class that implements both =LoadListener= and
 You might end up having quite a few visitors, all duplicating this piece of
 code.  So we already provide it as part of the Dependency Finder library.  The
 class =LoadListenerVisitorAdapter= takes a =Visitor= and hands it over to
-=Classfile= instances are they are made available by the =ClassfileLoader=.
+=Classfile= instances as they are made available by the =ClassfileLoader=.
 With it, your class only needs to implement the =Visitor= interface and can
 focus on the processing at hand, instead needing a series of empty methods to
 satisfy the =LoadListener= contract.
