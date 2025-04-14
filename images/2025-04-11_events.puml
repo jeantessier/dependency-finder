@@ -1,0 +1,96 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+participant DependencyExtractor
+participant TransientClassfileLoader
+participant Classfile
+participant CodeDependencyCollector
+participant NodeFactory
+
+activate DependencyExtractor
+
+DependencyExtractor -> TransientClassfileLoader ++ : load(filenames)
+TransientClassfileLoader -> VerboseListener ++ #yellow : beginSession(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : beginSession(loadEvent)
+CodeDependencyCollector -> VerboseListener ++ #pink : beginSession(dependencyEvent)
+deactivate VerboseListener
+deactivate CodeDependencyCollector
+
+TransientClassfileLoader -> TransientClassfileLoader ++ : load(filename)
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : beginGroup(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : beginGroup(loadEvent)
+deactivate CodeDependencyCollector
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : beginFile(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : beginFile(loadEvent)
+deactivate CodeDependencyCollector
+
+TransientClassfileLoader -> TransientClassfileLoader ++ : load(filename, inputStream)
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : beginClassfile(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : beginClassfile(loadEvent)
+deactivate CodeDependencyCollector
+
+TransientClassfileLoader -> Classfile ** : new
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : endClassfile(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : endClassfile(loadEvent)
+CodeDependencyCollector -> Classfile ++ : accept(codeDependencyCollector)
+Classfile -> CodeDependencyCollector ++ : visitClassfile(classfile)
+
+CodeDependencyCollector -> VerboseListener ++ #pink : beginClass(dependencyEvent)
+deactivate VerboseListener
+
+group traverse [all parts of the classfile]
+    CodeDependencyCollector -> CodeDependencyCollector ++ : visit(...)
+
+    loop all dependencies
+        CodeDependencyCollector -> NodeFactory ++ : create(...)
+        deactivate NodeFactory
+
+        CodeDependencyCollector -> VerboseListener ++ #pink : dependency(dependencyEvent)
+        deactivate VerboseListener
+    end
+
+    deactivate CodeDependencyCollector
+end
+
+CodeDependencyCollector -> VerboseListener ++ #pink : endClass(dependencyEvent)
+deactivate VerboseListener
+
+deactivate CodeDependencyCollector
+deactivate Classfile
+deactivate CodeDependencyCollector
+
+deactivate TransientClassfileLoader
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : endFile(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : endFile(loadEvent)
+deactivate CodeDependencyCollector
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : endGroup(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : endGroup(loadEvent)
+deactivate CodeDependencyCollector
+
+deactivate TransientClassfileLoader
+
+TransientClassfileLoader -> VerboseListener ++ #yellow : endSession(loadEvent)
+deactivate VerboseListener
+TransientClassfileLoader -> CodeDependencyCollector ++ : endSession(loadEvent)
+CodeDependencyCollector -> VerboseListener ++ #pink : endSession(dependencyEvent)
+deactivate VerboseListener
+deactivate CodeDependencyCollector
+
+
+@enduml

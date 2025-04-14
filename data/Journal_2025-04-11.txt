@@ -1,0 +1,34 @@
+Loading =Classfile= instances from files starts with a =beginSession= event and
+ends with an =endSession= event.  These events are triggered in the
+=ClassfileLoader.load(filenames)= method, which drives the loading process.
+
+The dependency extraction process described in the =DependencyListener=
+interface also has =beginSession= and =endSession= events, but they are never
+actually fired.  This process is tied to loading =Classfile= instances via a
+=LoadListenerVisitorAdapter=.  This adapter receives load-related events, but
+only has a =Visitor= to interact with.  It takes the =Classfile= instance from
+the load =endClassfile= event and applies the visitor to it.  The visitor sees
+=Classfile= one after the other, but it has no notion of a session with a
+beginning and an end.
+
+In the sequence diagram below, I've attached a =VerboseListener= to both the
+=TransientClassfileLoader= and the =CodeDependencyCollector= to illustrate the
+events.  In the diagram, load-related events are in yellow and the dependency
+extraction-related events are in red.  The adapter only acts on =endClassfile=
+events and does nothing on all others.
+
+[[../images/2025-04-11%5Fevents%5Fwith%5Fadapter.png][../images/2025-04-11%5Fevents%5Fwith%5Fadapter.png]]
+
+If, instead, I removed the adapter and I made =CodeDependencyCollector=
+implement the =LoadListener= interface directly, it would then know when the
+session starts and ends.  It would be able to map a dependency extraction
+session to the =Classfile= loading session.
+
+The revised sequence diagram below shows how =CodeDependencyCollector= acts on
+=beginSession=, =endClassfile=, and =endSession= load-related events, and does
+nothing on the other ones.
+
+[[../images/2025-04-11%5Fevents.png][../images/2025-04-11%5Fevents.png]]
+
+There are other tools that rely on =LoadListenerVisitorAdapter=, but they have
+nothing to do with dependency extraction.
