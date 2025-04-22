@@ -1,0 +1,28 @@
+I learned that
+[[https://bsky.app/profile/noelrappin.com/post/3lndncmgh7c2w][Pivotal Tracker is going away]].
+Here is the
+[[https://www.pivotaltracker.com/blog/2024-09-18-end-of-life][official announcement]],
+dated 2024-09-18.  I have not maintained the project there for quite some time.
+I took a quick look, just to see if anything was worth salvaging.  I closed one
+story about bridge methods.
+
+There was another story about getting deprecation status when it is done with
+the =@Deprecated= annotation.  As I described on [[2008-11-13]], you can
+deprecate a programming element with either a =@deprecated= javadoc tag or
+with a =@Deprecated= annotation.  In both cases, the compiler adds a
+=Deprecated= attribute to the =.class= structure.  In the case of the
+annotation, there is also an entry in the =RuntimeVisibleAnnotations= attribute
+to represent the annotation and its optional elements, if any.  Therefore, the
+current logic in =Classfile= and in =Feature_info= are sufficient to detect
+deprecated elements, irrespective of how that deprecation is actually done.
+The specification<label for%3D"sn-2025-04-21-deprecated-attribute" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-04-21-deprecated-attribute" class%3D"margin-toggle">
+<span class%3D"sidenote">JVMS &sect;4.7.15 "A class, interface, method, or
+field may be marked using a =Deprecated= attribute to indicate that the class,
+interface, method, or field has been superseded."</span> ties deprecation
+semantics to the attribute and not to the annotation, so I might not need to
+look explicitly for annotations in this case.  I did add tests to cover both
+means of deprecating programming elements.
+
+The other stories in Pivotal Tracker were less immediately actionable.  I
+exported the project data to a CSV file so I can dig into it later.
