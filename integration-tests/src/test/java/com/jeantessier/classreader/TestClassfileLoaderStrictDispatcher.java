@@ -102,14 +102,14 @@ public class TestClassfileLoaderStrictDispatcher {
             exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
                 will(new CustomAction("check the group's size") {
                     public Object invoke(Invocation invocation) {
-                        assertEquals(32, ((LoadEvent) invocation.getParameter(0)).getSize());
+                        assertEquals(40, ((LoadEvent) invocation.getParameter(0)).getSize());
                         return null;
                     }
                 });
-            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(40).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(40).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});
@@ -127,14 +127,14 @@ public class TestClassfileLoaderStrictDispatcher {
             exactly(1).of (mockListener).beginGroup(with(any(LoadEvent.class)));
                 will(new CustomAction("check the group's size") {
                     public Object invoke(Invocation invocation) {
-                        assertEquals(34, ((LoadEvent) invocation.getParameter(0)).getSize());
+                        assertEquals(42, ((LoadEvent) invocation.getParameter(0)).getSize());
                         return null;
                     }
                 });
-            exactly(34).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(34).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(42).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(42).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(1).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});
@@ -169,10 +169,10 @@ public class TestClassfileLoaderStrictDispatcher {
         context.checking(new Expectations() {{
             exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
-            exactly(33).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(33).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(41).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(41).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});
@@ -188,10 +188,10 @@ public class TestClassfileLoaderStrictDispatcher {
         context.checking(new Expectations() {{
             exactly(1).of (mockListener).beginSession(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).beginGroup(with(any(LoadEvent.class)));
-            exactly(35).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(35).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(43).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(43).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(1).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});

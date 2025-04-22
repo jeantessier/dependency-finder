@@ -48,9 +48,15 @@ public class TestClassfile {
     }
 
     @Test
-    void testDeprecated() {
-        assertTrue(loader.getClassfile("ModifiedPackage.DeprecatedClass").isDeprecated(), "ModifiedPackage.DeprecatedClass");
-        assertFalse(loader.getClassfile("ModifiedPackage.UndeprecatedClass").isDeprecated(), "ModifiedPackage.UndeprecatedClass");
+    void testIsDeprecated() {
+        assertTrue(loader.getClassfile("ModifiedPackage.DeprecatedClassByAnnotation").isDeprecated(), "ModifiedPackage.DeprecatedClassByAnnotation");
+        assertTrue(loader.getClassfile("ModifiedPackage.DeprecatedClassByJavadocTag").isDeprecated(), "ModifiedPackage.DeprecatedClassByJavadocTag");
+        assertTrue(loader.getClassfile("ModifiedPackage.DeprecatedInterfaceByAnnotation").isDeprecated(), "ModifiedPackage.DeprecatedInterfaceByAnnotation");
+        assertTrue(loader.getClassfile("ModifiedPackage.DeprecatedInterfaceByJavadocTag").isDeprecated(), "ModifiedPackage.DeprecatedInterfaceByJavadocTag");
+        assertFalse(loader.getClassfile("ModifiedPackage.UndeprecatedClassByAnnotation").isDeprecated(), "ModifiedPackage.UndeprecatedClassByAnnotation");
+        assertFalse(loader.getClassfile("ModifiedPackage.UndeprecatedClassByJavadocTag").isDeprecated(), "ModifiedPackage.UndeprecatedClassByJavadocTag");
+        assertFalse(loader.getClassfile("ModifiedPackage.UndeprecatedInterfaceByAnnotation").isDeprecated(), "ModifiedPackage.UndeprecatedInterfaceByAnnotation");
+        assertFalse(loader.getClassfile("ModifiedPackage.UndeprecatedInterfaceByJavadocTag").isDeprecated(), "ModifiedPackage.UndeprecatedInterfaceByJavadocTag");
     }
 
     @Test

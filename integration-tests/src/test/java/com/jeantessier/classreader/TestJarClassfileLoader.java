@@ -69,7 +69,7 @@ public class TestJarClassfileLoader  {
         String filename = ONELEVEL_JAR;
         assertTrue(new File(filename).exists(), filename + " missing");
 
-        var expectedGroupSizes = List.of(34, -1).iterator();
+        var expectedGroupSizes = List.of(42, -1).iterator();
 
         context.checking(new Expectations() {{
             exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
@@ -80,10 +80,10 @@ public class TestJarClassfileLoader  {
                         return null;
                     }
                 });
-            exactly(34).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(34).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(42).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(42).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});
@@ -96,7 +96,7 @@ public class TestJarClassfileLoader  {
         String filename = ONELEVEL_MISC;
         assertTrue(new File(filename).exists(), filename + " missing");
 
-        var expectedGroupSizes = List.of(32, -1).iterator();
+        var expectedGroupSizes = List.of(40, -1).iterator();
 
         context.checking(new Expectations() {{
             exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
@@ -107,10 +107,10 @@ public class TestJarClassfileLoader  {
                         return null;
                     }
                 });
-            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(40).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(40).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});
@@ -123,7 +123,7 @@ public class TestJarClassfileLoader  {
         String filename = ONELEVEL_JAR;
         assertTrue(new File(filename).exists(), filename + " missing");
 
-        var expectedGroupSizes = List.of(34, -1).iterator();
+        var expectedGroupSizes = List.of(42, -1).iterator();
 
         context.checking(new Expectations() {{
             exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
@@ -134,10 +134,10 @@ public class TestJarClassfileLoader  {
                         return null;
                     }
                 });
-            exactly(34).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(34).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(42).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(42).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});
@@ -150,7 +150,7 @@ public class TestJarClassfileLoader  {
         String filename = ONELEVEL_MISC;
         assertTrue(new File(filename).exists(), filename + " missing");
 
-        var expectedGroupSizes = List.of(32, -1).iterator();
+        var expectedGroupSizes = List.of(40, -1).iterator();
 
         context.checking(new Expectations() {{
             exactly(0).of (mockListener).beginSession(with(any(LoadEvent.class)));
@@ -161,10 +161,10 @@ public class TestJarClassfileLoader  {
                         return null;
                     }
                 });
-            exactly(32).of (mockListener).beginFile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
-            exactly(14).of (mockListener).endClassfile(with(any(LoadEvent.class)));
-            exactly(32).of (mockListener).endFile(with(any(LoadEvent.class)));
+            exactly(40).of (mockListener).beginFile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).beginClassfile(with(any(LoadEvent.class)));
+            exactly(18).of (mockListener).endClassfile(with(any(LoadEvent.class)));
+            exactly(40).of (mockListener).endFile(with(any(LoadEvent.class)));
             exactly(2).of (mockListener).endGroup(with(any(LoadEvent.class)));
             exactly(0).of (mockListener).endSession(with(any(LoadEvent.class)));
         }});

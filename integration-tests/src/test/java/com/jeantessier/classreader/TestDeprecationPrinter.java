@@ -62,12 +62,12 @@ public class TestDeprecationPrinter {
     }
     
     @Test
-    void testOneDeprecatedClass() {
+    void testOneDeprecatedInterface() {
         var expectedLines = Stream.of(
-                "ModifiedPackage.DeprecatedInterface"
+                "ModifiedPackage.DeprecatedInterfaceByAnnotation"
         );
 
-        loader.getClassfile("ModifiedPackage.DeprecatedInterface").accept(printer);
+        loader.getClassfile("ModifiedPackage.DeprecatedInterfaceByAnnotation").accept(printer);
 
         assertLinesMatch(expectedLines, writer.toString().lines());
     }
@@ -75,9 +75,12 @@ public class TestDeprecationPrinter {
     @Test
     void testDeprecatedMethods() {
         var expectedLines = Stream.of(
-                "ModifiedPackage.ModifiedClass.deprecatedField",
+                "ModifiedPackage.ModifiedClass.deprecatedFieldByAnnotation",
+                "ModifiedPackage.ModifiedClass.deprecatedFieldByJavadocTag",
                 "ModifiedPackage.ModifiedClass.ModifiedClass(int)",
-                "ModifiedPackage.ModifiedClass.deprecatedMethod()"
+                "ModifiedPackage.ModifiedClass.ModifiedClass(long)",
+                "ModifiedPackage.ModifiedClass.deprecatedMethodByAnnotation()",
+                "ModifiedPackage.ModifiedClass.deprecatedMethodByJavadocTag()"
         );
 
         loader.getClassfile("ModifiedPackage.ModifiedClass").accept(printer);
@@ -88,14 +91,22 @@ public class TestDeprecationPrinter {
     @Test
     void testListenerBehavior() {
         var expectedLines = Stream.of(
-                "ModifiedPackage.DeprecatedClass",
-                "ModifiedPackage.DeprecatedClass.DeprecatedClass()",
-                "ModifiedPackage.DeprecatedInterface",
-                "ModifiedPackage.ModifiedClass.deprecatedField",
+                "ModifiedPackage.DeprecatedClassByAnnotation",
+                "ModifiedPackage.DeprecatedClassByAnnotation.DeprecatedClassByAnnotation()",
+                "ModifiedPackage.DeprecatedClassByJavadocTag",
+                "ModifiedPackage.DeprecatedClassByJavadocTag.DeprecatedClassByJavadocTag()",
+                "ModifiedPackage.DeprecatedInterfaceByAnnotation",
+                "ModifiedPackage.DeprecatedInterfaceByJavadocTag",
+                "ModifiedPackage.ModifiedClass.deprecatedFieldByAnnotation",
+                "ModifiedPackage.ModifiedClass.deprecatedFieldByJavadocTag",
                 "ModifiedPackage.ModifiedClass.ModifiedClass(int)",
-                "ModifiedPackage.ModifiedClass.deprecatedMethod()",
-                "ModifiedPackage.ModifiedInterface.deprecatedField",
-                "ModifiedPackage.ModifiedInterface.deprecatedMethod()"
+                "ModifiedPackage.ModifiedClass.ModifiedClass(long)",
+                "ModifiedPackage.ModifiedClass.deprecatedMethodByAnnotation()",
+                "ModifiedPackage.ModifiedClass.deprecatedMethodByJavadocTag()",
+                "ModifiedPackage.ModifiedInterface.deprecatedFieldByAnnotation",
+                "ModifiedPackage.ModifiedInterface.deprecatedFieldByJavadocTag",
+                "ModifiedPackage.ModifiedInterface.deprecatedMethodByAnnotation()",
+                "ModifiedPackage.ModifiedInterface.deprecatedMethodByJavadocTag()"
         );
 
         loader = new TransientClassfileLoader();

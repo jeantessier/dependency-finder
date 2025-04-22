@@ -64,8 +64,8 @@ public class TestClassfileScanner {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals(32, scanner.getNbFiles(), "Number of files");
-        assertEquals(14, scanner.getNbClasses(), "Number of classes");
+        assertEquals(40, scanner.getNbFiles(), "Number of files");
+        assertEquals(18, scanner.getNbClasses(), "Number of classes");
     }
 
     @Test
@@ -75,8 +75,8 @@ public class TestClassfileScanner {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals(34, scanner.getNbFiles(), "Number of files");
-        assertEquals(14, scanner.getNbClasses(), "Number of classes");
+        assertEquals(42, scanner.getNbFiles(), "Number of files");
+        assertEquals(18, scanner.getNbClasses(), "Number of classes");
     }
     
     @Test
@@ -86,8 +86,8 @@ public class TestClassfileScanner {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals(32, scanner.getNbFiles(), "Number of files");
-        assertEquals(14, scanner.getNbClasses(), "Number of classes");
+        assertEquals(40, scanner.getNbFiles(), "Number of files");
+        assertEquals(18, scanner.getNbClasses(), "Number of classes");
     }
 
     @Test
@@ -97,8 +97,8 @@ public class TestClassfileScanner {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals(33, scanner.getNbFiles(), "Number of files");
-        assertEquals(14, scanner.getNbClasses(), "Number of classes");
+        assertEquals(41, scanner.getNbFiles(), "Number of files");
+        assertEquals(18, scanner.getNbClasses(), "Number of classes");
     }
 
     @Test
@@ -108,8 +108,8 @@ public class TestClassfileScanner {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals(35, scanner.getNbFiles(), "Number of files");
-        assertEquals(14, scanner.getNbClasses(), "Number of classes");
+        assertEquals(43, scanner.getNbFiles(), "Number of files");
+        assertEquals(18, scanner.getNbClasses(), "Number of classes");
     }
     
     @Test
@@ -119,7 +119,7 @@ public class TestClassfileScanner {
         
         scanner.load(Collections.singleton(filename));
 
-        assertEquals(33, scanner.getNbFiles(), "Number of files");
-        assertEquals(14, scanner.getNbClasses(), "Number of classes");
+        assertEquals(41, scanner.getNbFiles(), "Number of files");
+        assertEquals(18, scanner.getNbClasses(), "Number of classes");
     }
 }

@@ -133,17 +133,33 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
     }
 
     @Test
-    void testDeprecatedField() {
-        Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedField", getOldPackages());
-        Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedField", getNewPackages());
+    void testDeprecatedFieldByAnnotation() {
+        Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedFieldByAnnotation", getOldPackages());
+        Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedFieldByAnnotation", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
 
     @Test
-    void testUndeprecatedField() {
-        Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedField", getOldPackages());
-        Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedField", getNewPackages());
+    void testDeprecatedFieldByJavadocTag() {
+        Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedFieldByJavadocTag", getOldPackages());
+        Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.deprecatedFieldByJavadocTag", getNewPackages());
+
+        assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
+    }
+
+    @Test
+    void testUndeprecatedFieldByAnnotation() {
+        Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedFieldByAnnotation", getOldPackages());
+        Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedFieldByAnnotation", getNewPackages());
+
+        assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
+    }
+
+    @Test
+    void testUndeprecatedFieldByJavadocTag() {
+        Field_info oldFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedFieldByJavadocTag", getOldPackages());
+        Field_info newFeature = findField("ModifiedPackage.ModifiedInterface.undeprecatedFieldByJavadocTag", getNewPackages());
 
         assertTrue(strategy.isFieldDifferent(oldFeature, newFeature));
     }
@@ -285,17 +301,33 @@ public class TestAPIDifferenceStrategy extends TestDifferencesFactoryBase {
     }
 
     @Test
-    void testDeprecatedMethod() {
-        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethod()", getOldPackages());
-        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethod()", getNewPackages());
+    void testDeprecatedMethodByAnnotation() {
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethodByAnnotation()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethodByAnnotation()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }
 
     @Test
-    void testUndeprecatedMethod() {
-        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethod()", getOldPackages());
-        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethod()", getNewPackages());
+    void testDeprecatedMethodByJavadocTag() {
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethodByJavadocTag()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.deprecatedMethodByJavadocTag()", getNewPackages());
+
+        assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
+    }
+
+    @Test
+    void testUndeprecatedMethodByAnnotation() {
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethodByAnnotation()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethodByAnnotation()", getNewPackages());
+
+        assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
+    }
+
+    @Test
+    void testUndeprecatedMethodByJavadocTag() {
+        Method_info oldMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethodByJavadocTag()", getOldPackages());
+        Method_info newMethod = findMethod("ModifiedPackage.ModifiedClass.undeprecatedMethodByJavadocTag()", getNewPackages());
 
         assertTrue(strategy.isMethodDifferent(oldMethod, newMethod));
     }

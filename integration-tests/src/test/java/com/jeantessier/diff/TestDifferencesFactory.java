@@ -66,7 +66,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         assertNotNull(differences, name);
 
         assertEquals(name, differences.getName());
-        assertEquals(13, differences.getClassDifferences().size(), name + ".ClassDifferences: " + differences.getClassDifferences());
+        assertEquals(17, differences.getClassDifferences().size(), name + ".ClassDifferences: " + differences.getClassDifferences());
         assertFalse(differences.isRemoved(), name + ".IsRemoved()");
         assertTrue(differences.isModified(), name + ".IsModified()");
         assertFalse(differences.isNew(), name + ".IsNew()");
@@ -99,11 +99,31 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
     }
 
     @Test
-    void testDeprecatedClass() {
+    void testDeprecatedClassByAnnotation() {
         String packageName = "ModifiedPackage";
         PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
-        String name = packageName + ".DeprecatedClass";
+        String name = packageName + ".DeprecatedClassByAnnotation";
+        DeprecatableDifferences deprecatableDifferences = (DeprecatableDifferences) find(name, packageDifferences.getClassDifferences());
+        ClassDifferences differences = (ClassDifferences) deprecatableDifferences.getComponent();
+        assertNotNull(differences, name);
+
+        assertTrue(deprecatableDifferences.isNewDeprecation(), name + ".NewDeprecation()");
+        assertFalse(deprecatableDifferences.isRemovedDeprecation(), name + ".RemovedDeprecation()");
+
+        assertEquals(name, differences.getName());
+        assertEquals(0, differences.getFeatureDifferences().size(), name + ".FeatureDifferences");
+        assertFalse(differences.isRemoved(), name + ".IsRemoved()");
+        assertFalse(differences.isModified(), name + ".IsModified()");
+        assertFalse(differences.isNew(), name + ".IsNew()");
+    }
+
+    @Test
+    void testDeprecatedClassByJavadocTag() {
+        String packageName = "ModifiedPackage";
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
+
+        String name = packageName + ".DeprecatedClassByJavadocTag";
         DeprecatableDifferences deprecatableDifferences = (DeprecatableDifferences) find(name, packageDifferences.getClassDifferences());
         ClassDifferences differences = (ClassDifferences) deprecatableDifferences.getComponent();
         assertNotNull(differences, name);
@@ -128,7 +148,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         assertNotNull(differences, name);
 
         assertEquals(name, differences.getName());
-        assertEquals(35, differences.getFeatureDifferences().size(), name + ".FeatureDifferences");
+        assertEquals(41, differences.getFeatureDifferences().size(), name + ".FeatureDifferences");
         assertFalse(differences.isRemoved(), name + ".IsRemoved()");
         assertTrue(differences.isModified(), name + ".IsModified()");
         assertFalse(differences.isNew(), name + ".IsNew()");
@@ -144,7 +164,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         assertNotNull(differences, name);
 
         assertEquals(name, differences.getName());
-        assertEquals(11, differences.getFeatureDifferences().size(), name + ".FeatureDifferences");
+        assertEquals(15, differences.getFeatureDifferences().size(), name + ".FeatureDifferences");
         assertFalse(differences.isRemoved(), name + ".IsRemoved()");
         assertTrue(differences.isModified(), name + ".IsModified()");
         assertFalse(differences.isNew(), name + ".IsNew()");
@@ -215,11 +235,31 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
     }
 
     @Test
-    void testUndeprecatedClass() {
+    void testUndeprecatedClassByAnnotation() {
         String packageName = "ModifiedPackage";
         PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
 
-        String name = packageName + ".UndeprecatedClass";
+        String name = packageName + ".UndeprecatedClassByAnnotation";
+        DeprecatableDifferences deprecatableDifferences = (DeprecatableDifferences) find(name, packageDifferences.getClassDifferences());
+        ClassDifferences differences = (ClassDifferences) deprecatableDifferences.getComponent();
+        assertNotNull(differences, name);
+
+        assertFalse(deprecatableDifferences.isNewDeprecation(), name + ".NewDeprecation()");
+        assertTrue(deprecatableDifferences.isRemovedDeprecation(), name + ".RemovedDeprecation()");
+
+        assertEquals(name, differences.getName());
+        assertEquals(0, differences.getFeatureDifferences().size(), name + ".FeatureDifferences");
+        assertFalse(differences.isRemoved(), name + ".IsRemoved()");
+        assertFalse(differences.isModified(), name + ".IsModified()");
+        assertFalse(differences.isNew(), name + ".IsNew()");
+    }
+
+    @Test
+    void testUndeprecatedClassByJavadocTag() {
+        String packageName = "ModifiedPackage";
+        PackageDifferences packageDifferences = (PackageDifferences) find(packageName, projectDifferences.getPackageDifferences());
+
+        String name = packageName + ".UndeprecatedClassByJavadocTag";
         DeprecatableDifferences deprecatableDifferences = (DeprecatableDifferences) find(name, packageDifferences.getClassDifferences());
         ClassDifferences differences = (ClassDifferences) deprecatableDifferences.getComponent();
         assertNotNull(differences, name);

@@ -3,5 +3,5 @@ package ModifiedPackage;
 /**
  *  @deprecated
  */
-public class DeprecatedClass {
+public interface DeprecatedInterfaceByJavadocTag {
 }

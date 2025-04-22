@@ -127,7 +127,7 @@ public class TestClassMatcher {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(file.getPath()));
 
-        assertEquals(14, matcher.getResults().size(), "Number of results");
+        assertEquals(18, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
             assertEquals(1, results.size(), "number results");
             assertEquals(file.getPath(), results.get(0), "value");
@@ -145,7 +145,7 @@ public class TestClassMatcher {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(file.getPath()));
 
-        assertEquals(14, matcher.getResults().size(), "Number of results");
+        assertEquals(18, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
             assertEquals(1, results.size(), "number results");
             assertEquals("onelevel.zip", results.get(0), "value");
@@ -163,7 +163,7 @@ public class TestClassMatcher {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dir.getPath()));
 
-        assertEquals(14, matcher.getResults().size(), "Number of results");
+        assertEquals(18, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
             assertEquals(1, results.size(), "number results");
             assertEquals(dir.getPath(), results.get(0), "value");
@@ -181,7 +181,7 @@ public class TestClassMatcher {
         loader.addLoadListener(matcher);
         loader.load(Collections.singleton(dir.getPath()));
 
-        assertEquals(13, matcher.getResults().size(), "Number of results");
+        assertEquals(17, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
             assertEquals(1, results.size(), "number results");
             assertEquals(dir.getPath(), results.get(0), "value");
@@ -223,7 +223,7 @@ public class TestClassMatcher {
         loader.addLoadListener(matcher);
         loader.load(filenames);
 
-        assertEquals(14, matcher.getResults().size(), "Number of results");
+        assertEquals(18, matcher.getResults().size(), "Number of results");
         for (List<String> results : matcher.getResults().values()) {
             assertEquals(2, results.size(), "number results");
             assertEquals(file1.getPath(), results.get(0), "value");

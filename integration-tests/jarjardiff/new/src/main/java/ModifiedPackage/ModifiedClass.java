@@ -2,8 +2,11 @@ package ModifiedPackage;
 
 /** @level public */
 public class ModifiedClass {
+    @Deprecated
+    public int deprecatedFieldByAnnotation;
+
     /** @deprecated */
-    public int deprecatedField;
+    public int deprecatedFieldByJavadocTag;
 
     /** @level private */
     public int undocumentedField;
@@ -20,7 +23,9 @@ public class ModifiedClass {
     /** @level public */
     public int documentedField;
 
-    public int undeprecatedField;
+    public int undeprecatedFieldByAnnotation;
+
+    public int undeprecatedFieldByJavadocTag;
 
     public int newField;
 
@@ -32,10 +37,17 @@ public class ModifiedClass {
     public static final String NEW_NON_ASCII_STRING = "\u00A5";
 
     /**
-     *  Deprecated Constructor
+     *  Deprecated Constructor by annotation
+     */
+    @Deprecated
+    public ModifiedClass(int i) {
+    }
+
+    /**
+     *  Deprecated Constructor by javadoc tag
      *  @deprecated
      */
-    public ModifiedClass(int i) {
+    public ModifiedClass(long i) {
     }
 
     /**
@@ -66,9 +78,15 @@ public class ModifiedClass {
     }
 
     /**
-     *  Undeprecated Constructor
+     *  Undeprecated Constructor by annotation
      */
     public ModifiedClass(int i, int j, int k, int m, int n) {
+    }
+
+    /**
+     *  Undeprecated Constructor by javadoc tag
+     */
+    public ModifiedClass(long i, int j, int k, int m, int n) {
     }
 
     /**
@@ -77,8 +95,12 @@ public class ModifiedClass {
     public ModifiedClass(int i, int j, int k, int m, int n, int p) {
     }
 
+    @Deprecated
+    public void deprecatedMethodByAnnotation() {
+    }
+
     /** @deprecated */
-    public void deprecatedMethod() {
+    public void deprecatedMethodByJavadocTag() {
     }
 
     /** @level private */
@@ -97,9 +119,12 @@ public class ModifiedClass {
     public void documentedMethod() {
     }
 
-    public void undeprecatedMethod() {
+    public void undeprecatedMethodByAnnotation() {
     }
-    
+
+    public void undeprecatedMethodByJavadocTag() {
+    }
+
     public void newMethod() {
     }
 }
