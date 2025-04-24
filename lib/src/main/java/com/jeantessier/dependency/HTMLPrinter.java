@@ -59,7 +59,7 @@ public class HTMLPrinter extends TextPrinter {
     protected Printer printScopeNodeName(Node node, String name) {
         var fullName = node.getName();
 
-        var urlArgument = perlEscapeName(fullName);
+        var urlArgument = urlEscapeName(fullName);
         var url = String.format(urlFormat, urlArgument);
 
         var link = new StringBuilder("<a");
@@ -86,7 +86,7 @@ public class HTMLPrinter extends TextPrinter {
 
         dependencies.forEach((dependency, value) -> {
             var rawName = dependency.getName();
-            var urlArgument = perlEscapeName(rawName);
+            var urlArgument = urlEscapeName(rawName);
             var url = String.format(urlFormat, urlArgument);
 
             String symbol;
@@ -132,14 +132,16 @@ public class HTMLPrinter extends TextPrinter {
         }
     }
 
-    private String perlEscapeName(String name) {
+    private String urlEscapeName(String name) {
         String result = name;
 
-        result = perl().substitute("s/\\(/\\\\(/g", result);
-        result = perl().substitute("s/\\)/\\\\)/g", result);
-        result = perl().substitute("s/\\$/\\\\\\$/g", result);
-        result = perl().substitute("s/\\[/\\\\[/g", result);
-        result = perl().substitute("s/\\]/\\\\]/g", result);
+        result = perl().substitute("s/\\(/%5C%28/g", result);
+        result = perl().substitute("s/\\)/%5C%29/g", result);
+        result = perl().substitute("s/\\$/%5C%24/g", result);
+        result = perl().substitute("s/\\[/%5C%5B/g", result);
+        result = perl().substitute("s/\\]/%5C%5D/g", result);
+        result = perl().substitute("s/:/%3A/g", result);
+        result = perl().substitute("s/ /+/g", result);
 
         return result;
     }

@@ -59,9 +59,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertScopeLine("", "foo\\(", fooPackage.getName(), "foo(");
-        assertScopeLine("    ", "foo\\(.Foo\\(", fooClass.getName(), "Foo(");
-        assertScopeLine("        ", "foo\\(.Foo\\(.foo\\(", fooFeature.getName(), "foo(");
+        assertScopeLine("", "foo%5C%28", fooPackage.getName(), "foo(");
+        assertScopeLine("    ", "foo%5C%28.Foo%5C%28", fooClass.getName(), "Foo(");
+        assertScopeLine("        ", "foo%5C%28.Foo%5C%28.foo%5C%28", fooFeature.getName(), "foo(");
     }
 
     @Test
@@ -71,9 +71,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertInboundLine("    ", "bar\\(", fooPackage.getName(), barPackage.getName());
-        assertInboundLine("        ", "bar\\(.Bar\\(", fooClass.getName(), barClass.getName());
-        assertInboundLine("            ", "bar\\(.Bar\\(.bar\\(", fooFeature.getName(), barFeature.getName());
+        assertInboundLine("    ", "bar%5C%28", fooPackage.getName(), barPackage.getName());
+        assertInboundLine("        ", "bar%5C%28.Bar%5C%28", fooClass.getName(), barClass.getName());
+        assertInboundLine("            ", "bar%5C%28.Bar%5C%28.bar%5C%28", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -83,9 +83,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertOutboundLine("    ", "bar\\(", fooPackage.getName(), barPackage.getName());
-        assertOutboundLine("        ", "bar\\(.Bar\\(", fooClass.getName(), barClass.getName());
-        assertOutboundLine("            ", "bar\\(.Bar\\(.bar\\(", fooFeature.getName(), barFeature.getName());
+        assertOutboundLine("    ", "bar%5C%28", fooPackage.getName(), barPackage.getName());
+        assertOutboundLine("        ", "bar%5C%28.Bar%5C%28", fooClass.getName(), barClass.getName());
+        assertOutboundLine("            ", "bar%5C%28.Bar%5C%28.bar%5C%28", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -94,9 +94,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertScopeLine("", "foo\\)", fooPackage.getName(), "foo)");
-        assertScopeLine("    ", "foo\\).Foo\\)", fooClass.getName(), "Foo)");
-        assertScopeLine("        ", "foo\\).Foo\\).foo\\)", fooFeature.getName(), "foo)");
+        assertScopeLine("", "foo%5C%29", fooPackage.getName(), "foo)");
+        assertScopeLine("    ", "foo%5C%29.Foo%5C%29", fooClass.getName(), "Foo)");
+        assertScopeLine("        ", "foo%5C%29.Foo%5C%29.foo%5C%29", fooFeature.getName(), "foo)");
     }
 
     @Test
@@ -106,9 +106,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertInboundLine("    ", "bar\\)", fooPackage.getName(), barPackage.getName());
-        assertInboundLine("        ", "bar\\).Bar\\)", fooClass.getName(), barClass.getName());
-        assertInboundLine("            ", "bar\\).Bar\\).bar\\)", fooFeature.getName(), barFeature.getName());
+        assertInboundLine("    ", "bar%5C%29", fooPackage.getName(), barPackage.getName());
+        assertInboundLine("        ", "bar%5C%29.Bar%5C%29", fooClass.getName(), barClass.getName());
+        assertInboundLine("            ", "bar%5C%29.Bar%5C%29.bar%5C%29", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -118,9 +118,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertOutboundLine("    ", "bar\\)", fooPackage.getName(), barPackage.getName());
-        assertOutboundLine("        ", "bar\\).Bar\\)", fooClass.getName(), barClass.getName());
-        assertOutboundLine("            ", "bar\\).Bar\\).bar\\)", fooFeature.getName(), barFeature.getName());
+        assertOutboundLine("    ", "bar%5C%29", fooPackage.getName(), barPackage.getName());
+        assertOutboundLine("        ", "bar%5C%29.Bar%5C%29", fooClass.getName(), barClass.getName());
+        assertOutboundLine("            ", "bar%5C%29.Bar%5C%29.bar%5C%29", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -129,9 +129,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertScopeLine("", "foo\\$", fooPackage.getName(), "foo$");
-        assertScopeLine("    ", "foo\\$.Foo\\$", fooClass.getName(), "Foo$");
-        assertScopeLine("        ", "foo\\$.Foo\\$.foo\\$", fooFeature.getName(), "foo$");
+        assertScopeLine("", "foo%5C%24", fooPackage.getName(), "foo$");
+        assertScopeLine("    ", "foo%5C%24.Foo%5C%24", fooClass.getName(), "Foo$");
+        assertScopeLine("        ", "foo%5C%24.Foo%5C%24.foo%5C%24", fooFeature.getName(), "foo$");
     }
 
     @Test
@@ -141,9 +141,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertInboundLine("    ", "bar\\$", fooPackage.getName(), barPackage.getName());
-        assertInboundLine("        ", "bar\\$.Bar\\$", fooClass.getName(), barClass.getName());
-        assertInboundLine("            ", "bar\\$.Bar\\$.bar\\$", fooFeature.getName(), barFeature.getName());
+        assertInboundLine("    ", "bar%5C%24", fooPackage.getName(), barPackage.getName());
+        assertInboundLine("        ", "bar%5C%24.Bar%5C%24", fooClass.getName(), barClass.getName());
+        assertInboundLine("            ", "bar%5C%24.Bar%5C%24.bar%5C%24", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -153,9 +153,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertOutboundLine("    ", "bar\\$", fooPackage.getName(), barPackage.getName());
-        assertOutboundLine("        ", "bar\\$.Bar\\$", fooClass.getName(), barClass.getName());
-        assertOutboundLine("            ", "bar\\$.Bar\\$.bar\\$", fooFeature.getName(), barFeature.getName());
+        assertOutboundLine("    ", "bar%5C%24", fooPackage.getName(), barPackage.getName());
+        assertOutboundLine("        ", "bar%5C%24.Bar%5C%24", fooClass.getName(), barClass.getName());
+        assertOutboundLine("            ", "bar%5C%24.Bar%5C%24.bar%5C%24", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -164,9 +164,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertScopeLine("", "foo\\[", fooPackage.getName(), "foo[");
-        assertScopeLine("    ", "foo\\[.Foo\\[", fooClass.getName(), "Foo[");
-        assertScopeLine("        ", "foo\\[.Foo\\[.foo\\[", fooFeature.getName(), "foo[");
+        assertScopeLine("", "foo%5C%5B", fooPackage.getName(), "foo[");
+        assertScopeLine("    ", "foo%5C%5B.Foo%5C%5B", fooClass.getName(), "Foo[");
+        assertScopeLine("        ", "foo%5C%5B.Foo%5C%5B.foo%5C%5B", fooFeature.getName(), "foo[");
     }
 
     @Test
@@ -176,9 +176,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertInboundLine("    ", "bar\\[", fooPackage.getName(), barPackage.getName());
-        assertInboundLine("        ", "bar\\[.Bar\\[", fooClass.getName(), barClass.getName());
-        assertInboundLine("            ", "bar\\[.Bar\\[.bar\\[", fooFeature.getName(), barFeature.getName());
+        assertInboundLine("    ", "bar%5C%5B", fooPackage.getName(), barPackage.getName());
+        assertInboundLine("        ", "bar%5C%5B.Bar%5C%5B", fooClass.getName(), barClass.getName());
+        assertInboundLine("            ", "bar%5C%5B.Bar%5C%5B.bar%5C%5B", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -188,9 +188,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertOutboundLine("    ", "bar\\[", fooPackage.getName(), barPackage.getName());
-        assertOutboundLine("        ", "bar\\[.Bar\\[", fooClass.getName(), barClass.getName());
-        assertOutboundLine("            ", "bar\\[.Bar\\[.bar\\[", fooFeature.getName(), barFeature.getName());
+        assertOutboundLine("    ", "bar%5C%5B", fooPackage.getName(), barPackage.getName());
+        assertOutboundLine("        ", "bar%5C%5B.Bar%5C%5B", fooClass.getName(), barClass.getName());
+        assertOutboundLine("            ", "bar%5C%5B.Bar%5C%5B.bar%5C%5B", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -199,9 +199,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertScopeLine("", "foo\\]", fooPackage.getName(), "foo]");
-        assertScopeLine("    ", "foo\\].Foo\\]", fooClass.getName(), "Foo]");
-        assertScopeLine("        ", "foo\\].Foo\\].foo\\]", fooFeature.getName(), "foo]");
+        assertScopeLine("", "foo%5C%5D", fooPackage.getName(), "foo]");
+        assertScopeLine("    ", "foo%5C%5D.Foo%5C%5D", fooClass.getName(), "Foo]");
+        assertScopeLine("        ", "foo%5C%5D.Foo%5C%5D.foo%5C%5D", fooFeature.getName(), "foo]");
     }
 
     @Test
@@ -211,9 +211,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertInboundLine("    ", "bar\\]", fooPackage.getName(), barPackage.getName());
-        assertInboundLine("        ", "bar\\].Bar\\]", fooClass.getName(), barClass.getName());
-        assertInboundLine("            ", "bar\\].Bar\\].bar\\]", fooFeature.getName(), barFeature.getName());
+        assertInboundLine("    ", "bar%5C%5D", fooPackage.getName(), barPackage.getName());
+        assertInboundLine("        ", "bar%5C%5D.Bar%5C%5D", fooClass.getName(), barClass.getName());
+        assertInboundLine("            ", "bar%5C%5D.Bar%5C%5D.bar%5C%5D", fooFeature.getName(), barFeature.getName());
     }
 
     @Test
@@ -223,9 +223,9 @@ public class TestHTMLPrinterEscapeMetaCharacters extends TestHTMLPrinterBase {
 
         visitor.traverseNodes(factory.getPackages().values());
 
-        assertOutboundLine("    ", "bar\\]", fooPackage.getName(), barPackage.getName());
-        assertOutboundLine("        ", "bar\\].Bar\\]", fooClass.getName(), barClass.getName());
-        assertOutboundLine("            ", "bar\\].Bar\\].bar\\]", fooFeature.getName(), barFeature.getName());
+        assertOutboundLine("    ", "bar%5C%5D", fooPackage.getName(), barPackage.getName());
+        assertOutboundLine("        ", "bar%5C%5D.Bar%5C%5D", fooClass.getName(), barClass.getName());
+        assertOutboundLine("            ", "bar%5C%5D.Bar%5C%5D.bar%5C%5D", fooFeature.getName(), barFeature.getName());
     }
 
     private void setupGraph(String specialCharacter) {
