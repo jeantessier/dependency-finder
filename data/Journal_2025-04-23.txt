@@ -1,0 +1,2 @@
+Fixed the servlet-based webapp so it properly escapes =()= and =[]= and =\=
+and =$= characters when you click on a name in a dependency graph.

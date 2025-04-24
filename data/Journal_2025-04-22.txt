@@ -1,0 +1,15 @@
+The servlet-based webapp lets you click on a name in a dependency graph to move
+the query to that element.  This is useful when navigating a graph and to
+follow from one dependency to the next.  My React app does not do that yet.  I
+added a =Name= component to render each name.  Each has an =onClick= handler.
+For now, the handler is in the =Query= component that represents the page, but
+I am struggling to make it populate the right input element and trigger a query
+to the backend.  I did add a way to save the query parameters to the URL.  Baby
+steps.
+
+I also noticed a while back that the servlet-based webapp was slightly broken.
+When I click on a method name, I get a "URL contains illegal characters" error.
+I believe it is reacting to =()= and escape =\= characters in the regex.  I
+will need to refine how I escape names for inclusion in URLs in =HTMLPrinter=.
+This used to work years ago.  There must have been some _recent_ development to
+tighten what is considered a valid URL.
