@@ -1,0 +1,29 @@
+Big bug: =JarJarDiff= can be non-deterministic under certain conditions.  I was
+generating differences between version =1.4.1.1= and the latest code, and the
+results kept changing from one call to the next.  For example, =Classfile=
+could have anywhere between 1 and 6 differences, even though I was analyzing
+the very same files.  I ran the same comparison 10 times and compared the
+results.  A few methods kept coming in and out of the report.
+
+- =getConstantPool()=
+- =getField()=
+- =getInterface()=
+- =getMethod()=
+- =getRawClass()=
+- =getRawSuperclass()=
+
+These methods have one thing in common: the latest version of =Classfile= has
+two methods for each signature: one explicit method and one synthetic bridge
+method.
+
+In =DifferencesFactory=, when analyzing a class, we collect unique signatures
+from the old and new versions.  If a method is a synthetic variation, it gets
+treated as one with the explicit method.  The factory uses
+=Classfile.getMethod()= to get the old and new =Method_info= that represent the
+method.  But =getMethod()= uses a stream with =findAny()=, whose documentation
+says: "The behavior of this operation is explicitly nondeterministic."
+Sometimes, it might return the explicit method, and at other times, it might
+return the corresponding synthetic method.
+
+I will need to revise how =DifferencesFactory= selects =Method_info= instances
+when looking for differences between methods.
