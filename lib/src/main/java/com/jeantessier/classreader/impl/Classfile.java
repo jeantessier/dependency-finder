@@ -254,7 +254,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return fields;
     }
 
-    public com.jeantessier.classreader.Field_info getField(Predicate<com.jeantessier.classreader.Field_info> filter) {
+    public Field_info getField(Predicate<com.jeantessier.classreader.Field_info> filter) {
         return fields.parallelStream()
                 .filter(filter)
                 .findAny()
@@ -292,7 +292,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
         return methods;
     }
 
-    public com.jeantessier.classreader.Method_info getMethod(Predicate<com.jeantessier.classreader.Method_info> filter) {
+    public Method_info getMethod(Predicate<com.jeantessier.classreader.Method_info> filter) {
         return methods.parallelStream()
                 .filter(filter)
                 .findAny()
@@ -328,7 +328,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 
     public Collection<? extends com.jeantessier.classreader.Method_info> locateMethodDeclarations(Predicate<com.jeantessier.classreader.Method_info> filter) {
         var declarations = Stream.concat(
-                    getAllInterfaces().stream().map(com.jeantessier.classreader.Class_info::getName),
+                    getAllInterfaces().stream().map(Class_info::getName),
                     Stream.of(getSuperclassName())
                 )
                 .map(className -> getLoader().getClassfile(className))
