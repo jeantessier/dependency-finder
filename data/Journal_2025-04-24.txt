@@ -5,12 +5,12 @@ could have anywhere between 1 and 6 differences, even though I was analyzing
 the very same files.  I ran the same comparison 10 times and compared the
 results.  A few methods kept coming in and out of the report.
 
-- =getConstantPool()=
-- =getField()=
-- =getInterface()=
-- =getMethod()=
-- =getRawClass()=
-- =getRawSuperclass()=
+    - =getConstantPool()=
+    - =getField()=
+    - =getInterface()=
+    - =getMethod()=
+    - =getRawClass()=
+    - =getRawSuperclass()=
 
 These methods have one thing in common: the latest version of =Classfile= has
 two methods for each signature: one explicit method and one synthetic bridge
