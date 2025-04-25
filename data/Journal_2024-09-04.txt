@@ -10,7 +10,13 @@ up on [[2024-07-04]], imagine the following interfaces:
     }
 
 And the initial implementation below.  They chose to name their classes exactly
-like the interface they implement, _because reasons_.
+like the interface they implement, _because reasons_<label for%3D"sn-2024-09-04-because-reasons" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2024-09-04-because-reasons" class%3D"margin-toggle">
+<span class%3D"sidenote">Maybe they like to keep names simple, like _Foo_.  The
+alternative is to distinguish them artificially, either as =FooInterface= and
+=Foo=, or else as =Foo= and =FooImpl=.  Nobody in their right mind would use
+something as silly as =IFoo= and =FooImpl=, though.  Right?!?  Regardless of
+the names, the compiler *will* create a bridge method.</span>.
 
     package com.acme.impl;
     &nbsp;
@@ -24,10 +30,10 @@ like the interface they implement, _because reasons_.
 
 The =Foo= in the method's return type is really a =*com.acme.impl*.Foo=.
 The type is congruent with the interface definition, so there is no problem.
-The compiler creates a bridge method of _bridge_ the difference, and everyone
+The compiler creates a bridge method to "bridge" the difference, and everyone
 is happy.
 
-Let's say the developers decide to remove the ambiguity, and write a new
+Let's say the developers decide to remove the ambiguity and write a new
 version.
 
     package com.acme.impl;
@@ -73,16 +79,16 @@ a bridge method that then calls an implementation, or that implementation
 itself, is completely hidden from the client.  Therefore, maybe =JarJarDiff=
 should not report any changes?
 
-But, there is a public method that has disappeared.  Does it not matter?
+But there is a public method that has disappeared.  Does it not matter?
 
-I tried to modify =DifferencesFactor= to compare methods by their _unique name_
-instead of their _signature_.  It would report the mismatched signature as
-having been removed, and the matching signature has having a code change.  But
-distinguishing methods based on their unique name makes it impossible to track
-changes to a method's return type.  Instead, it looks like one method was
-removed and another method was added.
+I tried to modify =DifferencesFactory= to compare methods by their
+_unique name_ instead of their _signature_.  It would report the mismatched
+signature as having been removed, and the matching signature as having a code
+change.  But distinguishing methods based on their unique name makes it
+impossible to track changes to a method's return type.  Instead, it looks like
+one method was removed and another method was added.
 
-So, I will keep distinguishing methods based on their signature.  For our
+So, I will keep distinguishing methods based on their signature.  In our
 example, the default report will show no changes, just like the client code
 perceives.  If =JarJarDiff= has the =-code= switch, it will report a change of
 the return type, which is not untrue.
