@@ -1,0 +1,38 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+hide <<interface>> fields
+
+set separator none
+
+package org.ietf.foo {
+
+    interface ietf_Foo as "Foo" <<interface>>
+
+    interface ietf_FooBuilder as "FooBuilder" <<interface>> {
+        buildFrom(name) : Foo
+    }
+    ietf_FooBuilder .> ietf_Foo
+
+}
+
+package com.acme.impl {
+
+    class acme_Foo as "Foo"
+    ietf_Foo <|.. acme_Foo
+
+    class acme_FooBuilder as "FooBuilder" {
+        buildFrom(name) : com.acme.impl.Foo
+        ..synthetic..
+        buildFrom(name) : org.ietf.foo.Foo
+    }
+    ietf_FooBuilder <|.. acme_FooBuilder
+    acme_FooBuilder .> acme_Foo : <<create>>
+    acme_FooBuilder .> ietf_Foo
+
+}
+
+@enduml

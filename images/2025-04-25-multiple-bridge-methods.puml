@@ -1,0 +1,62 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+hide <<interface>> fields
+
+set separator none
+
+interface SI <<interface>> {
+    getMe() : SI
+}
+
+interface I1 <<interface>> {
+    getMe() : I1
+    ..synthetic..
+    getMe() : SI
+}
+SI <|-- I1
+
+interface I2 <<interface>> {
+    getMe() : I2
+    ..synthetic..
+    getMe() : SI
+}
+SI <|-- I2
+
+interface I3 <<interface>> {
+    getMe() : I3
+    ..synthetic..
+    getMe() : SI
+}
+SI <|-- I3
+
+class A {
+    getMe() : A
+}
+
+abstract A1 {
+    {abstract} getYou() : A1
+}
+A <|-- A1
+
+class B {
+    getMe() : B
+    getYou() : B
+    getThem() : B
+    ..synthetic..
+    getMe() : SI
+    getMe() : I1
+    getMe() : I2
+    getMe() : I3
+    getMe() : A
+    getYou() : A1
+}
+A1 <|-- B
+I1 <|.. B
+I2 <|.. B
+I3 <|.. B
+
+@enduml

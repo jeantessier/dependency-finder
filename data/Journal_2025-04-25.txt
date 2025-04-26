@@ -1,0 +1,88 @@
+Looking back at my bridge method example from [[2024-09-04]] and [[2024-04-04]]
+to figure out what to do in =JarJarDiff=.  To refresh our mind, the
+implementation of an interface method can either match the return type from the
+declaration, or return something that is congruent with it (i.e., a subtype).
+In the examples, I posited a stylistic choice on the part of the implementer.
+They could conceivably go from one to the other, in either direction.
+
+Suppose _version 1_ uses a congruent return type, the compiler will add a
+bridge method to "bridge" the gap.
+
+[[../images/2025-04-25-acme1.png]]
+
+And suppose _version 2_ uses the exact return type, and does not need a bridge
+method.
+
+[[../images/2025-04-25-acme2.png]]
+
+The question remains: what, if anything, should =JarJarDiff= report when going
+from version 1 to version 2?  And about the converse, where it's going from
+version 2 to version 1?
+
+My first immediate concern is that when, in version 1, I ask the =Classfile=
+for the =buildFrom(String)= method, I randomly get the implementation or the
+bridge method.
+
+One tentative solution would be to have two =Method_info= structures to define
+the signature: one for its declaration and one for its implementation.  If
+there is no bridge method, the same =Method_info= can serve both purposes.  If
+there is a bridge method, it plays the role of the declaration.
+
+I explored a couple codebases to see some bridge methods _in the wild_.  It
+turns out a method can have multiple bridge methods.  Here is a "simple"
+example.
+
+[[../images/2025-04-25-multiple-bridge-methods.png]]
+
+Class =B= inherits a =getMe()= method from an interface hierarchy<label for%3D"sn-2025-04-25-saxon-example" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-04-25-saxon-example" class%3D"margin-toggle">
+<span class%3D"sidenote">I found a read-life example in Saxon-HE where the
+=AtomicValue= class inherits multiple declarations of the =iterate()= method
+from multiple interfaces.</span>, each with a different return type.  The
+interfaces themselves can have their own bridge methods, according to their own
+superinterfaces.  Class =B= also inherits a =getYou()= method from an abstract
+base class.
+
+Perhaps JarJarDiff should spread each signature into declaration-implementation
+tuples, one for each bridge method.
+
+When looking at the =B= class, for the =getMe()= method, =JarJarDiff= would
+consider the following tuples:
+
+    * =B.getMe(): SI=&nbsp;&mdash;&nbsp;=B.getMe(): B=
+    * =B.getMe(): I1=&nbsp;&mdash;&nbsp;=B.getMe(): B=
+    * =B.getMe(): I2=&nbsp;&mdash;&nbsp;=B.getMe(): B=
+    * =B.getMe(): I3=&nbsp;&mdash;&nbsp;=B.getMe(): B=
+    * =B.getMe(): A=&nbsp;&mdash;&nbsp;=B.getMe(): B=
+    * =B.getMe(): B=&nbsp;&mdash;&nbsp;=B.getMe(): B=
+
+For the =getYou()= method, it would consider these tuples:
+
+    * =B.getYou(): A1=&nbsp;&mdash;&nbsp;=B.getYou(): B=
+    * =B.getYou(): B=&nbsp;&mdash;&nbsp;=B.getYou(): B=
+
+And for the =getThem()= method, it would consider a single tuple:
+
+    * =B.getThem(): B=&nbsp;&mdash;&nbsp;=B.getThem(): B=
+
+For each tuple, =JarJarDiff= would look for a matching tuple in the _old_ and
+the _new_ codebases and use them to build a =CodeDifferences=.  The
+declaration part of the tuple would determine any changes in return type or
+visibility.  The implementation part of the tuple would determine if the code
+itself was changed.
+
+In the case of versions 1 and 2 of =com.acme.impl= above, version 1 would have
+the two tuples:
+
+    1 =buildFrom(name) : org.ietf.foo.Foo=&nbsp;&mdash;&nbsp;=buildFrom(name) : com.acme.impl.Foo=
+    1 =buildFrom(name) : com.acme.impl.Foo=&nbsp;&mdash;&nbsp;=buildFrom(name) : com.acme.impl.Foo=
+
+And version 2 would have a single tuple:
+
+    1 =buildFrom(name) : org.ietf.foo.Foo=&nbsp;&mdash;&nbsp;=buildFrom(name) : org.ietf.foo.Foo=
+
+=JarJarDiff= would match the version 2 tuple with the version 1 tuple with the
+bridge method (No. 1 in each list) and find no differences.  That would leave
+the second tuple in version 1 (No. 2 in that list) as either a _removed_ method
+if it's going from version 1 to version 2, or an _added_ method if it's going
+from version 2 to version 1.
