@@ -1,4 +1,4 @@
-Looking back at my bridge method example from [[2024-09-04]] and [[2024-04-04]]
+Looking back at my bridge method example from [[2024-09-04]] and [[2024-07-04]]
 to figure out what to do in =JarJarDiff=.  To refresh our mind, the
 implementation of an interface method can either match the return type from the
 declaration, or return something that is congruent with it (i.e., a subtype).
