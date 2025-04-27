@@ -1,0 +1,37 @@
+I think there are two underlying problems with how =JarJarDiff= deals with
+bridge methods.
+
+The first problem is that I use =parallelStream()= in many places, e.g.,
+=Classfile.getMethod(filter)=, and blindly trust the JVM to do the right thing.
+In most places, I use =LinkedList= to store lists of things, and setting up a
+parallel stream on a =LinkedList= somewhat defeats the purpose<label for%3D"sn-2025-04-27-linkedlist-parallelstream" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-04-27-linkedlist-parallelstream" class%3D"margin-toggle">
+<span class%3D"sidenote">See lesson 3-5 in this
+[[https://gandrille.github.io/tech-notes/Languages/Java/Language_and_libs/Lambdas_and_streams/Oracle_Mooc.html][course on functional programming]].</span>.
+When I call =findAny()= on a parallel steam over a =LinkedList=, sometimes it
+finds the matching thing, and sometimes it does not.  The solution, here, is
+for me to use =stream()= only.  Processing with parallel streams might be more
+efficient on very long lists, but I don't know that programming elements lists
+fall in that range.  I could profile it to make sure, but my intuition will do
+for now.
+
+The second problem is that =DifferencesFactory= looks up method by their
+signature.  Bridge methods share the same signature as the method they are
+bridging.  So, sometimes =Classfile.getMethod(filter)= returns the actual
+method, and sometimes it returns the bridge(s).  The solution, here, is to look
+up methods by their unique name instead.  The unique name includes the return
+type, so the factory will get a unique result.  It also has the added benefit
+that I can treat fields<label for%3D"sn-2025-04-27-field-unique-name" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-04-27-field-unique-name" class%3D"margin-toggle">
+<span class%3D"sidenote">A field's unique name is just its name, so going from
+_names_ to _unique names_ changes nothing for them semantically.  There is a
+notion of _synthetic_ fields, but I don't think they circumvent the
+restrictions on names the way methods do with their signatures.</span> and
+methods the same: look them up by their unique name and use their full
+signature.
+
+Fixing these two problems takes care of all the fuzziness around bridge methods
+I discussed on [[2025-04-25]].  The method with the more specific return type
+will either appear as having been removed or added, depending on the change.
+The inherited signature and return type will appear unchanged (unless you use
+=-code= to look at the actual instructions in the method).
