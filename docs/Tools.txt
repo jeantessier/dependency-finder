@@ -1098,7 +1098,8 @@ Prints synopsis.
 The name of a package, class, or feature must match the regular expression
 in _value_ for it to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -2712,7 +2713,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a class must match the regular expression in _value_ for it to be
 included in the query's starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The class can still be excluded if it matches one of the =-start-excludes=
 switches.
@@ -2750,7 +2752,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a class must match the regular expression in _value_ for it to be
 included in the query's end point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The class can still be excluded if it matches one of the =-stop-excludes=
 switches.
@@ -2830,7 +2833,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a feature must match the regular expression in _value_ for it to
 be included in the query's starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The feature can still be excluded if it matches one of the =-start-excludes=
 switches.
@@ -2868,7 +2872,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a feature must match the regular expression in _value_ for it to
 be included in the query's end point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The feature can still be excluded if it matches one of the =-stop-excludes=
 switches.
@@ -2983,7 +2988,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package must match the regular expression in _value_ for it to
 be included in the query's starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The package can still be excluded if it matches one of the =-start-excludes=
 switches.
@@ -3021,7 +3027,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package must match the regular expression in _value_ for it to
 be included in the query's end point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The package can still be excluded if it matches one of the =-stop-excludes=
 switches.
@@ -3076,7 +3083,8 @@ If there are multiples of this switch, the name must not be in any of them.
 The name of a package, class, or feature must match the regular expression in
 _value_ for it to be included in the query's starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 The package, class, or feature can still be excluded if it matches one of the
 =-start-excludes= switches.
@@ -3427,7 +3435,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a class must match the regular expression in _value_ for it
 to be included in the starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3503,7 +3512,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a feature must match the regular expression in _value_ for it
 to be included in the starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3610,7 +3620,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package must match the regular expression in _value_ for it
 to be included in the starting point.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -3949,7 +3960,8 @@ If a class is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4041,7 +4053,8 @@ If a feature is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -4234,7 +4247,8 @@ If a package is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6299,7 +6313,8 @@ If a class is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6347,7 +6362,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a class must match the regular expression in _value_ for it
 to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6445,7 +6461,8 @@ If a feature is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6493,7 +6510,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a feature must match the regular expression in _value_ for it
 to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6547,7 +6565,8 @@ The name of a package, class, or feature at the other end of the dependency
 must match the regular expression in _value_ for the dependency to be
 included in the results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6934,7 +6953,8 @@ If a package is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -6982,7 +7002,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package must match the regular expression in _value_ for it
 to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7033,7 +7054,8 @@ If there are multiples of this switch, the name must not be in any of them.
 The name of a package, class, or feature must match the regular expression
 in _value_ for it to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7442,7 +7464,8 @@ If a class is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7490,7 +7513,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a class must match the regular expression in _value_ for it
 to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7635,7 +7659,8 @@ If a feature is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7683,7 +7708,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a feature must match the regular expression in _value_ for it
 to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7963,7 +7989,8 @@ If a package is at the other end of the dependency, its name must match
 the regular expression in _value_ for the dependency to be included in the
 results.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -8011,7 +8038,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package must match the regular expression in _value_ for it
 to be included in the query's focus.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -12420,7 +12448,8 @@ If there are multiples of this switch, the name must not match any of them.
 The name of a package, class, or feature must match an entry in _filename_ for
 it to be accounted in the report.
 
-If there are multiples of this switch, the name must at least one of them.
+If there are multiples of this switch, the name must match at least one of
+them.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
