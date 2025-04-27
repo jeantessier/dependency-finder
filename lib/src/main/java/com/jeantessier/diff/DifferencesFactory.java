@@ -137,13 +137,13 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Collecting fields ...");
 
             Map<String, String> fieldLevel = new TreeMap<>();
-            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
-            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getName(), field.getFullSignature()));
+            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullSignature()));
+            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullSignature()));
 
             LogManager.getLogger(getClass()).debug("      Diff'ing fields ...");
 
-            fieldLevel.forEach((fieldName, fullSignature) -> {
-                Predicate<Field_info> predicate = field -> field.getSignature().equals(fieldName);
+            fieldLevel.forEach((uniqueName, fullSignature) -> {
+                Predicate<Field_info> predicate = field -> field.getUniqueName().equals(uniqueName);
                 Field_info oldField = oldClass.getField(predicate);
                 Field_info newField = newClass.getField(predicate);
 
@@ -155,13 +155,13 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Collecting methods ...");
 
             Map<String, String> methodLevel = new TreeMap<>();
-            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
-            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getSignature(), method.getFullSignature()));
+            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullSignature()));
+            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullSignature()));
 
             LogManager.getLogger(getClass()).debug("      Diff'ing methods ...");
 
-            methodLevel.forEach((signature, fullSignature) -> {
-                Predicate<Method_info> predicate = method -> method.getSignature().equals(signature);
+            methodLevel.forEach((uniqueName, fullSignature) -> {
+                Predicate<Method_info> predicate = method -> method.getUniqueName().equals(uniqueName);
                 Method_info oldMethod = oldClass.getMethod(predicate);
                 Method_info newMethod = newClass.getMethod(predicate);
 
