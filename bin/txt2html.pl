@@ -66,9 +66,21 @@ BEGIN {
 if (/^---(\++)\s*(.*)\s*/) {
     $level = length $1;
     $title = $2;
-    $anchor = $title;
-    $anchor =~ s/\s//g;
-    $anchor =~ s/=//g;
+    $anchor_part = $title;
+
+    if ($anchor_part =~ /^=(-+\S+).*=$/) {
+        $anchor_part = $1;
+    }
+
+    $anchor_part =~ s/\s//g;
+    $anchor_part =~ s/=//g;
+
+    while (@CURRENT_ANCHOR >= $level) {
+        pop(@CURRENT_ANCHOR);
+    }
+    push(@CURRENT_ANCHOR, $anchor_part);
+
+    $anchor = join("_", @CURRENT_ANCHOR);
 
     while (exists $ANCHORS{$anchor}) {
         $anchor .= "X";

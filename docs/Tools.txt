@@ -15,77 +15,77 @@ For Dependency Finder version <VERSION />.
     valign="top">
 <b>Dependencies</b>
 <ul>
-<li><a href="#DependencyFinder">DependencyFinder</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyFinder">DependencyFinder</a></li>
 <p></p>
-<li><a href="#DependencyExtractor">DependencyExtractor</a></li>
-<li><a href="#DependencyReporter">DependencyReporter</a></li>
-<li><a href="#DependencyGraphToDOT">DependencyGraphToDOT</a></li>
-<li><a href="#DependencyGraphToGraphML">DependencyGraphToGraphML</a></li>
-<li><a href="#DependencyGraphToHTML">DependencyGraphToHTML</a></li>
-<li><a href="#DependencyGraphToJSON">DependencyGraphToJSON</a></li>
-<li><a href="#DependencyGraphToRDF">DependencyGraphToRDF</a></li>
-<li><a href="#DependencyGraphToText">DependencyGraphToText</a></li>
-<li><a href="#DependencyGraphToYAML">DependencyGraphToYAML</a></li>
-<li><a href="#DependencyGraphToyEd">DependencyGraphToyEd</a></li>
-<li><a href="#DependablesToHTML">DependablesToHTML</a></li>
-<li><a href="#DependablesToText">DependablesToText</a></li>
-<li><a href="#DependentsToHTML">DependentsToHTML</a></li>
-<li><a href="#DependentsToText">DependentsToText</a></li>
-<li><a href="#HideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
-<li><a href="#HideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
-<li><a href="#HideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
-<li><a href="#HideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
-<li><a href="#ListUnused">ListUnused</a></li>
-<li><a href="#ListDeprecatedElements">ListDeprecatedElements</a></li>
-<li><a href="#DependencyGraphToFullyQualifiedNames">DependencyGraphToFullyQualifiedNames</a></li>
-<li><a href="#DependencyGraphToUnconfirmedFullyQualifiedNames">DependencyGraphToUnconfirmedFullyQualifiedNames</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyExtractor">DependencyExtractor</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyReporter">DependencyReporter</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToDOT">DependencyGraphToDOT</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToGraphML">DependencyGraphToGraphML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToHTML">DependencyGraphToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToJSON">DependencyGraphToJSON</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToRDF">DependencyGraphToRDF</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToText">DependencyGraphToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToYAML">DependencyGraphToYAML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToyEd">DependencyGraphToyEd</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependablesToHTML">DependablesToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependablesToText">DependablesToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependentsToHTML">DependentsToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependentsToText">DependentsToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FHideInboundDependenciesToHTML">HideInboundDependenciesToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FHideInboundDependenciesToText">HideInboundDependenciesToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FHideOutboundDependenciesToHTML">HideOutboundDependenciesToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FHideOutboundDependenciesToText">HideOutboundDependenciesToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListUnused">ListUnused</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListDeprecatedElements">ListDeprecatedElements</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToFullyQualifiedNames">DependencyGraphToFullyQualifiedNames</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyGraphToUnconfirmedFullyQualifiedNames">DependencyGraphToUnconfirmedFullyQualifiedNames</a></li>
 <p></p>
-<li><a href="#DependencyClosure">DependencyClosure</a></li>
-<li><a href="#ClosureToText">ClosureToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyClosure">DependencyClosure</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClosureToText">ClosureToText</a></li>
 <p></p>
-<li><a href="#DependencyCycles">DependencyCycles</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyCycles">DependencyCycles</a></li>
 <p></p>
-<li><a href="#c2c">c2c</a></li>
-<li><a href="#c2p">c2p</a></li>
-<li><a href="#f2f">f2f</a></li>
-<li><a href="#p2p">p2p</a></li>
+<li><a href="#ToolsinDependencyFinder%5Fc2c">c2c</a></li>
+<li><a href="#ToolsinDependencyFinder%5Fc2p">c2p</a></li>
+<li><a href="#ToolsinDependencyFinder%5Ff2f">f2f</a></li>
+<li><a href="#ToolsinDependencyFinder%5Fp2p">p2p</a></li>
 </ul>
 <b>Metrics</b>
 <ul>
-<li><a href="#OOMetrics">OOMetrics</a></li>
-<li><a href="#MetricsToHTML">MetricsToHTML</a></li>
-<li><a href="#MetricsToJSON">MetricsToJSON</a></li>
-<li><a href="#MetricsToText">MetricsToText</a></li>
-<li><a href="#MetricsToYAML">MetricsToYAML</a></li>
-<li><a href="#OOMetricsGUI">OOMetricsGUI</a></li>
+<li><a href="#ToolsinDependencyFinder%5FOOMetrics">OOMetrics</a></li>
+<li><a href="#ToolsinDependencyFinder%5FMetricsToHTML">MetricsToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FMetricsToJSON">MetricsToJSON</a></li>
+<li><a href="#ToolsinDependencyFinder%5FMetricsToText">MetricsToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FMetricsToYAML">MetricsToYAML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FOOMetricsGUI">OOMetricsGUI</a></li>
 <p></p>
-<li><a href="#ClassMetrics">ClassMetrics</a></li>
-<li><a href="#DependencyMetrics">DependencyMetrics</a></li>
-<li><a href="#ClassCohesion">ClassCohesion</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassMetrics">ClassMetrics</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDependencyMetrics">DependencyMetrics</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassCohesion">ClassCohesion</a></li>
 </ul>
 <b>API Differences</b>
 <ul>
-<li><a href="#JarJarDiff">JarJarDiff</a></li>
-<li><a href="#ClassClassDiff">ClassClassDiff</a></li>
-<li><a href="#DiffToHTML">DiffToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FJarJarDiff">JarJarDiff</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassClassDiff">ClassClassDiff</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDiffToHTML">DiffToHTML</a></li>
 <p></p>
-<li><a href="#ListDiff">ListDiff</a></li>
-<li><a href="#ListDiffToHTML">ListDiffToHTML</a></li>
-<li><a href="#ListDiffToText">ListDiffToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListDiff">ListDiff</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListDiffToHTML">ListDiffToHTML</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListDiffToText">ListDiffToText</a></li>
 <p></p>
-<li><a href="#ListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
-<li><a href="#DiffToFullyQualifiedNames">DiffToFullyQualifiedNames</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListInheritanceDiffToText">ListInheritanceDiffToText</a></li>
+<li><a href="#ToolsinDependencyFinder%5FDiffToFullyQualifiedNames">DiffToFullyQualifiedNames</a></li>
 </ul>
 <b>Classfile Utilities</b>
 <ul>
-<li><a href="#ClassReader">ClassReader</a></li>
-<li><a href="#ClassDump">ClassDump</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassReader">ClassReader</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassDump">ClassDump</a></li>
 <p></p>
-<li><a href="#ClassList">ClassList</a></li>
-<li><a href="#ClassFinder">ClassFinder</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassList">ClassList</a></li>
+<li><a href="#ToolsinDependencyFinder%5FClassFinder">ClassFinder</a></li>
 <p></p>
-<li><a href="#ListSymbols">ListSymbols</a></li>
-<li><a href="#ListDynamicInstructions">ListDynamicInstructions</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListSymbols">ListSymbols</a></li>
+<li><a href="#ToolsinDependencyFinder%5FListDynamicInstructions">ListDynamicInstructions</a></li>
 </ul>
 </td>
 </tr></table>
@@ -128,7 +128,7 @@ Computes API differences between two classes.
 Takes two classes and computes the API changes between them.  The first class
 is considered the "old" code and the second class is considered the "new" code.
 The result is an XML document listing the changes.  You can use
-[[#DiffToHTML][DiffToHTML]] to render the report in HTML.
+[[#ToolsinDependencyFinder%5FDiffToHTML][DiffToHTML]] to render the report in HTML.
 
 Sometimes, as you are doing refactoring, you might wonder what the impact will
 be on some class.  You can save it under a different name, make the changes,
@@ -1017,7 +1017,7 @@ For each class it could find, prints where it found it.
 <blockquote>
 
 Lists all the classes in a group of JAR file, Zip file, and directories along
-with the location(s) of each class.  Similar to [[#ClassList][ClassList]], this
+with the location(s) of each class.  Similar to [[#ToolsinDependencyFinder%5FClassList][ClassList]], this
 one shows where the class can be found, which JAR or directory.
 
 You can also give it a =.class= file, but that would be trivial.  It will just
@@ -2224,7 +2224,7 @@ Lists the programming elements in a closure.
 
 Lists the packages, classes, and features that make up the dependency graph
 representing a closure.  You generate these graphs with
-[[#DependencyClosure][DependencyClosure]].
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 </blockquote>
 
@@ -2238,9 +2238,9 @@ representing a closure.  You generate these graphs with
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -2359,9 +2359,9 @@ elements for easy navigation.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -2475,9 +2475,9 @@ Lists only non-empty nodes.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -2652,7 +2652,7 @@ point to either a specified end point or depth.
 <blockquote>
 
 This tool takes a dependency graph generated by
-[[#DependencyExtractor][DependencyExtractor]] and follows a trail of
+[[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]] and follows a trail of
 dependencies to construct a subgraph of all dependencies related to a starting
 point.  The result is a new dependency graph which is a subgraph of the
 original one.  You can use the various =XXXToText= and =XXXToHTML= scripts to
@@ -2666,21 +2666,21 @@ visiting any element twice.
 
 See also:
 
-   * [[#DependencyExtractor][DependencyExtractor]]
-   * [[#DependencyReporter][DependencyReporter]]
-   * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
-   * [[#DependencyGraphToJSON][DependencyGraphToJSON]]
-   * [[#DependencyGraphToText][DependencyGraphToText]]
-   * [[#DependencyGraphToYAML][DependencyGraphToYAML]]
-   * [[#DependencyGraphToGraphML][DependencyGraphToGraphML]]
-   * [[#DependablesToHTML][DependablesToHTML]]
-   * [[#DependablesToText][DependablesToText]]
-   * [[#DependentsToHTML][DependentsToHTML]]
-   * [[#DependentsToText][DependentsToText]]
-   * [[#HideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
-   * [[#HideInboundDependenciesToText][HideInboundDependenciesToText]]
-   * [[#HideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
-   * [[#HideOutboundDependenciesToText][HideOutboundDependenciesToText]]
+   * [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]]
+   * [[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToHTML][DependencyGraphToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToJSON][DependencyGraphToJSON]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToText][DependencyGraphToText]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToYAML][DependencyGraphToYAML]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToGraphML][DependencyGraphToGraphML]]
+   * [[#ToolsinDependencyFinder%5FDependablesToHTML][DependablesToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependablesToText][DependablesToText]]
+   * [[#ToolsinDependencyFinder%5FDependentsToHTML][DependentsToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependentsToText][DependentsToText]]
+   * [[#ToolsinDependencyFinder%5FHideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
+   * [[#ToolsinDependencyFinder%5FHideInboundDependenciesToText][HideInboundDependenciesToText]]
+   * [[#ToolsinDependencyFinder%5FHideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
+   * [[#ToolsinDependencyFinder%5FHideOutboundDependenciesToText][HideOutboundDependenciesToText]]
 
 </blockquote>
 
@@ -3393,7 +3393,7 @@ Looks for cycles in a dependency graph starting from a given starting point.
 <blockquote>
 
 This tool takes a dependency graph generated by
-[[#DependencyExtractor][DependencyExtractor]] and follows a trail of
+[[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]] and follows a trail of
 dependencies to look for cycles.  The result is a list of cycles that it found
 in the graph.  Each cycle lists the dependencies that make it in their proper
 order.
@@ -3900,19 +3900,19 @@ dependencies.
 
 See also:
 
-   * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
-   * [[#DependencyGraphToJSON][DependencyGraphToJSON]]
-   * [[#DependencyGraphToText][DependencyGraphToText]]
-   * [[#DependencyGraphToYAML][DependencyGraphToYAML]]
-   * [[#DependencyGraphToGraphML][DependencyGraphToGraphML]]
-   * [[#DependablesToHTML][DependablesToHTML]]
-   * [[#DependablesToText][DependablesToText]]
-   * [[#DependentsToHTML][DependentsToHTML]]
-   * [[#DependentsToText][DependentsToText]]
-   * [[#HideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
-   * [[#HideInboundDependenciesToText][HideInboundDependenciesToText]]
-   * [[#HideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
-   * [[#HideOutboundDependenciesToText][HideOutboundDependenciesToText]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToHTML][DependencyGraphToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToJSON][DependencyGraphToJSON]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToText][DependencyGraphToText]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToYAML][DependencyGraphToYAML]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToGraphML][DependencyGraphToGraphML]]
+   * [[#ToolsinDependencyFinder%5FDependablesToHTML][DependablesToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependablesToText][DependablesToText]]
+   * [[#ToolsinDependencyFinder%5FDependentsToHTML][DependentsToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependentsToText][DependentsToText]]
+   * [[#ToolsinDependencyFinder%5FHideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
+   * [[#ToolsinDependencyFinder%5FHideInboundDependenciesToText][HideInboundDependenciesToText]]
+   * [[#ToolsinDependencyFinder%5FHideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
+   * [[#ToolsinDependencyFinder%5FHideOutboundDependenciesToText][HideOutboundDependenciesToText]]
 
 </blockquote>
 
@@ -4430,10 +4430,10 @@ queries.
 
 It combines the functionalities of the following tools:
 
-   * [[#DependencyExtractor][DependencyExtractor]]
-   * [[#DependencyReporter][DependencyReporter]]
-   * [[#DependencyClosure][DependencyClosure]]
-   * [[#DependencyMetrics][DependencyMetrics]]
+   * [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]]
+   * [[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]]
+   * [[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]]
+   * [[#ToolsinDependencyFinder%5FDependencyMetrics][DependencyMetrics]]
 
 </blockquote>
 
@@ -4595,9 +4595,9 @@ the image using [[https://graphviz.org/][Graphviz]].
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4719,9 +4719,9 @@ Lists symbols from a dependency graph.
 
 <blockquote>
 
-Looks at the graph from [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]] and lists package, class, and feature
+Looks at the graph from [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]] and lists package, class, and feature
 names that are in it.
 
 </blockquote>
@@ -4736,9 +4736,9 @@ names that are in it.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -4890,9 +4890,9 @@ Translates both outbound and inbound dependencies to basic GraphML.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5004,9 +5004,9 @@ elements for easy navigation.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5117,9 +5117,9 @@ Translates both outbound and inbound dependencies to JSON.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5230,9 +5230,9 @@ Translates both outbound and inbound dependencies to RDF.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5343,9 +5343,9 @@ Translates both outbound and inbound dependencies to text.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5491,9 +5491,9 @@ Lists unconfirmed symbols from a dependency graph.
 
 <blockquote>
 
-Looks at the graph from [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]] and lists package, class, and feature
+Looks at the graph from [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]] and lists package, class, and feature
 names that are in it and that are unconfirmed.
 
 </blockquote>
@@ -5508,9 +5508,9 @@ names that are in it and that are unconfirmed.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5656,7 +5656,7 @@ From this, I can figure out the other JARs it needs.  The packages =java.%2A=,
 normal =CLASSPATH=.  I will need the Log4J and Jakarta-ORO JARs.
 
 If there had been a package that I really didn't know about in the list, I
-could have used [[#ClassFinder][ClassFinder]] to located it among a group of
+could have used [[#ToolsinDependencyFinder%5FClassFinder][ClassFinder]] to located it among a group of
 candidate JARs.
 
 </blockquote>
@@ -5711,9 +5711,9 @@ Translates both outbound and inbound dependencies to YAML.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -5834,9 +5834,9 @@ See also:
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -7344,7 +7344,7 @@ Summarizes a dependency graph according to user-specified criteria.
 <blockquote>
 
 This tool takes a dependency graph generated by
-[[#DependencyExtractor][DependencyExtractor]] and filters it based on selection
+[[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]] and filters it based on selection
 criteria provided by the user.  The result is a new dependency graph which is a
 subgraph of the original one.  You can use the various XXXToText and XXXToHTML
 scripts to render the graph as text or HTML for human reading.
@@ -7358,23 +7358,23 @@ can use this tool to combine multiple graphs into one.
 
 See also:
 
-   * [[#DependencyGraphToHTML][DependencyGraphToHTML]]
-   * [[#DependencyGraphToJSON][DependencyGraphToJSON]]
-   * [[#DependencyGraphToText][DependencyGraphToText]]
-   * [[#DependencyGraphToYAML][DependencyGraphToYAML]]
-   * [[#DependencyGraphToGraphML][DependencyGraphToGraphML]]
-   * [[#DependablesToHTML][DependablesToHTML]]
-   * [[#DependablesToText][DependablesToText]]
-   * [[#DependentsToHTML][DependentsToHTML]]
-   * [[#DependentsToText][DependentsToText]]
-   * [[#HideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
-   * [[#HideInboundDependenciesToText][HideInboundDependenciesToText]]
-   * [[#HideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
-   * [[#HideOutboundDependenciesToText][HideOutboundDependenciesToText]]
-   * [[#c2c][c2c]]
-   * [[#c2p][c2p]]
-   * [[#f2f][f2f]]
-   * [[#p2p][p2p]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToHTML][DependencyGraphToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToJSON][DependencyGraphToJSON]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToText][DependencyGraphToText]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToYAML][DependencyGraphToYAML]]
+   * [[#ToolsinDependencyFinder%5FDependencyGraphToGraphML][DependencyGraphToGraphML]]
+   * [[#ToolsinDependencyFinder%5FDependablesToHTML][DependablesToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependablesToText][DependablesToText]]
+   * [[#ToolsinDependencyFinder%5FDependentsToHTML][DependentsToHTML]]
+   * [[#ToolsinDependencyFinder%5FDependentsToText][DependentsToText]]
+   * [[#ToolsinDependencyFinder%5FHideInboundDependenciesToHTML][HideInboundDependenciesToHTML]]
+   * [[#ToolsinDependencyFinder%5FHideInboundDependenciesToText][HideInboundDependenciesToText]]
+   * [[#ToolsinDependencyFinder%5FHideOutboundDependenciesToHTML][HideOutboundDependenciesToHTML]]
+   * [[#ToolsinDependencyFinder%5FHideOutboundDependenciesToText][HideOutboundDependenciesToText]]
+   * [[#ToolsinDependencyFinder%5Fc2c][c2c]]
+   * [[#ToolsinDependencyFinder%5Fc2p][c2p]]
+   * [[#ToolsinDependencyFinder%5Ff2f][f2f]]
+   * [[#ToolsinDependencyFinder%5Fp2p][p2p]]
 
 </blockquote>
 
@@ -7393,7 +7393,7 @@ Shorthand for the combination of:
 
 See also:
 
-   * [[#c2c][c2c]]
+   * [[#ToolsinDependencyFinder%5Fc2c][c2c]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7414,7 +7414,7 @@ Shorthand for the combination of:
 
 See also:
 
-   * [[#c2p][c2p]]
+   * [[#ToolsinDependencyFinder%5Fc2p][c2p]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7609,7 +7609,7 @@ Shorthand for the combination of:
 
 See also:
 
-   * [[#f2f][f2f]]
+   * [[#ToolsinDependencyFinder%5Ff2f][f2f]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -7828,7 +7828,7 @@ Include nodes in the output that map to filter criteria, even if they do not
 meet scope criteria.
 
 This is especially useful when generating DOT files from XML dependency graph
-representation with [[#DependencyGraphToDOT][DependencyGraphToDOT]].  The DOT
+representation with [[#ToolsinDependencyFinder%5FDependencyGraphToDOT][DependencyGraphToDOT]].  The DOT
 file needs to create nodes for packages, classes, and/or features on both ends
 of each dependency edge, so it needs this information in its source XML file.
 
@@ -7939,7 +7939,7 @@ Shorthand for the combination of:
 
 See also:
 
-   * [[#p2p][p2p]]
+   * [[#ToolsinDependencyFinder%5Fp2p][p2p]]
 
 <table border="0">
 <tr><td>Mandatory:</td><td>no</td></tr>
@@ -8438,9 +8438,9 @@ elements for easy navigation.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -8554,9 +8554,9 @@ Lists only non-empty nodes.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -8697,8 +8697,8 @@ Lists changed symbols from =JarJarDiff= and =ClassClassDiff= reports.
 
 <blockquote>
 
-Looks at the report from either [[#JarJarDiff][JarJarDiff]] or
-[[#ClassClassDiff][ClassClassDiff]] and lists the names of packages, classes,
+Looks at the report from either [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] or
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]] and lists the names of packages, classes,
 interfaces, fields, constructors, and methods that have changed.
 
 </blockquote>
@@ -8713,8 +8713,8 @@ interfaces, fields, constructors, and methods that have changed.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]] or
-[[#ClassClassDiff][ClassClassDiff]].
+such as the output of [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] or
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -8793,8 +8793,8 @@ See =-o= above.
 
 <blockquote>
 
-Converts the output of [[#JarJarDiff][JarJarDiff]] and
-[[#ClassClassDiff][ClassClassDiff]] to HTML.
+Converts the output of [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] and
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]] to HTML.
 
 </blockquote>
 
@@ -8808,8 +8808,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] and
 
 <blockquote>
 
-Converts the output of [[#JarJarDiff][JarJarDiff]] and
-[[#ClassClassDiff][ClassClassDiff]] to HTML.
+Converts the output of [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] and
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]] to HTML.
 
 </blockquote>
 
@@ -8823,8 +8823,8 @@ Converts the output of [[#JarJarDiff][JarJarDiff]] and
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]] or
-[[#ClassClassDiff][ClassClassDiff]].
+such as the output of [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] or
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -8935,9 +8935,9 @@ elements for easy navigation.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -9050,9 +9050,9 @@ Translates only outbound dependencies to text.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -9212,9 +9212,9 @@ elements for easy navigation.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -9327,9 +9327,9 @@ Translates only inbound dependencies to text.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -9490,7 +9490,7 @@ Computes API differences between two versions of a codebase.
 Takes two JAR files and computes the API changes between them.  The first JAR
 file is considered the "old" code and the second JAR file is considered the
 "new" code.  The result is an XML document listing the changes.  You can use
-[[#DiffToHTML][DiffToHTML]] to render the report in HTML.
+[[#ToolsinDependencyFinder%5FDiffToHTML][DiffToHTML]] to render the report in HTML.
 
 You can use =-level incompatible= to have an analysis that list only "public"
 changes that might not be backwards compatible.
@@ -9956,7 +9956,7 @@ files, and =.class= files.
 List of package names, class names, and feature names that are deprecated,
 one per line.
 
-You can pass this output to [[#DependencyReporter][DependencyReporter]] to get a
+You can pass this output to [[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]] to get a
 list of areas in your code that depend on deprecated APIs.
 
 </blockquote>
@@ -10316,7 +10316,7 @@ Then =ListDiff= will show:
 
 <blockquote>
 
-Converts the output of [[#ListDiff][ListDiff]] to HTML.
+Converts the output of [[#ToolsinDependencyFinder%5FListDiff][ListDiff]] to HTML.
 
 </blockquote>
 
@@ -10330,7 +10330,7 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 
 <blockquote>
 
-Converts the output of [[#ListDiff][ListDiff]] to HTML.
+Converts the output of [[#ToolsinDependencyFinder%5FListDiff][ListDiff]] to HTML.
 
 </blockquote>
 
@@ -10344,7 +10344,7 @@ Converts the output of [[#ListDiff][ListDiff]] to HTML.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/list-diff.dtd][list-diff]]= DTD,
-such as the output of [[#ListDiff][ListDiff]].
+such as the output of [[#ToolsinDependencyFinder%5FListDiff][ListDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -10423,7 +10423,7 @@ See =-o= above.
 
 <blockquote>
 
-Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
+Converts the output of [[#ToolsinDependencyFinder%5FListDiff][ListDiff]] to human-readable text.
 
 </blockquote>
 
@@ -10437,7 +10437,7 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 
 <blockquote>
 
-Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
+Converts the output of [[#ToolsinDependencyFinder%5FListDiff][ListDiff]] to human-readable text.
 
 </blockquote>
 
@@ -10451,7 +10451,7 @@ Converts the output of [[#ListDiff][ListDiff]] to human-readable text.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/list-diff.dtd][list-diff]]= DTD,
-such as the output of [[#ListDiff][ListDiff]].
+such as the output of [[#ToolsinDependencyFinder%5FListDiff][ListDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -10787,8 +10787,8 @@ Lists inheritance changes in =JarJarDiff= and =ClassClassDiff= reports.
 
 <blockquote>
 
-Looks at the report from either [[#JarJarDiff][JarJarDiff]] or
-[[#ClassClassDiff][ClassClassDiff]] and lists the names of classes and
+Looks at the report from either [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] or
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]] and lists the names of classes and
 interfaces that have changed either their =extends= or their =implements=
 clauses.
 
@@ -10804,8 +10804,8 @@ clauses.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/differences.dtd][differences]]= DTD,
-such as the output of [[#JarJarDiff][JarJarDiff]] or
-[[#ClassClassDiff][ClassClassDiff]].
+such as the output of [[#ToolsinDependencyFinder%5FJarJarDiff][JarJarDiff]] or
+[[#ToolsinDependencyFinder%5FClassClassDiff][ClassClassDiff]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -11511,9 +11511,9 @@ are not in reality.
 
 The XML file to be translated.  The document has to follow the
 =[[https://jeantessier.github.io/dependency-finder/dtd/dependencies.dtd][dependencies]]= DTD,
-such as the output of [[#DependencyExtractor][DependencyExtractor]],
-[[#DependencyReporter][DependencyReporter]], or
-[[#DependencyClosure][DependencyClosure]].
+such as the output of [[#ToolsinDependencyFinder%5FDependencyExtractor][DependencyExtractor]],
+[[#ToolsinDependencyFinder%5FDependencyReporter][DependencyReporter]], or
+[[#ToolsinDependencyFinder%5FDependencyClosure][DependencyClosure]].
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -12978,7 +12978,7 @@ See =-o= above.
 
 <blockquote>
 
-Instead of using [[#DependablesToHTML][DependablesToHTML]], you can use:
+Instead of using [[#ToolsinDependencyFinder%5FDependablesToHTML][DependablesToHTML]], you can use:
 
 <div class="highlight">
 
@@ -13002,7 +13002,7 @@ Instead of using [[#DependablesToHTML][DependablesToHTML]], you can use:
 
 <blockquote>
 
-Same as "=DependencyReporter -c2c=".
+Same as "=[[#ToolsinDependencyFinder%5FDependencyReporter%5FSwitches%5F-c2c][DependencyReporter -c2c]]=".
 
 </blockquote>
 
@@ -13012,7 +13012,7 @@ Same as "=DependencyReporter -c2c=".
 
 <blockquote>
 
-Same as "=DependencyReporter -c2p=".
+Same as "=[[#ToolsinDependencyFinder%5FDependencyReporter%5FSwitches%5F-c2p][DependencyReporter -c2p]]=".
 
 </blockquote>
 
@@ -13022,7 +13022,7 @@ Same as "=DependencyReporter -c2p=".
 
 <blockquote>
 
-Same as "=DependencyReporter -f2f=".
+Same as "=[[#ToolsinDependencyFinder%5FDependencyReporter%5FSwitches%5F-f2f][DependencyReporter -f2f]]=".
 
 </blockquote>
 
@@ -13032,7 +13032,7 @@ Same as "=DependencyReporter -f2f=".
 
 <blockquote>
 
-Same as "=DependencyReporter -p2p=".
+Same as "=[[#ToolsinDependencyFinder%5FDependencyReporter%5FSwitches%5F-p2p][DependencyReporter -p2p]]=".
 
 </blockquote>
 
