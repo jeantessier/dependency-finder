@@ -128,7 +128,7 @@ public abstract class Feature_info implements com.jeantessier.classreader.Featur
     }
 
     private boolean isSyntheticFromAttribute() {
-        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
     }
 
     public String getUniqueName() {

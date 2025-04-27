@@ -70,7 +70,7 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public boolean isPresent() {
-        return !getSwitches().isEmpty() && getSwitches().parallelStream().anyMatch(CommandLineSwitch::isPresent);
+        return !getSwitches().isEmpty() && getSwitches().stream().anyMatch(CommandLineSwitch::isPresent);
     }
 
     public boolean isMandatory() {
@@ -82,7 +82,7 @@ public class AliasSwitch implements CommandLineSwitch {
     }
 
     public int parse(String value) throws CommandLineException {
-        return getSwitches().parallelStream()
+        return getSwitches().stream()
                 .mapToInt(commandLineSwitch -> commandLineSwitch.parse(value))
                 .max()
                 .orElse(1);

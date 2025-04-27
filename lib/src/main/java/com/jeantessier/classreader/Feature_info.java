@@ -70,7 +70,7 @@ public interface Feature_info extends Deprecatable, Visitable {
 
     boolean isSynthetic();
     default boolean isDeprecated() {
-        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
     }
     default boolean isGeneric() {
         SignatureFinder finder = new SignatureFinder();

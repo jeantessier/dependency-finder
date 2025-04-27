@@ -75,7 +75,7 @@ public class PermissiveDispatcher implements ClassfileLoaderDispatcher {
         } else if (filename.endsWith(".class")) {
             result = ClassfileLoaderAction.CLASS;
             LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_CLASS", filename);
-        } else if (IGNORED_SUFFIXES.parallelStream().anyMatch(filename::endsWith)) {
+        } else if (IGNORED_SUFFIXES.stream().anyMatch(filename::endsWith)) {
             result = ClassfileLoaderAction.IGNORE;
             LogManager.getLogger(getClass()).debug("Dispatching \"{}\": ACTION_IGNORE", filename);
         } else {

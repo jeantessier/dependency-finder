@@ -339,7 +339,7 @@ public class StatisticalMeasurement extends MeasurementBase {
                     if (data.isEmpty()) {
                         standardDeviation = Double.NaN;
                     } else {
-                        var temp = data.parallelStream()
+                        var temp = data.stream()
                                 .map(n -> Math.pow(n - average, 2))
                                 .reduce(Double::sum)
                                 .orElse(0.0);

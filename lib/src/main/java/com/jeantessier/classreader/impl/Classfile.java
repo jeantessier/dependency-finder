@@ -240,7 +240,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Class_info getInterface(String name) {
-        return interfaces.parallelStream()
+        return interfaces.stream()
                 .filter(interfaceInfo -> interfaceInfo.getName().equals(name))
                 .findAny()
                 .orElse(null);
@@ -255,7 +255,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Field_info getField(Predicate<com.jeantessier.classreader.Field_info> filter) {
-        return fields.parallelStream()
+        return fields.stream()
                 .filter(filter)
                 .findAny()
                 .orElse(null);
@@ -293,7 +293,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Method_info getMethod(Predicate<com.jeantessier.classreader.Method_info> filter) {
-        return methods.parallelStream()
+        return methods.stream()
                 .filter(filter)
                 .findAny()
                 .orElse(null);
@@ -394,15 +394,15 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     private boolean isSyntheticFromAttribute() {
-        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Synthetic_attribute);
     }
 
     public boolean isDeprecated() {
-        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Deprecated_attribute);
     }
 
     public boolean isGeneric() {
-        return getAttributes().parallelStream().anyMatch(attribute -> attribute instanceof Signature_attribute);
+        return getAttributes().stream().anyMatch(attribute -> attribute instanceof Signature_attribute);
     }
 
     public String getDeclaration() {

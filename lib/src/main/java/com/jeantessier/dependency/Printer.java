@@ -193,7 +193,7 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected boolean hasVisibleClasses(PackageNode node) {
-        return node.getClasses().parallelStream().anyMatch(this::shouldShowClassNode);
+        return node.getClasses().stream().anyMatch(this::shouldShowClassNode);
     }
 
     protected boolean shouldShowClassNode(ClassNode node) {
@@ -201,7 +201,7 @@ public abstract class Printer extends VisitorBase {
     }
 
     protected boolean hasVisibleFeatures(ClassNode node) {
-        return node.getFeatures().parallelStream().anyMatch(this::shouldShowFeatureNode);
+        return node.getFeatures().stream().anyMatch(this::shouldShowFeatureNode);
     }
 
     protected boolean shouldShowFeatureNode(FeatureNode node) {

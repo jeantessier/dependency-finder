@@ -217,6 +217,6 @@ public abstract class MetricsReport {
     }
 
     protected long countConfirmedNodes(Collection<? extends Node> nodes) {
-        return nodes.parallelStream().filter(Node::isConfirmed).count();
+        return nodes.stream().filter(Node::isConfirmed).count();
     }
 }
