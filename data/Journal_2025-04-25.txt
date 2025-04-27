@@ -5,21 +5,20 @@ declaration, or return something that is congruent with it (i.e., a subtype).
 In the examples, I posited a stylistic choice on the part of the implementer.
 They could conceivably go from one to the other, in either direction.
 
-Suppose _version 1_ uses a congruent return type, the compiler will add a
+Suppose _version X_ uses a congruent return type, the compiler will add a
 bridge method to "bridge" the gap.
 
-[[../images/2025-04-25-acme1.png]]
+[[../images/2025-04-25-acme-x.png]]
 
-And suppose _version 2_ uses the exact return type, and does not need a bridge
+And suppose _version Y_ uses the exact return type, and does not need a bridge
 method.
 
-[[../images/2025-04-25-acme2.png]]
+[[../images/2025-04-25-acme-y.png]]
 
 The question remains: what, if anything, should =JarJarDiff= report when going
-from version 1 to version 2?  And about the converse, where it's going from
-version 2 to version 1?
+from X to Y?  And about the converse, where it's going from Y to X?
 
-My first immediate concern is that when, in version 1, I ask the =Classfile=
+My first immediate concern is that when, in version X, I ask the =Classfile=
 for the =buildFrom(String)= method, I randomly get the implementation or the
 bridge method.
 
@@ -71,18 +70,17 @@ declaration part of the tuple would determine any changes in return type or
 visibility.  The implementation part of the tuple would determine if the code
 itself was changed.
 
-In the case of versions 1 and 2 of =com.acme.impl= above, version 1 would have
+In the case of versions X and Y of =com.acme.impl= above, version X would have
 the two tuples:
 
     1 =buildFrom(name) : org.ietf.foo.Foo=&nbsp;&mdash;&nbsp;=buildFrom(name) : com.acme.impl.Foo=
     1 =buildFrom(name) : com.acme.impl.Foo=&nbsp;&mdash;&nbsp;=buildFrom(name) : com.acme.impl.Foo=
 
-And version 2 would have a single tuple:
+And version Y would have a single tuple:
 
     1 =buildFrom(name) : org.ietf.foo.Foo=&nbsp;&mdash;&nbsp;=buildFrom(name) : org.ietf.foo.Foo=
 
-=JarJarDiff= would match the version 2 tuple with the version 1 tuple with the
+=JarJarDiff= would match the version Y tuple with the version X tuple for the
 bridge method (No. 1 in each list) and find no differences.  That would leave
-the second tuple in version 1 (No. 2 in that list) as either a _removed_ method
-if it's going from version 1 to version 2, or an _added_ method if it's going
-from version 2 to version 1.
+the second tuple in version X (No. 2 in that list) as either a _removed_ method
+if it's going from X to Y, or an _added_ method if it's going from Y to X.
