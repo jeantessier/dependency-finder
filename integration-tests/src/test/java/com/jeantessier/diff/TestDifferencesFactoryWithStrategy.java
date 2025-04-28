@@ -85,7 +85,9 @@ public class TestDifferencesFactoryWithStrategy extends TestDifferencesFactoryBa
 
             exactly(26).of (mockStrategy).isCodeDifferent(with(any(Code_attribute.class)), with(any(Code_attribute.class)));
                 will(returnValue(true));
-            exactly(8).of (mockStrategy).isCodeDifferent(with(aNull(Code_attribute.class)), with(aNull(Code_attribute.class)));
+            exactly(7).of (mockStrategy).isCodeDifferent(with(aNull(Code_attribute.class)), with(aNull(Code_attribute.class)));
+                will(returnValue(true));
+            exactly(1).of (mockStrategy).isCodeDifferent(with(aNull(Code_attribute.class)), with(any(Code_attribute.class)));
                 will(returnValue(true));
         }});
 

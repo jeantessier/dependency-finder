@@ -89,7 +89,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
 
         MethodDifferences methodDifferences = findFeatureDifferences(factory, className, methodName);
 
-        assertTrue(methodDifferences.isCodeDifference());
+        assertFalse(methodDifferences.isCodeDifference());
     }
 
     @Test

@@ -107,8 +107,7 @@ public class ModifiedClass {
     public void undocumentedMethod() {
     }
     
-    public boolean modifiedMethod() {
-        return false;
+    public void modifiedMethod() throws Exception {
     }
     
     public void modifiedCodeMethod() {

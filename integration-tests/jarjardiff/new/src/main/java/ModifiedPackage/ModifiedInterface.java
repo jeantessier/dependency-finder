@@ -33,7 +33,7 @@ public interface ModifiedInterface {
     /** @level private */
     public void undocumentedMethod();
     
-    public boolean modifiedMethod();
+    public default void modifiedMethod() {};
 
     /** @level public */
     public void documentedMethod();
