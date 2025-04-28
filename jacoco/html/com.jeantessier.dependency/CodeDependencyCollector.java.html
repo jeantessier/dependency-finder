@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CodeDependencyCollector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.dependency</a> &gt; <span class="el_source">CodeDependencyCollector.java</span></div><h1>CodeDependencyCollector.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -93,130 +93,134 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
 <span class="fc bfc" id="L93" title="All 2 branches covered.">        if (classfile.hasSuperclass()) {</span>
 <span class="fc" id="L94">            Class_info superclass = classfile.getRawSuperclass();</span>
 <span class="fc" id="L95">            superclass.accept(this);</span>
-<span class="fc" id="L96">            currentClass.addParent(getFactory().createClass(superclass.getName()));</span>
+<span class="pc bpc" id="L96" title="1 of 4 branches missed.">            if (filterCriteria.isMatchingClasses() &amp;&amp; filterCriteria.matchesClassName(superclass.getName())) {</span>
+<span class="fc" id="L97">                currentClass.addParent(getFactory().createClass(superclass.getName()));</span>
+            }
         }
 
-<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (Class_info class_info : classfile.getAllInterfaces()) {</span>
-<span class="fc" id="L100">            class_info.accept(this);</span>
-<span class="fc" id="L101">            currentClass.addParent(getFactory().createClass(class_info.getName()));</span>
-<span class="fc" id="L102">        }</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        for (Class_info class_info : classfile.getAllInterfaces()) {</span>
+<span class="fc" id="L102">            class_info.accept(this);</span>
+<span class="pc bpc" id="L103" title="2 of 4 branches missed.">            if (filterCriteria.isMatchingClasses() &amp;&amp; filterCriteria.matchesClassName(class_info.getName())) {</span>
+<span class="fc" id="L104">                currentClass.addParent(getFactory().createClass(class_info.getName()));</span>
+            }
+<span class="fc" id="L106">        }</span>
 
-<span class="fc" id="L104">        super.visitClassfile(classfile);</span>
+<span class="fc" id="L108">        super.visitClassfile(classfile);</span>
 
-<span class="fc" id="L106">        fireEndClass(classfile.getClassName());</span>
-<span class="fc" id="L107">    }</span>
+<span class="fc" id="L110">        fireEndClass(classfile.getClassName());</span>
+<span class="fc" id="L111">    }</span>
 
     protected void visitClassfileAttributes(Classfile classfile) {
-<span class="fc" id="L110">        setCurrent(getFactory().createClass(classfile.getClassName()));</span>
-<span class="fc" id="L111">        super.visitClassfileAttributes(classfile);</span>
-<span class="fc" id="L112">    }</span>
+<span class="fc" id="L114">        setCurrent(getFactory().createClass(classfile.getClassName()));</span>
+<span class="fc" id="L115">        super.visitClassfileAttributes(classfile);</span>
+<span class="fc" id="L116">    }</span>
 
     public void visitClass_info(Class_info entry) {
-<span class="fc" id="L115">        String classname = entry.getName();</span>
-<span class="fc" id="L116">        LogManager.getLogger(getClass()).debug(&quot;VisitClass_info():&quot;);</span>
-<span class="fc" id="L117">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, classname);</span>
+<span class="fc" id="L119">        String classname = entry.getName();</span>
+<span class="fc" id="L120">        LogManager.getLogger(getClass()).debug(&quot;VisitClass_info():&quot;);</span>
+<span class="fc" id="L121">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, classname);</span>
 
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (entry.getRawName().getValue().startsWith(&quot;[&quot;)) {</span>
-<span class="fc" id="L120">            processDescriptor(entry.getRawName().getValue());</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if (entry.getRawName().getValue().startsWith(&quot;[&quot;)) {</span>
+<span class="fc" id="L124">            processDescriptor(entry.getRawName().getValue());</span>
         } else {
-<span class="fc" id="L122">            processClassName(classname);</span>
+<span class="fc" id="L126">            processClassName(classname);</span>
         }
 
-<span class="fc" id="L125">        super.visitClass_info(entry);</span>
-<span class="fc" id="L126">    }</span>
+<span class="fc" id="L129">        super.visitClass_info(entry);</span>
+<span class="fc" id="L130">    }</span>
 
     public void visitFieldRef_info(FieldRef_info entry) {
-<span class="fc" id="L129">        LogManager.getLogger(getClass()).debug(&quot;VisitFieldRef_info():&quot;);</span>
-<span class="pc" id="L130">        LogManager.getLogger(getClass()).debug(&quot;    class = \&quot;{}\&quot;&quot;, () -&gt; entry.getClassName());</span>
-<span class="pc" id="L131">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getName());</span>
-<span class="pc" id="L132">        LogManager.getLogger(getClass()).debug(&quot;    type = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getType());</span>
+<span class="fc" id="L133">        LogManager.getLogger(getClass()).debug(&quot;VisitFieldRef_info():&quot;);</span>
+<span class="pc" id="L134">        LogManager.getLogger(getClass()).debug(&quot;    class = \&quot;{}\&quot;&quot;, () -&gt; entry.getClassName());</span>
+<span class="pc" id="L135">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getName());</span>
+<span class="pc" id="L136">        LogManager.getLogger(getClass()).debug(&quot;    type = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getType());</span>
 
-<span class="fc" id="L134">        String name = entry.getFullUniqueName();</span>
-<span class="pc bpc" id="L135" title="2 of 4 branches missed.">        if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(name)) {</span>
-<span class="fc" id="L136">            Node other = getFactory().createFeature(name);</span>
-<span class="fc" id="L137">            getCurrent().addDependency(other);</span>
-<span class="fc" id="L138">            LogManager.getLogger(getClass()).info(&quot;FieldRef_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
-<span class="fc" id="L139">            fireDependency(getCurrent(), other);</span>
+<span class="fc" id="L138">        String name = entry.getFullUniqueName();</span>
+<span class="pc bpc" id="L139" title="1 of 4 branches missed.">        if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(name)) {</span>
+<span class="fc" id="L140">            Node other = getFactory().createFeature(name);</span>
+<span class="fc" id="L141">            getCurrent().addDependency(other);</span>
+<span class="fc" id="L142">            LogManager.getLogger(getClass()).info(&quot;FieldRef_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
+<span class="fc" id="L143">            fireDependency(getCurrent(), other);</span>
         }
 
-<span class="fc" id="L142">        processDescriptor(entry.getRawNameAndType().getType());</span>
+<span class="fc" id="L146">        processDescriptor(entry.getRawNameAndType().getType());</span>
 
-<span class="fc" id="L144">        super.visitFieldRef_info(entry);</span>
-<span class="fc" id="L145">    }</span>
+<span class="fc" id="L148">        super.visitFieldRef_info(entry);</span>
+<span class="fc" id="L149">    }</span>
 
     public void visitMethodRef_info(MethodRef_info entry) {
-<span class="fc" id="L148">        LogManager.getLogger(getClass()).debug(&quot;VisitMethodRef_info():&quot;);</span>
-<span class="pc" id="L149">        LogManager.getLogger(getClass()).debug(&quot;    class = \&quot;{}\&quot;&quot;, () -&gt; entry.getClassName());</span>
-<span class="pc" id="L150">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getName());</span>
-<span class="pc" id="L151">        LogManager.getLogger(getClass()).debug(&quot;    type = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getType());</span>
+<span class="fc" id="L152">        LogManager.getLogger(getClass()).debug(&quot;VisitMethodRef_info():&quot;);</span>
+<span class="pc" id="L153">        LogManager.getLogger(getClass()).debug(&quot;    class = \&quot;{}\&quot;&quot;, () -&gt; entry.getClassName());</span>
+<span class="pc" id="L154">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getName());</span>
+<span class="pc" id="L155">        LogManager.getLogger(getClass()).debug(&quot;    type = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getType());</span>
 
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if (!entry.isStaticInitializer()) {</span>
-<span class="fc" id="L154">            String name = entry.getFullUniqueName();</span>
-<span class="pc bpc" id="L155" title="1 of 4 branches missed.">            if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(name)) {</span>
-<span class="fc" id="L156">                Node other  = getFactory().createFeature(name);</span>
-<span class="fc" id="L157">                getCurrent().addDependency(other);</span>
-<span class="fc" id="L158">                LogManager.getLogger(getClass()).info(&quot;MethodRef_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
-<span class="fc" id="L159">                fireDependency(getCurrent(), other);</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        if (!entry.isStaticInitializer()) {</span>
+<span class="fc" id="L158">            String name = entry.getFullUniqueName();</span>
+<span class="pc bpc" id="L159" title="1 of 4 branches missed.">            if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(name)) {</span>
+<span class="fc" id="L160">                Node other  = getFactory().createFeature(name);</span>
+<span class="fc" id="L161">                getCurrent().addDependency(other);</span>
+<span class="fc" id="L162">                LogManager.getLogger(getClass()).info(&quot;MethodRef_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
+<span class="fc" id="L163">                fireDependency(getCurrent(), other);</span>
             }
 
-<span class="fc" id="L162">            processDescriptor(entry.getRawNameAndType().getType());</span>
+<span class="fc" id="L166">            processDescriptor(entry.getRawNameAndType().getType());</span>
         }
 
-<span class="fc" id="L165">        super.visitMethodRef_info(entry);</span>
-<span class="fc" id="L166">    }</span>
+<span class="fc" id="L169">        super.visitMethodRef_info(entry);</span>
+<span class="fc" id="L170">    }</span>
 
     public void visitInterfaceMethodRef_info(InterfaceMethodRef_info entry) {
-<span class="nc" id="L169">        LogManager.getLogger(getClass()).debug(&quot;VisitInterfaceMethodRef_info():&quot;);</span>
-<span class="nc" id="L170">        LogManager.getLogger(getClass()).debug(&quot;    class = \&quot;{}\&quot;&quot;, () -&gt; entry.getClassName());</span>
-<span class="nc" id="L171">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getName());</span>
-<span class="nc" id="L172">        LogManager.getLogger(getClass()).debug(&quot;    type = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getType());</span>
+<span class="nc" id="L173">        LogManager.getLogger(getClass()).debug(&quot;VisitInterfaceMethodRef_info():&quot;);</span>
+<span class="nc" id="L174">        LogManager.getLogger(getClass()).debug(&quot;    class = \&quot;{}\&quot;&quot;, () -&gt; entry.getClassName());</span>
+<span class="nc" id="L175">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getName());</span>
+<span class="nc" id="L176">        LogManager.getLogger(getClass()).debug(&quot;    type = \&quot;{}\&quot;&quot;, () -&gt; entry.getRawNameAndType().getType());</span>
 
-<span class="nc" id="L174">        String name = entry.getFullUniqueName();</span>
-<span class="nc bnc" id="L175" title="All 4 branches missed.">        if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(name)) {</span>
-<span class="nc" id="L176">            Node other  = getFactory().createFeature(name);</span>
-<span class="nc" id="L177">            getCurrent().addDependency(other);</span>
-<span class="nc" id="L178">            LogManager.getLogger(getClass()).info(&quot;InterfaceMethodRef_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
-<span class="nc" id="L179">            fireDependency(getCurrent(), other);</span>
+<span class="nc" id="L178">        String name = entry.getFullUniqueName();</span>
+<span class="nc bnc" id="L179" title="All 4 branches missed.">        if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(name)) {</span>
+<span class="nc" id="L180">            Node other  = getFactory().createFeature(name);</span>
+<span class="nc" id="L181">            getCurrent().addDependency(other);</span>
+<span class="nc" id="L182">            LogManager.getLogger(getClass()).info(&quot;InterfaceMethodRef_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
+<span class="nc" id="L183">            fireDependency(getCurrent(), other);</span>
         }
 
-<span class="nc" id="L182">        processDescriptor(entry.getRawNameAndType().getType());</span>
+<span class="nc" id="L186">        processDescriptor(entry.getRawNameAndType().getType());</span>
 
-<span class="nc" id="L184">        super.visitInterfaceMethodRef_info(entry);</span>
-<span class="nc" id="L185">    }</span>
+<span class="nc" id="L188">        super.visitInterfaceMethodRef_info(entry);</span>
+<span class="nc" id="L189">    }</span>
 
     public void visitField_info(Field_info entry) {
-<span class="fc" id="L188">        LogManager.getLogger(getClass()).debug(&quot;VisitField_info():&quot;);</span>
-<span class="pc" id="L189">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getName());</span>
-<span class="pc" id="L190">        LogManager.getLogger(getClass()).debug(&quot;    descriptor = \&quot;{}\&quot;&quot;, () -&gt; entry.getDescriptor());</span>
+<span class="fc" id="L192">        LogManager.getLogger(getClass()).debug(&quot;VisitField_info():&quot;);</span>
+<span class="pc" id="L193">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getName());</span>
+<span class="pc" id="L194">        LogManager.getLogger(getClass()).debug(&quot;    descriptor = \&quot;{}\&quot;&quot;, () -&gt; entry.getDescriptor());</span>
 
-<span class="fc" id="L192">        setCurrent(getFactory().createFeature(entry.getFullUniqueName(), true));</span>
+<span class="fc" id="L196">        setCurrent(getFactory().createFeature(entry.getFullUniqueName(), true));</span>
 
-<span class="fc" id="L194">        processDescriptor(entry.getDescriptor());</span>
+<span class="fc" id="L198">        processDescriptor(entry.getDescriptor());</span>
 
-<span class="fc" id="L196">        super.visitField_info(entry);</span>
-<span class="fc" id="L197">    }</span>
+<span class="fc" id="L200">        super.visitField_info(entry);</span>
+<span class="fc" id="L201">    }</span>
 
     public void visitMethod_info(Method_info entry) {
-<span class="fc" id="L200">        LogManager.getLogger(getClass()).debug(&quot;VisitMethod_info():&quot;);</span>
-<span class="pc" id="L201">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getName());</span>
-<span class="pc" id="L202">        LogManager.getLogger(getClass()).debug(&quot;    descriptor = \&quot;{}\&quot;&quot;, () -&gt; entry.getDescriptor());</span>
+<span class="fc" id="L204">        LogManager.getLogger(getClass()).debug(&quot;VisitMethod_info():&quot;);</span>
+<span class="pc" id="L205">        LogManager.getLogger(getClass()).debug(&quot;    name = \&quot;{}\&quot;&quot;, () -&gt; entry.getName());</span>
+<span class="pc" id="L206">        LogManager.getLogger(getClass()).debug(&quot;    descriptor = \&quot;{}\&quot;&quot;, () -&gt; entry.getDescriptor());</span>
 
-<span class="fc" id="L204">        setCurrent(getFactory().createFeature(entry.getFullUniqueName(), true));</span>
+<span class="fc" id="L208">        setCurrent(getFactory().createFeature(entry.getFullUniqueName(), true));</span>
 
-<span class="fc" id="L206">        processDescriptor(entry.getDescriptor());</span>
+<span class="fc" id="L210">        processDescriptor(entry.getDescriptor());</span>
 
-<span class="fc" id="L208">        super.visitMethod_info(entry);</span>
-<span class="fc" id="L209">    }</span>
+<span class="fc" id="L212">        super.visitMethod_info(entry);</span>
+<span class="fc" id="L213">    }</span>
 
     public void visitInstruction(Instruction helper) {
-<span class="fc" id="L212">        LogManager.getLogger(getClass()).debug(&quot;VisitInstruction() ...&quot;);</span>
+<span class="fc" id="L216">        LogManager.getLogger(getClass()).debug(&quot;VisitInstruction() ...&quot;);</span>
 
         /*
          *  We can skip the &quot;new&quot; (0xbb) instruction as it is always
          *  followed by a call to the constructor method.
          */
 
-<span class="fc bfc" id="L219" title="All 3 branches covered.">        switch (helper.getOpcode()) {</span>
+<span class="fc bfc" id="L223" title="All 3 branches covered.">        switch (helper.getOpcode()) {</span>
             case 0x12: // ldc
             case 0x13: // ldc_w
             case 0xb2: // getstatic
@@ -232,109 +236,109 @@ public class CodeDependencyCollector extends com.jeantessier.classreader.Visitor
             case 0xc0: // checkcast
             case 0xc1: // instanceof
             case 0xc5: // multianewarray
-<span class="fc" id="L235">                helper.getIndexedConstantPoolEntry().accept(this);</span>
-<span class="fc" id="L236">                break;</span>
+<span class="fc" id="L239">                helper.getIndexedConstantPoolEntry().accept(this);</span>
+<span class="fc" id="L240">                break;</span>
             case 0xba: // invokedynamic
-<span class="fc" id="L238">                helper.getDynamicConstantPoolEntries().forEach(entry -&gt; entry.accept(this));</span>
-<span class="fc" id="L239">                break;</span>
+<span class="fc" id="L242">                helper.getDynamicConstantPoolEntries().forEach(entry -&gt; entry.accept(this));</span>
+<span class="fc" id="L243">                break;</span>
             default:
                 // Do nothing
                 break;
         }
 
-<span class="fc" id="L245">        super.visitInstruction(helper);</span>
-<span class="fc" id="L246">    }</span>
+<span class="fc" id="L249">        super.visitInstruction(helper);</span>
+<span class="fc" id="L250">    }</span>
 
     public void visitExceptionHandler(ExceptionHandler helper) {
-<span class="fc" id="L249">        LogManager.getLogger(getClass()).debug(&quot;{}VisitExceptionHandler(): {}&quot;, getClass().getName(), helper);</span>
+<span class="fc" id="L253">        LogManager.getLogger(getClass()).debug(&quot;{}VisitExceptionHandler(): {}&quot;, getClass().getName(), helper);</span>
 
-<span class="fc bfc" id="L251" title="All 2 branches covered.">        if (helper.hasCatchType()) {</span>
-<span class="fc" id="L252">            helper.getRawCatchType().accept(this);</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">        if (helper.hasCatchType()) {</span>
+<span class="fc" id="L256">            helper.getRawCatchType().accept(this);</span>
         }
 
-<span class="fc" id="L255">        super.visitExceptionHandler(helper);</span>
-<span class="fc" id="L256">    }</span>
+<span class="fc" id="L259">        super.visitExceptionHandler(helper);</span>
+<span class="fc" id="L260">    }</span>
 
     public void visitAnnotation(Annotation helper) {
-<span class="fc" id="L259">        processClassName(helper.getType());</span>
+<span class="fc" id="L263">        processClassName(helper.getType());</span>
 
-<span class="fc" id="L261">        super.visitAnnotation(helper);</span>
-<span class="fc" id="L262">    }</span>
+<span class="fc" id="L265">        super.visitAnnotation(helper);</span>
+<span class="fc" id="L266">    }</span>
 
     public void visitEnumElementValue(EnumElementValue helper) {
-<span class="fc" id="L265">        String signature = helper.getTypeName() + &quot;.&quot; + helper.getConstName();</span>
-<span class="pc bpc" id="L266" title="2 of 4 branches missed.">        if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(signature)) {</span>
-<span class="fc" id="L267">            Node other = getFactory().createFeature(signature);</span>
-<span class="fc" id="L268">            getCurrent().addDependency(other);</span>
-<span class="fc" id="L269">            LogManager.getLogger(getClass()).info(&quot;EnumElementValue dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
-<span class="fc" id="L270">            fireDependency(getCurrent(), other);</span>
+<span class="fc" id="L269">        String signature = helper.getTypeName() + &quot;.&quot; + helper.getConstName();</span>
+<span class="pc bpc" id="L270" title="2 of 4 branches missed.">        if (filterCriteria.isMatchingFeatures() &amp;&amp; filterCriteria.matchesFeatureName(signature)) {</span>
+<span class="fc" id="L271">            Node other = getFactory().createFeature(signature);</span>
+<span class="fc" id="L272">            getCurrent().addDependency(other);</span>
+<span class="fc" id="L273">            LogManager.getLogger(getClass()).info(&quot;EnumElementValue dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
+<span class="fc" id="L274">            fireDependency(getCurrent(), other);</span>
         }
 
-<span class="fc" id="L273">        super.visitEnumElementValue(helper);</span>
-<span class="fc" id="L274">    }</span>
+<span class="fc" id="L277">        super.visitEnumElementValue(helper);</span>
+<span class="fc" id="L278">    }</span>
 
     public void visitClassElementValue(ClassElementValue helper) {
-<span class="fc" id="L277">        processClassName(helper.getClassInfo());</span>
+<span class="fc" id="L281">        processClassName(helper.getClassInfo());</span>
 
-<span class="fc" id="L279">        super.visitClassElementValue(helper);</span>
-<span class="fc" id="L280">    }</span>
+<span class="fc" id="L283">        super.visitClassElementValue(helper);</span>
+<span class="fc" id="L284">    }</span>
 
     private void processDescriptor(String str) {
-<span class="fc" id="L283">        int currentPos = 0;</span>
+<span class="fc" id="L287">        int currentPos = 0;</span>
         int startPos;
         int endPos;
 
-<span class="fc bfc" id="L287" title="All 2 branches covered.">        while ((startPos = str.indexOf('L', currentPos)) != -1) {</span>
-<span class="pc bpc" id="L288" title="1 of 2 branches missed.">            if ((endPos = str.indexOf(';', startPos)) != -1) {</span>
-<span class="fc" id="L289">                processClassName(ClassNameHelper.path2ClassName(str.substring(startPos + 1, endPos)));</span>
-<span class="fc" id="L290">                currentPos = endPos + 1;</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">        while ((startPos = str.indexOf('L', currentPos)) != -1) {</span>
+<span class="pc bpc" id="L292" title="1 of 2 branches missed.">            if ((endPos = str.indexOf(';', startPos)) != -1) {</span>
+<span class="fc" id="L293">                processClassName(ClassNameHelper.path2ClassName(str.substring(startPos + 1, endPos)));</span>
+<span class="fc" id="L294">                currentPos = endPos + 1;</span>
             } else {
-<span class="nc" id="L292">                currentPos = startPos + 1;</span>
+<span class="nc" id="L296">                currentPos = startPos + 1;</span>
             }
         }
-<span class="fc" id="L295">    }</span>
+<span class="fc" id="L299">    }</span>
 
     private void processClassName(String classname) {
-<span class="pc bpc" id="L298" title="1 of 4 branches missed.">        if (filterCriteria.isMatchingClasses() &amp;&amp; filterCriteria.matchesClassName(classname)) {</span>
-<span class="fc" id="L299">            LogManager.getLogger(getClass()).debug(&quot;    Adding \&quot;{}\&quot;&quot;, classname);</span>
-<span class="fc" id="L300">            Node other = getFactory().createClass(classname);</span>
-<span class="fc" id="L301">            getCurrent().addDependency(other);</span>
-<span class="fc" id="L302">            LogManager.getLogger(getClass()).info(&quot;Class_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
-<span class="fc" id="L303">            fireDependency(getCurrent(), other);</span>
+<span class="pc bpc" id="L302" title="1 of 4 branches missed.">        if (filterCriteria.isMatchingClasses() &amp;&amp; filterCriteria.matchesClassName(classname)) {</span>
+<span class="fc" id="L303">            LogManager.getLogger(getClass()).debug(&quot;    Adding \&quot;{}\&quot;&quot;, classname);</span>
+<span class="fc" id="L304">            Node other = getFactory().createClass(classname);</span>
+<span class="fc" id="L305">            getCurrent().addDependency(other);</span>
+<span class="fc" id="L306">            LogManager.getLogger(getClass()).info(&quot;Class_info dependency: {} --&gt; {}&quot;, getCurrent(), other);</span>
+<span class="fc" id="L307">            fireDependency(getCurrent(), other);</span>
         }
-<span class="fc" id="L305">    }</span>
-
-    public void addDependencyListener(DependencyListener listener) {
-<span class="fc" id="L308">        dependencyListeners.add(listener);</span>
 <span class="fc" id="L309">    }</span>
 
+    public void addDependencyListener(DependencyListener listener) {
+<span class="fc" id="L312">        dependencyListeners.add(listener);</span>
+<span class="fc" id="L313">    }</span>
+
     public void removeDependencyListener(DependencyListener listener) {
-<span class="nc" id="L312">        dependencyListeners.remove(listener);</span>
-<span class="nc" id="L313">    }</span>
+<span class="nc" id="L316">        dependencyListeners.remove(listener);</span>
+<span class="nc" id="L317">    }</span>
 
     protected void fireBeginSession() {
-<span class="nc" id="L316">        DependencyEvent event = new DependencyEvent(this);</span>
-<span class="nc" id="L317">        dependencyListeners.forEach(listener -&gt; listener.beginSession(event));</span>
-<span class="nc" id="L318">    }</span>
+<span class="nc" id="L320">        DependencyEvent event = new DependencyEvent(this);</span>
+<span class="nc" id="L321">        dependencyListeners.forEach(listener -&gt; listener.beginSession(event));</span>
+<span class="nc" id="L322">    }</span>
 
     protected void fireBeginClass(String classname) {
-<span class="fc" id="L321">        DependencyEvent event = new DependencyEvent(this, classname);</span>
-<span class="fc" id="L322">        dependencyListeners.forEach(listener -&gt; listener.beginClass(event));</span>
-<span class="fc" id="L323">    }</span>
+<span class="fc" id="L325">        DependencyEvent event = new DependencyEvent(this, classname);</span>
+<span class="fc" id="L326">        dependencyListeners.forEach(listener -&gt; listener.beginClass(event));</span>
+<span class="fc" id="L327">    }</span>
 
     protected void fireDependency(Node dependent, Node dependable) {
-<span class="fc" id="L326">        DependencyEvent event = new DependencyEvent(this, dependent, dependable);</span>
-<span class="fc" id="L327">        dependencyListeners.forEach(listener -&gt; listener.dependency(event));</span>
-<span class="fc" id="L328">    }</span>
+<span class="fc" id="L330">        DependencyEvent event = new DependencyEvent(this, dependent, dependable);</span>
+<span class="fc" id="L331">        dependencyListeners.forEach(listener -&gt; listener.dependency(event));</span>
+<span class="fc" id="L332">    }</span>
 
     protected void fireEndClass(String classname) {
-<span class="fc" id="L331">        DependencyEvent event = new DependencyEvent(this, classname);</span>
-<span class="fc" id="L332">        dependencyListeners.forEach(listener -&gt; listener.endClass(event));</span>
-<span class="fc" id="L333">    }</span>
+<span class="fc" id="L335">        DependencyEvent event = new DependencyEvent(this, classname);</span>
+<span class="fc" id="L336">        dependencyListeners.forEach(listener -&gt; listener.endClass(event));</span>
+<span class="fc" id="L337">    }</span>
 
     protected void fireEndSession() {
-<span class="nc" id="L336">        DependencyEvent event = new DependencyEvent(this);</span>
-<span class="nc" id="L337">        dependencyListeners.forEach(listener -&gt; listener.endSession(event));</span>
-<span class="nc" id="L338">    }</span>
+<span class="nc" id="L340">        DependencyEvent event = new DependencyEvent(this);</span>
+<span class="nc" id="L341">        dependencyListeners.forEach(listener -&gt; listener.endSession(event));</span>
+<span class="nc" id="L342">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

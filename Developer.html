@@ -25,7 +25,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.4.1.
+For Dependency Finder version 1.4.2.
 </p>
 
 <p>
@@ -36,80 +36,80 @@ by Jean Tessier
 
 <h2>Table of Contents</h2>
 <ul>
-<li><a href="#Introduction">Introduction</a></li>
-<li><a href="#Installation">Installation</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Introduction">Introduction</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation">Installation</a></li>
 <ul>
-<li><a href="#Third-PartyPackages">Third-Party Packages</a></li>
-<li><a href="#JavaApplication">Java Application</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_Third-PartyPackages">Third-Party Packages</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_JavaApplication">Java Application</a></li>
 <ul>
-<li><a href="#JAVA_HOME"><code>JAVA_HOME</code></a></li>
-<li><a href="#DEPENDENCYFINDER_HOME"><code>DEPENDENCYFINDER_HOME</code></a></li>
-<li><a href="#DEPENDENCYFINDER_OPTS"><code>DEPENDENCYFINDER_OPTS</code></a></li>
-<li><a href="#DEPENDENCYFINDER_CONSOLE"><code>DEPENDENCYFINDER_CONSOLE</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_JavaApplication_JAVA_HOME"><code>JAVA_HOME</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_JavaApplication_DEPENDENCYFINDER_HOME"><code>DEPENDENCYFINDER_HOME</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_JavaApplication_DEPENDENCYFINDER_OPTS"><code>DEPENDENCYFINDER_OPTS</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_JavaApplication_DEPENDENCYFINDER_CONSOLE"><code>DEPENDENCYFINDER_CONSOLE</code></a></li>
 </ul>
-<li><a href="#WebApplication">Web Application</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_WebApplication">Web Application</a></li>
 <ul>
-<li><a href="#web.xml"><code>web.xml</code></a></li>
-</ul>
-</ul>
-<li><a href="#HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
-<ul>
-<li><a href="#ClassFiles">Class Files</a></li>
-<li><a href="#Dependencies">Dependencies</a></li>
-<li><a href="#Metrics">Metrics</a></li>
-<li><a href="#APIDifferences">API Differences</a></li>
-</ul>
-<li><a href="#ContributingtoDependencyFinder">Contributing to Dependency Finder</a></li>
-<ul>
-<li><a href="#SeparateProject">Separate Project</a></li>
-<li><a href="#Assimilation">Assimilation</a></li>
-<li><a href="#Money">Money</a></li>
-</ul>
-<li><a href="#ClassFilesX">Class Files</a></li>
-<ul>
-<li><a href="#ClassfileLoader"><code>ClassfileLoader</code></a></li>
-<li><a href="#Visitor"><code>Visitor</code></a></li>
-</ul>
-<li><a href="#DependenciesX">Dependencies</a></li>
-<ul>
-<li><a href="#DependencyExtractor"><code>DependencyExtractor</code></a></li>
-<li><a href="#UpdatingtheGraphforChangedFiles">Updating the Graph for Changed Files</a></li>
-<li><a href="#extract.jsp"><code>extract.jsp</code></a></li>
-<li><a href="#SampleStandaloneApplicationwithRefresh">Sample Standalone Application with Refresh</a></li>
-<li><a href="#VisitorX"><code>Visitor</code></a></li>
-<ul>
-<li><a href="#VisitorandTraversalStrategy"><code>Visitor</code> and <code>TraversalStrategy</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Installation_WebApplication_web.xml"><code>web.xml</code></a></li>
 </ul>
 </ul>
-<li><a href="#OOMetrics">OO Metrics</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
 <ul>
-<li><a href="#DataStructure">Data Structure</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_ClassFiles">Class Files</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_Dependencies">Dependencies</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_Metrics">Metrics</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_APIDifferences">API Differences</a></li>
 </ul>
-<li><a href="#APIDifferencesX">API Differences</a></li>
-<li><a href="#Command-LineParsing">Command-Line Parsing</a></li>
-<li><a href="#BuildingDependencyFinder">Building Dependency Finder</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder">Contributing to Dependency Finder</a></li>
 <ul>
-<li><a href="#BuildinganExecutable">Building an Executable</a></li>
-<li><a href="#BuildingtheDocumentation">Building the Documentation</a></li>
-<li><a href="#CompilingaBuild">Compiling a Build</a></li>
-<li><a href="#TestingtheBuild">Testing the Build</a></li>
-<li><a href="#MakingaRelease">Making a Release</a></li>
-<li><a href="#ComputingCodeCoverage">Computing Code Coverage</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder_SeparateProject">Separate Project</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder_Assimilation">Assimilation</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder_Money">Money</a></li>
+</ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_ClassFiles">Class Files</a></li>
+<ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_ClassFiles_ClassfileLoader"><code>ClassfileLoader</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_ClassFiles_Visitor"><code>Visitor</code></a></li>
+</ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies">Dependencies</a></li>
+<ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies_DependencyExtractor"><code>DependencyExtractor</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies_UpdatingtheGraphforChangedFiles">Updating the Graph for Changed Files</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies_extract.jsp"><code>extract.jsp</code></a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies_SampleStandaloneApplicationwithRefresh">Sample Standalone Application with Refresh</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies_Visitor"><code>Visitor</code></a></li>
+<ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_Dependencies_Visitor_VisitorandTraversalStrategy"><code>Visitor</code> and <code>TraversalStrategy</code></a></li>
+</ul>
+</ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_OOMetrics">OO Metrics</a></li>
+<ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_OOMetrics_DataStructure">Data Structure</a></li>
+</ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_APIDifferences">API Differences</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_Command-LineParsing">Command-Line Parsing</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder">Building Dependency Finder</a></li>
+<ul>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_BuildinganExecutable">Building an Executable</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_BuildingtheDocumentation">Building the Documentation</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_CompilingaBuild">Compiling a Build</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_TestingtheBuild">Testing the Build</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_MakingaRelease">Making a Release</a></li>
+<li><a href="#TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_ComputingCodeCoverage">Computing Code Coverage</a></li>
 </ul>
 </ul>
 
 
 <hr />
 
-<a name="Introduction"></a>
+<a name="TheDependencyFinderDeveloperGuide_Introduction"></a>
 <h2>Introduction</h2>
 
 <hr />
 
-<a name="Installation"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation"></a>
 <h2>Installation</h2>
 
-<a name="Third-PartyPackages"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_Third-PartyPackages"></a>
 <h3>Third-Party Packages</h3>
 
 <p>
@@ -141,41 +141,39 @@ For testing:
     <tr><td>jMock</td><td><a href="http://jmock.org/">jmock.org</a></td><td align="center">2.5.1</td></tr>
     <tr><td>FitLibrary</td><td><a href="http://fitlibrary.sourceforge.net/">fitlibrary.sourceforge.net</a></td><td align="center">2006-01-16</td></tr>
     <tr><td>HttpUnit</td><td><a href="http://httpunit.sourceforge.net/">httpunit.sourceforge.net</a></td><td align="center">1.7</td></tr>
-    <tr><td>Emma</td><td><a href="http://emma.sourceforge.net/">emma.sourceforge.net</a></td><td align="center">2.0.5312</td></tr>
-    <tr><td>Clover</td><td><a href="http://www.cenqua.com/clover/">cenqua.com/clover</a></td><td align="center">1.3.13</td><td style="font-size: small">You will need the <code>clover-ant</code> distribution.</td></tr>
 </table>
 
-<a name="JavaApplication"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_JavaApplication"></a>
 <h3>Java Application</h3>
-<a name="JAVA_HOME"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_JavaApplication_JAVA_HOME"></a>
 <h4><code>JAVA_HOME</code></h4>
-<a name="DEPENDENCYFINDER_HOME"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_JavaApplication_DEPENDENCYFINDER_HOME"></a>
 <h4><code>DEPENDENCYFINDER_HOME</code></h4>
-<a name="DEPENDENCYFINDER_OPTS"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_JavaApplication_DEPENDENCYFINDER_OPTS"></a>
 <h4><code>DEPENDENCYFINDER_OPTS</code></h4>
-<a name="DEPENDENCYFINDER_CONSOLE"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_JavaApplication_DEPENDENCYFINDER_CONSOLE"></a>
 <h4><code>DEPENDENCYFINDER_CONSOLE</code></h4>
-<a name="WebApplication"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_WebApplication"></a>
 <h3>Web Application</h3>
-<a name="web.xml"></a>
+<a name="TheDependencyFinderDeveloperGuide_Installation_WebApplication_web.xml"></a>
 <h4><code>web.xml</code></h4>
 
 <hr />
 
-<a name="HistoryBehindDependencyFinder"></a>
+<a name="TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder"></a>
 <h2>History Behind Dependency Finder</h2>
-<a name="ClassFiles"></a>
+<a name="TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_ClassFiles"></a>
 <h3>Class Files</h3>
-<a name="Dependencies"></a>
+<a name="TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_Dependencies"></a>
 <h3>Dependencies</h3>
-<a name="Metrics"></a>
+<a name="TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_Metrics"></a>
 <h3>Metrics</h3>
-<a name="APIDifferences"></a>
+<a name="TheDependencyFinderDeveloperGuide_HistoryBehindDependencyFinder_APIDifferences"></a>
 <h3>API Differences</h3>
 
 <hr />
 
-<a name="ContributingtoDependencyFinder"></a>
+<a name="TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder"></a>
 <h2>Contributing to Dependency Finder</h2>
 
 <p>
@@ -192,7 +190,7 @@ there are two ways you can share it with the world and help Dependency Finder
 (and yourself too).
 </p>
 
-<a name="SeparateProject"></a>
+<a name="TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder_SeparateProject"></a>
 <h3>Separate Project</h3>
 
 <p>
@@ -216,7 +214,7 @@ you project on the Dependency Finder website.  This way, we both help each
 other.
 </p>
 
-<a name="Assimilation"></a>
+<a name="TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder_Assimilation"></a>
 <h3>Assimilation</h3>
 
 <p>
@@ -231,7 +229,7 @@ Dependency Finder website and in some of the documentation, but most likely
 nowhere in the code itself.
 </p>
 
-<a name="Money"></a>
+<a name="TheDependencyFinderDeveloperGuide_ContributingtoDependencyFinder_Money"></a>
 <h3>Money</h3>
 
 <p>
@@ -245,7 +243,7 @@ or three ...
 
 <hr />
 
-<a name="ClassFilesX"></a>
+<a name="TheDependencyFinderDeveloperGuide_ClassFiles"></a>
 <h2>Class Files</h2>
 
 <p>
@@ -254,7 +252,7 @@ Java code.  You feed <code>.class</code> files to a <code>ClassfileLoader</code>
 instances of <code>Classfile</code> back.
 </p>
 
-<a name="ClassfileLoader"></a>
+<a name="TheDependencyFinderDeveloperGuide_ClassFiles_ClassfileLoader"></a>
 <h3><code>ClassfileLoader</code></h3>
 
 <div align="center">
@@ -410,7 +408,7 @@ concerns of how long the <code>Classfile</code> instances remain in memory from 
 about how to open various input file types.
 </p>
 
-<a name="Visitor"></a>
+<a name="TheDependencyFinderDeveloperGuide_ClassFiles_Visitor"></a>
 <h3><code>Visitor</code></h3>
 
 <p>
@@ -487,7 +485,7 @@ pattern to traverse <code>Classfile</code> instances.
 
 <hr />
 
-<a name="DependenciesX"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies"></a>
 <h2>Dependencies</h2>
 
 <p>
@@ -600,7 +598,7 @@ No. 6 are duplicates too.  In the end, the graph would look as follows:
 
 </div>
 
-<a name="DependencyExtractor"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies_DependencyExtractor"></a>
 <h3><code>DependencyExtractor</code></h3>
 
 <p>
@@ -690,7 +688,7 @@ their own internal <code>NodeFactory</code> instances.  Then, the JSP runs a <co
 the scope <code>NodeFactory</code> from the copier, not the original <i>factory</i>.
 </p>
 
-<a name="UpdatingtheGraphforChangedFiles"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies_UpdatingtheGraphforChangedFiles"></a>
 <h3>Updating the Graph for Changed Files</h3>
 
 <p>
@@ -710,7 +708,7 @@ have changed and adjust the graph accordingly.
 <b>Updating a Graph using <code>Monitor</code></b>
 </div>
 
-<a name="extract.jsp"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies_extract.jsp"></a>
 <h3><code>extract.jsp</code></h3>
 
 <p>
@@ -796,7 +794,7 @@ Notice that <code>Monitor</code> extends <code>LoadListenerVisitorAdapter</code>
 any special treatment before we register it with the <i>loader</i>.
 </p>
 
-<a name="SampleStandaloneApplicationwithRefresh"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies_SampleStandaloneApplicationwithRefresh"></a>
 <h3>Sample Standalone Application with Refresh</h3>
 
 <p>
@@ -860,7 +858,7 @@ graph, either because it detected a change in the <code>.class</code> files or i
 to a user action.
 </p>
 
-<a name="VisitorX"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies_Visitor"></a>
 <h3><code>Visitor</code></h3>
 
 <p>
@@ -1048,7 +1046,7 @@ visiting <code>B</code> and looking at an inbound dependency from <code>A</code>
 about this distinction, like <code>TextPrinter</code> for example.
 </p>
 
-<a name="VisitorandTraversalStrategy"></a>
+<a name="TheDependencyFinderDeveloperGuide_Dependencies_Visitor_VisitorandTraversalStrategy"></a>
 <h4><code>Visitor</code> and <code>TraversalStrategy</code></h4>
 
 <p>
@@ -1264,7 +1262,7 @@ order.
 
 <hr />
 
-<a name="OOMetrics"></a>
+<a name="TheDependencyFinderDeveloperGuide_OOMetrics"></a>
 <h2>OO Metrics</h2>
 
 <p>
@@ -1288,7 +1286,7 @@ caches through the API and you can turn off caching of individual
 measurements through their descriptor and in the configuration file.
 </p>
 
-<a name="DataStructure"></a>
+<a name="TheDependencyFinderDeveloperGuide_OOMetrics_DataStructure"></a>
 <h3>Data Structure</h3>
 
 <div align="center">
@@ -1298,7 +1296,7 @@ measurements through their descriptor and in the configuration file.
 
 <hr />
 
-<a name="APIDifferencesX"></a>
+<a name="TheDependencyFinderDeveloperGuide_APIDifferences"></a>
 <h2>API Differences</h2>
 
 <p>
@@ -1321,7 +1319,7 @@ then at the feature level.
 
 <hr />
 
-<a name="Command-LineParsing"></a>
+<a name="TheDependencyFinderDeveloperGuide_Command-LineParsing"></a>
 <h2>Command-Line Parsing</h2>
 
 <p>
@@ -1418,7 +1416,7 @@ retrieve parameters, if any, with the <code>Parameters()</code> method.
 
 <hr />
 
-<a name="BuildingDependencyFinder"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder"></a>
 <h2>Building Dependency Finder</h2>
 
 <p>
@@ -1430,7 +1428,7 @@ environment variables:
 <li><code>CATALINA_HOME</code> to your <a href="http://tomcat.apache.org/">Tomcat</a> installation</li>
 </ul>
 
-<a name="BuildinganExecutable"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_BuildinganExecutable"></a>
 <h3>Building an Executable</h3>
 
 <p>
@@ -1450,7 +1448,7 @@ run:
     <code>ant jar</code>
 </pre>
 
-<a name="BuildingtheDocumentation"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_BuildingtheDocumentation"></a>
 <h3>Building the Documentation</h3>
 
 <p>
@@ -1461,7 +1459,7 @@ This target will create both Javadocs and the various manuals.
     <code>ant docs</code>
 </pre>
 
-<a name="CompilingaBuild"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_CompilingaBuild"></a>
 <h3>Compiling a Build</h3>
 
 <p>
@@ -1472,7 +1470,7 @@ This target will create a set of distribution files from a clean build.
     <code>ant</code>
 </pre>
 
-<a name="TestingtheBuild"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_TestingtheBuild"></a>
 <h3>Testing the Build</h3>
 
 <p>
@@ -1483,7 +1481,7 @@ To run all tests and generate test reports in the <code>reports</code> directory
     <code>./gradlew check</code>
 </pre>
 
-<a name="MakingaRelease"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_MakingaRelease"></a>
 <h3>Making a Release</h3>
 
 <p>
@@ -1492,21 +1490,21 @@ branch of the repository that has been tagged appropriately.
 </p>
 
 <ol>
-<li><code>git tag -m "Tagging the 1.4.2 release of Dependency Finder" 1.4.2</code></li>
+<li><code>git tag -m "Tagging the 1.4.3 release of Dependency Finder" 1.4.3</code></li>
 <li><code>git push --tags</code> (a workflow on GitHub will create the release there)</li>
-<li><code>ant -Drelease=1.4.2 docs</code></li>
+<li><code>ant -Drelease=1.4.3 docs</code></li>
 <li><code>cp docs/{Manual,Tools,Developer}.html ../website</code></li>
 <li><code>cp -R docs/images/* ../website/images</code></li>
-<li><code>gh release download 1.4.2 --dir /tmp</code> (copies the release files to <code>/tmp</code>)</li>
+<li><code>gh release download 1.4.3 --dir /tmp</code> (copies the release files to <code>/tmp</code>)</li>
 <li>Go to <a href="https://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Files" &gt;&gt; "DependencyFinder".</li>
 <li>Create a new folder, upload all files from the GitHub release to the new folder.</li>
-<li>Make <code>DependencyFinder-1.4.2.zip</code> the default download for Windows.</li>
-<li>Make <code>DependencyFinder-1.4.2.tar.gz</code> the default download for all others.</li>
+<li>Make <code>DependencyFinder-1.4.3.zip</code> the default download for Windows.</li>
+<li>Make <code>DependencyFinder-1.4.3.tar.gz</code> the default download for all others.</li>
 <li>Close issues</li>
 <li>Generate sample files</li>
 </ol>
 
-<a name="ComputingCodeCoverage"></a>
+<a name="TheDependencyFinderDeveloperGuide_BuildingDependencyFinder_ComputingCodeCoverage"></a>
 <h3>Computing Code Coverage</h3>
 
 <p>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSONPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">JSONPrinter.java</span></div><h1>JSONPrinter.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -281,61 +281,90 @@ public class JSONPrinter extends Printer {
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
 <span class="fc" id="L282">        visitCollectionMeasurement(measurement);</span>
 <span class="fc" id="L283">    }</span>
-    
-    protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
 <span class="fc" id="L286">        append(&quot;{&quot;).eol();</span>
 <span class="fc" id="L287">        raiseIndent();</span>
-<span class="fc" id="L288">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
-<span class="fc" id="L289">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
 
-<span class="fc bfc" id="L291" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
-<span class="fc" id="L292">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).append(&quot;,&quot;).eol();</span>
-<span class="fc" id="L293">            indent().append(&quot;\&quot;members\&quot;: [&quot;).append(measurement.getValues().stream().sorted().map(value -&gt; &quot;\&quot;&quot; + value + &quot;\&quot;&quot;).collect(joining(&quot;, &quot;))).append(&quot;]&quot;).eol();</span>
+<span class="fc" id="L289">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L290">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L291">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).append(&quot;,&quot;).eol();</span>
+
+<span class="fc" id="L293">        indent().append(&quot;\&quot;histogram\&quot;: [&quot;).eol();</span>
+<span class="fc" id="L294">        raiseIndent();</span>
+
+<span class="fc" id="L296">        var i = measurement.getHistogram().entrySet().iterator();</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        while (i.hasNext()) {</span>
+<span class="fc" id="L298">            var entry = i.next();</span>
+<span class="fc" id="L299">            indent();</span>
+<span class="fc" id="L300">            append(&quot;[&quot;).append(entry.getKey()).append(&quot;, &quot;).append(entry.getValue()).append(&quot;]&quot;);</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">            if (i.hasNext()) {</span>
+<span class="fc" id="L302">                append(&quot;,&quot;);</span>
+            }
+<span class="fc" id="L304">            eol();</span>
+<span class="fc" id="L305">        }</span>
+
+<span class="fc" id="L307">        lowerIndent();</span>
+<span class="fc" id="L308">        indent().append(&quot;]&quot;).eol();</span>
+
+<span class="fc" id="L310">        lowerIndent();</span>
+<span class="fc" id="L311">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L312">    }</span>
+
+    protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+<span class="fc" id="L315">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L316">        raiseIndent();</span>
+<span class="fc" id="L317">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L318">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
+
+<span class="fc bfc" id="L320" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
+<span class="fc" id="L321">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).append(&quot;,&quot;).eol();</span>
+<span class="fc" id="L322">            indent().append(&quot;\&quot;members\&quot;: [&quot;).append(measurement.getValues().stream().sorted().map(value -&gt; &quot;\&quot;&quot; + value + &quot;\&quot;&quot;).collect(joining(&quot;, &quot;))).append(&quot;]&quot;).eol();</span>
         } else {
-<span class="fc" id="L295">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).eol();</span>
+<span class="fc" id="L324">            indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).eol();</span>
         }
 
-<span class="fc" id="L298">        lowerIndent();</span>
-<span class="fc" id="L299">        indent().append(&quot;}&quot;);</span>
-<span class="fc" id="L300">    }</span>
+<span class="fc" id="L327">        lowerIndent();</span>
+<span class="fc" id="L328">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L329">    }</span>
     
     protected void visitMeasurement(Measurement measurement) {
-<span class="fc" id="L303">        append(&quot;{&quot;).eol();</span>
-<span class="fc" id="L304">        raiseIndent();</span>
-<span class="fc" id="L305">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
-<span class="fc" id="L306">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
-<span class="fc" id="L307">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).eol();</span>
-<span class="fc" id="L308">        lowerIndent();</span>
-<span class="fc" id="L309">        indent().append(&quot;}&quot;);</span>
-<span class="fc" id="L310">    }</span>
+<span class="fc" id="L332">        append(&quot;{&quot;).eol();</span>
+<span class="fc" id="L333">        raiseIndent();</span>
+<span class="fc" id="L334">        indent().append(&quot;\&quot;short-name\&quot;: \&quot;&quot;).append(measurement.getShortName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L335">        indent().append(&quot;\&quot;long-name\&quot;: \&quot;&quot;).append(measurement.getLongName()).append(&quot;\&quot;,&quot;).eol();</span>
+<span class="fc" id="L336">        indent().append(&quot;\&quot;value\&quot;: &quot;).append(formatValue(measurement.getValue())).eol();</span>
+<span class="fc" id="L337">        lowerIndent();</span>
+<span class="fc" id="L338">        indent().append(&quot;}&quot;);</span>
+<span class="fc" id="L339">    }</span>
 
     private String formatValue(Number value) {
-<span class="pc bpc" id="L313" title="1 of 2 branches missed.">        if (value == null) {</span>
-<span class="nc" id="L314">            return &quot;null&quot;;</span>
+<span class="pc bpc" id="L342" title="1 of 2 branches missed.">        if (value == null) {</span>
+<span class="nc" id="L343">            return &quot;null&quot;;</span>
         }
 
-<span class="fc" id="L317">        return formatValue(value.doubleValue());</span>
+<span class="fc" id="L346">        return formatValue(value.doubleValue());</span>
     }
 
     private String formatValue(double value) {
-<span class="fc bfc" id="L321" title="All 4 branches covered.">        if (Double.isNaN(value) || Double.isInfinite(value)) {</span>
-<span class="fc" id="L322">            return &quot;null&quot;;</span>
+<span class="fc bfc" id="L350" title="All 4 branches covered.">        if (Double.isNaN(value) || Double.isInfinite(value)) {</span>
+<span class="fc" id="L351">            return &quot;null&quot;;</span>
         }
 
-<span class="fc" id="L325">        return String.valueOf(value);</span>
+<span class="fc" id="L354">        return String.valueOf(value);</span>
     }
 
     private JSONPrinter clonePrinter(StringWriter out) {
-<span class="fc" id="L329">        JSONPrinter result = new JSONPrinter(new PrintWriter(out), configuration);</span>
+<span class="fc" id="L358">        JSONPrinter result = new JSONPrinter(new PrintWriter(out), configuration);</span>
 
-<span class="fc" id="L331">        result.setIndentLevel(getIndentLevel());</span>
-<span class="fc" id="L332">        result.setIndentText(getIndentText());</span>
-<span class="fc" id="L333">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
-<span class="fc" id="L334">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
-<span class="fc" id="L335">        result.setExpandCollectionMeasurements(isExpandCollectionMeasurements());</span>
-<span class="fc" id="L336">        result.setComparator(getComparator());</span>
+<span class="fc" id="L360">        result.setIndentLevel(getIndentLevel());</span>
+<span class="fc" id="L361">        result.setIndentText(getIndentText());</span>
+<span class="fc" id="L362">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
+<span class="fc" id="L363">        result.setShowEmptyMetrics(isShowEmptyMetrics());</span>
+<span class="fc" id="L364">        result.setExpandCollectionMeasurements(isExpandCollectionMeasurements());</span>
+<span class="fc" id="L365">        result.setComparator(getComparator());</span>
 
-<span class="fc" id="L338">        return result;</span>
+<span class="fc" id="L367">        return result;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

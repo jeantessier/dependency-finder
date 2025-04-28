@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HistogramMeasurement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">HistogramMeasurement.java</span></div><h1>HistogramMeasurement.java</h1><pre class="source lang-java linenums">package com.jeantessier.metrics;
+
+import com.jeantessier.classreader.AttributeType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.oro.text.perl.Perl5Util;
+
+import java.io.BufferedReader;
+import java.io.StringReader;
+import java.util.*;
+
+/**
+ *  &lt;p&gt;Creates a histogram of a measurement in submetrics.&lt;/p&gt;
+ *
+ *  &lt;p&gt;This is the syntax for initializing this type of
+ *  measurement:&lt;/p&gt;
+ *
+ *  &lt;pre&gt;
+ *  &amp;lt;init&amp;gt;
+ *      measurement name [DISPOSE_x]
+ *      [PLOT_x]
+ *  &amp;lt;/init&amp;gt;
+ *  &lt;/pre&gt;
+ */
+public class HistogramMeasurement extends MeasurementBase {
+<span class="fc" id="L25">    public enum Plot {</span>
+        /**
+         * Plot both the x-axis and y-axis using a linear scale.
+         */
+<span class="fc" id="L29">        LINEAR(&quot;linear&quot;, &quot;/plot_linear$/i&quot;),</span>
+
+        /**
+         * Plot the x-axis using a linear scale and the y-axis using a logarithmic scale.
+         * Log-lin plot.  https://en.wikipedia.org/wiki/Semi-log_plot.
+         */
+<span class="fc" id="L35">        LOG_LINEAR(&quot;log-lin&quot;, &quot;/plot_log_lin(ear)?$/i&quot;),</span>
+
+        /**
+         * Plot the x-axis using a logarithmic scale and the y-axis using a linear scale.
+         * Lin-log plot.  https://en.wikipedia.org/wiki/Semi-log_plot.
+         */
+<span class="fc" id="L41">        LINEAR_LOG(&quot;lin-log&quot;, &quot;/plot_lin(ear)?_log$/i&quot;),</span>
+
+        /**
+         * Plot both the x-axis and y-axis using a logarithmic scale.
+         * Log-log plot.  See https://en.wikipedia.org/wiki/Log%E2%80%93log_plot.
+         */
+<span class="fc" id="L47">        LOG_LOG(&quot;log-log&quot;, &quot;/plot_log_log$/i&quot;);</span>
+
+<span class="fc" id="L49">        private final static Perl5Util perl = new Perl5Util();</span>
+
+        private final String label;
+        private final String regex;
+
+<span class="fc" id="L54">        Plot(String label, String regex) {</span>
+<span class="fc" id="L55">            this.label = label;</span>
+<span class="fc" id="L56">            this.regex = regex;</span>
+<span class="fc" id="L57">        }</span>
+
+        public String getLabel() {
+<span class="fc" id="L60">            return label;</span>
+        }
+
+        public static Plot forName(String name) {
+<span class="fc" id="L64">            return Arrays.stream(values())</span>
+<span class="fc" id="L65">                    .filter(plot -&gt; perl.match(plot.regex, name))</span>
+<span class="fc" id="L66">                    .findFirst()</span>
+<span class="fc" id="L67">                    .orElse(null);</span>
+        }
+    }
+
+    private String monitoredMeasurement;
+    private int dispose;
+
+<span class="fc" id="L74">    private Map&lt;Integer, Integer&gt; histogram = new HashMap&lt;&gt;();</span>
+    private Plot plot;
+
+<span class="fc" id="L77">    private int nbSubmetrics = -1;</span>
+
+    public HistogramMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
+<span class="fc" id="L80">        super(descriptor, context, initText);</span>
+
+<span class="fc" id="L82">        try (var in = new BufferedReader(new StringReader(initText))) {</span>
+<span class="fc" id="L83">            monitoredMeasurement = in.readLine().trim();</span>
+
+<span class="fc" id="L85">            synchronized (perl()) {</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, monitoredMeasurement)) {</span>
+<span class="nc" id="L87">                    monitoredMeasurement = perl().group(1);</span>
+
+<span class="nc" id="L89">                    String disposeText = perl().group(2);</span>
+<span class="nc" id="L90">                    dispose = StatisticalMeasurement.getDispose(disposeText, () -&gt; {</span>
+<span class="nc" id="L91">                        LogManager.getLogger(getClass()).error(&quot;Unknown dispose value \&quot;{}\&quot; for monitored measurement \&quot;{}\&quot; of measurement \&quot;{}\&quot;, defaulting to DISPOSE_IGNORE&quot;, disposeText, monitoredMeasurement, descriptor.getLongName());</span>
+<span class="nc" id="L92">                        return StatisticalMeasurement.DISPOSE_IGNORE;</span>
+                    });
+<span class="nc" id="L94">                } else {</span>
+<span class="fc" id="L95">                    dispose = StatisticalMeasurement.DISPOSE_IGNORE;</span>
+                }
+<span class="fc" id="L97">            }</span>
+
+<span class="fc" id="L99">            String plotText = in.readLine();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">            if (plotText != null) {</span>
+<span class="fc" id="L101">                plot = Plot.forName(plotText);</span>
+            }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">            if (plot == null) {</span>
+<span class="fc" id="L104">                plot = Plot.LINEAR;</span>
+            }
+<span class="nc" id="L106">        } catch (Exception ex) {</span>
+<span class="nc" id="L107">            LogManager.getLogger(getClass()).debug(&quot;Cannot initialize with \&quot;{}\&quot;&quot;, initText, ex);</span>
+<span class="nc" id="L108">            monitoredMeasurement = null;</span>
+<span class="fc" id="L109">        }</span>
+<span class="fc" id="L110">    }</span>
+
+    public Map&lt;Integer, Integer&gt; getHistogram() {
+<span class="fc" id="L113">        collectData();</span>
+<span class="fc" id="L114">        return histogram;</span>
+    }
+
+    public Plot getPlot() {
+<span class="fc" id="L118">        return plot;</span>
+    }
+
+    private void collectData() {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (getContext().getSubMetrics().size() != nbSubmetrics) {</span>
+<span class="fc" id="L123">            synchronized (this) {</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">                if (getContext().getSubMetrics().size() != nbSubmetrics) {</span>
+<span class="fc" id="L125">                    histogram = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L126">                    setEmpty(true);</span>
+
+<span class="fc" id="L128">                    getContext().getSubMetrics().forEach(this::visitMetrics);</span>
+
+<span class="fc" id="L130">                    nbSubmetrics = getContext().getSubMetrics().size();</span>
+                }
+<span class="fc" id="L132">            }</span>
+        }
+<span class="fc" id="L134">    }</span>
+
+    private void visitMetrics(Metrics metrics) {
+<span class="fc" id="L137">        LogManager.getLogger(getClass()).debug(&quot;VisitMetrics: {}&quot;, metrics.getName());</span>
+
+<span class="fc" id="L139">        Measurement measurement = metrics.getMeasurement(monitoredMeasurement);</span>
+
+<span class="fc" id="L141">        LogManager.getLogger(getClass()).debug(&quot;measurement for {} is {}&quot;, monitoredMeasurement, measurement.getClass());</span>
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (measurement instanceof StatisticalMeasurement stats) {</span>
+<span class="fc" id="L144">            LogManager.getLogger(getClass()).debug(&quot;dispose of StatisticalMeasurements is {}&quot;, dispose);</span>
+
+<span class="pc bpc" id="L146" title="7 of 8 branches missed.">            switch (dispose) {</span>
+                case StatisticalMeasurement.DISPOSE_MINIMUM -&gt; {
+<span class="nc" id="L148">                    LogManager.getLogger(getClass()).debug(&quot;using Minimum(): {}&quot;, stats.getMinimum());</span>
+<span class="nc" id="L149">                    increment(stats.getMinimum());</span>
+<span class="nc" id="L150">                }</span>
+                case StatisticalMeasurement.DISPOSE_MEDIAN -&gt; {
+<span class="nc" id="L152">                    LogManager.getLogger(getClass()).debug(&quot;using Median(): {}&quot;, stats.getMedian());</span>
+<span class="nc" id="L153">                    increment(stats.getMedian());</span>
+<span class="nc" id="L154">                }</span>
+                case StatisticalMeasurement.DISPOSE_AVERAGE -&gt; {
+<span class="nc" id="L156">                    LogManager.getLogger(getClass()).debug(&quot;using Average(): {}&quot;, stats.getAverage());</span>
+<span class="nc" id="L157">                    increment(stats.getAverage());</span>
+<span class="nc" id="L158">                }</span>
+                case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -&gt; {
+<span class="nc" id="L160">                    LogManager.getLogger(getClass()).debug(&quot;using StandardDeviation(): {}&quot;, stats.getStandardDeviation());</span>
+<span class="nc" id="L161">                    increment(stats.getStandardDeviation());</span>
+<span class="nc" id="L162">                }</span>
+                case StatisticalMeasurement.DISPOSE_MAXIMUM -&gt; {
+<span class="nc" id="L164">                    LogManager.getLogger(getClass()).debug(&quot;using Maximum(): {}&quot;, stats.getMaximum());</span>
+<span class="nc" id="L165">                    increment(stats.getMaximum());</span>
+<span class="nc" id="L166">                }</span>
+                case StatisticalMeasurement.DISPOSE_SUM -&gt; {
+<span class="nc" id="L168">                    LogManager.getLogger(getClass()).debug(&quot;using Sum(): {}&quot;, stats.getSum());</span>
+<span class="nc" id="L169">                    increment(stats.getSum());</span>
+<span class="nc" id="L170">                }</span>
+                case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -&gt; {
+<span class="nc" id="L172">                    LogManager.getLogger(getClass()).debug(&quot;using NbDataPoints(): {}&quot;, stats.getNbDataPoints());</span>
+<span class="nc" id="L173">                    increment(stats.getNbDataPoints());</span>
+<span class="nc" id="L174">                }</span>
+                default -&gt; {
+<span class="fc" id="L176">                    LogManager.getLogger(getClass()).debug(&quot;Skipping to next level ...&quot;);</span>
+<span class="fc" id="L177">                    metrics.getSubMetrics().forEach(this::visitMetrics);</span>
+<span class="fc" id="L178">                }</span>
+            }
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        } else if (measurement instanceof NullMeasurement) {</span>
+<span class="nc" id="L181">            LogManager.getLogger(getClass()).debug(&quot;Skipping to next level ...&quot;);</span>
+<span class="nc" id="L182">            metrics.getSubMetrics().forEach(this::visitMetrics);</span>
+        } else {
+<span class="fc" id="L184">            Number value = measurement.getValue();</span>
+
+<span class="fc" id="L186">            LogManager.getLogger(getClass()).debug(&quot;{} on {} is {}&quot;, monitoredMeasurement, metrics.getName(), value);</span>
+
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">            if (value != null) {</span>
+<span class="fc" id="L189">                increment(value.doubleValue());</span>
+            }
+        }
+
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if (super.isEmpty()) {</span>
+<span class="fc" id="L194">            setEmpty(measurement.isEmpty());</span>
+        }
+<span class="fc" id="L196">    }</span>
+
+    private void increment(double value) {
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        histogram.compute((int) Math.round(value), (bucket, count) -&gt; count == null ? 1 : count + 1);</span>
+<span class="fc" id="L200">    }</span>
+
+    public boolean isEmpty() {
+<span class="fc" id="L203">        collectData();</span>
+<span class="fc" id="L204">        return super.isEmpty();</span>
+    }
+
+    public void accept(MeasurementVisitor visitor) {
+<span class="fc" id="L208">        visitor.visitHistogramMeasurement(this);</span>
+<span class="fc" id="L209">    }</span>
+
+    protected double compute() {
+<span class="fc" id="L212">        collectData();</span>
+
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (histogram.isEmpty()) {</span>
+<span class="fc" id="L215">            return Double.NaN;</span>
+        }
+
+<span class="fc" id="L218">        return histogram.entrySet().stream()</span>
+<span class="fc" id="L219">                .max(Map.Entry.comparingByValue())</span>
+<span class="fc" id="L220">                .map(Map.Entry::getKey)</span>
+<span class="fc" id="L221">                .get();</span>
+    }
+
+    public String toString() {
+<span class="fc" id="L225">        collectData();</span>
+<span class="fc" id="L226">        return histogram.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

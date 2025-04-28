@@ -25,7 +25,7 @@
 <h1>The Dependency Finder User Manual</h1>
 
 <p>
-For Dependency Finder version 1.4.1.
+For Dependency Finder version 1.4.2.
 </p>
 
 <p>
@@ -36,164 +36,164 @@ by Jean Tessier
 
 <h2>Table of Contents</h2>
 <ul>
-<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#TheDependencyFinderUserManual_Introduction">Introduction</a></li>
 <ul>
-<li><a href="#HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
+<li><a href="#TheDependencyFinderUserManual_Introduction_HistoryBehindDependencyFinder">History Behind Dependency Finder</a></li>
 </ul>
-<li><a href="#Installation">Installation</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation">Installation</a></li>
 <ul>
-<li><a href="#JavaApplicationonWindows">Java Application on Windows</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows">Java Application on Windows</a></li>
 <ul>
-<li><a href="#Step1:JavaVirtualMachine">Step 1: Java Virtual Machine</a></li>
-<li><a href="#Step2:DeployDependencyFinder">Step 2: Deploy Dependency Finder</a></li>
-<li><a href="#Step3:EnvironmentVariables">Step 3: Environment Variables</a></li>
-<li><a href="#Step4:PATH">Step 4: <code>PATH</code></a></li>
-<li><a href="#Step5:Reboot">Step 5: Reboot</a></li>
-<li><a href="#Miscellaneous">Miscellaneous</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step1:JavaVirtualMachine">Step 1: Java Virtual Machine</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step2:DeployDependencyFinder">Step 2: Deploy Dependency Finder</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step3:EnvironmentVariables">Step 3: Environment Variables</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step4:PATH">Step 4: <code>PATH</code></a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step5:Reboot">Step 5: Reboot</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Miscellaneous">Miscellaneous</a></li>
 </ul>
-<li><a href="#JavaApplicationonUnix">Java Application on Unix</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonUnix">Java Application on Unix</a></li>
 <ul>
-<li><a href="#Step1:JavaVirtualMachineX">Step 1: Java Virtual Machine</a></li>
-<li><a href="#Step2:DeployDependencyFinderX">Step 2: Deploy Dependency Finder</a></li>
-<li><a href="#Step3:EnvironmentVariablesX">Step 3: Environment Variables</a></li>
-<li><a href="#Step4:PATHX">Step 4: <code>PATH</code></a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step1:JavaVirtualMachine">Step 1: Java Virtual Machine</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step2:DeployDependencyFinder">Step 2: Deploy Dependency Finder</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step3:EnvironmentVariables">Step 3: Environment Variables</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step4:PATH">Step 4: <code>PATH</code></a></li>
 </ul>
-<li><a href="#WebApplication">Web Application</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_WebApplication">Web Application</a></li>
 <ul>
-<li><a href="#Step1:DeployWARFile">Step 1: Deploy WAR File</a></li>
-<li><a href="#Step2:Configureweb.xmlfile">Step 2: Configure <code>web.xml</code> file</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_WebApplication_Step1:DeployWARFile">Step 1: Deploy WAR File</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_WebApplication_Step2:Configureweb.xmlfile">Step 2: Configure <code>web.xml</code> file</a></li>
 </ul>
-<li><a href="#DockerContainer">Docker Container</a></li>
+<li><a href="#TheDependencyFinderUserManual_Installation_DockerContainer">Docker Container</a></li>
 </ul>
-<li><a href="#RunningDependencyFinder">Running Dependency Finder</a></li>
+<li><a href="#TheDependencyFinderUserManual_RunningDependencyFinder">Running Dependency Finder</a></li>
 <ul>
-<li><a href="#EquivalenceTable">Equivalence Table</a></li>
-<li><a href="#GUI">GUI</a></li>
-<li><a href="#CLI">CLI</a></li>
-<li><a href="#Ant">Ant</a></li>
+<li><a href="#TheDependencyFinderUserManual_RunningDependencyFinder_EquivalenceTable">Equivalence Table</a></li>
+<li><a href="#TheDependencyFinderUserManual_RunningDependencyFinder_GUI">GUI</a></li>
+<li><a href="#TheDependencyFinderUserManual_RunningDependencyFinder_CLI">CLI</a></li>
+<li><a href="#TheDependencyFinderUserManual_RunningDependencyFinder_Ant">Ant</a></li>
 </ul>
-<li><a href="#ClassFiles">Class Files</a></li>
+<li><a href="#TheDependencyFinderUserManual_ClassFiles">Class Files</a></li>
 <ul>
-<li><a href="#ClassReader">ClassReader</a></li>
-<li><a href="#ClassMetrics">ClassMetrics</a></li>
+<li><a href="#TheDependencyFinderUserManual_ClassFiles_ClassReader">ClassReader</a></li>
+<li><a href="#TheDependencyFinderUserManual_ClassFiles_ClassMetrics">ClassMetrics</a></li>
 </ul>
-<li><a href="#Dependencies">Dependencies</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies">Dependencies</a></li>
 <ul>
-<li><a href="#Extracting">Extracting</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting">Extracting</a></li>
 <ul>
-<li><a href="#Concretevs.ReferencedElements">Concrete vs. Referenced Elements</a></li>
-<li><a href="#Limitations">Limitations</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_Concretevs.ReferencedElements">Concrete vs. Referenced Elements</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_Limitations">Limitations</a></li>
 <ul>
-<li><a href="#DependenciesonSelf">Dependencies on Self</a></li>
-<li><a href="#Constants">Constants</a></li>
-<li><a href="#LocalVariables">Local Variables</a></li>
-<li><a href="#LineNumbers">Line Numbers</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_DependenciesonSelf">Dependencies on Self</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_Constants">Constants</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_LocalVariables">Local Variables</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_LineNumbers">Line Numbers</a></li>
 </ul>
-<li><a href="#ExtractingWiththeGUI">Extracting With the GUI</a></li>
-<li><a href="#ExtractingWiththeCLI">Extracting With the CLI</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeGUI">Extracting With the GUI</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeCLI">Extracting With the CLI</a></li>
 <ul>
-<li><a href="#Example">Example</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeCLI_Example">Example</a></li>
 </ul>
-<li><a href="#ExtractingWiththeWebApplication">Extracting With the Web Application</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeWebApplication">Extracting With the Web Application</a></li>
 <ul>
-<li><a href="#ExtractingfromCompiledJavaClasses">Extracting from Compiled Java Classes</a></li>
-<li><a href="#LoadingPre-ExtractedDependencyGraph">Loading Pre-Extracted Dependency Graph</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeWebApplication_ExtractingfromCompiledJavaClasses">Extracting from Compiled Java Classes</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeWebApplication_LoadingPre-ExtractedDependencyGraph">Loading Pre-Extracted Dependency Graph</a></li>
 </ul>
-<li><a href="#ExtractingWithAnt">Extracting With Ant</a></li>
-<li><a href="#MinimizingAndMaximizing">Minimizing And Maximizing</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWithAnt">Extracting With Ant</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_MinimizingAndMaximizing">Minimizing And Maximizing</a></li>
 <ul>
-<li><a href="#ExampleX">Example</a></li>
-</ul>
-</ul>
-<li><a href="#Reporting">Reporting</a></li>
-<ul>
-<li><a href="#PerlRegularExpressions">Perl Regular Expressions</a></li>
-<li><a href="#AdvancedView">Advanced View</a></li>
-<li><a href="#ShowingOnlyInboundDependencies">Showing Only Inbound Dependencies</a></li>
-<li><a href="#ShowingOnlyOutboundDependencies">Showing Only Outbound Dependencies</a></li>
-<li><a href="#ShowingBothInboundsAndOutboundDependencies">Showing Both Inbounds And Outbound Dependencies</a></li>
-<li><a href="#Summary">Summary</a></li>
-</ul>
-<li><a href="#DealingwithaVeryLargeCodebase">Dealing with a Very Large Codebase</a></li>
-<ul>
-<li><a href="#BreaktheCodebase">Break the Codebase</a></li>
-<li><a href="#AnalyzeEachPart">Analyze Each Part</a></li>
-<li><a href="#ReduceEachGraph">Reduce Each Graph</a></li>
-<li><a href="#CombineThemBackTogether">Combine Them Back Together</a></li>
-</ul>
-<li><a href="#TransitiveClosure">Transitive Closure</a></li>
-<ul>
-<li><a href="#TrickyBehavior">Tricky Behavior</a></li>
-<li><a href="#NegativeClosure">Negative Closure</a></li>
-</ul>
-<li><a href="#DependencyCycles">Dependency Cycles</a></li>
-<li><a href="#DependencyMetrics">Dependency Metrics</a></li>
-</ul>
-<li><a href="#OOMetrics">OO Metrics</a></li>
-<ul>
-<li><a href="#Explanation">Explanation</a></li>
-<ul>
-<li><a href="#BasicMethodMeasurements">Basic Method Measurements</a></li>
-<li><a href="#BasicClassMeasurements">Basic Class Measurements</a></li>
-<li><a href="#BasicGroupMeasurements">Basic Group Measurements</a></li>
-<li><a href="#BasicProjectMeasurements">Basic Project Measurements</a></li>
-</ul>
-<li><a href="#Dependency-RelatedMetrics">Dependency-Related Metrics</a></li>
-<ul>
-<li><a href="#Intra-PackageMethod-to-Class">Intra-Package Method-to-Class</a></li>
-<li><a href="#Extra-PackageMethod-to-Class">Extra-Package Method-to-Class</a></li>
-<li><a href="#Intra-PackageClass-to-Class">Intra-Package Class-to-Class</a></li>
-<li><a href="#Extra-PackageClass-to-Class">Extra-Package Class-to-Class</a></li>
-<li><a href="#Intra-ClassMethod-to-Method">Intra-Class Method-to-Method</a></li>
-<li><a href="#Intra-PackageMethod-to-Method">Intra-Package Method-to-Method</a></li>
-<li><a href="#Extra-PackageMethod-to-Method">Extra-Package Method-to-Method</a></li>
-</ul>
-<li><a href="#TypesofMeasurements">Types of Measurements</a></li>
-<li><a href="#ExtractingX">Extracting</a></li>
-<ul>
-<li><a href="#ExtractingWiththeGUIX">Extracting With the GUI</a></li>
-<li><a href="#ExtractingWiththeCLIX">Extracting With the CLI</a></li>
-<li><a href="#ExtractingWithAntX">Extracting With Ant</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Extracting_MinimizingAndMaximizing_Example">Example</a></li>
 </ul>
 </ul>
-<li><a href="#APIDifferences">API Differences</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting">Reporting</a></li>
 <ul>
-<li><a href="#ExtractingXX">Extracting</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting_PerlRegularExpressions">Perl Regular Expressions</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting_AdvancedView">Advanced View</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting_ShowingOnlyInboundDependencies">Showing Only Inbound Dependencies</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting_ShowingOnlyOutboundDependencies">Showing Only Outbound Dependencies</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting_ShowingBothInboundsAndOutboundDependencies">Showing Both Inbounds And Outbound Dependencies</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_Reporting_Summary">Summary</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase">Dealing with a Very Large Codebase</a></li>
 <ul>
-<li><a href="#ExtractingWiththeCLIXX">Extracting With the CLI</a></li>
-<li><a href="#ExtractingWithAntXX">Extracting With Ant</a></li>
-<li><a href="#PrettyPrintingtheReports">Pretty Printing the Reports</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_BreaktheCodebase">Break the Codebase</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_AnalyzeEachPart">Analyze Each Part</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_ReduceEachGraph">Reduce Each Graph</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_CombineThemBackTogether">Combine Them Back Together</a></li>
 </ul>
-<li><a href="#CustomizingtheReports">Customizing the Reports</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_TransitiveClosure">Transitive Closure</a></li>
 <ul>
-<li><a href="#ReportingChangesintheCode">Reporting Changes in the Code</a></li>
-<li><a href="#ControllingtheLevelofReporting">Controlling the Level of Reporting</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_TransitiveClosure_TrickyBehavior">Tricky Behavior</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_TransitiveClosure_NegativeClosure">Negative Closure</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DependencyCycles">Dependency Cycles</a></li>
+<li><a href="#TheDependencyFinderUserManual_Dependencies_DependencyMetrics">Dependency Metrics</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics">OO Metrics</a></li>
 <ul>
-<li><a href="#ShowingAllChanges">Showing All Changes</a></li>
-<li><a href="#ShowingOnlyIncompatibleChanges">Showing Only Incompatible Changes</a></li>
-<li><a href="#CustomizingtheListofChanges">Customizing the List of Changes</a></li>
-</ul>
-<li><a href="#Filtering">Filtering</a></li>
-</ul>
-</ul>
-<li><a href="#ListingthePublishedAPI">Listing the Published API</a></li>
-<li><a href="#BringingItAllTogether">Bringing It All Together</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Explanation">Explanation</a></li>
 <ul>
-<li><a href="#TrackingDependenciesOnDeprecatedSymbols">Tracking Dependencies On Deprecated Symbols</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Explanation_BasicMethodMeasurements">Basic Method Measurements</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Explanation_BasicClassMeasurements">Basic Class Measurements</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Explanation_BasicGroupMeasurements">Basic Group Measurements</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Explanation_BasicProjectMeasurements">Basic Project Measurements</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics">Dependency-Related Metrics</a></li>
 <ul>
-<li><a href="#UsingaDependencyGraph">Using a Dependency Graph</a></li>
-<li><a href="#UsingDependency-RelatedMetrics">Using Dependency-Related Metrics</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-PackageMethod-to-Class">Intra-Package Method-to-Class</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Extra-PackageMethod-to-Class">Extra-Package Method-to-Class</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-PackageClass-to-Class">Intra-Package Class-to-Class</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Extra-PackageClass-to-Class">Extra-Package Class-to-Class</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-ClassMethod-to-Method">Intra-Class Method-to-Method</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-PackageMethod-to-Method">Intra-Package Method-to-Method</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Extra-PackageMethod-to-Method">Extra-Package Method-to-Method</a></li>
 </ul>
-<li><a href="#NarrowingAPIDifferencestoActuallyUsedAPI">Narrowing API Differences to Actually Used API</a></li>
-<li><a href="#ComputingtheD'Metric">Computing the D' Metric</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_TypesofMeasurements">Types of Measurements</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Extracting">Extracting</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Extracting_ExtractingWiththeGUI">Extracting With the GUI</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Extracting_ExtractingWiththeCLI">Extracting With the CLI</a></li>
+<li><a href="#TheDependencyFinderUserManual_OOMetrics_Extracting_ExtractingWithAnt">Extracting With Ant</a></li>
 </ul>
-<li><a href="#Support">Support</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences">API Differences</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_Extracting">Extracting</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_Extracting_ExtractingWiththeCLI">Extracting With the CLI</a></li>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_Extracting_ExtractingWithAnt">Extracting With Ant</a></li>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_Extracting_PrettyPrintingtheReports">Pretty Printing the Reports</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports">Customizing the Reports</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ReportingChangesintheCode">Reporting Changes in the Code</a></li>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting">Controlling the Level of Reporting</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting_ShowingAllChanges">Showing All Changes</a></li>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting_ShowingOnlyIncompatibleChanges">Showing Only Incompatible Changes</a></li>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting_CustomizingtheListofChanges">Customizing the List of Changes</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_Filtering">Filtering</a></li>
+</ul>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_ListingthePublishedAPI">Listing the Published API</a></li>
+<li><a href="#TheDependencyFinderUserManual_BringingItAllTogether">Bringing It All Together</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_BringingItAllTogether_TrackingDependenciesOnDeprecatedSymbols">Tracking Dependencies On Deprecated Symbols</a></li>
+<ul>
+<li><a href="#TheDependencyFinderUserManual_BringingItAllTogether_TrackingDependenciesOnDeprecatedSymbols_UsingaDependencyGraph">Using a Dependency Graph</a></li>
+<li><a href="#TheDependencyFinderUserManual_BringingItAllTogether_TrackingDependenciesOnDeprecatedSymbols_UsingDependency-RelatedMetrics">Using Dependency-Related Metrics</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_BringingItAllTogether_NarrowingAPIDifferencestoActuallyUsedAPI">Narrowing API Differences to Actually Used API</a></li>
+<li><a href="#TheDependencyFinderUserManual_BringingItAllTogether_ComputingtheD'Metric">Computing the D' Metric</a></li>
+</ul>
+<li><a href="#TheDependencyFinderUserManual_Support">Support</a></li>
 </ul>
 
 
 <hr />
 
-<a name="Introduction"></a>
+<a name="TheDependencyFinderUserManual_Introduction"></a>
 <h2>Introduction</h2>
 
 <p>
@@ -230,7 +230,7 @@ ascertain the impact changes might have on your customers.  You can even use
 it to monitor the evolution of your own software.
 </p>
 
-<a name="HistoryBehindDependencyFinder"></a>
+<a name="TheDependencyFinderUserManual_Introduction_HistoryBehindDependencyFinder"></a>
 <h3>History Behind Dependency Finder</h3>
 
 <p>
@@ -270,18 +270,18 @@ application to keep the data in memory and play with it a while.
 
 <hr />
 
-<a name="Installation"></a>
+<a name="TheDependencyFinderUserManual_Installation"></a>
 <h2>Installation</h2>
 
-<a name="JavaApplicationonWindows"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows"></a>
 <h3>Java Application on Windows</h3>
 
 <p>
 Dependency Finder comes as a ZIP file that includes everything you need to run
-it.  The file is named <code>DependencyFinder-1.4.1.bin.zip</code>.
+it.  The file is named <code>DependencyFinder-1.4.2.bin.zip</code>.
 </p>
 
-<a name="Step1:JavaVirtualMachine"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step1:JavaVirtualMachine"></a>
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
@@ -304,21 +304,21 @@ use Start | Settings | Control Panel | System and select the Environment tab to
 create and edit variables.
 </p>
 
-<a name="Step2:DeployDependencyFinder"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step2:DeployDependencyFinder"></a>
 <h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
 Extract the ZIP file to some directory you like.  The extraction will create a
-subdirectory named "DependencyFinder-1.4.1" that is the root of the
+subdirectory named "DependencyFinder-1.4.2" that is the root of the
 package.
 </p>
 
 <p>
 For example, if you extract it to <code>C:\</code>, you will end up with a directory
-called <code>C:\DependencyFinder-1.4.1\</code>.
+called <code>C:\DependencyFinder-1.4.2\</code>.
 </p>
 
-<a name="Step3:EnvironmentVariables"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step3:EnvironmentVariables"></a>
 <h4>Step 3: Environment Variables</h4>
 
 <i>This is only required on Win95/98.  Under Windows NT/XP, the scripts are
@@ -334,7 +334,7 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.4.1
+    SET DEPENDENCYFINDER_HOME=C:\DependencyFinder-1.4.2
 </pre>
 
 <p>
@@ -343,7 +343,7 @@ use Start | Settings | Control Panel | System and select the Environment tab to
 create and edit variables.
 </p>
 
-<a name="Step4:PATH"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step4:PATH"></a>
 <h4>Step 4: <code>PATH</code></h4>
 
 <p>
@@ -355,10 +355,10 @@ For example, if you extracted the ZIP file in <code>C:\</code>
 </p>
 
 <pre>
-    SET PATH=C:\DependencyFinder-1.4.1\bin;%PATH%
+    SET PATH=C:\DependencyFinder-1.4.2\bin;%PATH%
 </pre>
 
-<a name="Step5:Reboot"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Step5:Reboot"></a>
 <h4>Step 5: Reboot</h4>
 
 <p>
@@ -370,7 +370,7 @@ Under Win95/98, you will need to reboot your computer for the changes to the
 environment to take effect.
 </p>
 
-<a name="Miscellaneous"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonWindows_Miscellaneous"></a>
 <h4>Miscellaneous</h4>
 
 <p>
@@ -405,7 +405,7 @@ type:
 for more details.
 </p>
 
-<a name="JavaApplicationonUnix"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonUnix"></a>
 <h3>Java Application on Unix</h3>
 
 <p>
@@ -414,8 +414,8 @@ everything you need to run it.  The files are:
 </p>
 
 <ul>
-<li><code>DependencyFinder-1.4.1.bin.tar.gz</code></li>
-<li><code>DependencyFinder-1.4.1.bin.tar.bz2</code></li>
+<li><code>DependencyFinder-1.4.2.bin.tar.gz</code></li>
+<li><code>DependencyFinder-1.4.2.bin.tar.bz2</code></li>
 </ul>
 
 <p>
@@ -427,7 +427,7 @@ Tar files in the distribution contain long file names, and may require gnu tar
 to do the extraction.
 </p>
 
-<a name="Step1:JavaVirtualMachineX"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step1:JavaVirtualMachine"></a>
 <h4>Step 1: Java Virtual Machine</h4>
 
 <p>
@@ -474,7 +474,7 @@ For csh or tcsh:
 You can put this line in your <code>.cshrc</code> file.
 </p>
 
-<a name="Step2:DeployDependencyFinderX"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step2:DeployDependencyFinder"></a>
 <h4>Step 2: Deploy Dependency Finder</h4>
 
 <p>
@@ -483,7 +483,7 @@ subdirectory named "DependencyFinder" that is the root of the package.
 </p>
 
 <pre>
-    $ tar xvzf DependencyFinder-1.4.1.bin.tar.gz
+    $ tar xvzf DependencyFinder-1.4.2.bin.tar.gz
 </pre>
 
 <p>
@@ -491,15 +491,15 @@ or
 </p>
 
 <pre>
-    $ bunzip2 DependencyFinder-1.4.1.bin.tar.bz2 | tar xvf -
+    $ bunzip2 DependencyFinder-1.4.2.bin.tar.bz2 | tar xvf -
 </pre>
 
 <p>
 For example, if you extract it to <code>$HOME</code>, you will end up with a directory
-called <code>$HOME/DependencyFinder-1.4.1</code>.
+called <code>$HOME/DependencyFinder-1.4.2</code>.
 </p>
 
-<a name="Step3:EnvironmentVariablesX"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step3:EnvironmentVariables"></a>
 <h4>Step 3: Environment Variables</h4>
 
 <i>This is seldom required.  The scripts are smart enough to find out on their
@@ -524,7 +524,7 @@ For sh:
 </p>
 
 <pre>
-    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.4.1
+    DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.4.2
     export DEPENDENCYFINDER_HOME
     DEPENDENCYFINDER_OPTS=-Xmx128m
     export DEPENDENCYFINDER_OPTS
@@ -535,7 +535,7 @@ For bash:
 </p>
 
 <pre>
-    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.4.1
+    export DEPENDENCYFINDER_HOME=$HOME/DependencyFinder-1.4.2
     export DEPENDENCYFINDER_OPTS=-Xmx128m
 </pre>
 
@@ -548,7 +548,7 @@ For csh or tcsh:
 </p>
 
 <pre>
-    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.4.1
+    setenv DEPENDENCYFINDER_HOME $HOME/DependencyFinder-1.4.2
     setenv DEPENDENCYFINDER_OPTS -Xmx128m
 </pre>
 
@@ -556,7 +556,7 @@ For csh or tcsh:
 You can put these lines in your <code>.cshrc</code> file.
 </p>
 
-<a name="Step4:PATHX"></a>
+<a name="TheDependencyFinderUserManual_Installation_JavaApplicationonUnix_Step4:PATH"></a>
 <h4>Step 4: <code>PATH</code></h4>
 
 <p>
@@ -600,7 +600,7 @@ For csh or tcsh:
 You can put this line in your <code>.cshrc</code> file.
 </p>
 
-<a name="WebApplication"></a>
+<a name="TheDependencyFinderUserManual_Installation_WebApplication"></a>
 <h3>Web Application</h3>
 
 <p>
@@ -610,7 +610,7 @@ deploy and manage web applications, so you will need to adjust these
 instructions to your particular circumstances.
 </p>
 
-<a name="Step1:DeployWARFile"></a>
+<a name="TheDependencyFinderUserManual_Installation_WebApplication_Step1:DeployWARFile"></a>
 <h4>Step 1: Deploy WAR File</h4>
 
 <p>
@@ -630,7 +630,7 @@ For instance, using Tomcat on Windows, you can do the following:
 </pre>
 
 <pre>
-    $ cp DependencyFinder-1.4.1.war ${CATALINA_HOME}/webapps
+    $ cp DependencyFinder-1.4.2.war ${CATALINA_HOME}/webapps
 </pre>
 
 <pre>
@@ -639,7 +639,7 @@ For instance, using Tomcat on Windows, you can do the following:
 
 </div>
 
-<a name="Step2:Configureweb.xmlfile"></a>
+<a name="TheDependencyFinderUserManual_Installation_WebApplication_Step2:Configureweb.xmlfile"></a>
 <h4>Step 2: Configure <code>web.xml</code> file</h4>
 
 <p>
@@ -751,7 +751,7 @@ may allow you to simply restart the web application itself.
 </pre>
 
 <pre>
-    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.4.1/WEB-INF/web.xml
+    $ vi ${CATALINA_HOME}/webapps/DependencyFinder-1.4.2/WEB-INF/web.xml
 </pre>
 
 <pre>
@@ -765,7 +765,7 @@ Or you can edit the WAR file directly and then use the deployment tool in
 Tomcat Manager to redeploy the web application.
 </p>
 
-<a name="DockerContainer"></a>
+<a name="TheDependencyFinderUserManual_Installation_DockerContainer"></a>
 <h3>Docker Container</h3>
 
 <p>
@@ -778,7 +778,7 @@ Or, you can mount a pre-extracted graph as <code>/code/df.xml</code>.
 
 <hr />
 
-<a name="RunningDependencyFinder"></a>
+<a name="TheDependencyFinderUserManual_RunningDependencyFinder"></a>
 <h2>Running Dependency Finder</h2>
 
 <p>
@@ -802,7 +802,7 @@ We will start with the GUI-based tools, and then talk about the CLI-based
 tools and end with the Ant tasks.
 </p>
 
-<a name="EquivalenceTable"></a>
+<a name="TheDependencyFinderUserManual_RunningDependencyFinder_EquivalenceTable"></a>
 <h3>Equivalence Table</h3>
 
 <table border="3"
@@ -1313,7 +1313,7 @@ tools and end with the Ant tasks.
     </tr>
 </table>
 
-<a name="GUI"></a>
+<a name="TheDependencyFinderUserManual_RunningDependencyFinder_GUI"></a>
 <h3>GUI</h3>
 
 <p>
@@ -1338,7 +1338,7 @@ level of detail: package, class, or method.
 <b>OOMetricsGUI</b>
 </div>
 
-<a name="CLI"></a>
+<a name="TheDependencyFinderUserManual_RunningDependencyFinder_CLI"></a>
 <h3>CLI</h3>
 
 <div align="center">
@@ -1413,7 +1413,7 @@ support some or all of the following five command-line switches:
 </table>
 </blockquote>
 
-<a name="Ant"></a>
+<a name="TheDependencyFinderUserManual_RunningDependencyFinder_Ant"></a>
 <h3>Ant</h3>
 
 <p>
@@ -1425,7 +1425,7 @@ using the <a href="https://ant.apache.org/">Ant</a> build tool from the
 
 <hr />
 
-<a name="ClassFiles"></a>
+<a name="TheDependencyFinderUserManual_ClassFiles"></a>
 <h2>Class Files</h2>
 
 <p>
@@ -1433,7 +1433,7 @@ Dependency Finder uses specialized classes to parse <code>.class</code> files.  
 includes some tools for looking at the contents of these files.
 </p>
 
-<a name="ClassReader"></a>
+<a name="TheDependencyFinderUserManual_ClassFiles_ClassReader"></a>
 <h3>ClassReader</h3>
 
 <p>
@@ -1442,7 +1442,7 @@ With the <code>-xml</code> switch, it dumps the complete structure to an XML fil
 that you can manipulate with your favorite XML editor.
 </p>
 
-<a name="ClassMetrics"></a>
+<a name="TheDependencyFinderUserManual_ClassFiles_ClassMetrics"></a>
 <h3>ClassMetrics</h3>
 
 <p>
@@ -1454,7 +1454,7 @@ rough idea of the size and complexity of a piece of software.
 
 <hr />
 
-<a name="Dependencies"></a>
+<a name="TheDependencyFinderUserManual_Dependencies"></a>
 <h2>Dependencies</h2>
 
 <p>
@@ -1560,7 +1560,7 @@ even print when there are many dependencies at a time.
         --> java.lang.Object
 </pre>
 
-<a name="Extracting"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting"></a>
 <h3>Extracting</h3>
 
 <p>
@@ -1614,7 +1614,7 @@ dependency between two classes in two separate packages <i>implies</i> a
 dependency between the packages.
 </p>
 
-<a name="Concretevs.ReferencedElements"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_Concretevs.ReferencedElements"></a>
 <h4>Concrete vs. Referenced Elements</h4>
 
 <p>
@@ -1789,7 +1789,7 @@ Here is what the dependency graph would look like, using the JDK 1.3 compiler.
 
 </div>
 
-<a name="Limitations"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_Limitations"></a>
 <h4>Limitations</h4>
 
 <p>
@@ -1799,7 +1799,7 @@ limitations are the result of using Sun's compiler that comes with the JDK.
 But I will start with one limitation that applies regardless of the compiler.
 </p>
 
-<a name="DependenciesonSelf"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_DependenciesonSelf"></a>
 <h5>Dependencies on Self</h5>
 
 <p>
@@ -1851,7 +1851,7 @@ includes implicit dependencies from a class or feature to its package, or
 from a package to itself.
 </p>
 
-<a name="Constants"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_Constants"></a>
 <h5>Constants</h5>
 
 <p>
@@ -1877,7 +1877,7 @@ are of some object type other than <code>String</code>, the compiler cannot perf
 optimization and Dependency Finder will be able to track dependencis on them.
 </p>
 
-<a name="LocalVariables"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_LocalVariables"></a>
 <h5>Local Variables</h5>
 
 <p>
@@ -1910,7 +1910,7 @@ And since the virtual machine does not use that information, it does not
 impact runtime dependencies anyway.
 </p>
 
-<a name="LineNumbers"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_Limitations_LineNumbers"></a>
 <h5>Line Numbers</h5>
 
 <p>
@@ -1981,7 +1981,7 @@ Other tools usually generate their own parse tree of the original Java code so
 they can precisely pinpoint declarations
 </p>
 
-<a name="ExtractingWiththeGUI"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeGUI"></a>
 <h4>Extracting With the GUI</h4>
 
 <div align="center">
@@ -2003,7 +2003,7 @@ You can save the current dependency graph to an XML file by using
 information again from class files than to load it from an XML file.
 </p>
 
-<a name="ExtractingWiththeCLI"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeCLI"></a>
 <h4>Extracting With the CLI</h4>
 
 <p>
@@ -2047,7 +2047,7 @@ You can save the graph to XML with the <code>-xml</code> switch:
 
 </div>
 
-<a name="Example"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeCLI_Example"></a>
 <h5>Example</h5>
 
 <p>
@@ -2284,7 +2284,7 @@ equivalent.
 <b>Package-to-Package Dependencies</b>
 </div>
 
-<a name="ExtractingWiththeWebApplication"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeWebApplication"></a>
 <h4>Extracting With the Web Application</h4>
 
 <p>
@@ -2301,7 +2301,7 @@ administrator who can best decide when it is appropriate to refresh the data in
 the web application.
 </p>
 
-<a name="ExtractingfromCompiledJavaClasses"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeWebApplication_ExtractingfromCompiledJavaClasses"></a>
 <h5>Extracting from Compiled Java Classes</h5>
 
 <p>
@@ -2346,7 +2346,7 @@ always extracts a brand new graph from scratch.
 
 </div>
 
-<a name="LoadingPre-ExtractedDependencyGraph"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWiththeWebApplication_LoadingPre-ExtractedDependencyGraph"></a>
 <h5>Loading Pre-Extracted Dependency Graph</h5>
 
 <p>
@@ -2381,7 +2381,7 @@ graph after automated compilation runs, such as during nightly builds.
 
 </div>
 
-<a name="ExtractingWithAnt"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_ExtractingWithAnt"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
@@ -2409,7 +2409,7 @@ find the Dependency Finder classes.    There is a special
 
 </div>
 
-<a name="MinimizingAndMaximizing"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_MinimizingAndMaximizing"></a>
 <h4>Minimizing And Maximizing</h4>
 
 <p>
@@ -2556,7 +2556,7 @@ with the same graph as if you had minimized the original graph.
     <img src="images/MinMaxVIII.gif" /><br />
 </div>
 
-<a name="ExampleX"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Extracting_MinimizingAndMaximizing_Example"></a>
 <h5>Example</h5>
 
 <p>
@@ -2760,7 +2760,7 @@ Here are the dimensions of various graphs.
     </tbody>
 </table>
 
-<a name="Reporting"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting"></a>
 <h3>Reporting</h3>
 
 <p>
@@ -2866,7 +2866,7 @@ switches.
 <b>Scope Criteria</b>
 </div>
 
-<a name="PerlRegularExpressions"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting_PerlRegularExpressions"></a>
 <h4>Perl Regular Expressions</h4>
 
 <p>
@@ -3100,7 +3100,7 @@ Examples:
 </table>
 </blockquote>
 
-<a name="AdvancedView"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting_AdvancedView"></a>
 <h4>Advanced View</h4>
 
 <p>
@@ -3155,7 +3155,7 @@ used in scoping feature nodes, if you use it along with <code>-feature-scope</co
 
 </div>
 
-<a name="ShowingOnlyInboundDependencies"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting_ShowingOnlyInboundDependencies"></a>
 <h4>Showing Only Inbound Dependencies</h4>
 
 <p>
@@ -3285,7 +3285,7 @@ If you only want to remove outbound dependencies and keep empty nodes, use:
 
 </div>
 
-<a name="ShowingOnlyOutboundDependencies"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting_ShowingOnlyOutboundDependencies"></a>
 <h4>Showing Only Outbound Dependencies</h4>
 
 <p>
@@ -3412,7 +3412,7 @@ If you only want to remove inbound dependencies and keep empty nodes, use:
 
 </div>
 
-<a name="ShowingBothInboundsAndOutboundDependencies"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting_ShowingBothInboundsAndOutboundDependencies"></a>
 <h4>Showing Both Inbounds And Outbound Dependencies</h4>
 
 <p>
@@ -3496,7 +3496,7 @@ navigation.
 
 </div>
 
-<a name="Summary"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_Reporting_Summary"></a>
 <h4>Summary</h4>
 
 <p>
@@ -3612,7 +3612,7 @@ This table summarizes which CLI tool shows which information.
 </table>
 </blockquote>
 
-<a name="DealingwithaVeryLargeCodebase"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase"></a>
 <h3>Dealing with a Very Large Codebase</h3>
 
 <p>
@@ -3629,7 +3629,7 @@ try to build a graph across many applications.  You can ease this situation by:
 <li>combining the reduced parts back together</li>
 </ol>
 
-<a name="BreaktheCodebase"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_BreaktheCodebase"></a>
 <h4>Break the Codebase</h4>
 
 <p>
@@ -3659,7 +3659,7 @@ For example, using <code>DependencyFinder.jar</code>:
 
 </div>
 
-<a name="AnalyzeEachPart"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_AnalyzeEachPart"></a>
 <h4>Analyze Each Part</h4>
 
 <p>
@@ -3705,7 +3705,7 @@ graph will still be as big as if you had just run <code>DependencyExtractor</cod
 the original codebase.
 </p>
 
-<a name="ReduceEachGraph"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_ReduceEachGraph"></a>
 <h4>Reduce Each Graph</h4>
 
 <p>
@@ -3747,7 +3747,7 @@ intermediary graphs to generate small class-to-class graphs.
 
 </div>
 
-<a name="CombineThemBackTogether"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DealingwithaVeryLargeCodebase_CombineThemBackTogether"></a>
 <h4>Combine Them Back Together</h4>
 
 <p>
@@ -4019,7 +4019,7 @@ complexity.  This should help with both memory footprint and processing time.
 <i>These numbers were taken from version 1.1.0.</i>
 </p>
 
-<a name="TransitiveClosure"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_TransitiveClosure"></a>
 <h3>Transitive Closure</h3>
 
 <p>
@@ -4113,7 +4113,7 @@ Here is the general algorithm:
 A transitive closure only keeps the shortest path between two nodes.
 </p>
 
-<a name="TrickyBehavior"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_TransitiveClosure_TrickyBehavior"></a>
 <h4>Tricky Behavior</h4>
 
 <p>
@@ -4235,7 +4235,7 @@ runtime, all that is required for <code>a.A</code> to run properly is <code>b.B<
 need to have <code>c.C</code> anywhere on the <code>CLASSPATH</code>.
 </p>
 
-<a name="NegativeClosure"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_TransitiveClosure_NegativeClosure"></a>
 <h4>Negative Closure</h4>
 
 <p>
@@ -4445,7 +4445,7 @@ feature <code>b.B.b2</code> is not in the closure, its class, <code>b.B</code>, 
 therefore not in the negative closure.
 </p>
 
-<a name="DependencyCycles"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DependencyCycles"></a>
 <h3>Dependency Cycles</h3>
 
 <p>
@@ -4456,7 +4456,7 @@ within a package is usually desirable, but dependency cycles between packages
 can be an indicator of circular dependencies between higher-level components.
 </p>
 
-<a name="DependencyMetrics"></a>
+<a name="TheDependencyFinderUserManual_Dependencies_DependencyMetrics"></a>
 <h3>Dependency Metrics</h3>
 
 <p>
@@ -4467,7 +4467,7 @@ not as powerful as the metrics computed by <code>OOMetrics</code>.
 
 <hr />
 
-<a name="OOMetrics"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics"></a>
 <h2>OO Metrics</h2>
 
 <p>
@@ -4502,7 +4502,7 @@ You can specify a custom configuration file or let the tool use the default
 one in <code>${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml</code>.
 </p>
 
-<a name="Explanation"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Explanation"></a>
 <h3>Explanation</h3>
 
 <p>
@@ -4563,7 +4563,7 @@ Here is a brief overview of some of the measurements, grouped by <i>chunk</i>.  
 definitive list is in <code>${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml</code>.
 </p>
 
-<a name="BasicMethodMeasurements"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Explanation_BasicMethodMeasurements"></a>
 <h4>Basic Method Measurements</h4>
 
 <p>
@@ -4583,13 +4583,25 @@ The following are simple numerical measurements taken against the method.
     <dt>Parameters (PARAM)</dt>
     <dd>Number of parameters for the method.  Very long signatures are often
     seen as a sign of poor design.</dd>
+    <dt>Raw Method Length (RML)</dt>
+    <dd>Number of lines in the method's body, including empty lines and
+    comments.</dd>
+    <dt>Effective Method Length (EML)</dt>
+    <dd>Number of lines in the method's body, not counting empty lines and
+    comments.</dd>
     <dt>Single Line of Code (SLOC)</dt>
-    <dd>Number of code lines in the method.  Comments and empty lines are not
-    counted.  Large methods are usually a sign of poor design.</dd>
+    <dd>Number of code lines for the method.  It includes the method's
+    declaration, but comments and empty lines are not counted.  Large methods
+    are often a sign of poor design.</dd>
     <dt>Local Variables (LVAR)</dt>
     <dd>Number of local variables use by the method.</dd>
 </dl>
 </blockquote>
+
+<p>
+The <code>RML</code>, +EML<code>, and </code>SLOC= measurements require debug information from the
+compiler, usually by using the <code>-g</code> compilation switch.
+</p>
 
 <p>
 The following measurements list classes, methods, and fields that have a
@@ -4620,7 +4632,7 @@ dependency to or from this method.
 </dl>
 </blockquote>
 
-<a name="BasicClassMeasurements"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Explanation_BasicClassMeasurements"></a>
 <h4>Basic Class Measurements</h4>
 
 <p>
@@ -4641,8 +4653,8 @@ The following are simple numerical measurements taken against the class.
     <dd>The major version number of the <code>.class</code> file, set by the compiler, and
     tells which version of the virtual machine can execute it.</dd>
     <dt>Single Line of Code (SLOC)</dt>
-    <dd>Number of code lines in the class.  Comments and empty lines are not
-    counted.  Large classes are usually a sign of poor design.</dd>
+    <dd>Number of code lines for the class.  Comments and empty lines are not
+    counted.  Large classes are often a sign of poor design.</dd>
     <dt>Subclasses (SUB)</dt>
     <dd>Number of direct subclasses of this class.</dd>
     <dt>Depth of Inheritance (DOI)</dt>
@@ -4680,7 +4692,7 @@ dependency to or from this method.
 </dl>
 </blockquote>
 
-<a name="BasicGroupMeasurements"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Explanation_BasicGroupMeasurements"></a>
 <h4>Basic Group Measurements</h4>
 
 <p>
@@ -4707,7 +4719,7 @@ package-related groups.
 </dl>
 </blockquote>
 
-<a name="BasicProjectMeasurements"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Explanation_BasicProjectMeasurements"></a>
 <h4>Basic Project Measurements</h4>
 
 <p>
@@ -4724,7 +4736,7 @@ simple numerical measurements taken against the project.
 </dl>
 </blockquote>
 
-<a name="Dependency-RelatedMetrics"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics"></a>
 <h3>Dependency-Related Metrics</h3>
 
 <p>
@@ -4737,7 +4749,7 @@ switch to <code>OOMetrics</code>.
 
 <table><tr><td colspan="3">
 
-<a name="Intra-PackageMethod-to-Class"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-PackageMethod-to-Class"></a>
 <h4>Intra-Package Method-to-Class</h4>
 
 <p>
@@ -4793,7 +4805,7 @@ class="highlight">
 
 </td></tr><tr><td colspan="3">
 
-<a name="Extra-PackageMethod-to-Class"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Extra-PackageMethod-to-Class"></a>
 <h4>Extra-Package Method-to-Class</h4>
 
 <p>
@@ -4853,7 +4865,7 @@ class="highlight">
 
 </td></tr><tr><td colspan="3">
 
-<a name="Intra-PackageClass-to-Class"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-PackageClass-to-Class"></a>
 <h4>Intra-Package Class-to-Class</h4>
 
 <p>
@@ -4907,7 +4919,7 @@ class="highlight">
 
 </td></tr><tr><td colspan="3">
 
-<a name="Extra-PackageClass-to-Class"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Extra-PackageClass-to-Class"></a>
 <h4>Extra-Package Class-to-Class</h4>
 
 <p>
@@ -4965,7 +4977,7 @@ class="highlight">
 
 </td></tr><tr><td colspan="3">
 
-<a name="Intra-ClassMethod-to-Method"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-ClassMethod-to-Method"></a>
 <h4>Intra-Class Method-to-Method</h4>
 
 <p>
@@ -5024,7 +5036,7 @@ class="highlight">
 
 </td></tr><tr><td colspan="3">
 
-<a name="Intra-PackageMethod-to-Method"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Intra-PackageMethod-to-Method"></a>
 <h4>Intra-Package Method-to-Method</h4>
 
 <p>
@@ -5083,7 +5095,7 @@ class="highlight">
 
 </td></tr><tr><td colspan="3">
 
-<a name="Extra-PackageMethod-to-Method"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Dependency-RelatedMetrics_Extra-PackageMethod-to-Method"></a>
 <h4>Extra-Package Method-to-Method</h4>
 
 <p>
@@ -5146,7 +5158,7 @@ class="highlight">
 
 </td></tr></table>
 
-<a name="TypesofMeasurements"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_TypesofMeasurements"></a>
 <h3>Types of Measurements</h3>
 
 <p>
@@ -5161,6 +5173,13 @@ The current types of measurement are as follow:
     <dt><code>CounterMeasurement</code></dt>
     <dd>A simple counter, it tallies the values that are put in it.
     If you try to add a non-number, it simply adds 1.</dd>
+    <dt><code>HistogramMeasurement</code></dt>
+    <dd>Computes a histogram of the values of a given measurement
+    across the submetrics of the measurement's context.  Given a
+    measurement name, it explores the tree of metrics rooted at the
+    context and finds the numerical value of these named measurements
+    in the tree.  It rounds them up to the nearest integer before
+    adding them to the histogram.</dd>
     <dt><code>NameListMeasurement</code></dt>
     <dd>Accumulates a set of values.  Its numerical value is the
     cardinality (i.e., size) of the set.  <code>OOMetrics</code> uses it to
@@ -5232,6 +5251,7 @@ the disposition feature when dealing with <code>StatisticalMeasurement</code>:
 
 <ul>
 <li><code>ContextAccumulatorMeasurement</code></li>
+<li><code>HistogramMeasurement</code></li>
 <li><code>NbSubMetricsMeasurement</code></li>
 <li><code>RatioMeasurement</code></li>
 <li><code>StatisticalMeasurement</code></li>
@@ -5279,7 +5299,7 @@ Java packages.
 
 </div>
 
-<a name="ExtractingX"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Extracting"></a>
 <h3>Extracting</h3>
 
 <p>
@@ -5423,7 +5443,7 @@ values this is depends on the self disposition used in the measurement's
 <code>&lt;init&gt;</code> tag.  By default, it is the average of the data set.
 </p>
 
-<a name="ExtractingWiththeGUIX"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Extracting_ExtractingWiththeGUI"></a>
 <h4>Extracting With the GUI</h4>
 
 <div align="center">
@@ -5455,7 +5475,7 @@ header of each column.  Each mouse click alternates between ascending
 and descending sorting order.  This also works for the <code>name</code> column.
 </p>
 
-<a name="ExtractingWiththeCLIX"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Extracting_ExtractingWiththeCLI"></a>
 <h4>Extracting With the CLI</h4>
 
 <p>
@@ -5534,7 +5554,7 @@ level.
 
 </div>
 
-<a name="ExtractingWithAntX"></a>
+<a name="TheDependencyFinderUserManual_OOMetrics_Extracting_ExtractingWithAnt"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
@@ -5573,7 +5593,7 @@ level.
 
 <hr />
 
-<a name="APIDifferences"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences"></a>
 <h2>API Differences</h2>
 
 <p>
@@ -5606,7 +5626,7 @@ features your clients want, instead of fighting your own code to wedge in new
 functionality.
 </p>
 
-<a name="ExtractingXX"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_Extracting"></a>
 <h3>Extracting</h3>
 
 <p>
@@ -5650,7 +5670,7 @@ Dependency Finder gives you.
     </tr>
 </table>
 
-<a name="ExtractingWiththeCLIXX"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_Extracting_ExtractingWiththeCLI"></a>
 <h4>Extracting With the CLI</h4>
 
 <p>
@@ -5728,7 +5748,7 @@ By default, the raw results are written in XML to the standard output stream
 switch.
 </p>
 
-<a name="ExtractingWithAntXX"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_Extracting_ExtractingWithAnt"></a>
 <h4>Extracting With Ant</h4>
 
 <p>
@@ -5759,7 +5779,7 @@ You need to tell Ant where to find Dependency Finder, there is a special
 
 </div>
 
-<a name="PrettyPrintingtheReports"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_Extracting_PrettyPrintingtheReports"></a>
 <h4>Pretty Printing the Reports</h4>
 
 <p>
@@ -5795,7 +5815,7 @@ internal structure of the reports.  See the <a href="Developer.html">Developer G
 for more details on writing your own stylesheets.
 </p>
 
-<a name="CustomizingtheReports"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports"></a>
 <h3>Customizing the Reports</h3>
 
 <p>
@@ -5803,7 +5823,7 @@ Various switches impact what <code>JarJarDiff</code> includes in the report and 
 leaves out.
 </p>
 
-<a name="ReportingChangesintheCode"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ReportingChangesintheCode"></a>
 <h4>Reporting Changes in the Code</h4>
 
 <p>
@@ -5833,7 +5853,7 @@ the report.
 
 </div>
 
-<a name="ControllingtheLevelofReporting"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting"></a>
 <h4>Controlling the Level of Reporting</h4>
 
 <p>
@@ -5841,7 +5861,7 @@ You can control what kind of changes are in the report with the <code>-level</co
 switch.
 </p>
 
-<a name="ShowingAllChanges"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting_ShowingAllChanges"></a>
 <h5>Showing All Changes</h5>
 
 <p>
@@ -5872,7 +5892,7 @@ options.
 
 </div>
 
-<a name="ShowingOnlyIncompatibleChanges"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting_ShowingOnlyIncompatibleChanges"></a>
 <h5>Showing Only Incompatible Changes</h5>
 
 <p>
@@ -5917,7 +5937,7 @@ This time, the switch <code>-level incompatible</code> is no longer optional.
 
 </div>
 
-<a name="CustomizingtheListofChanges"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_ControllingtheLevelofReporting_CustomizingtheListofChanges"></a>
 <h5>Customizing the List of Changes</h5>
 
 <p>
@@ -5945,7 +5965,7 @@ Your custom class will need to be somewhere on your <code>CLASSPATH</code> in or
 <code>JarJarDiff</code> to find it.
 </p>
 
-<a name="Filtering"></a>
+<a name="TheDependencyFinderUserManual_APIDifferences_CustomizingtheReports_Filtering"></a>
 <h4>Filtering</h4>
 
 <p>
@@ -5967,7 +5987,7 @@ fully-qualified targets, one per line, in a simple text file and pass it to
 
 </div>
 
-<a name="ListingthePublishedAPI"></a>
+<a name="TheDependencyFinderUserManual_ListingthePublishedAPI"></a>
 <h2>Listing the Published API</h2>
 
 <p>
@@ -5978,7 +5998,7 @@ were removed in Java 9, so this functionality is not available anymore.
 
 <hr />
 
-<a name="BringingItAllTogether"></a>
+<a name="TheDependencyFinderUserManual_BringingItAllTogether"></a>
 <h2>Bringing It All Together</h2>
 
 <p>
@@ -5986,7 +6006,7 @@ Here are some use cases that are more elaborate.  They combine functionality
 from multiple tools.
 </p>
 
-<a name="TrackingDependenciesOnDeprecatedSymbols"></a>
+<a name="TheDependencyFinderUserManual_BringingItAllTogether_TrackingDependenciesOnDeprecatedSymbols"></a>
 <h3>Tracking Dependencies On Deprecated Symbols</h3>
 
 <p>
@@ -6107,7 +6127,7 @@ determine where they are being used.  You can use either with a dependency
 graph or with dependency-related metrics.
 </p>
 
-<a name="UsingaDependencyGraph"></a>
+<a name="TheDependencyFinderUserManual_BringingItAllTogether_TrackingDependenciesOnDeprecatedSymbols_UsingaDependencyGraph"></a>
 <h4>Using a Dependency Graph</h4>
 
 <p>
@@ -6306,7 +6326,7 @@ succinctly side-by-side.  But you may want to group this data in larger chunks.
 For this, you can use <code>OOMetrics</code> instead.
 </p>
 
-<a name="UsingDependency-RelatedMetrics"></a>
+<a name="TheDependencyFinderUserManual_BringingItAllTogether_TrackingDependenciesOnDeprecatedSymbols_UsingDependency-RelatedMetrics"></a>
 <h4>Using Dependency-Related Metrics</h4>
 
 <p>
@@ -6596,7 +6616,7 @@ For an HTML version of this report, use <code>MetricsToHTML</code> instead in th
 step.
 </p>
 
-<a name="NarrowingAPIDifferencestoActuallyUsedAPI"></a>
+<a name="TheDependencyFinderUserManual_BringingItAllTogether_NarrowingAPIDifferencestoActuallyUsedAPI"></a>
 <h3>Narrowing API Differences to Actually Used API</h3>
 
 <p>
@@ -6724,7 +6744,7 @@ use with <code>JarJarDiff</code>.  This example focuses exclusively on those par
 <i>L</i> that you are actually using in <i>S</i>.
 </p>
 
-<a name="ComputingtheD'Metric"></a>
+<a name="TheDependencyFinderUserManual_BringingItAllTogether_ComputingtheD'Metric"></a>
 <h3>Computing the D' Metric</h3>
 
 <p>
@@ -6828,7 +6848,7 @@ step.
 
 <hr />
 
-<a name="Support"></a>
+<a name="TheDependencyFinderUserManual_Support"></a>
 <h2>Support</h2>
 
 <p>

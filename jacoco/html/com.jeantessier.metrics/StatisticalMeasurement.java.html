@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatisticalMeasurement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">StatisticalMeasurement.java</span></div><h1>StatisticalMeasurement.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import org.apache.logging.log4j.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.function.IntSupplier;
 import java.util.regex.*;
 
 /**
@@ -90,10 +91,10 @@ import java.util.regex.*;
  *  default is {@link #DISPOSE_AVERAGE}.&lt;/p&gt;
  */
 public class StatisticalMeasurement extends MeasurementBase {
-<span class="fc" id="L93">    private static final NumberFormat valueFormat = new DecimalFormat(&quot;#.##&quot;);</span>
+<span class="fc" id="L94">    private static final NumberFormat valueFormat = new DecimalFormat(&quot;#.##&quot;);</span>
 
-<span class="fc" id="L95">    private static final Pattern PERCENTILE_LINE_REGEX = Pattern.compile(&quot;\\s*P\\s+\\d+.*&quot;, Pattern.CASE_INSENSITIVE);</span>
-<span class="fc" id="L96">    private static final Pattern PERCENTILE_REGEX = Pattern.compile(&quot;(\\d+)&quot;);</span>
+<span class="fc" id="L96">    private static final Pattern PERCENTILE_LINE_REGEX = Pattern.compile(&quot;\\s*P\\s+\\d+.*&quot;, Pattern.CASE_INSENSITIVE);</span>
+<span class="fc" id="L97">    private static final Pattern PERCENTILE_REGEX = Pattern.compile(&quot;(\\d+)&quot;);</span>
 
     /** Ignore StatisticalMeasurements and drill down to the next level */
     public static final int DISPOSE_IGNORE = 0;
@@ -119,121 +120,120 @@ public class StatisticalMeasurement extends MeasurementBase {
     /** Use NbDataPoints() value on StatisticalMeasurements */
     public static final int DISPOSE_NB_DATA_POINTS = 7;
 
+    public static int getDispose(String disposeText) {
+<span class="fc" id="L124">        return getDispose(disposeText, DISPOSE_IGNORE);</span>
+    }
+
+    public static int getDispose(String disposeText, int defaultValue) {
+<span class="pc" id="L128">        return getDispose(disposeText, () -&gt; defaultValue);</span>
+    }
+
+    public static int getDispose(String disposeText, IntSupplier defaultSupplier) {
+<span class="pc bpc" id="L132" title="1 of 9 branches missed.">        return switch (disposeText.toUpperCase()) {</span>
+<span class="fc" id="L133">            case &quot;DISPOSE_IGNORE&quot; -&gt; DISPOSE_IGNORE;</span>
+<span class="fc" id="L134">            case &quot;DISPOSE_MINIMUM&quot; -&gt; DISPOSE_MINIMUM;</span>
+<span class="fc" id="L135">            case &quot;DISPOSE_MEDIAN&quot; -&gt; DISPOSE_MEDIAN;</span>
+<span class="fc" id="L136">            case &quot;DISPOSE_AVERAGE&quot; -&gt; DISPOSE_AVERAGE;</span>
+<span class="fc" id="L137">            case &quot;DISPOSE_STANDARD_DEVIATION&quot; -&gt; DISPOSE_STANDARD_DEVIATION;</span>
+<span class="fc" id="L138">            case &quot;DISPOSE_MAXIMUM&quot; -&gt; DISPOSE_MAXIMUM;</span>
+<span class="fc" id="L139">            case &quot;DISPOSE_SUM&quot; -&gt; DISPOSE_SUM;</span>
+<span class="fc" id="L140">            case &quot;DISPOSE_NB_DATA_POINTS&quot; -&gt; DISPOSE_NB_DATA_POINTS;</span>
+<span class="nc" id="L141">            default -&gt; defaultSupplier.getAsInt();</span>
+        };
+    }
+
     public static String getDisposeLabel(int dispose) {
-<span class="fc bfc" id="L123" title="All 8 branches covered.">        return switch (dispose) {</span>
-<span class="fc" id="L124">            case DISPOSE_MINIMUM -&gt; &quot;minimum&quot;;</span>
-<span class="fc" id="L125">            case DISPOSE_MEDIAN -&gt; &quot;median&quot;;</span>
-<span class="fc" id="L126">            case DISPOSE_AVERAGE -&gt; &quot;average&quot;;</span>
-<span class="fc" id="L127">            case DISPOSE_STANDARD_DEVIATION -&gt; &quot;standard deviation&quot;;</span>
-<span class="fc" id="L128">            case DISPOSE_MAXIMUM -&gt; &quot;maximum&quot;;</span>
-<span class="fc" id="L129">            case DISPOSE_SUM -&gt; &quot;sum&quot;;</span>
-<span class="fc" id="L130">            case DISPOSE_NB_DATA_POINTS -&gt; &quot;number of data points&quot;;</span>
-<span class="fc" id="L131">            default -&gt; &quot;&quot;;</span>
+<span class="fc bfc" id="L146" title="All 8 branches covered.">        return switch (dispose) {</span>
+<span class="fc" id="L147">            case DISPOSE_MINIMUM -&gt; &quot;minimum&quot;;</span>
+<span class="fc" id="L148">            case DISPOSE_MEDIAN -&gt; &quot;median&quot;;</span>
+<span class="fc" id="L149">            case DISPOSE_AVERAGE -&gt; &quot;average&quot;;</span>
+<span class="fc" id="L150">            case DISPOSE_STANDARD_DEVIATION -&gt; &quot;standard deviation&quot;;</span>
+<span class="fc" id="L151">            case DISPOSE_MAXIMUM -&gt; &quot;maximum&quot;;</span>
+<span class="fc" id="L152">            case DISPOSE_SUM -&gt; &quot;sum&quot;;</span>
+<span class="fc" id="L153">            case DISPOSE_NB_DATA_POINTS -&gt; &quot;number of data points&quot;;</span>
+<span class="fc" id="L154">            default -&gt; &quot;&quot;;</span>
         };
     }
 
     public static String getDisposeAbbreviation(int dispose) {
-<span class="fc bfc" id="L136" title="All 8 branches covered.">        return switch (dispose) {</span>
-<span class="fc" id="L137">            case DISPOSE_MINIMUM -&gt; &quot;min&quot;;</span>
-<span class="fc" id="L138">            case DISPOSE_MEDIAN -&gt; &quot;med&quot;;</span>
-<span class="fc" id="L139">            case DISPOSE_AVERAGE -&gt; &quot;avg&quot;;</span>
-<span class="fc" id="L140">            case DISPOSE_STANDARD_DEVIATION -&gt; &quot;sdv&quot;;</span>
-<span class="fc" id="L141">            case DISPOSE_MAXIMUM -&gt; &quot;max&quot;;</span>
-<span class="fc" id="L142">            case DISPOSE_SUM -&gt; &quot;sum&quot;;</span>
-<span class="fc" id="L143">            case DISPOSE_NB_DATA_POINTS -&gt; &quot;nb&quot;;</span>
-<span class="fc" id="L144">            default -&gt; &quot;&quot;;</span>
+<span class="fc bfc" id="L159" title="All 8 branches covered.">        return switch (dispose) {</span>
+<span class="fc" id="L160">            case DISPOSE_MINIMUM -&gt; &quot;min&quot;;</span>
+<span class="fc" id="L161">            case DISPOSE_MEDIAN -&gt; &quot;med&quot;;</span>
+<span class="fc" id="L162">            case DISPOSE_AVERAGE -&gt; &quot;avg&quot;;</span>
+<span class="fc" id="L163">            case DISPOSE_STANDARD_DEVIATION -&gt; &quot;sdv&quot;;</span>
+<span class="fc" id="L164">            case DISPOSE_MAXIMUM -&gt; &quot;max&quot;;</span>
+<span class="fc" id="L165">            case DISPOSE_SUM -&gt; &quot;sum&quot;;</span>
+<span class="fc" id="L166">            case DISPOSE_NB_DATA_POINTS -&gt; &quot;nb&quot;;</span>
+<span class="fc" id="L167">            default -&gt; &quot;&quot;;</span>
         };
     }
 
     public static List&lt;Integer&gt; parseRequestedPercentiles(String initText) throws IOException {
-<span class="fc" id="L149">        try (var in = new BufferedReader(new StringReader(initText))) {</span>
-<span class="fc" id="L150">            return in.lines()</span>
-<span class="fc" id="L151">                    .filter(line -&gt; PERCENTILE_LINE_REGEX.matcher(line).matches())</span>
-<span class="fc" id="L152">                    .flatMap(line -&gt; PERCENTILE_REGEX.matcher(line).results())</span>
-<span class="fc" id="L153">                    .map(matchResult -&gt; matchResult.group(1))</span>
-<span class="fc" id="L154">                    .map(Integer::valueOf)</span>
-<span class="fc" id="L155">                    .toList();</span>
+<span class="fc" id="L172">        try (var in = new BufferedReader(new StringReader(initText))) {</span>
+<span class="fc" id="L173">            return in.lines()</span>
+<span class="fc" id="L174">                    .filter(line -&gt; PERCENTILE_LINE_REGEX.matcher(line).matches())</span>
+<span class="fc" id="L175">                    .flatMap(line -&gt; PERCENTILE_REGEX.matcher(line).results())</span>
+<span class="fc" id="L176">                    .map(matchResult -&gt; matchResult.group(1))</span>
+<span class="fc" id="L177">                    .map(Integer::valueOf)</span>
+<span class="fc" id="L178">                    .toList();</span>
         }
     }
 
     public static int countValues(String initText) {
-<span class="fc" id="L160">        var result = 7;</span>
+<span class="fc" id="L183">        var result = 7;</span>
 
         try {
-<span class="fc" id="L163">            result += parseRequestedPercentiles(initText).size();</span>
-<span class="nc" id="L164">        } catch (IOException e) {</span>
+<span class="fc" id="L186">            result += parseRequestedPercentiles(initText).size();</span>
+<span class="nc" id="L187">        } catch (IOException e) {</span>
             // Ignore
-<span class="fc" id="L166">        }</span>
+<span class="fc" id="L189">        }</span>
 
-<span class="fc" id="L168">        return result;</span>
+<span class="fc" id="L191">        return result;</span>
     }
 
     private String monitoredMeasurement;
     private int dispose;
     private int selfDispose;
 
-<span class="fc" id="L175">    private List&lt;Double&gt; data = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L198">    private List&lt;Double&gt; data = new LinkedList&lt;&gt;();</span>
 
-<span class="fc" id="L177">    private double minimum = 0.0;</span>
-<span class="fc" id="L178">    private double median = 0.0;</span>
-<span class="fc" id="L179">    private double average = 0.0;</span>
-<span class="fc" id="L180">    private double standardDeviation = 0.0;</span>
-<span class="fc" id="L181">    private double maximum = 0.0;</span>
-<span class="fc" id="L182">    private double sum = 0.0;</span>
-<span class="fc" id="L183">    private int nbDataPoints = 0;</span>
-<span class="fc" id="L184">    private List&lt;Integer&gt; requestedPercentiles = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L200">    private double minimum = 0.0;</span>
+<span class="fc" id="L201">    private double median = 0.0;</span>
+<span class="fc" id="L202">    private double average = 0.0;</span>
+<span class="fc" id="L203">    private double standardDeviation = 0.0;</span>
+<span class="fc" id="L204">    private double maximum = 0.0;</span>
+<span class="fc" id="L205">    private double sum = 0.0;</span>
+<span class="fc" id="L206">    private int nbDataPoints = 0;</span>
+<span class="fc" id="L207">    private List&lt;Integer&gt; requestedPercentiles = new LinkedList&lt;&gt;();</span>
 
-<span class="fc" id="L186">    private int nbSubmetrics = -1;</span>
+<span class="fc" id="L209">    private int nbSubmetrics = -1;</span>
 
     public StatisticalMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
-<span class="fc" id="L189">        super(descriptor, context, initText);</span>
+<span class="fc" id="L212">        super(descriptor, context, initText);</span>
 
-<span class="fc" id="L191">        try (var in = new BufferedReader(new StringReader(initText))) {</span>
-<span class="fc" id="L192">            monitoredMeasurement = in.readLine().trim();</span>
+<span class="fc" id="L214">        try (var in = new BufferedReader(new StringReader(initText))) {</span>
+<span class="fc" id="L215">            monitoredMeasurement = in.readLine().trim();</span>
 
-<span class="fc" id="L194">            synchronized (perl()) {</span>
-<span class="fc bfc" id="L195" title="All 2 branches covered.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, monitoredMeasurement)) {</span>
-<span class="fc" id="L196">                    monitoredMeasurement = perl().group(1);</span>
+<span class="fc" id="L217">            synchronized (perl()) {</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, monitoredMeasurement)) {</span>
+<span class="fc" id="L219">                    monitoredMeasurement = perl().group(1);</span>
 
-<span class="fc" id="L198">                    String disposeText = perl().group(2);</span>
-
-<span class="pc bpc" id="L200" title="1 of 9 branches missed.">                    dispose = switch (disposeText.toUpperCase()) {</span>
-<span class="fc" id="L201">                        case &quot;DISPOSE_IGNORE&quot; -&gt; DISPOSE_IGNORE;</span>
-<span class="fc" id="L202">                        case &quot;DISPOSE_MINIMUM&quot; -&gt; DISPOSE_MINIMUM;</span>
-<span class="fc" id="L203">                        case &quot;DISPOSE_MEDIAN&quot; -&gt; DISPOSE_MEDIAN;</span>
-<span class="fc" id="L204">                        case &quot;DISPOSE_AVERAGE&quot; -&gt; DISPOSE_AVERAGE;</span>
-<span class="fc" id="L205">                        case &quot;DISPOSE_STANDARD_DEVIATION&quot; -&gt; DISPOSE_STANDARD_DEVIATION;</span>
-<span class="fc" id="L206">                        case &quot;DISPOSE_MAXIMUM&quot; -&gt; DISPOSE_MAXIMUM;</span>
-<span class="fc" id="L207">                        case &quot;DISPOSE_SUM&quot; -&gt; DISPOSE_SUM;</span>
-<span class="fc" id="L208">                        case &quot;DISPOSE_NB_DATA_POINTS&quot; -&gt; DISPOSE_NB_DATA_POINTS;</span>
-                        default -&gt; {
-<span class="nc" id="L210">                            LogManager.getLogger(getClass()).error(&quot;Unknown dispose value \&quot;{}\&quot; for monitored measurement \&quot;{}\&quot; of measurement \&quot;{}\&quot;, defaulting to DISPOSE_IGNORE&quot;, disposeText, monitoredMeasurement, descriptor.getLongName());</span>
-<span class="pc" id="L211">                            yield DISPOSE_IGNORE;</span>
-                        }
-                    };
-<span class="fc" id="L214">                } else {</span>
-<span class="fc" id="L215">                    dispose = DISPOSE_IGNORE;</span>
+<span class="fc" id="L221">                    String disposeText = perl().group(2);</span>
+<span class="fc" id="L222">                    dispose = getDispose(disposeText, () -&gt; {</span>
+<span class="nc" id="L223">                        LogManager.getLogger(getClass()).error(&quot;Unknown dispose value \&quot;{}\&quot; for monitored measurement \&quot;{}\&quot; of measurement \&quot;{}\&quot;, defaulting to DISPOSE_IGNORE&quot;, disposeText, monitoredMeasurement, descriptor.getLongName());</span>
+<span class="nc" id="L224">                        return DISPOSE_IGNORE;</span>
+                    });
+<span class="fc" id="L226">                } else {</span>
+<span class="fc" id="L227">                    dispose = DISPOSE_IGNORE;</span>
                 }
-<span class="fc" id="L217">            }</span>
+<span class="fc" id="L229">            }</span>
 
-<span class="fc" id="L219">            String selfDisposeText = in.readLine();</span>
-<span class="fc bfc" id="L220" title="All 4 branches covered.">            if (selfDisposeText != null &amp;&amp; perl().match(&quot;/(dispose_\\w+)/i&quot;, selfDisposeText)) {</span>
-<span class="fc" id="L221">                selfDisposeText = selfDisposeText.trim();</span>
-
-<span class="pc bpc" id="L223" title="7 of 9 branches missed.">                selfDispose = switch (selfDisposeText.toUpperCase()) {</span>
-<span class="nc" id="L224">                    case &quot;DISPOSE_IGNORE&quot; -&gt; DISPOSE_IGNORE;</span>
-<span class="nc" id="L225">                    case &quot;DISPOSE_MINIMUM&quot; -&gt; DISPOSE_MINIMUM;</span>
-<span class="nc" id="L226">                    case &quot;DISPOSE_MEDIAN&quot; -&gt; DISPOSE_MEDIAN;</span>
-<span class="nc" id="L227">                    case &quot;DISPOSE_AVERAGE&quot; -&gt; DISPOSE_AVERAGE;</span>
-<span class="nc" id="L228">                    case &quot;DISPOSE_STANDARD_DEVIATION&quot; -&gt; DISPOSE_STANDARD_DEVIATION;</span>
-<span class="fc" id="L229">                    case &quot;DISPOSE_MAXIMUM&quot; -&gt; DISPOSE_MAXIMUM;</span>
-<span class="fc" id="L230">                    case &quot;DISPOSE_SUM&quot; -&gt; DISPOSE_SUM;</span>
-<span class="nc" id="L231">                    case &quot;DISPOSE_NB_DATA_POINTS&quot; -&gt; DISPOSE_NB_DATA_POINTS;</span>
-                    default -&gt; {
-<span class="nc" id="L233">                        LogManager.getLogger(getClass()).error(&quot;Unknown self-dispose value \&quot;{}\&quot; for measurement \&quot;{}\&quot;, defaulting to DISPOSE_AVERAGE&quot;, selfDisposeText, descriptor.getLongName());</span>
-<span class="pc" id="L234">                        yield DISPOSE_AVERAGE;</span>
-                    }
-                };
+<span class="fc" id="L231">            String selfDisposeText = in.readLine();</span>
+<span class="fc bfc" id="L232" title="All 4 branches covered.">            if (selfDisposeText != null &amp;&amp; perl().match(&quot;/(dispose_\\w+)/i&quot;, selfDisposeText)) {</span>
+<span class="fc" id="L233">                selfDispose = getDispose(selfDisposeText.trim(), () -&gt; {</span>
+<span class="nc" id="L234">                    LogManager.getLogger(getClass()).error(&quot;Unknown self-dispose value \&quot;{}\&quot; for measurement \&quot;{}\&quot;, defaulting to DISPOSE_AVERAGE&quot;, selfDisposeText, descriptor.getLongName());</span>
+<span class="nc" id="L235">                    return DISPOSE_AVERAGE;</span>
+                });
             } else {
 <span class="fc" id="L238">                selfDispose = DISPOSE_AVERAGE;</span>
             }
@@ -333,13 +333,13 @@ public class StatisticalMeasurement extends MeasurementBase {
 <span class="fc" id="L333">                    nbDataPoints = data.size();</span>
 <span class="fc" id="L334">                    sum = data.stream()</span>
 <span class="fc" id="L335">                            .reduce(Double::sum)</span>
-<span class="fc" id="L336">                            .orElse(Double.NaN);</span>
+<span class="fc" id="L336">                            .orElse(0.0);</span>
 <span class="fc" id="L337">                    average = sum / nbDataPoints;</span>
 
 <span class="fc bfc" id="L339" title="All 2 branches covered.">                    if (data.isEmpty()) {</span>
 <span class="fc" id="L340">                        standardDeviation = Double.NaN;</span>
                     } else {
-<span class="fc" id="L342">                        var temp = data.parallelStream()</span>
+<span class="fc" id="L342">                        var temp = data.stream()</span>
 <span class="fc" id="L343">                                .map(n -&gt; Math.pow(n - average, 2))</span>
 <span class="fc" id="L344">                                .reduce(Double::sum)</span>
 <span class="fc" id="L345">                                .orElse(0.0);</span>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RatioMeasurement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">RatioMeasurement.java</span></div><h1>RatioMeasurement.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -63,139 +63,119 @@ public class RatioMeasurement extends MeasurementBase {
     public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
 <span class="fc" id="L64">        super(descriptor, context, initText);</span>
 
-        try {
-<span class="fc" id="L67">            BufferedReader in = new BufferedReader(new StringReader(initText));</span>
-
-<span class="fc" id="L69">            synchronized (perl()) {</span>
-<span class="fc" id="L70">                baseName = in.readLine().trim();</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, baseName)) {</span>
-<span class="fc" id="L72">                    baseName = perl().group(1);</span>
+<span class="fc" id="L66">        try (var in = new BufferedReader(new StringReader(initText))) {</span>
+<span class="fc" id="L67">            synchronized (perl()) {</span>
+<span class="fc" id="L68">                baseName = in.readLine().trim();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, baseName)) {</span>
+<span class="fc" id="L70">                    baseName = perl().group(1);</span>
                     
-<span class="fc" id="L74">                    String disposeText = perl().group(2);</span>
-
-<span class="pc bpc" id="L76" title="7 of 9 branches missed.">                    baseDispose = switch (disposeText.toUpperCase()) {</span>
-<span class="nc" id="L77">                        case &quot;DISPOSE_IGNORE&quot; -&gt; StatisticalMeasurement.DISPOSE_IGNORE;</span>
-<span class="fc" id="L78">                        case &quot;DISPOSE_MINIMUM&quot; -&gt; StatisticalMeasurement.DISPOSE_MINIMUM;</span>
-<span class="nc" id="L79">                        case &quot;DISPOSE_MEDIAN&quot; -&gt; StatisticalMeasurement.DISPOSE_MEDIAN;</span>
-<span class="fc" id="L80">                        case &quot;DISPOSE_AVERAGE&quot; -&gt; StatisticalMeasurement.DISPOSE_AVERAGE;</span>
-<span class="nc" id="L81">                        case &quot;DISPOSE_STANDARD_DEVIATION&quot; -&gt; StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;</span>
-<span class="nc" id="L82">                        case &quot;DISPOSE_MAXIMUM&quot; -&gt; StatisticalMeasurement.DISPOSE_MAXIMUM;</span>
-<span class="nc" id="L83">                        case &quot;DISPOSE_SUM&quot; -&gt; StatisticalMeasurement.DISPOSE_SUM;</span>
-<span class="nc" id="L84">                        case &quot;DISPOSE_NB_DATA_POINTS&quot; -&gt; StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;</span>
-<span class="pc" id="L85">                        default -&gt; StatisticalMeasurement.DISPOSE_IGNORE;</span>
-                    };
-<span class="fc" id="L87">                } else {</span>
-<span class="fc" id="L88">                    baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;</span>
+<span class="fc" id="L72">                    String disposeText = perl().group(2);</span>
+<span class="fc" id="L73">                    baseDispose = StatisticalMeasurement.getDispose(disposeText, () -&gt; {</span>
+<span class="nc" id="L74">                        LogManager.getLogger(getClass()).error(&quot;Unknown dispose value \&quot;{}\&quot; for base \&quot;{}\&quot; of measurement \&quot;{}\&quot;, defaulting to DISPOSE_IGNORE&quot;, disposeText, baseName, descriptor.getLongName());</span>
+<span class="nc" id="L75">                        return StatisticalMeasurement.DISPOSE_IGNORE;</span>
+                    });
+<span class="fc" id="L77">                } else {</span>
+<span class="fc" id="L78">                    baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;</span>
                 }
                 
-<span class="fc" id="L91">                dividerName = in.readLine().trim();</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, dividerName)) {</span>
-<span class="fc" id="L93">                    dividerName = perl().group(1);</span>
+<span class="fc" id="L81">                dividerName = in.readLine().trim();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                if (perl().match(&quot;/(.*)\\s+(dispose_\\w+)$/i&quot;, dividerName)) {</span>
+<span class="fc" id="L83">                    dividerName = perl().group(1);</span>
                     
-<span class="fc" id="L95">                    String disposeText = perl().group(2);</span>
-
-<span class="pc bpc" id="L97" title="6 of 9 branches missed.">                    dividerDispose = switch (disposeText) {</span>
-<span class="nc" id="L98">                        case &quot;DISPOSE_IGNORE&quot; -&gt; StatisticalMeasurement.DISPOSE_IGNORE;</span>
-<span class="fc" id="L99">                        case &quot;DISPOSE_MINIMUM&quot; -&gt; StatisticalMeasurement.DISPOSE_MINIMUM;</span>
-<span class="nc" id="L100">                        case &quot;DISPOSE_MEDIAN&quot; -&gt; StatisticalMeasurement.DISPOSE_MEDIAN;</span>
-<span class="fc" id="L101">                        case &quot;DISPOSE_AVERAGE&quot; -&gt; StatisticalMeasurement.DISPOSE_AVERAGE;</span>
-<span class="nc" id="L102">                        case &quot;DISPOSE_STANDARD_DEVIATION&quot; -&gt; StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION;</span>
-<span class="nc" id="L103">                        case &quot;DISPOSE_MAXIMUM&quot; -&gt; StatisticalMeasurement.DISPOSE_MAXIMUM;</span>
-<span class="nc" id="L104">                        case &quot;DISPOSE_SUM&quot; -&gt; StatisticalMeasurement.DISPOSE_SUM;</span>
-<span class="fc" id="L105">                        case &quot;DISPOSE_NB_DATA_POINTS&quot; -&gt; StatisticalMeasurement.DISPOSE_NB_DATA_POINTS;</span>
-<span class="pc" id="L106">                        default -&gt; StatisticalMeasurement.DISPOSE_IGNORE;</span>
-                    };
-<span class="fc" id="L108">                } else {</span>
-<span class="fc" id="L109">                    dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;</span>
+<span class="fc" id="L85">                    String disposeText = perl().group(2);</span>
+<span class="fc" id="L86">                    dividerDispose = StatisticalMeasurement.getDispose(disposeText, () -&gt; {</span>
+<span class="nc" id="L87">                        LogManager.getLogger(getClass()).error(&quot;Unknown dispose value \&quot;{}\&quot; for divider \&quot;{}\&quot; of measurement \&quot;{}\&quot;, defaulting to DISPOSE_IGNORE&quot;, disposeText, dividerName, descriptor.getLongName());</span>
+<span class="nc" id="L88">                        return StatisticalMeasurement.DISPOSE_IGNORE;</span>
+                    });
+<span class="fc" id="L90">                } else {</span>
+<span class="fc" id="L91">                    dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;</span>
                 }
-<span class="fc" id="L111">            }</span>
-
-<span class="fc" id="L113">            in.close();</span>
-<span class="fc" id="L114">        } catch (Exception ex) {</span>
-<span class="fc" id="L115">            LogManager.getLogger(getClass()).debug(&quot;Cannot initialize with \&quot;{}\&quot;&quot;, initText, ex);</span>
-<span class="fc" id="L116">            baseName    = null;</span>
-<span class="fc" id="L117">            dividerName = null;</span>
-<span class="fc" id="L118">        }</span>
-<span class="fc" id="L119">    }</span>
+<span class="fc" id="L93">            }</span>
+<span class="fc" id="L94">        } catch (Exception ex) {</span>
+<span class="fc" id="L95">            LogManager.getLogger(getClass()).debug(&quot;Cannot initialize with \&quot;{}\&quot;&quot;, initText, ex);</span>
+<span class="fc" id="L96">            baseName    = null;</span>
+<span class="fc" id="L97">            dividerName = null;</span>
+<span class="fc" id="L98">        }</span>
+<span class="fc" id="L99">    }</span>
     
     public String getBaseName() {
-<span class="fc" id="L122">        return baseName;</span>
+<span class="fc" id="L102">        return baseName;</span>
     }
     
     public int getBaseDispose() {
-<span class="fc" id="L126">        return baseDispose;</span>
+<span class="fc" id="L106">        return baseDispose;</span>
     }
 
     public String getDividerName() {
-<span class="fc" id="L130">        return dividerName;</span>
+<span class="fc" id="L110">        return dividerName;</span>
     }
 
     public int getDividerDispose() {
-<span class="fc" id="L134">        return dividerDispose;</span>
+<span class="fc" id="L114">        return dividerDispose;</span>
     }
 
     public void accept(MeasurementVisitor visitor) {
-<span class="fc" id="L138">        visitor.visitRatioMeasurement(this);</span>
-<span class="fc" id="L139">    }</span>
+<span class="fc" id="L118">        visitor.visitRatioMeasurement(this);</span>
+<span class="fc" id="L119">    }</span>
 
     public boolean isEmpty() {
-<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (!isCached()) {</span>
-<span class="fc" id="L143">            compute();</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (!isCached()) {</span>
+<span class="fc" id="L123">            compute();</span>
         }
 
-<span class="fc" id="L146">        return super.isEmpty();</span>
+<span class="fc" id="L126">        return super.isEmpty();</span>
     }
 
     protected double compute() {
-<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (!isCached()) {</span>
-<span class="fc" id="L151">            value = Double.NaN;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (!isCached()) {</span>
+<span class="fc" id="L131">            value = Double.NaN;</span>
 
-<span class="pc bpc" id="L153" title="2 of 6 branches missed.">            if (getContext() != null &amp;&amp; getBaseName() != null &amp;&amp; getDividerName() != null) {</span>
-<span class="fc" id="L154">                Measurement base    = getContext().getMeasurement(getBaseName());</span>
-<span class="fc" id="L155">                Measurement divider = getContext().getMeasurement(getDividerName());</span>
+<span class="pc bpc" id="L133" title="2 of 6 branches missed.">            if (getContext() != null &amp;&amp; getBaseName() != null &amp;&amp; getDividerName() != null) {</span>
+<span class="fc" id="L134">                Measurement base    = getContext().getMeasurement(getBaseName());</span>
+<span class="fc" id="L135">                Measurement divider = getContext().getMeasurement(getDividerName());</span>
                 
-<span class="fc" id="L157">                double baseValue    = Double.NaN;</span>
-<span class="fc" id="L158">                double dividerValue = Double.NaN;</span>
+<span class="fc" id="L137">                double baseValue    = Double.NaN;</span>
+<span class="fc" id="L138">                double dividerValue = Double.NaN;</span>
                 
-<span class="fc bfc" id="L160" title="All 2 branches covered.">                if (base instanceof StatisticalMeasurement stats) {</span>
-<span class="pc bpc" id="L161" title="6 of 8 branches missed.">                    baseValue = switch (getBaseDispose()) {</span>
-<span class="fc" id="L162">                        case StatisticalMeasurement.DISPOSE_MINIMUM -&gt; stats.getMinimum();</span>
-<span class="nc" id="L163">                        case StatisticalMeasurement.DISPOSE_MEDIAN -&gt; stats.getMedian();</span>
-<span class="fc" id="L164">                        case StatisticalMeasurement.DISPOSE_AVERAGE -&gt; stats.getAverage();</span>
-<span class="nc" id="L165">                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -&gt; stats.getStandardDeviation();</span>
-<span class="nc" id="L166">                        case StatisticalMeasurement.DISPOSE_MAXIMUM -&gt; stats.getMaximum();</span>
-<span class="nc" id="L167">                        case StatisticalMeasurement.DISPOSE_SUM -&gt; stats.getSum();</span>
-<span class="nc" id="L168">                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -&gt; stats.getNbDataPoints();</span>
-<span class="pc" id="L169">                        default -&gt; stats.getValue().doubleValue();</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">                if (base instanceof StatisticalMeasurement stats) {</span>
+<span class="pc bpc" id="L141" title="5 of 8 branches missed.">                    baseValue = switch (getBaseDispose()) {</span>
+<span class="fc" id="L142">                        case StatisticalMeasurement.DISPOSE_MINIMUM -&gt; stats.getMinimum();</span>
+<span class="nc" id="L143">                        case StatisticalMeasurement.DISPOSE_MEDIAN -&gt; stats.getMedian();</span>
+<span class="fc" id="L144">                        case StatisticalMeasurement.DISPOSE_AVERAGE -&gt; stats.getAverage();</span>
+<span class="nc" id="L145">                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -&gt; stats.getStandardDeviation();</span>
+<span class="nc" id="L146">                        case StatisticalMeasurement.DISPOSE_MAXIMUM -&gt; stats.getMaximum();</span>
+<span class="nc" id="L147">                        case StatisticalMeasurement.DISPOSE_SUM -&gt; stats.getSum();</span>
+<span class="nc" id="L148">                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -&gt; stats.getNbDataPoints();</span>
+<span class="fc" id="L149">                        default -&gt; stats.getValue().doubleValue();</span>
                     };
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">                } else if (base != null) {</span>
-<span class="fc" id="L172">                    baseValue = base.getValue().doubleValue();</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">                } else if (base != null) {</span>
+<span class="fc" id="L152">                    baseValue = base.getValue().doubleValue();</span>
                 }
                 
-<span class="fc bfc" id="L175" title="All 2 branches covered.">                if (divider instanceof StatisticalMeasurement stats) {</span>
-<span class="pc bpc" id="L176" title="5 of 8 branches missed.">                    dividerValue = switch (getDividerDispose()) {</span>
-<span class="fc" id="L177">                        case StatisticalMeasurement.DISPOSE_MINIMUM -&gt; stats.getMinimum();</span>
-<span class="nc" id="L178">                        case StatisticalMeasurement.DISPOSE_MEDIAN -&gt; stats.getMedian();</span>
-<span class="fc" id="L179">                        case StatisticalMeasurement.DISPOSE_AVERAGE -&gt; stats.getAverage();</span>
-<span class="nc" id="L180">                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -&gt; stats.getStandardDeviation();</span>
-<span class="nc" id="L181">                        case StatisticalMeasurement.DISPOSE_MAXIMUM -&gt; stats.getMaximum();</span>
-<span class="nc" id="L182">                        case StatisticalMeasurement.DISPOSE_SUM -&gt; stats.getSum();</span>
-<span class="fc" id="L183">                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -&gt; stats.getNbDataPoints();</span>
-<span class="pc" id="L184">                        default -&gt; stats.getValue().doubleValue();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">                if (divider instanceof StatisticalMeasurement stats) {</span>
+<span class="pc bpc" id="L156" title="4 of 8 branches missed.">                    dividerValue = switch (getDividerDispose()) {</span>
+<span class="fc" id="L157">                        case StatisticalMeasurement.DISPOSE_MINIMUM -&gt; stats.getMinimum();</span>
+<span class="nc" id="L158">                        case StatisticalMeasurement.DISPOSE_MEDIAN -&gt; stats.getMedian();</span>
+<span class="fc" id="L159">                        case StatisticalMeasurement.DISPOSE_AVERAGE -&gt; stats.getAverage();</span>
+<span class="nc" id="L160">                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -&gt; stats.getStandardDeviation();</span>
+<span class="nc" id="L161">                        case StatisticalMeasurement.DISPOSE_MAXIMUM -&gt; stats.getMaximum();</span>
+<span class="nc" id="L162">                        case StatisticalMeasurement.DISPOSE_SUM -&gt; stats.getSum();</span>
+<span class="fc" id="L163">                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -&gt; stats.getNbDataPoints();</span>
+<span class="fc" id="L164">                        default -&gt; stats.getValue().doubleValue();</span>
                     };
-<span class="pc bpc" id="L186" title="1 of 2 branches missed.">                } else if (divider != null) {</span>
-<span class="fc" id="L187">                    dividerValue = divider.getValue().doubleValue();</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">                } else if (divider != null) {</span>
+<span class="fc" id="L167">                    dividerValue = divider.getValue().doubleValue();</span>
                 }
                 
-<span class="fc" id="L190">                value = baseValue / dividerValue;</span>
+<span class="fc" id="L170">                value = baseValue / dividerValue;</span>
             }
 
-<span class="fc bfc" id="L193" title="All 4 branches covered.">            setEmpty(Double.isNaN(value) || Double.isInfinite(value));</span>
+<span class="fc bfc" id="L173" title="All 4 branches covered.">            setEmpty(Double.isNaN(value) || Double.isInfinite(value));</span>
 
-<span class="fc" id="L195">            setCached(true);</span>
+<span class="fc" id="L175">            setCached(true);</span>
         }
         
-<span class="fc" id="L198">        return value;</span>
+<span class="fc" id="L178">        return value;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

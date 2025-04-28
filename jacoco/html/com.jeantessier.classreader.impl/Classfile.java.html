@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Classfile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.classreader.impl</a> &gt; <span class="el_source">Classfile.java</span></div><h1>Classfile.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -240,7 +240,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     public Class_info getInterface(String name) {
-<span class="nc" id="L243">        return interfaces.parallelStream()</span>
+<span class="nc" id="L243">        return interfaces.stream()</span>
 <span class="nc" id="L244">                .filter(interfaceInfo -&gt; interfaceInfo.getName().equals(name))</span>
 <span class="nc" id="L245">                .findAny()</span>
 <span class="nc" id="L246">                .orElse(null);</span>
@@ -254,8 +254,8 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 <span class="fc" id="L254">        return fields;</span>
     }
 
-    public com.jeantessier.classreader.Field_info getField(Predicate&lt;com.jeantessier.classreader.Field_info&gt; filter) {
-<span class="fc" id="L258">        return fields.parallelStream()</span>
+    public Field_info getField(Predicate&lt;com.jeantessier.classreader.Field_info&gt; filter) {
+<span class="fc" id="L258">        return fields.stream()</span>
 <span class="fc" id="L259">                .filter(filter)</span>
 <span class="fc" id="L260">                .findAny()</span>
 <span class="fc" id="L261">                .orElse(null);</span>
@@ -292,8 +292,8 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 <span class="fc" id="L292">        return methods;</span>
     }
 
-    public com.jeantessier.classreader.Method_info getMethod(Predicate&lt;com.jeantessier.classreader.Method_info&gt; filter) {
-<span class="fc" id="L296">        return methods.parallelStream()</span>
+    public Method_info getMethod(Predicate&lt;com.jeantessier.classreader.Method_info&gt; filter) {
+<span class="fc" id="L296">        return methods.stream()</span>
 <span class="fc" id="L297">                .filter(filter)</span>
 <span class="fc" id="L298">                .findAny()</span>
 <span class="fc" id="L299">                .orElse(null);</span>
@@ -328,7 +328,7 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
 
     public Collection&lt;? extends com.jeantessier.classreader.Method_info&gt; locateMethodDeclarations(Predicate&lt;com.jeantessier.classreader.Method_info&gt; filter) {
 <span class="fc" id="L330">        var declarations = Stream.concat(</span>
-<span class="fc" id="L331">                    getAllInterfaces().stream().map(com.jeantessier.classreader.Class_info::getName),</span>
+<span class="fc" id="L331">                    getAllInterfaces().stream().map(Class_info::getName),</span>
 <span class="fc" id="L332">                    Stream.of(getSuperclassName())</span>
                 )
 <span class="fc" id="L334">                .map(className -&gt; getLoader().getClassfile(className))</span>
@@ -394,15 +394,15 @@ public class Classfile implements com.jeantessier.classreader.Classfile {
     }
 
     private boolean isSyntheticFromAttribute() {
-<span class="fc" id="L397">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Synthetic_attribute);</span>
+<span class="fc" id="L397">        return getAttributes().stream().anyMatch(attribute -&gt; attribute instanceof Synthetic_attribute);</span>
     }
 
     public boolean isDeprecated() {
-<span class="fc" id="L401">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Deprecated_attribute);</span>
+<span class="fc" id="L401">        return getAttributes().stream().anyMatch(attribute -&gt; attribute instanceof Deprecated_attribute);</span>
     }
 
     public boolean isGeneric() {
-<span class="fc" id="L405">        return getAttributes().parallelStream().anyMatch(attribute -&gt; attribute instanceof Signature_attribute);</span>
+<span class="fc" id="L405">        return getAttributes().stream().anyMatch(attribute -&gt; attribute instanceof Signature_attribute);</span>
     }
 
     public String getDeclaration() {

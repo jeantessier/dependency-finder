@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TextPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">TextPrinter.java</span></div><h1>TextPrinter.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -71,11 +71,11 @@ public class TextPrinter extends Printer {
 <span class="fc" id="L71">        indent().append(measurement.getLongName()).append(&quot; (&quot;).append(measurement.getShortName()).append(&quot;): &quot;).append(valueFormat.format(measurement.getValue()));</span>
 
         try {
-<span class="nc" id="L74">            RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + &quot;R&quot;);</span>
-<span class="nc" id="L75">            append(&quot; (&quot;).append(ratioFormat.format(ratio.getValue())).append(&quot;)&quot;);</span>
+<span class="fc" id="L74">            RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + &quot;R&quot;);</span>
+<span class="fc" id="L75">            append(&quot; (&quot;).append(ratioFormat.format(ratio.getValue())).append(&quot;)&quot;);</span>
 <span class="fc" id="L76">        } catch (ClassCastException ex) {</span>
             // Do nothing, no ratio for this measurement
-<span class="nc" id="L78">        }</span>
+<span class="fc" id="L78">        }</span>
 
 <span class="fc" id="L80">        append(&quot; &quot;).append(measurement);</span>
 
@@ -92,7 +92,7 @@ public class TextPrinter extends Printer {
 <span class="fc" id="L92">    }</span>
     
     public void visitRatioMeasurement(RatioMeasurement measurement) {
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (!measurement.getShortName().endsWith(&quot;R&quot;)) {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (!measurement.getShortName().endsWith(&quot;R&quot;)) {</span>
 <span class="fc" id="L96">            super.visitRatioMeasurement(measurement);</span>
         }
 <span class="fc" id="L98">    }</span>
@@ -114,28 +114,42 @@ public class TextPrinter extends Printer {
 
 <span class="fc" id="L115">        visitCollectionMeasurement(measurement);</span>
 <span class="fc" id="L116">    }</span>
-    
+
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+<span class="fc" id="L119">        indent().append(measurement.getLongName()).append(&quot; (&quot;).append(measurement.getShortName()).append(&quot;): &quot;).append(valueFormat.format(measurement.getValue()));</span>
+
+<span class="fc" id="L121">        append(&quot; [&quot;);</span>
+
+<span class="fc" id="L123">        append(measurement.getHistogram().entrySet().stream()</span>
+<span class="fc" id="L124">                .sorted(Map.Entry.comparingByKey())</span>
+<span class="fc" id="L125">                .map(entry -&gt; entry.getKey() + &quot;:&quot; + entry.getValue())</span>
+<span class="fc" id="L126">                .collect(joining(&quot;, &quot;))</span>
+        );
+
+<span class="fc" id="L129">        append(&quot;]&quot;).eol();</span>
+<span class="fc" id="L130">    }</span>
+
     protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
-<span class="fc" id="L120">            raiseIndent();</span>
-<span class="fc" id="L121">            measurement.getValues().stream()</span>
-<span class="fc" id="L122">                    .sorted()</span>
-<span class="fc" id="L123">                    .forEach(value -&gt; indent().append(value).eol());</span>
-<span class="fc" id="L124">            lowerIndent();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
+<span class="fc" id="L134">            raiseIndent();</span>
+<span class="fc" id="L135">            measurement.getValues().stream()</span>
+<span class="fc" id="L136">                    .sorted()</span>
+<span class="fc" id="L137">                    .forEach(value -&gt; indent().append(value).eol());</span>
+<span class="fc" id="L138">            lowerIndent();</span>
         }
-<span class="fc" id="L126">    }</span>
+<span class="fc" id="L140">    }</span>
     
     protected void visitMeasurement(Measurement measurement) {
-<span class="fc" id="L129">        indent().append(measurement.getLongName()).append(&quot; (&quot;).append(measurement.getShortName()).append(&quot;): &quot;).append(valueFormat.format(measurement.getValue()));</span>
+<span class="fc" id="L143">        indent().append(measurement.getLongName()).append(&quot; (&quot;).append(measurement.getShortName()).append(&quot;): &quot;).append(valueFormat.format(measurement.getValue()));</span>
 
         try {
-<span class="nc" id="L132">            RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + &quot;R&quot;);</span>
-<span class="nc" id="L133">            append(&quot; (&quot;).append(ratioFormat.format(ratio.getValue())).append(&quot;)&quot;);</span>
-<span class="fc" id="L134">        } catch (ClassCastException ex) {</span>
+<span class="fc" id="L146">            RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + &quot;R&quot;);</span>
+<span class="fc" id="L147">            append(&quot; (&quot;).append(ratioFormat.format(ratio.getValue())).append(&quot;)&quot;);</span>
+<span class="fc" id="L148">        } catch (ClassCastException ex) {</span>
             // Do nothing, no ratio for this measurement
-<span class="nc" id="L136">        }</span>
+<span class="fc" id="L150">        }</span>
 
-<span class="fc" id="L138">        eol();</span>
-<span class="fc" id="L139">    }</span>
+<span class="fc" id="L152">        eol();</span>
+<span class="fc" id="L153">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

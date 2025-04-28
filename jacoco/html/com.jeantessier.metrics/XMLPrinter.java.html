@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>XMLPrinter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.metrics</a> &gt; <span class="el_source">XMLPrinter.java</span></div><h1>XMLPrinter.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 package com.jeantessier.metrics;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
 public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = &quot;utf-8&quot;;
@@ -41,157 +42,176 @@ public class XMLPrinter extends Printer {
     private final MetricsConfiguration configuration;
     
     public XMLPrinter(PrintWriter out, MetricsConfiguration configuration) {
-<span class="fc" id="L44">        this(out, configuration, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L45">        this(out, configuration, DEFAULT_ENCODING, DEFAULT_DTD_PREFIX);</span>
+<span class="fc" id="L46">    }</span>
     
     public XMLPrinter(PrintWriter out, MetricsConfiguration configuration, String encoding, String dtdPrefix) {
-<span class="fc" id="L48">        super(out);</span>
+<span class="fc" id="L49">        super(out);</span>
         
-<span class="fc" id="L50">        this.configuration = configuration;</span>
+<span class="fc" id="L51">        this.configuration = configuration;</span>
 
-<span class="fc" id="L52">        appendHeader(encoding, dtdPrefix);</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L53">        appendHeader(encoding, dtdPrefix);</span>
+<span class="fc" id="L54">    }</span>
 
     private void appendHeader(String encoding, String dtdPrefix) {
-<span class="fc" id="L56">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
-<span class="fc" id="L57">        eol();</span>
-<span class="fc" id="L58">        append(&quot;&lt;!DOCTYPE metrics SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/metrics.dtd\&quot;&gt;&quot;).eol();</span>
-<span class="fc" id="L59">        eol();</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L57">        append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;&quot;).append(encoding).append(&quot;\&quot; ?&gt;&quot;).eol();</span>
+<span class="fc" id="L58">        eol();</span>
+<span class="fc" id="L59">        append(&quot;&lt;!DOCTYPE metrics SYSTEM \&quot;&quot;).append(dtdPrefix).append(&quot;/metrics.dtd\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L60">        eol();</span>
+<span class="fc" id="L61">    }</span>
 
     public void visitMetrics(Metrics metrics) {
-<span class="fc" id="L63">        indent().append(&quot;&lt;metrics&gt;&quot;).eol();</span>
-<span class="fc" id="L64">        raiseIndent();</span>
+<span class="fc" id="L64">        indent().append(&quot;&lt;metrics&gt;&quot;).eol();</span>
+<span class="fc" id="L65">        raiseIndent();</span>
         
-<span class="fc" id="L66">        visitProjectMetrics(metrics);</span>
+<span class="fc" id="L67">        visitProjectMetrics(metrics);</span>
                 
-<span class="fc" id="L68">        lowerIndent();</span>
-<span class="fc" id="L69">        indent().append(&quot;&lt;/metrics&gt;&quot;).eol();</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L69">        lowerIndent();</span>
+<span class="fc" id="L70">        indent().append(&quot;&lt;/metrics&gt;&quot;).eol();</span>
+<span class="fc" id="L71">    }</span>
 
     private void visitProjectMetrics(Metrics metrics) {
-<span class="fc bfc" id="L73" title="All 6 branches covered.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
-<span class="fc" id="L74">            indent().append(&quot;&lt;project&gt;&quot;).eol();</span>
-<span class="fc" id="L75">            raiseIndent();</span>
-<span class="fc" id="L76">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L74" title="All 6 branches covered.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
+<span class="fc" id="L75">            indent().append(&quot;&lt;project&gt;&quot;).eol();</span>
+<span class="fc" id="L76">            raiseIndent();</span>
+<span class="fc" id="L77">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
             
-<span class="fc" id="L78">            visitMeasurements(metrics, configuration.getProjectMeasurements());</span>
-<span class="fc" id="L79">            metrics.getSubMetrics().stream()</span>
-<span class="fc" id="L80">                    .sorted(getComparator())</span>
-<span class="fc" id="L81">                    .forEach(this::visitGroupMetrics);</span>
+<span class="fc" id="L79">            visitMeasurements(metrics, configuration.getProjectMeasurements());</span>
+<span class="fc" id="L80">            metrics.getSubMetrics().stream()</span>
+<span class="fc" id="L81">                    .sorted(getComparator())</span>
+<span class="fc" id="L82">                    .forEach(this::visitGroupMetrics);</span>
             
-<span class="fc" id="L83">            lowerIndent();</span>
-<span class="fc" id="L84">            indent().append(&quot;&lt;/project&gt;&quot;).eol();</span>
+<span class="fc" id="L84">            lowerIndent();</span>
+<span class="fc" id="L85">            indent().append(&quot;&lt;/project&gt;&quot;).eol();</span>
         }
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L87">    }</span>
 
     private void visitGroupMetrics(Metrics metrics) {
-<span class="pc bpc" id="L89" title="1 of 6 branches missed.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
-<span class="fc" id="L90">            indent().append(&quot;&lt;group&gt;&quot;).eol();</span>
-<span class="fc" id="L91">            raiseIndent();</span>
-<span class="fc" id="L92">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="pc bpc" id="L90" title="1 of 6 branches missed.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
+<span class="fc" id="L91">            indent().append(&quot;&lt;group&gt;&quot;).eol();</span>
+<span class="fc" id="L92">            raiseIndent();</span>
+<span class="fc" id="L93">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
             
-<span class="fc" id="L94">            visitMeasurements(metrics, configuration.getGroupMeasurements());</span>
-<span class="fc" id="L95">            metrics.getSubMetrics().stream()</span>
-<span class="fc" id="L96">                    .sorted(getComparator())</span>
-<span class="fc" id="L97">                    .forEach(this::visitClassMetrics);</span>
+<span class="fc" id="L95">            visitMeasurements(metrics, configuration.getGroupMeasurements());</span>
+<span class="fc" id="L96">            metrics.getSubMetrics().stream()</span>
+<span class="fc" id="L97">                    .sorted(getComparator())</span>
+<span class="fc" id="L98">                    .forEach(this::visitClassMetrics);</span>
             
-<span class="fc" id="L99">            lowerIndent();</span>
-<span class="fc" id="L100">            indent().append(&quot;&lt;/group&gt;&quot;).eol();</span>
+<span class="fc" id="L100">            lowerIndent();</span>
+<span class="fc" id="L101">            indent().append(&quot;&lt;/group&gt;&quot;).eol();</span>
         }
-<span class="fc" id="L102">    }</span>
+<span class="fc" id="L103">    }</span>
 
     private void visitClassMetrics(Metrics metrics) {
-<span class="fc bfc" id="L105" title="All 6 branches covered.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
-<span class="fc" id="L106">            indent().append(&quot;&lt;class&gt;&quot;).eol();</span>
-<span class="fc" id="L107">            raiseIndent();</span>
-<span class="fc" id="L108">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="fc bfc" id="L106" title="All 6 branches covered.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
+<span class="fc" id="L107">            indent().append(&quot;&lt;class&gt;&quot;).eol();</span>
+<span class="fc" id="L108">            raiseIndent();</span>
+<span class="fc" id="L109">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
             
-<span class="fc" id="L110">            visitMeasurements(metrics, configuration.getClassMeasurements());</span>
-<span class="fc" id="L111">            metrics.getSubMetrics().stream()</span>
-<span class="fc" id="L112">                    .sorted(getComparator())</span>
-<span class="fc" id="L113">                    .forEach(this::visitMethodMetrics);</span>
+<span class="fc" id="L111">            visitMeasurements(metrics, configuration.getClassMeasurements());</span>
+<span class="fc" id="L112">            metrics.getSubMetrics().stream()</span>
+<span class="fc" id="L113">                    .sorted(getComparator())</span>
+<span class="fc" id="L114">                    .forEach(this::visitMethodMetrics);</span>
 
-<span class="fc" id="L115">            lowerIndent();</span>
-<span class="fc" id="L116">            indent().append(&quot;&lt;/class&gt;&quot;).eol();</span>
+<span class="fc" id="L116">            lowerIndent();</span>
+<span class="fc" id="L117">            indent().append(&quot;&lt;/class&gt;&quot;).eol();</span>
         }
-<span class="fc" id="L118">    }</span>
+<span class="fc" id="L119">    }</span>
 
     private void visitMethodMetrics(Metrics metrics) {
-<span class="pc bpc" id="L121" title="1 of 6 branches missed.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
-<span class="fc" id="L122">            indent().append(&quot;&lt;method&gt;&quot;).eol();</span>
-<span class="fc" id="L123">            raiseIndent();</span>
-<span class="fc" id="L124">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
+<span class="pc bpc" id="L122" title="1 of 6 branches missed.">        if (isShowEmptyMetrics() || isShowHiddenMeasurements() || !metrics.isEmpty()) {</span>
+<span class="fc" id="L123">            indent().append(&quot;&lt;method&gt;&quot;).eol();</span>
+<span class="fc" id="L124">            raiseIndent();</span>
+<span class="fc" id="L125">            indent().append(&quot;&lt;name&gt;&quot;).append(metrics.getName()).append(&quot;&lt;/name&gt;&quot;).eol();</span>
             
-<span class="fc" id="L126">            visitMeasurements(metrics, configuration.getMethodMeasurements());</span>
+<span class="fc" id="L127">            visitMeasurements(metrics, configuration.getMethodMeasurements());</span>
             
-<span class="fc" id="L128">            lowerIndent();</span>
-<span class="fc" id="L129">            indent().append(&quot;&lt;/method&gt;&quot;).eol();</span>
+<span class="fc" id="L129">            lowerIndent();</span>
+<span class="fc" id="L130">            indent().append(&quot;&lt;/method&gt;&quot;).eol();</span>
         }
-<span class="fc" id="L131">    }</span>
+<span class="fc" id="L132">    }</span>
 
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-<span class="fc" id="L134">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
-<span class="fc" id="L135">        raiseIndent();</span>
+<span class="fc" id="L135">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L136">        raiseIndent();</span>
 
-<span class="fc" id="L137">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
-<span class="fc" id="L138">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
-<span class="fc" id="L139">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
-<span class="fc" id="L140">        indent().append(&quot;&lt;minimum&gt;&quot;).append(measurement.getMinimum()).append(&quot;&lt;/minimum&gt;&quot;).eol();</span>
-<span class="fc" id="L141">        indent().append(&quot;&lt;median&gt;&quot;).append(measurement.getMedian()).append(&quot;&lt;/median&gt;&quot;).eol();</span>
-<span class="fc" id="L142">        indent().append(&quot;&lt;average&gt;&quot;).append(measurement.getAverage()).append(&quot;&lt;/average&gt;&quot;).eol();</span>
-<span class="fc" id="L143">        indent().append(&quot;&lt;standard-deviation&gt;&quot;).append(measurement.getStandardDeviation()).append(&quot;&lt;/standard-deviation&gt;&quot;).eol();</span>
-<span class="fc" id="L144">        indent().append(&quot;&lt;maximum&gt;&quot;).append(measurement.getMaximum()).append(&quot;&lt;/maximum&gt;&quot;).eol();</span>
-<span class="fc" id="L145">        indent().append(&quot;&lt;sum&gt;&quot;).append(measurement.getSum()).append(&quot;&lt;/sum&gt;&quot;).eol();</span>
-<span class="fc" id="L146">        indent().append(&quot;&lt;nb-data-points&gt;&quot;).append(measurement.getNbDataPoints()).append(&quot;&lt;/nb-data-points&gt;&quot;).eol();</span>
+<span class="fc" id="L138">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
+<span class="fc" id="L139">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
+<span class="fc" id="L140">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
+<span class="fc" id="L141">        indent().append(&quot;&lt;minimum&gt;&quot;).append(measurement.getMinimum()).append(&quot;&lt;/minimum&gt;&quot;).eol();</span>
+<span class="fc" id="L142">        indent().append(&quot;&lt;median&gt;&quot;).append(measurement.getMedian()).append(&quot;&lt;/median&gt;&quot;).eol();</span>
+<span class="fc" id="L143">        indent().append(&quot;&lt;average&gt;&quot;).append(measurement.getAverage()).append(&quot;&lt;/average&gt;&quot;).eol();</span>
+<span class="fc" id="L144">        indent().append(&quot;&lt;standard-deviation&gt;&quot;).append(measurement.getStandardDeviation()).append(&quot;&lt;/standard-deviation&gt;&quot;).eol();</span>
+<span class="fc" id="L145">        indent().append(&quot;&lt;maximum&gt;&quot;).append(measurement.getMaximum()).append(&quot;&lt;/maximum&gt;&quot;).eol();</span>
+<span class="fc" id="L146">        indent().append(&quot;&lt;sum&gt;&quot;).append(measurement.getSum()).append(&quot;&lt;/sum&gt;&quot;).eol();</span>
+<span class="fc" id="L147">        indent().append(&quot;&lt;nb-data-points&gt;&quot;).append(measurement.getNbDataPoints()).append(&quot;&lt;/nb-data-points&gt;&quot;).eol();</span>
 
-<span class="fc" id="L148">        measurement.getRequestedPercentiles().forEach(percentile -&gt; indent().append(&quot;&lt;percentile p-value=\&quot;&quot;).append(percentile).append(&quot;\&quot;&gt;&quot;).append(measurement.getPercentile(percentile)).append(&quot;&lt;/percentile&gt;&quot;).eol());</span>
+<span class="fc" id="L149">        measurement.getRequestedPercentiles().forEach(percentile -&gt; indent().append(&quot;&lt;percentile p-value=\&quot;&quot;).append(percentile).append(&quot;\&quot;&gt;&quot;).append(measurement.getPercentile(percentile)).append(&quot;&lt;/percentile&gt;&quot;).eol());</span>
 
-<span class="fc" id="L150">        lowerIndent();</span>
-<span class="fc" id="L151">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
-<span class="fc" id="L152">    }</span>
+<span class="fc" id="L151">        lowerIndent();</span>
+<span class="fc" id="L152">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L153">    }</span>
     
     public void visitContextAccumulatorMeasurement(ContextAccumulatorMeasurement measurement) {
-<span class="nc" id="L155">        visitCollectionMeasurement(measurement);</span>
-<span class="nc" id="L156">    }</span>
+<span class="nc" id="L156">        visitCollectionMeasurement(measurement);</span>
+<span class="nc" id="L157">    }</span>
         
     public void visitNameListMeasurement(NameListMeasurement measurement) {
-<span class="fc" id="L159">        visitCollectionMeasurement(measurement);</span>
-<span class="fc" id="L160">    }</span>
+<span class="fc" id="L160">        visitCollectionMeasurement(measurement);</span>
+<span class="fc" id="L161">    }</span>
     
     public void visitSubMetricsAccumulatorMeasurement(SubMetricsAccumulatorMeasurement measurement) {
-<span class="fc" id="L163">        visitCollectionMeasurement(measurement);</span>
-<span class="fc" id="L164">    }</span>
-    
-    protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
-<span class="fc" id="L167">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
-<span class="fc" id="L168">        raiseIndent();</span>
-<span class="fc" id="L169">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
-<span class="fc" id="L170">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
-<span class="fc" id="L171">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
+<span class="fc" id="L164">        visitCollectionMeasurement(measurement);</span>
+<span class="fc" id="L165">    }</span>
 
-<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
-<span class="fc" id="L174">            indent().append(&quot;&lt;members&gt;&quot;).eol();</span>
-<span class="fc" id="L175">            raiseIndent();</span>
-<span class="fc" id="L176">            measurement.getValues().stream()</span>
-<span class="fc" id="L177">                    .sorted()</span>
-<span class="fc" id="L178">                    .forEach(member -&gt; indent().append(&quot;&lt;member&gt;&quot;).append(member).append(&quot;&lt;/member&gt;&quot;).eol());</span>
-<span class="fc" id="L179">            lowerIndent();</span>
-<span class="fc" id="L180">            indent().append(&quot;&lt;/members&gt;&quot;).eol();</span>
+    public void visitHistogramMeasurement(HistogramMeasurement measurement) {
+<span class="fc" id="L168">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L169">        raiseIndent();</span>
+<span class="fc" id="L170">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
+<span class="fc" id="L171">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
+<span class="fc" id="L172">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
+
+<span class="fc" id="L174">        indent().append(&quot;&lt;histogram plot=\&quot;&quot;).append(measurement.getPlot().getLabel()).append(&quot;\&quot;&gt;&quot;).eol();</span>
+<span class="fc" id="L175">        raiseIndent();</span>
+<span class="fc" id="L176">        measurement.getHistogram().entrySet().stream()</span>
+<span class="fc" id="L177">                .sorted(Map.Entry.comparingByKey())</span>
+<span class="fc" id="L178">                .forEach(entry -&gt; indent().append(&quot;&lt;interval value=\&quot;&quot;).append(entry.getKey()).append(&quot;\&quot; count=\&quot;&quot;).append(entry.getValue()).append(&quot;\&quot;/&gt;&quot;).eol());</span>
+<span class="fc" id="L179">        lowerIndent();</span>
+<span class="fc" id="L180">        indent().append(&quot;&lt;/histogram&gt;&quot;).eol();</span>
+
+<span class="fc" id="L182">        lowerIndent();</span>
+<span class="fc" id="L183">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L184">    }</span>
+
+    protected void visitCollectionMeasurement(CollectionMeasurement measurement) {
+<span class="fc" id="L187">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L188">        raiseIndent();</span>
+<span class="fc" id="L189">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
+<span class="fc" id="L190">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
+<span class="fc" id="L191">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
+
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if (isExpandCollectionMeasurements()) {</span>
+<span class="fc" id="L194">            indent().append(&quot;&lt;members&gt;&quot;).eol();</span>
+<span class="fc" id="L195">            raiseIndent();</span>
+<span class="fc" id="L196">            measurement.getValues().stream()</span>
+<span class="fc" id="L197">                    .sorted()</span>
+<span class="fc" id="L198">                    .forEach(member -&gt; indent().append(&quot;&lt;member&gt;&quot;).append(member).append(&quot;&lt;/member&gt;&quot;).eol());</span>
+<span class="fc" id="L199">            lowerIndent();</span>
+<span class="fc" id="L200">            indent().append(&quot;&lt;/members&gt;&quot;).eol();</span>
         }
 
-<span class="fc" id="L183">        lowerIndent();</span>
-<span class="fc" id="L184">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
-<span class="fc" id="L185">    }</span>
+<span class="fc" id="L203">        lowerIndent();</span>
+<span class="fc" id="L204">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L205">    }</span>
     
     protected void visitMeasurement(Measurement measurement) {
-<span class="fc" id="L188">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
-<span class="fc" id="L189">        raiseIndent();</span>
-<span class="fc" id="L190">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
-<span class="fc" id="L191">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
-<span class="fc" id="L192">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
-<span class="fc" id="L193">        lowerIndent();</span>
-<span class="fc" id="L194">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
-<span class="fc" id="L195">    }</span>
+<span class="fc" id="L208">        indent().append(&quot;&lt;measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L209">        raiseIndent();</span>
+<span class="fc" id="L210">        indent().append(&quot;&lt;short-name&gt;&quot;).append(measurement.getShortName()).append(&quot;&lt;/short-name&gt;&quot;).eol();</span>
+<span class="fc" id="L211">        indent().append(&quot;&lt;long-name&gt;&quot;).append(measurement.getLongName()).append(&quot;&lt;/long-name&gt;&quot;).eol();</span>
+<span class="fc" id="L212">        indent().append(&quot;&lt;value&gt;&quot;).append(measurement.getValue()).append(&quot;&lt;/value&gt;&quot;).eol();</span>
+<span class="fc" id="L213">        lowerIndent();</span>
+<span class="fc" id="L214">        indent().append(&quot;&lt;/measurement&gt;&quot;).eol();</span>
+<span class="fc" id="L215">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

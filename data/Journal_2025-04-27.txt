@@ -39,3 +39,5 @@ The inherited signature and return type will appear unchanged (unless you use
 One side effect, though, is that changing the return type of a method used to
 be considered a method modification.  Now, it is treated as if the old method
 has been removed and the new one has been added.
+
+With the fix in place, I pushed out version =1.4.2=.

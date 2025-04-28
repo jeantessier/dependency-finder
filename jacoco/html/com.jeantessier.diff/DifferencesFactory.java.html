@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DifferencesFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-report</a> &gt; <a href="index.source.html" class="el_package">com.jeantessier.diff</a> &gt; <span class="el_source">DifferencesFactory.java</span></div><h1>DifferencesFactory.java</h1><pre class="source lang-java linenums">/*
- *  Copyright (c) 2001-2024, Jean Tessier
+ *  Copyright (c) 2001-2025, Jean Tessier
  *  All rights reserved.
  *  
  *  Redistribution and use in source and binary forms, with or without
@@ -137,13 +137,13 @@ public class DifferencesFactory {
 <span class="fc" id="L137">            LogManager.getLogger(getClass()).debug(&quot;      Collecting fields ...&quot;);</span>
 
 <span class="fc" id="L139">            Map&lt;String, String&gt; fieldLevel = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L140">            oldClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getName(), field.getFullSignature()));</span>
-<span class="fc" id="L141">            newClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getName(), field.getFullSignature()));</span>
+<span class="fc" id="L140">            oldClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getUniqueName(), field.getFullSignature()));</span>
+<span class="fc" id="L141">            newClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getUniqueName(), field.getFullSignature()));</span>
 
 <span class="fc" id="L143">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing fields ...&quot;);</span>
 
-<span class="fc" id="L145">            fieldLevel.forEach((fieldName, fullSignature) -&gt; {</span>
-<span class="fc" id="L146">                Predicate&lt;Field_info&gt; predicate = field -&gt; field.getSignature().equals(fieldName);</span>
+<span class="fc" id="L145">            fieldLevel.forEach((uniqueName, fullSignature) -&gt; {</span>
+<span class="fc" id="L146">                Predicate&lt;Field_info&gt; predicate = field -&gt; field.getUniqueName().equals(uniqueName);</span>
 <span class="fc" id="L147">                Field_info oldField = oldClass.getField(predicate);</span>
 <span class="fc" id="L148">                Field_info newField = newClass.getField(predicate);</span>
 
@@ -155,13 +155,13 @@ public class DifferencesFactory {
 <span class="fc" id="L155">            LogManager.getLogger(getClass()).debug(&quot;      Collecting methods ...&quot;);</span>
 
 <span class="fc" id="L157">            Map&lt;String, String&gt; methodLevel = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L158">            oldClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getSignature(), method.getFullSignature()));</span>
-<span class="fc" id="L159">            newClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getSignature(), method.getFullSignature()));</span>
+<span class="fc" id="L158">            oldClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getUniqueName(), method.getFullSignature()));</span>
+<span class="fc" id="L159">            newClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getUniqueName(), method.getFullSignature()));</span>
 
 <span class="fc" id="L161">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing methods ...&quot;);</span>
 
-<span class="fc" id="L163">            methodLevel.forEach((signature, fullSignature) -&gt; {</span>
-<span class="fc" id="L164">                Predicate&lt;Method_info&gt; predicate = method -&gt; method.getSignature().equals(signature);</span>
+<span class="fc" id="L163">            methodLevel.forEach((uniqueName, fullSignature) -&gt; {</span>
+<span class="fc" id="L164">                Predicate&lt;Method_info&gt; predicate = method -&gt; method.getUniqueName().equals(uniqueName);</span>
 <span class="fc" id="L165">                Method_info oldMethod = oldClass.getMethod(predicate);</span>
 <span class="fc" id="L166">                Method_info newMethod = newClass.getMethod(predicate);</span>
 
