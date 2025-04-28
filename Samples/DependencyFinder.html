@@ -16,6 +16,8 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.4.2">1.4.1.1 to 1.4.2</a></li>
+<li><a href="#1.4.1.1">1.4.1 to 1.4.1.1</a></li>
 <li><a href="#1.4.1">1.4.0 to 1.4.1</a></li>
 <li><a href="#1.4.0">1.3.1 to 1.4.0</a></li>
 <li><a href="#1.3.1">1.3.0 to 1.3.1</a></li>
@@ -40,6 +42,609 @@
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
 </ul>
+
+<hr>
+
+<a name="1.4.2"></a><h2>1.4.1.1 to 1.4.2</h2>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.metrics.MeasurementVisitor</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public void visitHistogramMeasurement(com.jeantessier.metrics.HistogramMeasurement)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public com.jeantessier.classreader.impl.Field_info getField(java.util.function.Predicate)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.classreader.impl.Method_info getMethod(java.util.function.Predicate)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependency.HTMLPrinter</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.String perlEscapeName(java.lang.String)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.String urlEscapeName(java.lang.String)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.BasicMeasurements</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>public static final com.jeantessier.metrics.BasicMeasurements EFFECTIVE_METHOD_LENGTH</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public static final com.jeantessier.metrics.BasicMeasurements RAW_METHOD_LENGTH</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.JSONPrinter</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public void visitHistogramMeasurement(com.jeantessier.metrics.HistogramMeasurement)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.MetricsGatherer</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private static void lambda$fireBeginClass$78(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireBeginMethod$79(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireBeginSession$77(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireEndClass$81(com.jeantessier.metrics.MetricsEvent, com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireEndMethod$80(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireEndSession$82(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClass_info$27(com.jeantessier.classreader.Class_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$0(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$1(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$10(com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$13(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$14(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$15(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$16(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$17(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$18(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$19(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$2(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$20(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$21(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$22(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$23(com.jeantessier.classreader.Class_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$24(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$25(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$26(com.jeantessier.classreader.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$3(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$4(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$5(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$6(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$7(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$8(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitClassfile$9(com.jeantessier.classreader.Classfile)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitFieldRef_info$28(com.jeantessier.classreader.FieldRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitFieldRef_info$29(com.jeantessier.classreader.FieldRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitFieldRef_info$30(com.jeantessier.classreader.FieldRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$37(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.Object lambda$visitField_info$38()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$39(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$40(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$41(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$42(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$43(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$44(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$45(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$46(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$47(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitField_info$48(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$64(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$65(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$66(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$67(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$68(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$69(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$70(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$71(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$72(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$73(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$74(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$75(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitInterfaceMethodRef_info$34(com.jeantessier.classreader.InterfaceMethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitInterfaceMethodRef_info$35(com.jeantessier.classreader.InterfaceMethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitInterfaceMethodRef_info$36(com.jeantessier.classreader.InterfaceMethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitLocalVariable$76(com.jeantessier.classreader.LocalVariable)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethodRef_info$31(com.jeantessier.classreader.MethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethodRef_info$32(com.jeantessier.classreader.MethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethodRef_info$33(com.jeantessier.classreader.MethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$49(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.Object lambda$visitMethod_info$50()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$51(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$52(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$53(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$54(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$55(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$56(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$57(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$58(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$59(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$60(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$61(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$62(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethod_info$63(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private static void lambda$fireBeginClass$38(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireBeginMethod$39(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireBeginSession$37(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireEndClass$41(com.jeantessier.metrics.MetricsEvent, com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireEndMethod$40(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$fireEndSession$42(com.jeantessier.metrics.MetricsEvent,
+                    com.jeantessier.metrics.MetricsListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$0(com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$1(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$10(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$13(com.jeantessier.classreader.Class_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$14(com.jeantessier.classreader.Field_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$15(com.jeantessier.classreader.Method_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitClassfile$16(com.jeantessier.classreader.Attribute_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$2(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$3(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$4(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$5(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$6(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$7(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$8(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitClassfile$9(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitFieldRef_info$17(com.jeantessier.classreader.FieldRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitFieldRef_info$18(com.jeantessier.classreader.FieldRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.Object lambda$visitField_info$23()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$25(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$26(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$27(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$28(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$29(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$30(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$31(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$32(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$33(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$34(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$35(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static void lambda$visitInnerClass$36(java.lang.String, com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitInterfaceMethodRef_info$21(com.jeantessier.classreader.InterfaceMethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitInterfaceMethodRef_info$22(com.jeantessier.classreader.InterfaceMethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethodRef_info$19(com.jeantessier.classreader.MethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.Object lambda$visitMethodRef_info$20(com.jeantessier.classreader.MethodRef_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.Object lambda$visitMethod_info$24()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitLineNumberTable_attribute(com.jeantessier.classreader.LineNumberTable_attribute)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.Printer</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public void visitHistogramMeasurement(com.jeantessier.metrics.HistogramMeasurement)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.RatioMeasurement</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private int lambda$new$0(java.lang.String, com.jeantessier.metrics.MeasurementDescriptor)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private int lambda$new$1(java.lang.String, com.jeantessier.metrics.MeasurementDescriptor)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.StatisticalMeasurement</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.Double lambda$collectData$3(java.lang.Double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$parseRequestedPercentiles$0(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.util.stream.Stream lambda$parseRequestedPercentiles$1(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.String lambda$parseRequestedPercentiles$2(java.util.regex.MatchResult)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public static int getDispose(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public static int getDispose(java.lang.String, int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public static int getDispose(java.lang.String, java.util.function.IntSupplier)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.Double lambda$collectData$6(java.lang.Double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static int lambda$getDispose$0(int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private int lambda$new$4(java.lang.String, com.jeantessier.metrics.MeasurementDescriptor)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private int lambda$new$5(java.lang.String, com.jeantessier.metrics.MeasurementDescriptor)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$parseRequestedPercentiles$1(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.util.stream.Stream lambda$parseRequestedPercentiles$2(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.String lambda$parseRequestedPercentiles$3(java.util.regex.MatchResult)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.TextPrinter</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void lambda$visitCollectionMeasurement$1(java.lang.String)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void lambda$visitCollectionMeasurement$2(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static java.lang.String lambda$visitHistogramMeasurement$1(java.util.Map$Entry)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitHistogramMeasurement(com.jeantessier.metrics.HistogramMeasurement)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.XMLPrinter</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void lambda$visitCollectionMeasurement$1(java.lang.String)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void lambda$visitCollectionMeasurement$2(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitHistogramMeasurement$1(java.util.Map$Entry)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitHistogramMeasurement(com.jeantessier.metrics.HistogramMeasurement)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.YAMLPrinter</code></h4>
+    <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void lambda$visitCollectionMeasurement$1(java.lang.String)</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void lambda$visitCollectionMeasurement$2(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void lambda$visitHistogramMeasurement$1(java.util.Map$Entry)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void visitHistogramMeasurement(com.jeantessier.metrics.HistogramMeasurement)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+</blockquote>
+<h3>New Classes:</h3>
+<ul>
+    <li>
+        <nobr><code>com.jeantessier.metrics.HistogramMeasurement</code></nobr>
+    </li>
+    <li>
+        <nobr><code>com.jeantessier.metrics.HistogramMeasurement$Plot</code></nobr>
+    </li>
+</ul>
+
+<hr>
+
+<hr><a name="1.4.1.1"></a><h2>1.4.1 to 1.4.1.1</h2>
 
 <hr>
 
