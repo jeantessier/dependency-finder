@@ -35,3 +35,7 @@ I discussed on [[2025-04-25]].  The method with the more specific return type
 will either appear as having been removed or added, depending on the change.
 The inherited signature and return type will appear unchanged (unless you use
 =-code= to look at the actual instructions in the method).
+
+One side effect, though, is that changing the return type of a method used to
+be considered a method modification.  Now, it is treated as if the old method
+has been removed and the new one has been added.
