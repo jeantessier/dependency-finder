@@ -1,9 +1,9 @@
 Fixed the deep links into the Tools page (and Manual and Developer too).  The
 previous version was very simpleminded.  Each heading became a top-level
 anchor; duplicates were dealt with by appending =X=s to them.  The new links
-are hierarchical, building on higher headings and joining them using =_=.
+are hierarchical, building on higher headings and joining them using =%5F=.
 The link to =OOMetrics -version= went from =#-versionXXXXXXXXXXXXXXXX= to
-=#ToolsinDependencyFinder_OOMetrics_Switches_-version=.
+=#ToolsinDependencyFinder%5FOOMetrics%5FSwitches%5F-version=.
 
 One day, I would like to turn the switches in the various synopses into links
 to each switch's description.
