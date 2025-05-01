@@ -1,0 +1,14 @@
+Found another problem with =JarJarDiff= and bridge methods.  Earlier, I
+switched to processing methods up by _unique name_ instead of _signature_.  I
+forgot to update the part where it checks if a removed method is still
+inherited from a superclass or interface.  It was comparing signatures to a
+wanted unique name, and not finding anything.
+
+I need to get better at test-driving these errors.  Setting up test fixtures
+for differences can be fairly complex, and I've become lazy.
+
+I noticed the XSL stylesheet for =DiffToHTML= does not take the =inherited=
+attribute into consideration.  If a feature is no longer in a class, but gets
+inherited from a parent, it shows up as a removed field or method with the
+=inherited%3Dyes= attribute.  The stylesheet could drop them from the HTML
+output.  Or should that be a separate tool?
