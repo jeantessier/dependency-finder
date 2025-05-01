@@ -18,6 +18,7 @@
 }
 
 .release .name {
+    font-weight: bold;
     font-size: larger;
     text-align: center;
     grid-column: 1 / -1;
