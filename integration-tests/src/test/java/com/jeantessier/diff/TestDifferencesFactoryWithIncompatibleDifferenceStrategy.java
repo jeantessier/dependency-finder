@@ -91,7 +91,7 @@ public class TestDifferencesFactoryWithIncompatibleDifferenceStrategy extends Te
     @Test
     void testMethodDifference() {
         String className  = "ModifiedPackage.ModifiedClass";
-        String methodName = className + ".modifiedMethod()";
+        String methodName = className + ".modifiedMethod(): void";
 
         MethodDifferences methodDifferences = findFeatureDifferences(factory, className, methodName);
 

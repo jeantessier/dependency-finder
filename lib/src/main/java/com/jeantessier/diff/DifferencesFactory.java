@@ -137,36 +137,36 @@ public class DifferencesFactory {
             LogManager.getLogger(getClass()).debug("      Collecting fields ...");
 
             Map<String, String> fieldLevel = new TreeMap<>();
-            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullSignature()));
-            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullSignature()));
+            oldClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullUniqueName()));
+            newClass.getAllFields().forEach(field -> fieldLevel.put(field.getUniqueName(), field.getFullUniqueName()));
 
             LogManager.getLogger(getClass()).debug("      Diff'ing fields ...");
 
-            fieldLevel.forEach((uniqueName, fullSignature) -> {
+            fieldLevel.forEach((uniqueName, fullUniqueName) -> {
                 Predicate<Field_info> predicate = field -> field.getUniqueName().equals(uniqueName);
                 Field_info oldField = oldClass.getField(predicate);
                 Field_info newField = newClass.getField(predicate);
 
                 if (strategy.isFieldDifferent(oldField, newField)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldField, newField));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullUniqueName, oldField, newField));
                 }
             });
 
             LogManager.getLogger(getClass()).debug("      Collecting methods ...");
 
             Map<String, String> methodLevel = new TreeMap<>();
-            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullSignature()));
-            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullSignature()));
+            oldClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullUniqueName()));
+            newClass.getAllMethods().forEach(method -> methodLevel.put(method.getUniqueName(), method.getFullUniqueName()));
 
             LogManager.getLogger(getClass()).debug("      Diff'ing methods ...");
 
-            methodLevel.forEach((uniqueName, fullSignature) -> {
+            methodLevel.forEach((uniqueName, fullUniqueName) -> {
                 Predicate<Method_info> predicate = method -> method.getUniqueName().equals(uniqueName);
                 Method_info oldMethod = oldClass.getMethod(predicate);
                 Method_info newMethod = newClass.getMethod(predicate);
 
                 if (strategy.isMethodDifferent(oldMethod, newMethod)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldMethod, newMethod));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullUniqueName, oldMethod, newMethod));
                 }
             });
 
@@ -182,25 +182,25 @@ public class DifferencesFactory {
         return result;
     }
 
-    public Differences createFeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
-        LogManager.getLogger(getClass()).debug("Begin {}", name);
+    public Differences createFeatureDifferences(String fullUniqueName, Feature_info oldFeature, Feature_info newFeature) {
+        LogManager.getLogger(getClass()).debug("Begin {}", fullUniqueName);
 
         FeatureDifferences featureDifferences;
         if (oldFeature instanceof Field_info || newFeature instanceof Field_info) {
-            featureDifferences = new FieldDifferences(name, (Field_info) oldFeature, (Field_info) newFeature);
+            featureDifferences = new FieldDifferences(fullUniqueName, (Field_info) oldFeature, (Field_info) newFeature);
 
             if (!featureDifferences.isRemoved() && !featureDifferences.isNew() && strategy.isConstantValueDifferent(((Field_info) oldFeature).getConstantValue(), ((Field_info) newFeature).getConstantValue())) {
                 ((FieldDifferences) featureDifferences).setConstantValueDifference(true);
             }
 
-            if (featureDifferences.isRemoved() && newClass.locateField(field -> field.getName().equals(name)) != null) {
+            if (featureDifferences.isRemoved() && newClass.locateField(field -> field.getUniqueName().equals(oldFeature.getUniqueName())) != null) {
                 featureDifferences.setInherited(true);
             }
         } else {
             if (((oldFeature instanceof Method_info) && ((Method_info) oldFeature).isConstructor()) || ((newFeature instanceof Method_info) && ((Method_info) newFeature).isConstructor())) {
-                featureDifferences = new ConstructorDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);
+                featureDifferences = new ConstructorDifferences(fullUniqueName, (Method_info) oldFeature, (Method_info) newFeature);
             } else {
-                featureDifferences = new MethodDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);
+                featureDifferences = new MethodDifferences(fullUniqueName, (Method_info) oldFeature, (Method_info) newFeature);
             }
 
             if (!featureDifferences.isRemoved() && !featureDifferences.isNew() && strategy.isCodeDifferent(((Method_info) oldFeature).getCode(), ((Method_info) newFeature).getCode())) {
@@ -208,7 +208,7 @@ public class DifferencesFactory {
             }
 
             if (featureDifferences.isRemoved()) {
-                Method_info attempt = newClass.locateMethod(method -> method.getSignature().equals(name));
+                Method_info attempt = newClass.locateMethod(method -> method.getUniqueName().equals(oldFeature.getUniqueName()));
                 if ((attempt != null) && (oldFeature.getClassfile().isInterface() == attempt.getClassfile().isInterface())) {
                     featureDifferences.setInherited(true);
                 }
@@ -223,7 +223,7 @@ public class DifferencesFactory {
             }
         }
 
-        LogManager.getLogger(getClass()).debug("End   {}", name);
+        LogManager.getLogger(getClass()).debug("End   {}", fullUniqueName);
 
         return result;
     }

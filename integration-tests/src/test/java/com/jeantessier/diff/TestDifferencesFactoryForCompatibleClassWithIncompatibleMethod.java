@@ -66,7 +66,7 @@ public class TestDifferencesFactoryForCompatibleClassWithIncompatibleMethod {
         assertTrue(classDifferences.isModified());
 
         var methodDifferences = (MethodDifferences) classDifferences.getFeatureDifferences().stream()
-                .filter(differences -> differences.getName().equals(className + ".incompatibleMethod()"))
+                .filter(differences -> differences.getName().equals(className + ".incompatibleMethod(): void"))
                 .findAny()
                 .orElseThrow();
 

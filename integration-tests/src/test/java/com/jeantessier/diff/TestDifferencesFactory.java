@@ -408,7 +408,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".modifiedMethod()";
+        String name = className + ".modifiedMethod(): void";
         MethodDifferences differences = (MethodDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 
@@ -426,7 +426,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".modifiedCodeMethod()";
+        String name = className + ".modifiedCodeMethod(): void";
         MethodDifferences differences = (MethodDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 
@@ -444,7 +444,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".newMethod()";
+        String name = className + ".newMethod(): void";
         MethodDifferences differences = (MethodDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 
@@ -462,7 +462,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedClass";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".removedMethod()";
+        String name = className + ".removedMethod(): void";
         MethodDifferences differences = (MethodDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 
@@ -534,7 +534,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".modifiedMethod()";
+        String name = className + ".modifiedMethod(): void";
         FeatureDifferences differences = (FeatureDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 
@@ -552,7 +552,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".newMethod()";
+        String name = className + ".newMethod(): void";
         FeatureDifferences differences = (FeatureDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 
@@ -570,7 +570,7 @@ public class TestDifferencesFactory extends TestDifferencesFactoryBase {
         String className = packageName + ".ModifiedInterface";
         ClassDifferences classDifferences = (ClassDifferences) find(className, packageDifferences.getClassDifferences());
 
-        String name = className + ".removedMethod()";
+        String name = className + ".removedMethod(): void";
         FeatureDifferences differences = (FeatureDifferences) find(name, classDifferences.getFeatureDifferences());
         assertNotNull(differences, name);
 

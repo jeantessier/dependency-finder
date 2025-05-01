@@ -85,7 +85,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
     @Test
     void testMethodDifference() {
         String className = "ModifiedPackage.ModifiedClass";
-        String methodName = className + ".modifiedMethod()";
+        String methodName = className + ".modifiedMethod(): void";
 
         MethodDifferences methodDifferences = findFeatureDifferences(factory, className, methodName);
 
@@ -95,7 +95,7 @@ public class TestDifferencesFactoryWithAPIAndCodeDifferenceStrategy extends Test
     @Test
     void testMethodCodeDifference() {
         String className = "ModifiedPackage.ModifiedClass";
-        String methodName = className + ".modifiedCodeMethod()";
+        String methodName = className + ".modifiedCodeMethod(): void";
 
         MethodDifferences methodDifferences = findFeatureDifferences(factory, className, methodName);
 
