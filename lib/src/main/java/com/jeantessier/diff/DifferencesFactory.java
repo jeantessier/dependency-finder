@@ -41,8 +41,6 @@ import org.apache.logging.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class DifferencesFactory {
-    private Classfile newClass;
-
     private final DifferenceStrategy strategy;
 
     /**
@@ -131,8 +129,6 @@ public class DifferencesFactory {
 
         Differences result = classDifferences;
 
-        this.newClass = newClass;
-
         if (oldClass != null && newClass != null) {
             LogManager.getLogger(getClass()).debug("      Collecting fields ...");
 
@@ -148,7 +144,7 @@ public class DifferencesFactory {
                 Field_info newField = newClass.getField(predicate);
 
                 if (strategy.isFieldDifferent(oldField, newField)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullUniqueName, oldField, newField));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(newClass, fullUniqueName, oldField, newField));
                 }
             });
 
@@ -166,7 +162,7 @@ public class DifferencesFactory {
                 Method_info newMethod = newClass.getMethod(predicate);
 
                 if (strategy.isMethodDifferent(oldMethod, newMethod)) {
-                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullUniqueName, oldMethod, newMethod));
+                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(newClass, fullUniqueName, oldMethod, newMethod));
                 }
             });
 
@@ -182,7 +178,7 @@ public class DifferencesFactory {
         return result;
     }
 
-    public Differences createFeatureDifferences(String fullUniqueName, Feature_info oldFeature, Feature_info newFeature) {
+    public Differences createFeatureDifferences(Classfile newClass, String fullUniqueName, Feature_info oldFeature, Feature_info newFeature) {
         LogManager.getLogger(getClass()).debug("Begin {}", fullUniqueName);
 
         FeatureDifferences featureDifferences;
@@ -207,11 +203,8 @@ public class DifferencesFactory {
                 ((CodeDifferences) featureDifferences).setCodeDifference(true);
             }
 
-            if (featureDifferences.isRemoved()) {
-                Method_info attempt = newClass.locateMethod(method -> method.getUniqueName().equals(oldFeature.getUniqueName()));
-                if ((attempt != null) && (oldFeature.getClassfile().isInterface() == attempt.getClassfile().isInterface())) {
-                    featureDifferences.setInherited(true);
-                }
+            if (featureDifferences.isRemoved() && newClass.locateMethod(method -> method.getUniqueName().equals(oldFeature.getUniqueName())) != null) {
+                featureDifferences.setInherited(true);
             }
         }
 
