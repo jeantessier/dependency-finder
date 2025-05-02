@@ -1,0 +1,18 @@
+There is a curious check in =DifferencesFactory= when dealing with removed
+methods.  It checks that either both =oldClass= and =newClass= are classes, or
+both are interfaces, before marking a removed method as being inherited.  I
+found a note, dated [[2001-04-05]], that discusses methods that are now being
+inherited.  Back then, interfaces could not provide implementations, so a class
+could not inherit a method implementation from an interface.  I did think, at
+the time, of an abstract class inheriting a method declaration only.  Now,
+interfaces can supply a default implementation for their methods.  So, a class
+can (or an interface) can inherit declarations as well as implementations from
+their parents, superclasses or superinterfaces.  I went ahead and removed this
+extra check that is no longer relevant.
+
+I wrote some tests first, this time.
+
+The note from 2001 says that removed features should only be shown if they are
+not inherited from a parent.  The XML output from =JarJarDiff= will continue to
+show the declaration, but mark it with =inherited%3D"yes"=.  The HTML output
+from =DiffToHTML= will drop it, so it does not confuse diff reports.

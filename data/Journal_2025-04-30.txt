@@ -9,6 +9,6 @@ for differences can be fairly complex, and I've become lazy.
 
 I noticed the XSL stylesheet for =DiffToHTML= does not take the =inherited=
 attribute into consideration.  If a feature is no longer in a class, but gets
-inherited from a parent, it shows up as a removed field or method with the
-=inherited%3Dyes= attribute.  The stylesheet could drop them from the HTML
-output.  Or should that be a separate tool?
+inherited from a parent, it shows up as a removed field or as a removed method,
+with the =inherited%3D"yes"= attribute.  The stylesheet could drop them from
+the HTML output.  Or should that be a separate tool?
