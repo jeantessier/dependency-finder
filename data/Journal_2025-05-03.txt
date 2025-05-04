@@ -1,0 +1,3 @@
+Re-created the "recent" API changes for Dependency Finder using the latest
+version of =JarJarDiff=.  By "recent", I mean from version =1.2.1-beta3=
+forward.

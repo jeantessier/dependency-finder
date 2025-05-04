@@ -22,6 +22,7 @@
 <li><a href="#1.4.0">1.3.1 to 1.4.0</a></li>
 <li><a href="#1.3.1">1.3.0 to 1.3.1</a></li>
 <li><a href="#1.3.0">1.2.1-beta6 to 1.3.0</a></li>
+<li><a href="#1.2.1-beta6">1.2.1-beta5 to 1.2.1-beta6</a></li>
 <li><a href="#1.2.1-beta5">1.2.1-beta4 to 1.2.1-beta5</a></li>
 <li><a href="#1.2.1-beta4">1.2.1-beta3 to 1.2.1-beta4</a></li>
 <li><a href="#1.2.1-beta3">1.2.1-beta2 to 1.2.1-beta3</a></li>
@@ -681,24 +682,6 @@
 </blockquote>
 <h3>Modified Classes:</h3>
 <blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Annotation</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.AnnotationElementValue</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Annotation getAnnotation()<br><b>new:</b>public com.jeantessier.classreader.impl.Annotation getAnnotation()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
@@ -713,12 +696,6 @@
                 <nobr><code>private static boolean lambda$isSyntheticFromAttribute$6(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
             </li>
         </ul>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.ConstantPool getConstantPool()<br><b>new:</b>public com.jeantessier.classreader.ConstantPool getConstantPool()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -742,76 +719,6 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ConstantPool</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Classfile getClassfile()<br><b>new:</b>public com.jeantessier.classreader.impl.Classfile getClassfile()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Field_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.ConstantValue_attribute getConstantValue()<br><b>new:</b>public com.jeantessier.classreader.ConstantValue_attribute getConstantValue()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.InnerClass</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.InnerClasses_attribute getInnerClasses()<br><b>new:</b>public com.jeantessier.classreader.InnerClasses_attribute getInnerClasses()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawInnerClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawInnerClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawInnerName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawInnerName()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawOuterClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawOuterClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariable</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTable_attribute getLocalVariableTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTable_attribute getLocalVariableTable()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariableType</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTypeTable_attribute getLocalVariableTypeTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTypeTable_attribute getLocalVariableTypeTable()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawSignature()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawSignature()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Method_info</code></h4>
     <blockquote>
         <h5>New Methods:</h5>
@@ -823,75 +730,6 @@
                 <nobr><code>public java.util.Collection locateMethodDeclarations()</code></nobr>
             </li>
         </ul>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ModulePackage</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Package_info getRawPackage()<br><b>new:</b>public com.jeantessier.classreader.Package_info getRawPackage()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ModuleRequires</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Module_info getRawRequires()<br><b>new:</b>public com.jeantessier.classreader.impl.Module_info getRawRequires()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawRequiresVersion()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawRequiresVersion()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Module_attribute</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Module_info getRawModuleName()<br><b>new:</b>public com.jeantessier.classreader.Module_info getRawModuleName()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawModuleVersion()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawModuleVersion()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Module_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.NameAndType_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.TypeAnnotation</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawType()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.dependency.GraphCopier</code></h4>
     <blockquote>
@@ -1791,12 +1629,18 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.RuntimeParameterAnnotations_attribute</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public abstract java.util.List getParameterAnnotations()<br><b>new:</b>public abstract java.util.Collection getParameterAnnotations()</code></nobr>
-            </p>
-        </blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public abstract java.util.List getParameterAnnotations()</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public abstract java.util.Collection getParameterAnnotations()</code></nobr>
+            </li>
+        </ul>
     </blockquote>
     <h4><code>com.jeantessier.classreader.Visitor</code></h4>
     <blockquote>
@@ -2737,21 +2581,19 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.ClassfileLoaderEventSource</code></h4>
     <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.String popGroupName()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private int popGroupSize()</code></nobr>
+            </li>
+        </ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private final java.util.HashSet loadListeners<br><b>new:</b>private final java.util.Collection loadListeners</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private java.lang.String popGroupName()<br><b>new:</b>private void popGroupName()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private int popGroupSize()<br><b>new:</b>private void popGroupSize()</code></nobr>
             </p>
         </blockquote>
         <h5>New Constructors:</h5>
@@ -2801,6 +2643,12 @@
             <li>
                 <nobr><code>private static void lambda$fireEndSession$9(com.jeantessier.classreader.LoadEvent,
                     com.jeantessier.classreader.LoadListener)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void popGroupName()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void popGroupSize()</code></nobr>
             </li>
         </ul>
     </blockquote>
@@ -3952,30 +3800,18 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.AnnotationElementValue</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Annotation getAnnotation()<br><b>new:</b>public com.jeantessier.classreader.impl.Annotation getAnnotation()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Class_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
         <ul>
             <li>
+                <nobr><code>public com.jeantessier.classreader.Field_info getField(java.lang.String)</code></nobr>
+            </li>
+            <li>
                 <nobr><code>public com.jeantessier.classreader.impl.Field_info getField(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.classreader.Method_info getMethod(java.lang.String)</code></nobr>
             </li>
             <li>
                 <nobr><code>public com.jeantessier.classreader.impl.Method_info getMethod(java.lang.String)</code></nobr>
@@ -4016,27 +3852,6 @@
                 <nobr><code>public com.jeantessier.classreader.Method_info locateMethod(java.lang.String)</code></nobr>
             </li>
         </ul>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.ConstantPool getConstantPool()<br><b>new:</b>public com.jeantessier.classreader.impl.ConstantPool getConstantPool()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getInterface(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getInterface(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawClass()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawClass()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawSuperclass()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawSuperclass()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -4131,12 +3946,6 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.EnclosingMethod_attribute</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawMethod()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawMethod()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -4146,17 +3955,6 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.ExceptionHandler</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Code_attribute getCode()<br><b>new:</b>public com.jeantessier.classreader.Code_attribute getCode()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawCatchType()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawCatchType()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -4187,7 +3985,13 @@
                 <nobr><code>public com.jeantessier.classreader.Class_info getRawClass()</code></nobr>
             </li>
             <li>
+                <nobr><code>public com.jeantessier.classreader.impl.Class_info getRawClass()</code></nobr>
+            </li>
+            <li>
                 <nobr><code>public com.jeantessier.classreader.NameAndType_info getRawNameAndType()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.classreader.impl.NameAndType_info getRawNameAndType()</code></nobr>
             </li>
         </ul>
         <h5>New Methods:</h5>
@@ -4214,10 +4018,16 @@
                 <nobr><code>public java.lang.String getName()</code></nobr>
             </li>
             <li>
+                <nobr><code>public com.jeantessier.classreader.UTF8_info getRawDescriptor()</code></nobr>
+            </li>
+            <li>
                 <nobr><code>public com.jeantessier.classreader.impl.UTF8_info getRawDescriptor()</code></nobr>
             </li>
             <li>
                 <nobr><code>public com.jeantessier.classreader.UTF8_info getRawName()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
             </li>
             <li>
                 <nobr><code>public boolean isDeprecated()</code></nobr>
@@ -4239,20 +4049,10 @@
     <h4><code>com.jeantessier.classreader.impl.FieldRef_info</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public java.lang.String toString()</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.InnerClass</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawInnerName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawInnerName()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -4265,22 +4065,6 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.LocalVariable</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTable_attribute getLocalVariableTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTable_attribute getLocalVariableTable()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawDescriptor()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawDescriptor()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -4294,15 +4078,6 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariableType</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.MethodParameter</code></h4>
     <blockquote>
         <h5>New Methods:</h5>
@@ -4315,11 +4090,7 @@
     <h4><code>com.jeantessier.classreader.impl.MethodRef_info</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public java.lang.String toString()</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -4342,70 +4113,26 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ModuleMainClass_attribute</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawMainClass()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawMainClass()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ModuleProvides</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawProvides()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawProvides()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ModuleRequires</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Module_info getRawRequires()<br><b>new:</b>public com.jeantessier.classreader.impl.Module_info getRawRequires()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawRequiresVersion()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawRequiresVersion()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ObjectVariableInfo</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.RuntimeParameterAnnotations_attribute</code></h4>
     <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public java.util.List getParameterAnnotations()</code></nobr>
+            </li>
+        </ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private final java.util.List parameterAnnotations<br><b>new:</b>private final java.util.Collection parameterAnnotations</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.util.List getParameterAnnotations()<br><b>new:</b>public java.util.Collection getParameterAnnotations()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.TypeAnnotation</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Target_info getTarget()<br><b>new:</b>public com.jeantessier.classreader.impl.Target_info getTarget()</code></nobr>
-            </p>
-        </blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public java.util.Collection getParameterAnnotations()</code></nobr>
+            </li>
+        </ul>
     </blockquote>
     <h4><code>com.jeantessier.commandline.AliasSwitch</code></h4>
     <blockquote>
@@ -4586,35 +4313,7 @@
     <h4><code>com.jeantessier.dependency.AndCompositeSelectionCriteria</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public boolean isMatchingClasses()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean isMatchingFeatures()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean isMatchingPackages()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matches(com.jeantessier.dependency.ClassNode)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matches(com.jeantessier.dependency.FeatureNode)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matches(com.jeantessier.dependency.PackageNode)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matchesClassName(java.lang.String)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matchesFeatureName(java.lang.String)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matchesPackageName(java.lang.String)</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -5063,35 +4762,7 @@
     <h4><code>com.jeantessier.dependency.OrCompositeSelectionCriteria</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public boolean isMatchingClasses()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean isMatchingFeatures()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean isMatchingPackages()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matches(com.jeantessier.dependency.ClassNode)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matches(com.jeantessier.dependency.FeatureNode)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matches(com.jeantessier.dependency.PackageNode)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matchesClassName(java.lang.String)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matchesFeatureName(java.lang.String)</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public boolean matchesPackageName(java.lang.String)</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -6996,11 +6667,7 @@
     <h4><code>com.jeantessier.metrics.AccumulatorMeasurement</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public java.lang.Number getValue()</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -7146,15 +6813,12 @@
                 <nobr><code>private java.lang.String lambda$visitMethodMetrics$7(com.jeantessier.metrics.Metrics)</code></nobr>
             </li>
             <li>
+                <nobr><code>private boolean lambda$visitProjectMetrics$0(com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
                 <nobr><code>private java.lang.String lambda$visitProjectMetrics$1(com.jeantessier.metrics.Metrics)</code></nobr>
             </li>
         </ul>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private boolean lambda$visitProjectMetrics$0(com.jeantessier.metrics.Metrics)<br><b>new:</b>private java.lang.String lambda$visitProjectMetrics$0(com.jeantessier.metrics.Metrics)</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -7175,6 +6839,9 @@
             </li>
             <li>
                 <nobr><code>private java.lang.String lambda$visitMethodMetrics$3(com.jeantessier.metrics.Metrics)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String lambda$visitProjectMetrics$0(com.jeantessier.metrics.Metrics)</code></nobr>
             </li>
         </ul>
     </blockquote>
@@ -7201,6 +6868,12 @@
         <h5>Removed Methods:</h5>
         <ul>
             <li>
+                <nobr><code>public java.lang.Comparable getLowerThreshold()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.lang.Comparable getUpperThreshold()</code></nobr>
+            </li>
+            <li>
                 <nobr><code>public void setLowerThreshold(java.lang.Comparable)</code></nobr>
             </li>
             <li>
@@ -7221,19 +6894,14 @@
                 <nobr><code><b>old:</b>private java.lang.Comparable upperThreshold<br><b>new:</b>private java.lang.Double upperThreshold</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.lang.Comparable getLowerThreshold()<br><b>new:</b>public java.lang.Double getLowerThreshold()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.lang.Comparable getUpperThreshold()<br><b>new:</b>public java.lang.Double getUpperThreshold()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
+            <li>
+                <nobr><code>public java.lang.Double getLowerThreshold()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.lang.Double getUpperThreshold()</code></nobr>
+            </li>
             <li>
                 <nobr><code>public void setLowerThreshold(java.lang.Double)</code></nobr>
             </li>
@@ -7244,6 +6912,51 @@
     </blockquote>
     <h4><code>com.jeantessier.metrics.Metrics</code></h4>
     <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, float)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, java.lang.Object)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, long)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(java.lang.String, double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(java.lang.String, float)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(java.lang.String, int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(java.lang.String, java.lang.Object)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void addToMeasurement(java.lang.String, long)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>void track(com.jeantessier.metrics.Measurement)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>void track(java.lang.String, com.jeantessier.metrics.Measurement)</code></nobr>
+            </li>
+        </ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
@@ -7265,84 +6978,49 @@
                 <nobr><code><b>old:</b>private java.util.Map submetrics<br><b>new:</b>private final java.util.Map submetrics</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, double)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
-                    double)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, float)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
-                    float)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, int)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
-                    int)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, java.lang.Object)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
-                    java.lang.Object)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(com.jeantessier.metrics.BasicMeasurements, long)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
-                    long)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(java.lang.String)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(java.lang.String, double)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, double)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(java.lang.String, float)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, float)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(java.lang.String, int)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, int)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(java.lang.String, java.lang.Object)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, java.lang.Object)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public void addToMeasurement(java.lang.String, long)<br><b>new:</b>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, long)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>void track(com.jeantessier.metrics.Measurement)<br><b>new:</b>com.jeantessier.metrics.Metrics track(com.jeantessier.metrics.Measurement)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>void track(java.lang.String, com.jeantessier.metrics.Measurement)<br><b>new:</b>com.jeantessier.metrics.Metrics track(java.lang.String, com.jeantessier.metrics.Measurement)</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
+                    double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
+                    float)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
+                    int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
+                    java.lang.Object)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(com.jeantessier.metrics.BasicMeasurements,
+                    long)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, double)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, float)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, int)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, java.lang.Object)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public com.jeantessier.metrics.Metrics addToMeasurement(java.lang.String, long)</code></nobr>
+            </li>
             <li>
                 <nobr><code>private static boolean lambda$isEmpty$0(com.jeantessier.metrics.Measurement)</code></nobr>
             </li>
@@ -7351,6 +7029,12 @@
             </li>
             <li>
                 <nobr><code>private static java.lang.String lambda$toString$2(java.util.Map$Entry)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>com.jeantessier.metrics.Metrics track(com.jeantessier.metrics.Measurement)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>com.jeantessier.metrics.Metrics track(java.lang.String, com.jeantessier.metrics.Measurement)</code></nobr>
             </li>
         </ul>
     </blockquote>
@@ -7756,11 +7440,7 @@
     <h4><code>com.jeantessier.metrics.NameListMeasurement</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public java.lang.Number getValue()</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
     </blockquote>
     <h4><code>com.jeantessier.metrics.Printer</code></h4>
     <blockquote>
@@ -8080,15 +7760,6 @@
 </blockquote>
 <h3>Modified Classes:</h3>
 <blockquote>
-    <h4><code>com.jeantessier.classreader.NameMapper</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.lang.String map(com.jeantessier.classreader.Feature_info)<br><b>new:</b>public java.lang.Object map(com.jeantessier.classreader.Feature_info)</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.TextPrinter</code></h4>
     <blockquote>
         <h5>New Methods:</h5>
@@ -8153,22 +7824,6 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getInterface(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getInterface(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawClass()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawClass()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawSuperclass()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawSuperclass()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -8184,38 +7839,6 @@
                 <nobr><code>public int hashCode()</code></nobr>
             </li>
         </ul>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ConstantPool</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Classfile getClassfile()<br><b>new:</b>public com.jeantessier.classreader.Classfile getClassfile()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.EnclosingMethod_attribute</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawMethod()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawMethod()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.FeatureRef_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawClass()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawClass()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawNameAndType()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawNameAndType()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Field_info</code></h4>
     <blockquote>
@@ -8237,12 +7860,6 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.InnerClass</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.InnerClasses_attribute getInnerClasses()<br><b>new:</b>public com.jeantessier.classreader.InnerClasses_attribute getInnerClasses()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -8280,29 +7897,6 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariable</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTable_attribute getLocalVariableTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTable_attribute getLocalVariableTable()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.MethodHandle_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.FeatureRef_info getReference()<br><b>new:</b>public com.jeantessier.classreader.impl.FeatureRef_info getReference()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Method_info</code></h4>
     <blockquote>
         <h5>New Methods:</h5>
@@ -8326,42 +7920,6 @@
                 <nobr><code>private static java.util.Collection lambda$getExceptions$1(com.jeantessier.classreader.impl.Attribute_info)</code></nobr>
             </li>
         </ul>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ModuleOpens</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Package_info getRawOpens()<br><b>new:</b>public com.jeantessier.classreader.Package_info getRawOpens()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Module_attribute</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawModuleVersion()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawModuleVersion()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Package_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.String_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawValue()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawValue()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.dependency.CodeDependencyCollector</code></h4>
     <blockquote>
@@ -9517,11 +9075,7 @@
     <h4><code>com.jeantessier.classreader.MetricsGatherer</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public void visitLocalVariableType(com.jeantessier.classreader.LocalVariableType)</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
@@ -9961,34 +9515,41 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.TextPrinter</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendIndexedConstantPoolEntry(com.jeantessier.classreader.Instruction)<br><b>new:</b>private com.jeantessier.classreader.Printer appendIndexedConstantPoolEntry(com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendIndexedLocalVariable(com.jeantessier.classreader.Instruction)<br><b>new:</b>private com.jeantessier.classreader.Printer appendIndexedLocalVariable(com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendLocalVariable(com.jeantessier.classreader.LocalVariable)<br><b>new:</b>private com.jeantessier.classreader.Printer appendLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendOffset(com.jeantessier.classreader.Instruction)<br><b>new:</b>private com.jeantessier.classreader.Printer appendOffset(com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendValue(com.jeantessier.classreader.Instruction)<br><b>new:</b>private com.jeantessier.classreader.Printer appendValue(com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void appendIndexedConstantPoolEntry(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendIndexedLocalVariable(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendOffset(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendValue(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+        </ul>
         <h5>New Methods:</h5>
         <ul>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendIndexedConstantPoolEntry(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendIndexedLocalVariable(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendOffset(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendValue(com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
             <li>
                 <nobr><code>public void visitDynamic_info(com.jeantessier.classreader.Dynamic_info)</code></nobr>
             </li>
@@ -10359,24 +9920,25 @@
         <h5>Removed Methods:</h5>
         <ul>
             <li>
+                <nobr><code>private void appendHeader(java.lang.String, java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
+            </li>
+            <li>
                 <nobr><code>public void visitParameter(com.jeantessier.classreader.Parameter)</code></nobr>
             </li>
         </ul>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendHeader(java.lang.String, java.lang.String)<br><b>new:</b>private com.jeantessier.classreader.Printer appendHeader(java.lang.String, java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendLocalVariable(com.jeantessier.classreader.LocalVariable)<br><b>new:</b>private com.jeantessier.classreader.Printer appendLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
                 <nobr><code>private com.jeantessier.classreader.Printer appendClassInfo(int, com.jeantessier.classreader.Class_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendHeader(java.lang.String, java.lang.String)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Printer appendLocalVariable(com.jeantessier.classreader.LocalVariable)</code></nobr>
             </li>
             <li>
                 <nobr><code>private void lambda$visitBootstrapMethod$0(com.jeantessier.classreader.BootstrapMethod,
@@ -11166,12 +10728,6 @@
                 <nobr><code><b>old:</b>private int nameIndex<br><b>new:</b>private final int nameIndex</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
     <blockquote>
@@ -11255,27 +10811,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private int superclassIndex<br><b>new:</b>private final int superclassIndex</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Field_info getField(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Field_info getField(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getInterface(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.Class_info getInterface(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Method_info getMethod(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Method_info getMethod(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawSuperclass()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawSuperclass()</code></nobr>
             </p>
         </blockquote>
         <h5>New Fields:</h5>
@@ -11363,6 +10898,24 @@
                     java.io.DataInput) throws java.io.IOException</code></nobr>
             </li>
         </ul>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void appendIndexedConstantPoolEntry(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendIndexedLocalVariable(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendLocalVariable(java.lang.StringBuilder, com.jeantessier.classreader.LocalVariable)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendOffset(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void appendValue(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+        </ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
@@ -11389,36 +10942,25 @@
                 <nobr><code><b>old:</b>private int maxStack<br><b>new:</b>private final int maxStack</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendIndexedConstantPoolEntry(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)<br><b>new:</b>private java.lang.StringBuilder appendIndexedConstantPoolEntry(java.lang.StringBuilder,
-                    com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendIndexedLocalVariable(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)<br><b>new:</b>private java.lang.StringBuilder appendIndexedLocalVariable(java.lang.StringBuilder,
-                    com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendLocalVariable(java.lang.StringBuilder, com.jeantessier.classreader.LocalVariable)<br><b>new:</b>private java.lang.StringBuilder appendLocalVariable(java.lang.StringBuilder, com.jeantessier.classreader.LocalVariable)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendOffset(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)<br><b>new:</b>private java.lang.StringBuilder appendOffset(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private void appendValue(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)<br><b>new:</b>private java.lang.StringBuilder appendValue(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
+            <li>
+                <nobr><code>private java.lang.StringBuilder appendIndexedConstantPoolEntry(java.lang.StringBuilder,
+                    com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.StringBuilder appendIndexedLocalVariable(java.lang.StringBuilder,
+                    com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.StringBuilder appendLocalVariable(java.lang.StringBuilder, com.jeantessier.classreader.LocalVariable)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.StringBuilder appendOffset(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.StringBuilder appendValue(java.lang.StringBuilder, com.jeantessier.classreader.Instruction)</code></nobr>
+            </li>
             <li>
                 <nobr><code>private void lambda$new$0(java.io.DataInput, int)</code></nobr>
             </li>
@@ -11458,12 +11000,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private com.jeantessier.classreader.impl.ConstantPool constantPool<br><b>new:</b>private final com.jeantessier.classreader.impl.ConstantPool constantPool</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.ConstantPool getConstantPool()<br><b>new:</b>public com.jeantessier.classreader.ConstantPool getConstantPool()</code></nobr>
             </p>
         </blockquote>
         <h5>New Fields:</h5>
@@ -11571,12 +11107,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private com.jeantessier.classreader.impl.ElementValue elementValue<br><b>new:</b>private final com.jeantessier.classreader.impl.ElementValue elementValue</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.ElementValue getElementValue()<br><b>new:</b>public com.jeantessier.classreader.impl.ElementValue getElementValue()</code></nobr>
             </p>
         </blockquote>
     </blockquote>
@@ -11729,12 +11259,6 @@
                 <nobr><code><b>old:</b>private int methodIndex<br><b>new:</b>private final int methodIndex</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawMethod()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawMethod()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.EnumElementValue</code></h4>
     <blockquote>
@@ -11778,12 +11302,6 @@
                 <nobr><code><b>old:</b>private int startPC<br><b>new:</b>private final int startPC</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Code_attribute getCode()<br><b>new:</b>public com.jeantessier.classreader.Code_attribute getCode()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Exceptions_attribute</code></h4>
     <blockquote>
@@ -11812,12 +11330,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private int nameAndTypeIndex<br><b>new:</b>private final int nameAndTypeIndex</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawNameAndType()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawNameAndType()</code></nobr>
             </p>
         </blockquote>
     </blockquote>
@@ -11877,12 +11389,6 @@
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.Field_info</code></h4>
     <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.ConstantValue_attribute getConstantValue()<br><b>new:</b>public com.jeantessier.classreader.ConstantValue_attribute getConstantValue()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Constructors:</h5>
         <ul>
             <li>
@@ -11939,17 +11445,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private int outerClassInfoIndex<br><b>new:</b>private final int outerClassInfoIndex</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawInnerClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawInnerClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawInnerName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawInnerName()</code></nobr>
             </p>
         </blockquote>
         <h5>New Fields:</h5>
@@ -12083,12 +11578,6 @@
                 <nobr><code><b>old:</b>private int startPC<br><b>new:</b>private final int startPC</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.LineNumberTable_attribute getLineNumberTable()<br><b>new:</b>public com.jeantessier.classreader.LineNumberTable_attribute getLineNumberTable()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.LineNumberTable_attribute</code></h4>
     <blockquote>
@@ -12136,12 +11625,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private int startPC<br><b>new:</b>private final int startPC</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
             </p>
         </blockquote>
     </blockquote>
@@ -12237,12 +11720,6 @@
                 <nobr><code><b>old:</b>private int referenceKind<br><b>new:</b>private final int referenceKind</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.FeatureRef_info getReference()<br><b>new:</b>public com.jeantessier.classreader.FeatureRef_info getReference()</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
             <li>
@@ -12286,12 +11763,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private int typeIndex<br><b>new:</b>private final int typeIndex</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
             </p>
         </blockquote>
     </blockquote>
@@ -12344,12 +11815,6 @@
                 <nobr><code><b>old:</b>private int sourceFileIndex<br><b>new:</b>private final int sourceFileIndex</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.UTF8_info getRawSourceFile()<br><b>new:</b>public com.jeantessier.classreader.UTF8_info getRawSourceFile()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.classreader.impl.String_info</code></h4>
     <blockquote>
@@ -12357,12 +11822,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private int valueIndex<br><b>new:</b>private final int valueIndex</code></nobr>
-            </p>
-        </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawValue()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawValue()</code></nobr>
             </p>
         </blockquote>
     </blockquote>
@@ -12692,20 +12151,23 @@
     </blockquote>
     <h4><code>com.jeantessier.dependency.MetricsReport</code></h4>
     <blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private int countConfirmedNodes(java.util.Collection)</code></nobr>
+            </li>
+        </ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private java.io.PrintWriter out<br><b>new:</b>private final java.io.PrintWriter out</code></nobr>
             </p>
         </blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>private int countConfirmedNodes(java.util.Collection)<br><b>new:</b>private long countConfirmedNodes(java.util.Collection)</code></nobr>
-            </p>
-        </blockquote>
         <h5>New Methods:</h5>
         <ul>
+            <li>
+                <nobr><code>private long countConfirmedNodes(java.util.Collection)</code></nobr>
+            </li>
             <li>
                 <nobr><code>private void lambda$process$0(com.jeantessier.dependency.PackageNode)</code></nobr>
             </li>
@@ -14486,14 +13948,7 @@
             </li>
         </ul>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>public boolean isExpandCollectionMeasurements()</code></nobr>
-            </li>
-            <li>
-                <nobr><code>public void setExpandCollectionMeasurements(boolean)</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
@@ -14510,11 +13965,7 @@
     <h4><code>com.jeantessier.metrics.XMLPrinter</code></h4>
     <blockquote>
         <h5>Removed Methods:</h5>
-        <ul>
-            <li>
-                <nobr><code>private void visitMeasurements(com.jeantessier.metrics.Metrics, java.util.List)</code></nobr>
-            </li>
-        </ul>
+        <ul></ul>
         <h5>Field Declaration Changes:</h5>
         <blockquote>
             <p>
@@ -15188,6 +14639,178 @@
 
 <hr>
 
+<a name="1.2.1-beta6"></a><h2>1.2.1-beta5 to 1.2.1-beta6</h2>
+<h3>Removed Classes:</h3>
+<ul>
+    <li>
+        <nobr><code>com.jeantessier.dependencyfinder.cli.XSLTProcess</code></nobr>
+    </li>
+</ul>
+<h3>Modified Interfaces:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.classreader.SymbolGathererStrategy</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public abstract boolean isMatching(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+</blockquote>
+<h3>Modified Classes:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.classreader.DefaultSymbolGathererStrategy</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean matchingInnerClassNames</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isMatching(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setMatchingInnerClassNames(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.FilteringSymbolGathererStrategy</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isMatching(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.FinalMethodOrClassSymbolGathererStrategy</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isMatching(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.NonPrivateFieldSymbolGathererStrategy</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isMatching(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.SymbolGatherer</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.InnerClass innerClass</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public void visitInnerClass(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.classreader.SymbolGathererStrategyDecorator</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean isMatching(com.jeantessier.classreader.InnerClass)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.dependencyfinder.ant.ListSymbols</code></h4>
+    <blockquote>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private boolean innerClassNames</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean packageAccessibility</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean privateAccessibility</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean protectedAccessibility</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private boolean publicAccessibility</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public boolean getInnerclassnames()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getPackageaccessibility()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getPrivateaccessibility()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getProtectedaccessibility()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public boolean getPublicaccessibility()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setInnerclassnames(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setPackageaccessibility(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setPrivateaccessibility(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setProtectedaccessibility(boolean)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public void setPublicaccessibility(boolean)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.StatisticalMeasurement</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private double findMedianEvenSizedList(java.util.List)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double findMedianOf(java.util.List)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double findMedianOfEmptyList(java.util.List)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double findMedianOfOddSizedList(java.util.List)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+</blockquote>
+<h3>New Classes:</h3>
+<ul>
+    <li>
+        <nobr><code>com.jeantessier.classreader.AccessibilitySymbolGathererStrategy</code></nobr>
+    </li>
+</ul>
+
+<hr>
+
 <a name="1.2.1-beta5"></a><h2>1.2.1-beta4 to 1.2.1-beta5</h2>
 <h3>Removed Packages:</h3>
 <ul>
@@ -15259,15 +14882,6 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.NameMapper</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.lang.String map(com.jeantessier.classreader.Feature_info)<br><b>new:</b>public java.lang.Object map(com.jeantessier.classreader.Feature_info)</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.TextPrinter</code></h4>
     <blockquote>
         <h5>New Methods:</h5>
@@ -15313,20 +14927,6 @@
             </li>
         </ul>
     </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Method_info getMethod(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Method_info getMethod(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawClass()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawClass()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.impl.ConstantPoolEntry</code></h4>
     <blockquote>
         <h5>New Fields:</h5>
@@ -15341,76 +14941,6 @@
                 <nobr><code>public static final byte CONSTANT_MethodType</code></nobr>
             </li>
         </ul>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.EnclosingMethod_attribute</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawMethod()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawMethod()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.FeatureRef_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawClass()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawClass()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawNameAndType()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawNameAndType()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.InnerClass</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.InnerClasses_attribute getInnerClasses()<br><b>new:</b>public com.jeantessier.classreader.impl.InnerClasses_attribute getInnerClasses()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawInnerClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawInnerClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawInnerName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawInnerName()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawOuterClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawOuterClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariable</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.LocalVariableTable_attribute getLocalVariableTable()<br><b>new:</b>public com.jeantessier.classreader.impl.LocalVariableTable_attribute getLocalVariableTable()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariableType</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
     </blockquote>
     <h4><code>com.jeantessier.dependencyfinder.ant.ListSymbols</code></h4>
     <blockquote>
@@ -15500,24 +15030,6 @@
 <a name="1.2.1-beta4"></a><h2>1.2.1-beta3 to 1.2.1-beta4</h2>
 <h3>Modified Classes:</h3>
 <blockquote>
-    <h4><code>com.jeantessier.classreader.NameMapper</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.lang.String map(com.jeantessier.classreader.Feature_info)<br><b>new:</b>public java.lang.Object map(com.jeantessier.classreader.Feature_info)</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.SignatureMapper</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public java.lang.String map(com.jeantessier.classreader.Feature_info)<br><b>new:</b>public java.lang.Object map(com.jeantessier.classreader.Feature_info)</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
     <h4><code>com.jeantessier.classreader.XMLPrinter</code></h4>
     <blockquote>
         <h5>Removed Fields:</h5>
@@ -15530,121 +15042,6 @@
         <blockquote>
             <p>
                 <nobr><code><b>old:</b>private java.lang.String escapeXMLCharacters(java.lang.String)<br><b>new:</b>java.lang.String escapeXMLCharacters(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Class_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Classfile</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Field_info getField(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Field_info getField(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getInterface(java.lang.String)<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getInterface(java.lang.String)</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.ExceptionHandler</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Code_attribute getCode()<br><b>new:</b>public com.jeantessier.classreader.Code_attribute getCode()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawCatchType()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawCatchType()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.FeatureRef_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.NameAndType_info getRawNameAndType()<br><b>new:</b>public com.jeantessier.classreader.impl.NameAndType_info getRawNameAndType()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.InnerClass</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.InnerClasses_attribute getInnerClasses()<br><b>new:</b>public com.jeantessier.classreader.impl.InnerClasses_attribute getInnerClasses()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.Class_info getRawInnerClassInfo()<br><b>new:</b>public com.jeantessier.classreader.impl.Class_info getRawInnerClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.Class_info getRawOuterClassInfo()<br><b>new:</b>public com.jeantessier.classreader.Class_info getRawOuterClassInfo()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LineNumber</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.impl.LineNumberTable_attribute getLineNumberTable()<br><b>new:</b>public com.jeantessier.classreader.LineNumberTable_attribute getLineNumberTable()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.LocalVariable</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.NameAndType_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawName()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawName()</code></nobr>
-            </p>
-        </blockquote>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawType()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawType()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.Signature_attribute</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawSignature()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawSignature()</code></nobr>
-            </p>
-        </blockquote>
-    </blockquote>
-    <h4><code>com.jeantessier.classreader.impl.String_info</code></h4>
-    <blockquote>
-        <h5>Method Changes:</h5>
-        <blockquote>
-            <p>
-                <nobr><code><b>old:</b>public com.jeantessier.classreader.UTF8_info getRawValue()<br><b>new:</b>public com.jeantessier.classreader.impl.UTF8_info getRawValue()</code></nobr>
             </p>
         </blockquote>
     </blockquote>
