@@ -1,0 +1,81 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+hide <<interface>> fields
+
+set separator none
+
+package com.jeantessier.diff {
+
+    interface DifferenceStrategy <<interface>> #lightgreen##green
+
+    class DifferenceStrategyDecorator #lightgreen##green
+    DifferenceStrategy <|.. DifferenceStrategyDecorator
+    DifferenceStrategyDecorator --> DifferenceStrategy : delegate
+
+    class APIDifferenceStrategy #lightgreen##green
+    DifferenceStrategyDecorator <|-- APIDifferenceStrategy
+
+    class IncompatibleDifferenceStrategy #lightgreen##green
+    APIDifferenceStrategy <|-- IncompatibleDifferenceStrategy
+
+    class ListBasedDifferenceStrategy #lightgreen##green {
+        allowedElements
+    }
+    DifferenceStrategyDecorator <|-- ListBasedDifferenceStrategy
+
+    class CodeDifferenceStrategy #lightgreen##green
+    DifferenceStrategy <|.. CodeDifferenceStrategy
+
+    class NoDifferenceStrategy #lightgreen##green
+    DifferenceStrategy <|.. NoDifferenceStrategy
+
+    class DifferenceFactory {
+        createProjectDifferences(old, new)
+        'createPackageDifferences(oldPackage, newPackage)
+        createClassDifferences(oldClass, newClass)
+        'createFeatureDifferences(oldFeature, newFeature)
+    }
+    DifferenceFactory -left-> DifferenceStrategy
+
+}
+
+package com.jeantessier.dependencyfinder.cli {
+
+    abstract Command #transparent
+
+    abstract DiffCommand
+    Command <|-- DiffCommand
+    DiffCommand .> DifferenceFactory
+
+    class cli_JarJarDiff as "JarJarDiff"
+    DiffCommand <|-- cli_JarJarDiff
+
+    DiffCommand <|-- ClassClassDiff
+
+}
+
+package org.apache.tools.ant {
+
+    abstract ProjectComponent #transparent
+
+    abstract Task #transparent
+    ProjectComponent <|-- Task
+
+}
+
+package com.jeantessier.dependencyfinder.ant {
+
+    class ant_JarJarDiff as "JarJarDiff"
+    Task <|-- ant_JarJarDiff
+    ant_JarJarDiff .> DifferenceFactory
+
+}
+
+com.jeantessier.dependencyfinder.ant -[hidden]-> com.jeantessier.diff
+com.jeantessier.dependencyfinder.cli -[hidden]-> com.jeantessier.diff
+
+@enduml

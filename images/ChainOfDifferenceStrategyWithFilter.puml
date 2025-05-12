@@ -1,0 +1,20 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+skinparam backgroundColor transparent
+
+title Chain of Strategies With -filter Switch
+
+object "baseStrategy : NoDifferenceStrategy" as baseStrategy #lightgreen
+
+object "strategy : APIDifferenceStrategy" as strategy #lightgreen
+strategy --> baseStrategy
+
+object ": ListBasedDifferenceStrategy" as filter #lightgreen
+filter --> strategy
+
+object ": DifferenceFactory" as factory
+factory -> filter
+
+@enduml
