@@ -297,10 +297,8 @@
         <li><nobr><code><xsl:value-of select="."/> <b>[deprecated]</b></code></nobr></li>
     </xsl:template>
 
-    <xsl:template match="name | declaration[not(@inherited='yes')]">
-        <li><nobr><code><xsl:value-of select="."/></code></nobr></li>
+    <xsl:template match="name | declaration">
+        <li><nobr><code><xsl:value-of select="."/></code><xsl:if test="@inherited='yes'"> <b>[inherited]</b></xsl:if></nobr></li>
     </xsl:template>
-
-    <xsl:template match="declaration"/>
 
 </xsl:stylesheet>
