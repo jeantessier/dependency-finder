@@ -1,0 +1,11 @@
+Adjusted =DiffToHTML= to mark inherited features instead of silently ignoring
+them.  The silencing logic was overly simplistic; it left behind potentially
+empty "Removed Methods" sections, and putting a conditional on that heading
+could leave behind empty classes.  I tested it out with cases where I moved a
+method up a class hierarchy.  It was a better experience to show the removed
+method with an indication that it was now being inherited than to leave it out
+altogether.
+
+I, again, had to re-create the "recent" API changes for Dependency Finder using
+the latest version of =JarJarDiff= and the new version of =DiffToHTML=.  Again,
+"recent" means versions =1.2.1-beta3= and later.
