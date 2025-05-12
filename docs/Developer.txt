@@ -946,19 +946,68 @@ measurements through their descriptor and in the configuration file.
 
 ---++ API Differences
 
-You can use =com.jeantessier.classreader.ClassfileLoader= classes to
-examine the baseline of your codebase; be they in JAR files, loose
-class files, or a combination of both.  You can apply the same treatment
-to your latest codebase.  You now have two sets =Classfile= instances.
+You can use two =AggregatingClassfileLoader= instances to examine separate
+versions of your codebase, either in JAR files, loose class files, or a
+combination of both.  One is the _old_ or _previous_ version.  The other is the
+_new_ or _next_ version.  You now have two sets of =Classfile= instances.
 
-You can use =com.jeantessier.dependency.NodeFactory= to create a tree
-of packages, classes, and features from each codebase.  You can then
-start to compare them to each other.  If a package is in the old
-codebase but not in the new one, you can mark it as having been removed.
-If it is not in the old codebase, but it is in new one, then you can
-mark it as having been recently added.  For packages that are present
-in both codebase, you can repeat this analysis at the class level, and
-then at the feature level.
+You pass these two loaders to a =com.jeantessier.diff.DifferenceFactory= that
+will drill down packages, classes, and features and find all relevant
+differences: elements that were removed, elements that were added, elements
+that were modified, elements that have been deprecated.
+
+=DifferenceFactory= uses a chain of _strategies_ to decide if a given change is
+relevant or not.
+
+<div align="center">
+    [[images/DifferenceStrategyClassHierarchy.png]]
+</div>
+
+Tools like =JarJarDiff= build the chain of strategies based on switches.
+
+At the tail of the chain is the base strategy.  It is a =NoDifferenceStrategy=
+by default, or a =CodeDifferenceStrategy= if you also use the =-code= switch.
+
+The base strategy is wrapped in what is usually the main strategy.  By default,
+it is an =APIDifferenceStrategy=, but you can change it with the =-level=
+switch.  It recognizes some pre-defined values.
+
+<blockquote>
+<dl>
+    <dt>=api=</dt>
+    <dd>Use =APIDifferenceStrategy= as the main strategy.</dd>
+    <dt>=incompatible=</dt>
+    <dd>Use =IncompatibleDifferenceStrategy= as the main strategy.</dd>
+</dl>
+</blockquote>
+
+<div align="center">
+    [[images/DefaultChainOfDifferenceStrategy.png]]
+    [[images/ChainOfDifferenceStrategyWithCode.png]]
+</div>
+
+You can provide your own implementation of =DifferenceStrategy= using the
+=-level= switch.  If you give it the name of a class on your =CLASSPATH= that
+extends =DifferenceStrategy=, it will try to instantiate it.  If your class has
+a constructor that itself takes a =DifferenceStrategy=, this is the constructor
+that will be used with the base strategy as a parameter.  Otherwise, your class
+needs a no-arg constructor or the tools will revert to the default chain.
+
+You can wrap the chain in a =ListBasedDifferenceStrategy= to limit the analysis
+to specific elements.  You use the =-filter= switch with the name of a file
+containing the names of programming elements of interest, one per line.
+
+<div align="center">
+    [[images/ChainOfDifferenceStrategyWithFilter.png]]
+</div>
+
+For example, you can generate a list of everything on your published API and
+limit the difference report to what is on this list.
+
+In another example, you can use Dependency Finder to list the elements of a
+third-party library that your code references.  You can compare two versions of
+this library, limited to the parts you are using, to see if switching to the
+newer version will break your code,
 
 ----
 
