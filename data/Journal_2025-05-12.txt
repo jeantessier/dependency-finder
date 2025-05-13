@@ -1,0 +1,7 @@
+Adjusted =DiffToHTML= to mark synthetic features.  Sometimes, the changes are
+synthetic fields and methods.  While still relevant, they can often be glossed
+over.
+
+I, once more, re-created the "recent" API changes for Dependency Finder using
+the latest version of =JarJarDiff= and this new version of =DiffToHTML=.
+By "recent", I mean versions =1.2.1-beta3= and later.
