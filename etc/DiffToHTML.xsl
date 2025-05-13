@@ -105,14 +105,14 @@
     <xsl:template match="modified-interfaces">
         <h3>Modified Interfaces:</h3>
         <blockquote>
-        <xsl:apply-templates/>
+            <xsl:apply-templates/>
         </blockquote>
     </xsl:template>
  
     <xsl:template match="modified-classes">
         <h3>Modified Classes:</h3>
         <blockquote>
-        <xsl:apply-templates/>
+            <xsl:apply-templates/>
         </blockquote>
     </xsl:template>
 
@@ -217,9 +217,9 @@
 
     <xsl:template match="feature">
         <blockquote>
-        <p><nobr><code>
-            <xsl:apply-templates/>
-        </code></nobr></p>
+            <nobr>
+                <xsl:apply-templates/>
+            </nobr>
         </blockquote>
     </xsl:template>
 
@@ -228,11 +228,11 @@
     </xsl:template>
 
     <xsl:template match="modified-declaration">
-        <b>old:</b> <xsl:value-of select="old-declaration"/>
-        <xsl:if test="old-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+        <code><b>old:</b><xsl:text> </xsl:text><xsl:value-of select="old-declaration"/></code>
+        <xsl:if test="old-declaration[@deprecated='yes']"><xsl:text> </xsl:text><b>[deprecated]</b></xsl:if>
         <br/>
-        <b>new:</b> <xsl:value-of select="new-declaration"/>
-        <xsl:if test="new-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
+        <code><b>new:</b><xsl:text> </xsl:text><xsl:value-of select="new-declaration"/></code>
+        <xsl:if test="new-declaration[@deprecated='yes']"><xsl:text> </xsl:text><b>[deprecated]</b></xsl:if>
 	<xsl:if test="../modified-code"><br/></xsl:if>
     </xsl:template>
  
@@ -283,22 +283,33 @@
     <xsl:template match="class/modified-declaration">
         <h5>Declaration Changes:</h5>
         <blockquote>
-        <p><nobr><code>
-        <b>old:</b> <xsl:value-of select="old-declaration"/>
-        <xsl:if test="old-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
-        <br/>
-        <b>new:</b> <xsl:value-of select="new-declaration"/>
-        <xsl:if test="new-declaration[@deprecated='yes']"> <b>[deprecated]</b></xsl:if>
-        </code></nobr></p>
+            <nobr>
+                <code><b>old:</b><xsl:text> </xsl:text><xsl:value-of select="old-declaration"/></code>
+                <xsl:if test="old-declaration[@deprecated='yes']"><xsl:text> </xsl:text><b>[deprecated]</b></xsl:if>
+                <br/>
+                <code><b>new:</b><xsl:text> </xsl:text><xsl:value-of select="new-declaration"/></code>
+                <xsl:if test="new-declaration[@deprecated='yes']"><xsl:text> </xsl:text><b>[deprecated]</b></xsl:if>
+            </nobr>
         </blockquote>
     </xsl:template>
 
     <xsl:template match="new-packages/name[@deprecated='yes'] | new-interfaces/name[@deprecated='yes'] | new-classes/name[@deprecated='yes'] | new-fields/declaration[@deprecated='yes'] | new-constructors/declaration[@deprecated='yes'] | new-methods/declaration[@deprecated='yes']">
-        <li><nobr><code><xsl:value-of select="."/> <b>[deprecated]</b></code></nobr></li>
+        <li>
+            <nobr>
+                <code><xsl:value-of select="."/></code>
+                <xsl:text> </xsl:text><b>[deprecated]</b>
+            </nobr>
+        </li>
     </xsl:template>
 
     <xsl:template match="name | declaration">
-        <li><nobr><code><xsl:value-of select="."/></code><xsl:if test="@inherited='yes'"> <b>[inherited]</b></xsl:if></nobr></li>
+        <li>
+            <nobr>
+                <code><xsl:value-of select="."/></code>
+                <xsl:if test="@synthetic='yes'"><xsl:text> </xsl:text><b>[synthetic]</b></xsl:if>
+                <xsl:if test="@inherited='yes'"><xsl:text> </xsl:text><b>[inherited]</b></xsl:if>
+            </nobr>
+        </li>
     </xsl:template>
 
 </xsl:stylesheet>
