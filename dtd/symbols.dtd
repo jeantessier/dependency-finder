@@ -32,56 +32,38 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<!ELEMENT metrics (project)* >
+<!ELEMENT symbols (class-name | field-name | method-name | local-variable-name | inner-class-name)* >
 
-<!ELEMENT project (name, measurement*, group*) >
+<!ELEMENT class-name (symbol, simple-name) >
 
-<!ELEMENT group (name, measurement*, class*) >
+<!ELEMENT field-name (symbol, class, name, type) >
 
-<!ELEMENT class (name, measurement*, method*) >
+<!ELEMENT method-name (symbol, class, name, signature, return-type, parameter-types) >
 
-<!ELEMENT method (name, measurement*) >
+<!ELEMENT parameter-types (parameter-type) >
+
+<!ELEMENT local-variable-name (symbol, method, name, type) >
+
+<!ELEMENT inner-class-name (symbol, outer-class, inner-name) >
+
+<!ELEMENT symbol (#PCDATA) >
+
+<!ELEMENT simple-name (#PCDATA) >
+
+<!ELEMENT class (#PCDATA) >
 
 <!ELEMENT name (#PCDATA) >
 
-<!ELEMENT measurement (short-name, long-name, value, (members? | (minimum, median, average, standard-deviation, maximum, sum, nb-data-points, percentile*) | histogram?)) >
+<!ELEMENT type (#PCDATA) >
 
-<!ELEMENT short-name (#PCDATA) >
+<!ELEMENT signature (#PCDATA) >
 
-<!ELEMENT long-name (#PCDATA) >
+<!ELEMENT return-type (#PCDATA) >
 
-<!ELEMENT value (#PCDATA) >
+<!ELEMENT parameter-type (#PCDATA) >
 
-<!ELEMENT members (member*) >
+<!ELEMENT method (#PCDATA) >
 
-<!ELEMENT member (#PCDATA) >
+<!ELEMENT outer-class (#PCDATA) >
 
-<!ELEMENT minimum (#PCDATA) >
-
-<!ELEMENT median (#PCDATA) >
-
-<!ELEMENT average (#PCDATA) >
-
-<!ELEMENT standard-deviation (#PCDATA) >
-
-<!ELEMENT maximum (#PCDATA) >
-
-<!ELEMENT sum (#PCDATA) >
-
-<!ELEMENT nb-data-points (#PCDATA) >
-
-<!ELEMENT percentile (#PCDATA) >
-<!ATTLIST percentile
-          p-value CDATA #REQUIRED
->
-
-<!ELEMENT histogram (interval*) >
-<!ATTLIST histogram
-          plot (linear | log-lin | lin-log | log-log) #IMPLIED
->
-
-<!ELEMENT interval EMPTY >
-<!ATTLIST interval
-          value CDATA #REQUIRED
-          count CDATA #REQUIRED
->
+<!ELEMENT inner-name (#PCDATA) >
