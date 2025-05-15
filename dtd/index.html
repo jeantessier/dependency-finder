@@ -1,0 +1,117 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../style.css" />
+<link rel="shortcut icon" href="../images/logoicon.gif" type="image/gif" />
+<title>Dependency Finder - DTDs</title>
+<!&mdash; Google tag (gtag.js) &mdash;>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SHFGYZT6JY"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SHFGYZT6JY');
+</script>
+</head>
+
+<body class="off-white">
+
+<h2>DTDs</h2>
+
+Here are the DTDs for the various XML outputs of Dependency Finder.
+
+<h3><code>.class</code> File Structure</h3>
+
+These DTDs describe structures based on <code>.class</code> files.
+
+<dl>
+    <dt><a href="classfile.dtd">classfile</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_ClassReader">ClassReader</a></code>.
+        It describes all the information available about Java classes.
+    </dd>
+
+    <dt><a href="symbols.dtd">symbols</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_ListSymbols">ListSymbols</a></code>.
+        It lists various symbols in Java classes.
+    </dd>
+
+    <dt><a href="list-diff.dtd">list-diff</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_ListDiff">ListDiff</a></code>.
+        It describes the differences between two lists of programming elements.
+    </dd>
+</dl>
+
+<h3>Dependencies</h3>
+
+<dl>
+    <dt><a href="dependencies.dtd">dependencies</a></dt>
+    <dd>
+        Structure of the XML representation of dependency graphs, such as that
+        produced by:
+        <ul>
+            <li><code><a href="../Tools.html#ToolsinDependencyFinder_DependencyExtractor">DependencyExtractor</a></code></li>
+            <li><code><a href="../Tools.html#ToolsinDependencyFinder_DependencyReporter">DependencyReporter</a></code></li>
+            <li><code><a href="../Tools.html#ToolsinDependencyFinder_DependencyClosure">DependencyClosure</a></code></li>
+        </ul>
+    </dd>
+
+    <dt><a href="cohesion.dtd">cohesion</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_ClassCohesion">ClassCohesion</a></code>.
+        It describes the LCOM4 class cohesion for the classes in a dependency
+        graph.
+    </dd>
+
+    <dt><a href="cycles.dtd">cycles</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_DependencyCycles">DependencyCycles</a></code>.
+        It describes cycles in a dependency graph.
+    </dd>
+</dl>
+
+<h3>API Differences</h3>
+
+<dl>
+    <dt><a href="differences.dtd">differences</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_JarJarDiff">JarJarDiff</a></code>
+        and
+        <code><a href="../Tools.html#ToolsinDependencyFinder_ClassClassDiff">ClassClassDiff</a></code>.
+        It describes the differences between two versions of a library (of a
+        single class in the case of <code>ClassClassDiff</code>).
+    </dd>
+</dl>
+
+<h3>Metrics</h3>
+
+<dl>
+    <dt><a href="metrics-configuration.dtd">metrics-configuration</a></dt>
+    <dd>
+        Structure of the configuration for
+        <code><a href="../Tools.html#ToolsinDependencyFinder_OOMetrics">OOMetrics</a></code>.
+        It describes the metrics to compute for packages, classes, and methods.
+    </dd>
+
+    <dt><a href="metrics.dtd">metrics</a></dt>
+    <dd>
+        Structure of the XML output of
+        <code><a href="../Tools.html#ToolsinDependencyFinder_OOMetrics">OOMetrics</a></code>.
+        It describes the metrics for packages, classes, and methods.
+    </dd>
+</dl>
+
+</body>
+
+</html>

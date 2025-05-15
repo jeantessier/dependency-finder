@@ -1,2 +1,8 @@
 Updated all the public DTDs.  It appears I had forgotten to do it when I
 deployed =1.4.2=, or maybe even farther back than that.
+
+Back when the website was hosted by SourceForge, I could use the webserver to
+list the DTDs as part of the website.  I used an =.htaccess= file to tell the
+server to list the contents of the =dtd/= directory.  GitHub Pages does not
+recognize the =.htaccess= file, so I had to add an explicit =index.html= to
+list the DTDs and what XML they describe.
