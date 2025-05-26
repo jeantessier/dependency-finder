@@ -37,16 +37,32 @@ import java.io.*;
 import org.apache.logging.log4j.*;
 
 /**
- *  <p>Divides one measurement (base) by another (divider).  Both
- *  must be in the same context.</p>
+ *  <p>Divides one numerical value (base) by another (divider).  Either can be
+ *  a numerical constant or the name of another measurement be in the same
+ *  context.</p>
+ *
+ *  <p>If the result of the division is NaN, you can provide a replacement
+ *  value.  The measurement will attempt to coerce the value to a double and
+ *  will fall back to NaN if that fails.</p>
+ *
+ *  <p>If the result of the division is positive infinity, you can provide a
+ *  separate replacement value.  The measurement will attempt to coerce the
+ *  value to a double and will fall back to positive infinity if that fails.</p>
+ *
+ *  <p>If the result of the division is negative infinity, you can provide a
+ *  separate replacement value.  The measurement will attempt to coerce the
+ *  value to a double and will fall back to negative infinity if that fails.</p>
  *
  *  <p>This is the syntax for initializing this type of
  *  measurement:</p>
  *  
  *  <pre>
  *  &lt;init&gt;
- *      base measurement name [DISPOSE_x]
- *      divider measurement name [DISPOSE_x]
+ *      base number | measurement name [DISPOSE_x]
+ *      divider number | measurement name [DISPOSE_x]
+ *      [number default for NaN]
+ *      [number default for positive infinity]
+ *      [number default for negative infinity]
  *  &lt;/init&gt;
  *  </pre>
  *  
