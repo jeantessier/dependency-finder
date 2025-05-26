@@ -83,15 +83,11 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
     public NbSubMetricsMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
 
-        try {
-            BufferedReader in   = new BufferedReader(new StringReader(initText));
-            String         line;
-
-            while ((line = in.readLine()) != null) {
-                terms.add(line.trim());
-            }
-
-            in.close();
+        try (var in = new BufferedReader(new StringReader(initText))) {
+            in.lines()
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .forEach(terms::add);
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             terms.clear();
@@ -159,7 +155,7 @@ public class NbSubMetricsMeasurement extends MeasurementBase {
         List<String> elements = new ArrayList<>();
         perl().split(elements, OPERATORS_REGULAR_EXPRESSION, term);
 
-        result = (elements.size() > 0) && ((elements.size() % 2) == 1);
+        result = (!elements.isEmpty()) && ((elements.size() % 2) == 1);
         
         if (elements.size() == 1) {
             result = metrics.hasMeasurement(elements.remove(0));

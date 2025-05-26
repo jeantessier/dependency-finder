@@ -51,7 +51,7 @@ import org.apache.logging.log4j.*;
  *  &lt;/init&gt;
  *  </pre>
  */
-public class SumMeasurement extends MeasurementBase {
+public class SumMeasurement extends ArithmeticMeasurement {
     private final List<String> terms = new LinkedList<>();
 
     private double value = 0.0;
@@ -59,15 +59,11 @@ public class SumMeasurement extends MeasurementBase {
     public SumMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
         super(descriptor, context, initText);
 
-        try {
-            BufferedReader in   = new BufferedReader(new StringReader(initText));
-            String         line;
-
-            while ((line = in.readLine()) != null) {
-                terms.add(line.trim());
-            }
-
-            in.close();
+        try (var in = new BufferedReader(new StringReader(initText))) {
+            in.lines()
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .forEach(terms::add);
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             terms.clear();
@@ -104,57 +100,5 @@ public class SumMeasurement extends MeasurementBase {
         }
 
         return value;
-    }
-
-    private double evaluateTerm(String term) {
-        try {
-            return Double.parseDouble(term);
-        } catch (NumberFormatException ex) {
-            if (term.startsWith("-")) {
-                return -1 * evaluateMeasurement(term.substring(1));
-            } else {
-                return evaluateMeasurement(term);
-            }
-        }
-    }
-
-    private double evaluateMeasurement(String name) {
-        double result = 0;
-
-        if (!name.isEmpty()) {
-            int dispose;
-            synchronized (perl()) {
-                if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {
-                    name = perl().group(1);
-                    
-                    String disposeText = perl().group(2);
-                    dispose = StatisticalMeasurement.getDispose(disposeText.toUpperCase());
-                } else {
-                    dispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                }
-            }
-            
-            Measurement measurement = getContext().getMeasurement(name);
-            if (measurement instanceof StatisticalMeasurement stats) {
-                result = switch (dispose) {
-                    case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
-                    case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
-                    case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
-                    case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
-                    case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
-                    case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
-                    case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
-                    default -> stats.getValue().doubleValue();
-                };
-            } else {
-                result = measurement.getValue().doubleValue();
-            }
-
-            if (super.isEmpty()) {
-                setEmpty(measurement.isEmpty());
-            }
-        }
-                
-        return result;
     }
 }
