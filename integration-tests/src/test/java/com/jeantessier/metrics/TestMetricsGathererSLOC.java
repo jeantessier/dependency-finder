@@ -125,8 +125,8 @@ public class TestMetricsGathererSLOC {
     @Test
     void test_sloc_TestClass() {
         assertEquals(1, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.CLASS_SLOC);
-        assertEquals(6, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.SLOC);
-        assertEquals(2, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.METHODS);
+        assertEquals(11, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.SLOC);
+        assertEquals(3, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.METHODS);
         assertEquals(0, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.ABSTRACT_METHODS);
         assertEquals(0, factory.createClassMetrics("sloc.TestClass"), BasicMeasurements.SYNTHETIC_METHODS);
     }
@@ -153,13 +153,20 @@ public class TestMetricsGathererSLOC {
     }
 
     @Test
+    void test_sloc_TestClass_method3() {
+        assertEquals(5, factory.createMethodMetrics("sloc.TestClass.method3(): int"), BasicMeasurements.SLOC);
+        assertEquals(7, factory.createMethodMetrics("sloc.TestClass.method3(): int"), BasicMeasurements.RAW_METHOD_LENGTH);
+        assertEquals(3, factory.createMethodMetrics("sloc.TestClass.method3(): int"), BasicMeasurements.EFFECTIVE_METHOD_LENGTH);
+    }
+
+    @Test
     void test_sloc() {
-        assertEquals(29, factory.createGroupMetrics("sloc"), BasicMeasurements.SLOC);
+        assertEquals(34, factory.createGroupMetrics("sloc"), BasicMeasurements.SLOC);
     }
 
     @Test
     void testProject() {
-        assertEquals(29, factory.createProjectMetrics("test"), BasicMeasurements.SLOC);
+        assertEquals(34, factory.createProjectMetrics("test"), BasicMeasurements.SLOC);
     }
 
     private void assertEquals(int expectedValue, Metrics metrics, BasicMeasurements measurement) {

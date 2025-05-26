@@ -573,16 +573,26 @@ public class MetricsGatherer extends VisitorBase {
         super.visitLineNumberTable_attribute(attribute);
 
         if (!attribute.getLineNumbers().isEmpty()) {
-            var minLineNumber = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).min(Integer::compareTo).orElse(0);
-            var maxLineNumber = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).max(Integer::compareTo).orElse(0);
-
-            getCurrentMethod().addToMeasurement(BasicMeasurements.RAW_METHOD_LENGTH, maxLineNumber - minLineNumber + 1);
+            computeRawMethodLength(attribute);
+            computeEffectiveMethodLength(attribute);
         }
+    }
+
+    private void computeRawMethodLength(LineNumberTable_attribute attribute) {
+        var minLineNumber = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).min(Integer::compareTo).orElse(0);
+        var maxLineNumber = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).max(Integer::compareTo).orElse(0);
+
+        getCurrentMethod().addToMeasurement(BasicMeasurements.RAW_METHOD_LENGTH, maxLineNumber - minLineNumber + 1);
+    }
+
+    private void computeEffectiveMethodLength(LineNumberTable_attribute attribute) {
+        var distinctLineNumbers = attribute.getLineNumbers().stream().map(LineNumber::getLineNumber).distinct().count();
+
+        getCurrentMethod().addToMeasurement(BasicMeasurements.EFFECTIVE_METHOD_LENGTH, distinctLineNumbers);
     }
 
     public void visitLineNumber(LineNumber helper) {
         sloc++;
-        getCurrentMethod().addToMeasurement(BasicMeasurements.EFFECTIVE_METHOD_LENGTH, 1);
     }
 
     public void visitLocalVariable(LocalVariable helper) {
