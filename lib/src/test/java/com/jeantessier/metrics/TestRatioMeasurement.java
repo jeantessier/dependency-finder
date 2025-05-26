@@ -36,8 +36,13 @@ import org.jmock.*;
 import org.jmock.junit5.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
+
+import java.util.stream.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.*;
 
 public class TestRatioMeasurement {
     @RegisterExtension
@@ -86,8 +91,8 @@ public class TestRatioMeasurement {
         assertEquals("foo", measurement.getShortName());
         assertEquals("bar", measurement.getLongName());
 
-        assertNull(measurement.getBaseName());
-        assertNull(measurement.getDividerName());
+        assertNull(measurement.getBaseTerm());
+        assertNull(measurement.getDividerTerm());
         assertTrue(Double.isNaN(measurement.getValue().doubleValue()));
     }
     
@@ -101,62 +106,35 @@ public class TestRatioMeasurement {
         assertEquals(RatioMeasurement.class, measurement.getClass());
         assertEquals("foo", measurement.getShortName());
         assertEquals("bar", measurement.getLongName());
-        assertEquals("base", measurement.getBaseName());
-        assertEquals("divider", measurement.getDividerName());
+        assertEquals("base", measurement.getBaseTerm());
+        assertEquals("divider", measurement.getDividerTerm());
 
         assertTrue(Double.isNaN(measurement.getValue().doubleValue()));
     }
 
-    @Test
-    void testCreate() {
-        measurement = new RatioMeasurement(null, null, null);
-        
-        assertNull(measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
-        assertNull(measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
+    static Stream<Arguments> initTextDataProvider() {
+        return Stream.of(
+                arguments("missing initText", null, null, null),
+                arguments("partial initText", "base", null, null),
+                arguments("minimal initText", "base\ndivider", "base", "divider"),
+                arguments("minimal initText with dispose clauses", "foo DISPOSE_MINIMUM\nbar DISPOSE_AVERAGE", "foo DISPOSE_MINIMUM", "bar DISPOSE_AVERAGE")
+        );
+    }
 
-        measurement = new RatioMeasurement(null, null, "base\ndivider");
+    @DisplayName("constructor sets baseTerm")
+    @ParameterizedTest(name = "with {0}")
+    @MethodSource("initTextDataProvider")
+    void testBaseTerm(String variation, String initText, String expectedBaseTerm, String expectedDividerTerm) {
+        measurement = new RatioMeasurement(null, null, initText);
+        assertEquals(expectedBaseTerm, measurement.getBaseTerm(), "base term");
+    }
 
-        assertEquals("base",    measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
-        assertEquals("divider", measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
-
-        measurement = new RatioMeasurement(null, null, "base");
-
-        assertNull(measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
-        assertNull(measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
-
-        measurement = new RatioMeasurement(null, null, null);
-
-        assertNull(measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
-        assertNull(measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
-
-        measurement = new RatioMeasurement(null, null, "foo\nbar");
-
-        assertEquals("foo", measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
-        assertEquals("bar", measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
-
-        measurement = new RatioMeasurement(null, null, "foo\nbar");
-
-        assertEquals("foo", measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getBaseDispose());
-        assertEquals("bar", measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_IGNORE, measurement.getDividerDispose());
-
-        measurement = new RatioMeasurement(null, null, "foo DISPOSE_MINIMUM\nbar DISPOSE_AVERAGE");
-
-        assertEquals("foo", measurement.getBaseName());
-        assertEquals(StatisticalMeasurement.DISPOSE_MINIMUM, measurement.getBaseDispose());
-        assertEquals("bar", measurement.getDividerName());
-        assertEquals(StatisticalMeasurement.DISPOSE_AVERAGE, measurement.getDividerDispose());
+    @DisplayName("constructor sets dividerTerm")
+    @ParameterizedTest(name = "with {0}")
+    @MethodSource("initTextDataProvider")
+    void testDividerTerm(String variation, String initText, String expectedBaseTerm, String expectedDividerTerm) {
+        measurement = new RatioMeasurement(null, null, initText);
+        assertEquals(expectedDividerTerm, measurement.getDividerTerm(), "divider term");
     }
 
     @Test

@@ -52,13 +52,11 @@ import org.apache.logging.log4j.*;
  *  
  *  <p>If either is missing, this measurement will be NaN.</p>
  */
-public class RatioMeasurement extends MeasurementBase {
-    private String baseName;
-    private int baseDispose;
+public class RatioMeasurement extends ArithmeticMeasurement {
+    private String baseTerm;
     private double baseValue = Double.NaN;
 
-    private String dividerName;
-    private int dividerDispose;
+    private String dividerTerm;
     private double dividerValue = Double.NaN;
 
     private double value = 0.0;
@@ -67,58 +65,25 @@ public class RatioMeasurement extends MeasurementBase {
         super(descriptor, context, initText);
 
         try (var in = new BufferedReader(new StringReader(initText))) {
-            synchronized (perl()) {
-                baseName = in.readLine().trim();
-                if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", baseName)) {
-                    baseName = perl().group(1);
-                    
-                    String disposeText = perl().group(2);
-                    baseDispose = StatisticalMeasurement.getDispose(disposeText, () -> {
-                        LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for base \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, baseName, descriptor.getLongName());
-                        return StatisticalMeasurement.DISPOSE_IGNORE;
-                    });
-                } else {
-                    baseDispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                }
-                
-                dividerName = in.readLine().trim();
-                if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", dividerName)) {
-                    dividerName = perl().group(1);
-                    
-                    String disposeText = perl().group(2);
-                    dividerDispose = StatisticalMeasurement.getDispose(disposeText, () -> {
-                        LogManager.getLogger(getClass()).error("Unknown dispose value \"{}\" for divider \"{}\" of measurement \"{}\", defaulting to DISPOSE_IGNORE", disposeText, dividerName, descriptor.getLongName());
-                        return StatisticalMeasurement.DISPOSE_IGNORE;
-                    });
-                } else {
-                    dividerDispose = StatisticalMeasurement.DISPOSE_IGNORE;
-                }
-            }
+            baseTerm = in.readLine().trim();
+            dividerTerm = in.readLine().trim();
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
-            baseName    = null;
-            dividerName = null;
+            baseTerm = null;
+            dividerTerm = null;
         }
     }
     
-    public String getBaseName() {
-        return baseName;
-    }
-    
-    public int getBaseDispose() {
-        return baseDispose;
+    public String getBaseTerm() {
+        return baseTerm;
     }
 
     public double getBaseValue() {
         return baseValue;
     }
 
-    public String getDividerName() {
-        return dividerName;
-    }
-
-    public int getDividerDispose() {
-        return dividerDispose;
+    public String getDividerTerm() {
+        return dividerTerm;
     }
 
     public double getDividerValue() {
@@ -141,40 +106,10 @@ public class RatioMeasurement extends MeasurementBase {
         if (!isCached()) {
             value = Double.NaN;
 
-            if (getContext() != null && getBaseName() != null && getDividerName() != null) {
-                Measurement base    = getContext().getMeasurement(getBaseName());
-                Measurement divider = getContext().getMeasurement(getDividerName());
-                
-                if (base instanceof StatisticalMeasurement stats) {
-                    baseValue = switch (getBaseDispose()) {
-                        case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
-                        case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
-                        case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
-                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
-                        case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
-                        case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
-                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
-                        default -> stats.getValue().doubleValue();
-                    };
-                } else if (base != null) {
-                    baseValue = base.getValue().doubleValue();
-                }
-                
-                if (divider instanceof StatisticalMeasurement stats) {
-                    dividerValue = switch (getDividerDispose()) {
-                        case StatisticalMeasurement.DISPOSE_MINIMUM -> stats.getMinimum();
-                        case StatisticalMeasurement.DISPOSE_MEDIAN -> stats.getMedian();
-                        case StatisticalMeasurement.DISPOSE_AVERAGE -> stats.getAverage();
-                        case StatisticalMeasurement.DISPOSE_STANDARD_DEVIATION -> stats.getStandardDeviation();
-                        case StatisticalMeasurement.DISPOSE_MAXIMUM -> stats.getMaximum();
-                        case StatisticalMeasurement.DISPOSE_SUM -> stats.getSum();
-                        case StatisticalMeasurement.DISPOSE_NB_DATA_POINTS -> stats.getNbDataPoints();
-                        default -> stats.getValue().doubleValue();
-                    };
-                } else if (divider != null) {
-                    dividerValue = divider.getValue().doubleValue();
-                }
-                
+            if (getContext() != null && getBaseTerm() != null && getDividerTerm() != null) {
+                baseValue = evaluateTerm(getBaseTerm());
+                dividerValue = evaluateTerm(getDividerTerm());
+
                 value = baseValue / dividerValue;
             }
 
