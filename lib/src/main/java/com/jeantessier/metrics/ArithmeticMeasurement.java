@@ -56,7 +56,7 @@ public abstract class ArithmeticMeasurement extends MeasurementBase {
     protected double evaluateMeasurement(String name) {
         double result = 0;
 
-        if (!name.isEmpty()) {
+        if (!name.isEmpty() && getContext() != null) {
             int dispose;
             synchronized (perl()) {
                 if (perl().match("/(.*)\\s+(dispose_\\w+)$/i", name)) {

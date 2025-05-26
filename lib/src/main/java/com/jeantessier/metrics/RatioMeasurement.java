@@ -106,7 +106,7 @@ public class RatioMeasurement extends ArithmeticMeasurement {
         if (!isCached()) {
             value = Double.NaN;
 
-            if (getContext() != null && getBaseTerm() != null && getDividerTerm() != null) {
+            if (getBaseTerm() != null && getDividerTerm() != null) {
                 baseValue = evaluateTerm(getBaseTerm());
                 dividerValue = evaluateTerm(getDividerTerm());
 

@@ -117,7 +117,8 @@ public class TestRatioMeasurement {
                 arguments("missing initText", null, null, null),
                 arguments("partial initText", "base", null, null),
                 arguments("minimal initText", "base\ndivider", "base", "divider"),
-                arguments("minimal initText with dispose clauses", "foo DISPOSE_MINIMUM\nbar DISPOSE_AVERAGE", "foo DISPOSE_MINIMUM", "bar DISPOSE_AVERAGE")
+                arguments("minimal initText with dispose clauses", "foo DISPOSE_MINIMUM\nbar DISPOSE_AVERAGE", "foo DISPOSE_MINIMUM", "bar DISPOSE_AVERAGE"),
+                arguments("minimal initText with constants", "1\n2", "1", "2")
         );
     }
 
@@ -135,6 +136,12 @@ public class TestRatioMeasurement {
     void testDividerTerm(String variation, String initText, String expectedBaseTerm, String expectedDividerTerm) {
         measurement = new RatioMeasurement(null, null, initText);
         assertEquals(expectedDividerTerm, measurement.getDividerTerm(), "divider term");
+    }
+
+    @Test
+    void testConstants() {
+        measurement = new RatioMeasurement(descriptor, null, "1\n2");
+        assertEquals(1 / 2, measurement.getValue().intValue());
     }
 
     @Test
@@ -168,7 +175,7 @@ public class TestRatioMeasurement {
         measurement = new RatioMeasurement(descriptor, c, "base DISPOSE_AVERAGE\ndivider DISPOSE_NB_DATA_POINTS");
         assertEquals(1.0, measurement.getValue().doubleValue(), 0.01);
     }
-    
+
     @Test
     void testNormal() throws Exception {
         measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
@@ -186,35 +193,41 @@ public class TestRatioMeasurement {
 
         assertEquals(20 / 2, measurement.getValue().intValue());
     }
-    
+
     @Test
-    void testDivideByZero() throws Exception {
-        measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
-        
+    void testNaN() {
+        measurement = new RatioMeasurement(descriptor, null, "0\n0");
         assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "0/0 not NaN");
-
-        m1.add(1);
-
-        assertTrue(Double.isInfinite(measurement.getValue().doubleValue()), "1/0 not infinity");
-
-        m1.add(-2);
-
-        assertTrue(Double.isInfinite(measurement.getValue().doubleValue()), "-1/0 not infinity");
     }
-    
-    @Test
-    void testZeroDividedBy() throws Exception {
-        measurement = (RatioMeasurement) descriptor.createMeasurement(metrics);
-        
-        assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "0/0 not NaN");
 
-        m2.add(1);
+    static Stream<Arguments> divideByZeroDataProvider() {
+        return Stream.of(
+                arguments("1/0", "1\n0"),
+                arguments("-1/0", "-1\n0")
+        );
+    }
 
-        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "0/1 not zero");
+    @DisplayName("divide by zero")
+    @ParameterizedTest(name = "for {0} should be infinite")
+    @MethodSource("divideByZeroDataProvider")
+    void testDivideByZero(String variation, String initText) {
+        measurement = new RatioMeasurement(descriptor, null, initText);
+        assertTrue(Double.isInfinite(measurement.getValue().doubleValue()));
+    }
 
-        m2.add(-2);
+    static Stream<Arguments> zeroDividedByDataProvider() {
+        return Stream.of(
+                arguments("0/1", "0\n1"),
+                arguments("0/-1", "0\n-1")
+        );
+    }
 
-        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01, "0/-1 not zero");
+    @DisplayName("zero divided by")
+    @ParameterizedTest(name = "for {0} should be zero")
+    @MethodSource("zeroDividedByDataProvider")
+    void testZeroDividedBy(String variation, String initText) {
+        measurement = new RatioMeasurement(descriptor, null, initText);
+        assertEquals(0.0, measurement.getValue().doubleValue(), 0.01);
     }
 
     @Test
