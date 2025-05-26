@@ -29,6 +29,19 @@ do better.  =OOMetrics= can use =AM / M= for each class.  And it can sum up
 =AM= and =M= across a package to figure out the package's abstractness with
 better accuracy than the rough estimate of Martin's definition.
 
+When I tried this out, the abstractness values decreased by an order of
+magnitude.  This is because there are many, many more methods than classes.
+Some concrete classes can have *a lot* of methods, which skews the abstractness
+of the package down.  And a side effect is that marked interfaces, those with
+no methods, get ignored altogether.  Their =AM / M= is =0 / 0 %3D NaN=.
+
+I tried to modify =RationMeasurement= to return =1= instead of =0 / 0=, and I
+modified the abstractness of a package to be the average of the abstractness of
+its classes.  This helped reduce the impact of large concrete classes.  Over
+large bodies of code, this new abstractness gets close to Martin's
+abstractness.  But on smaller bodies of code, it can vary widely.  I'm going to
+sleep on it.
+
 Separately, I also fixed an overcounting bug when computing effective method
 length.
 
