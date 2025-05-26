@@ -27,13 +27,13 @@ by Robert C. Martin of Object Mentor, Inc.  The idea is to plot the degree of
 abstractness of a package against how hard it is to change that package.</p>
 
 <p>The X-axis charts <i>instability</i>, or a package's coupling.  A low value
-mean that many other packages use the given package.  Making changes to it
+means that many other packages use the given package.  Making changes to it
 could be hard if they must all be changed too.  A high value means that only a
 few packages refer to it, if any.  Making changes to it will be easy since they
 will have nowhere to trickle to.</p>
 
 <p>The Y-axis charts <i>abstractness</i>, or a package's ratio of interfaces
-and abstract classes to concrete classes.  A low values mean that there is very
+and abstract classes to concrete classes.  A low value means that there is very
 little abstraction.  The classes are mostly concrete and the slightest
 modification in behavior requires to modify them.  A high value means that the
 package is mostly interfaces that do not code any behavior but only protocol,
@@ -59,7 +59,7 @@ abstract but not much used.</p>
 with the Martin configuration. I then used a special XSL stylesheet to extract
 the values from the XML output and fed them to MS Excel.  I used a simple Perl
 script to compute the value distributions.  It rounded each value of
-<code>D'</code> to the nearest 0.1 increment and then couunted how many points
+<code>D'</code> to the nearest 0.1 increment, and then counted how many points
 fell on each of the 21 target values.  I normalized the values by dividing each
 count by the total number of packages in a given piece of software so that we
 can compare the distributions regardless of the size of the software under

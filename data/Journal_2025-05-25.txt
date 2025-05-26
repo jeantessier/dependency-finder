@@ -1,0 +1,117 @@
+I was looking at the idea of the _abstractness_ of a package, as described by
+Robert C. Martin.  He describes it as the number of interfaces and abstract
+classes in a package over the total number of classes in this package.  The
+idea is that when developers make a change, the impact of its implementation
+on a given package should be inversely related to the abstractness of this
+package.  The change is more likely to modify concrete classes, in packages
+with low abstractness.
+
+To keep things simple, let's look at methods.  A method either has an
+implementation or it doesn't (and is abstract).  A software change will have an
+implementation, so it is more likely to impact concrete methods.  It would only
+impact an abstract method if it were to change its signature.  SO, a method's
+abstractness is either 0% (concrete) or 100% (abstract).
+
+Rolling this up to classes, a concrete class has only concrete methods, so its
+abstractedness is 0%.  Prior to Java 8, interfaces could only have abstract
+methods, so their abstractness would be 100%.  Unless we count static methods<label for%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle">
+<span class%3D"sidenote">I don't remember if interfaces were prohibited from
+having static methods back then.</span>.  Abstract methods are wildcards; all
+their methods might be abstract, all their methods might be concrete, or
+anywhere in between.  In Martin's definition, he gives all interfaces and
+abstract classes an abstractness of 100%.
+
+Rolling this up to packages, how do we determine the abstractness of a package?
+Martin's shortcut with interfaces and abstract classes makes it easier to
+calculate abstractness in the absence of tools.  But with tools, maybe we can
+do better.  =OOMetrics= can use =AM / M= for each class.  And it can sum up
+=AM= and =M= across a package to figure out the package's abstractness with
+better accuracy than the rough estimate of Martin's definition.
+
+Separately, I also fixed an overcounting bug when computing effective method
+length.
+
+Depending on how the compiler generates the bytecode, the same line number can
+show up multiple times in a single =LineNumberTable= attribute.
+
+For example, this =C.m()= method:
+
+    import java.util.stream.*;
+    &nbsp;
+    public class C {
+        public int m() {
+            return Stream.of("abc", "def", "ghi")
+                    .mapToInt(String::length)
+                    .sum();
+        }
+    }
+
+Has the following =LineNumberTable= attribute according to =javap -c -l=:
+
+    LineNumberTable:
+      line 5: 0
+      line 6: 27
+      line 7: 32
+      line 5: 37
+
+The first entry deals with the call to =Stream.of()=.  The next entry deals
+with =mapToInt()=, and the third one with =sum()=.  The last instruction, at
+=pc: 37=, is an =ireturn= instruction for the =return= keyword at the top of
+the method.  It shares line number =5= with the entry.
+
+The =SLOC= measurement counts the entries in the =LineNumberTable= attribute
+and adds 1 for the method's declaration.  Here, it will be =4 + 1 %3D 5=.
+
+The raw method length simply looks at the line numbers are returns
+=max - min + 1=.  Here, it will be =7 - 5 + 1 %3D 3=.
+
+The effective method length would simply count entries in the =LineNumberTable=
+attribute.  Here, it would be =4=.
+
+This is wrong.
+
+    C.m(): int
+        Single Lines of Code (SLOC): 5
+        Raw Method Length (RML): 3
+        Effective Method Length (EML): 4 (133%)
+
+I changed the computation of effective method length to count the number of
+_distinct_ lines, here =5=, =6=, and =7=.  So its value should be =3=.
+
+    C.m(): int
+        Single Lines of Code (SLOC): 5
+        Raw Method Length (RML): 3
+        Effective Method Length (EML): 3 (100%)
+
+Suppose we add some arbitrary comments:
+
+    import java.util.stream.*;
+    &nbsp;
+    public class C {
+        public int m() {
+            return Stream.of("abc", "def", "ghi")
+                    // Comment 1 is rather short.
+                    .mapToInt(String::length)
+                    // Comment 2 is
+                    // much,
+                    // much
+                    // longer.
+                    .sum();
+        }
+    }
+
+The =LineNumberTable= attribute is now:
+
+    LineNumberTable:
+      line 5: 0
+      line 7: 27
+      line 12: 32
+      line 5: 37
+
+The raw length will increase, but the effective length will remain the same.
+
+    C.m(): int
+        Single Lines of Code (SLOC): 5
+        Raw Method Length (RML): 8
+        Effective Method Length (EML): 3 (38%)
