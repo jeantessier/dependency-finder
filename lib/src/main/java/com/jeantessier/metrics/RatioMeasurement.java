@@ -54,9 +54,12 @@ import org.apache.logging.log4j.*;
  */
 public class RatioMeasurement extends MeasurementBase {
     private String baseName;
-    private int    baseDispose;
+    private int baseDispose;
+    private double baseValue = Double.NaN;
+
     private String dividerName;
-    private int    dividerDispose;
+    private int dividerDispose;
+    private double dividerValue = Double.NaN;
 
     private double value = 0.0;
     
@@ -106,12 +109,20 @@ public class RatioMeasurement extends MeasurementBase {
         return baseDispose;
     }
 
+    public double getBaseValue() {
+        return baseValue;
+    }
+
     public String getDividerName() {
         return dividerName;
     }
 
     public int getDividerDispose() {
         return dividerDispose;
+    }
+
+    public double getDividerValue() {
+        return dividerValue;
     }
 
     public void accept(MeasurementVisitor visitor) {
@@ -133,9 +144,6 @@ public class RatioMeasurement extends MeasurementBase {
             if (getContext() != null && getBaseName() != null && getDividerName() != null) {
                 Measurement base    = getContext().getMeasurement(getBaseName());
                 Measurement divider = getContext().getMeasurement(getDividerName());
-                
-                double baseValue    = Double.NaN;
-                double dividerValue = Double.NaN;
                 
                 if (base instanceof StatisticalMeasurement stats) {
                     baseValue = switch (getBaseDispose()) {
