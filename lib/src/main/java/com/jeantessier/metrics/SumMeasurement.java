@@ -92,55 +92,30 @@ public class SumMeasurement extends MeasurementBase {
         if (!isCached()) {
             synchronized (this) {
                 if (!isCached()) {
-                    value = 0.0;
                     setEmpty(true);
 
-                    if (getContext() != null) {
-                        LogManager.getLogger(getClass()).debug("Start computing \"{}\" on \"{}\": value={}", getShortName(), getContext().getName(), value);
-                    } else {
-                        LogManager.getLogger(getClass()).debug("Start computing \"{}\" on null: value={}", getShortName(), value);
-                    }
+                    value = getTerms().stream()
+                            .mapToDouble(this::evaluateTerm)
+                            .sum();
 
-                    for (String term : getTerms()) {
-                        LogManager.getLogger(getClass()).debug("Evaluating term \"{}\"", term);
-
-                        double termValue = Double.NaN;
-
-                        try {
-                            termValue = Double.parseDouble(term);
-                        } catch (NumberFormatException ex) {
-                            if (term.startsWith("-")) {
-                                termValue = -1 * evaluateMeasurement(term.substring(1));
-                            } else {
-                                termValue = evaluateMeasurement(term);
-                            }
-                        }
-
-                        LogManager.getLogger(getClass()).debug("term \"{}\" is {}", term,  termValue);
-
-                        value += termValue;
-
-                        LogManager.getLogger(getClass()).debug("value={}", value);
-                    }
-                    
-                    if (getContext() != null) {
-                        LogManager.getLogger(getClass()).debug("Stop computing \"{}\" on \"{}\": value={}", getShortName(), getContext().getName(), value);
-                    } else {
-                        LogManager.getLogger(getClass()).debug("Stop computing \"{}\" on null: value={}", getShortName(), value);
-                    }
-                    
                     setCached(true);
                 }
             }
         }
 
-        if (getContext() != null) {
-            LogManager.getLogger(getClass()).debug("\"{}\" on \"{}\": value={}", getShortName(), getContext().getName(), value);
-        } else {
-            LogManager.getLogger(getClass()).debug("\"{}\" on null: value={}", getShortName(), value);
-        }
-
         return value;
+    }
+
+    private double evaluateTerm(String term) {
+        try {
+            return Double.parseDouble(term);
+        } catch (NumberFormatException ex) {
+            if (term.startsWith("-")) {
+                return -1 * evaluateMeasurement(term.substring(1));
+            } else {
+                return evaluateMeasurement(term);
+            }
+        }
     }
 
     private double evaluateMeasurement(String name) {
