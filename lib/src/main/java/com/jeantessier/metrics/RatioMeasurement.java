@@ -59,6 +59,8 @@ public class RatioMeasurement extends ArithmeticMeasurement {
     private String dividerTerm;
     private double dividerValue = Double.NaN;
 
+    private double defaultForNaN = Double.NaN;
+
     private double value = 0.0;
     
     public RatioMeasurement(MeasurementDescriptor descriptor, Metrics context, String initText) {
@@ -67,6 +69,11 @@ public class RatioMeasurement extends ArithmeticMeasurement {
         try (var in = new BufferedReader(new StringReader(initText))) {
             baseTerm = in.readLine().trim();
             dividerTerm = in.readLine().trim();
+
+            var defaultForNaNText = in.readLine();
+            if (defaultForNaNText != null) {
+                defaultForNaN = Double.parseDouble(defaultForNaNText);
+            }
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
             baseTerm = null;
@@ -111,6 +118,10 @@ public class RatioMeasurement extends ArithmeticMeasurement {
                 dividerValue = evaluateTerm(getDividerTerm());
 
                 value = baseValue / dividerValue;
+
+                if (Double.isNaN(value)) {
+                    value = defaultForNaN;
+                }
             }
 
             setEmpty(Double.isNaN(value) || Double.isInfinite(value));

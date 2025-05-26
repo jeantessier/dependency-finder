@@ -200,6 +200,12 @@ public class TestRatioMeasurement {
         assertTrue(Double.isNaN(measurement.getValue().doubleValue()), "0/0 not NaN");
     }
 
+    @Test
+    void testNaNWithDefaultValue() {
+        measurement = new RatioMeasurement(descriptor, null, "0\n0\n1");
+        assertEquals(1, measurement.getValue().doubleValue(), 0.01, "0/0 should default to 1");
+    }
+
     static Stream<Arguments> divideByZeroDataProvider() {
         return Stream.of(
                 arguments("1/0", "1\n0"),
