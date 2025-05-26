@@ -221,6 +221,21 @@ public class TestRatioMeasurement {
         assertTrue(Double.isInfinite(measurement.getValue().doubleValue()));
     }
 
+    static Stream<Arguments> infiniteWithDefaultDataProvider() {
+        return Stream.of(
+                arguments("1/0", "1\n0\n\n123\n456", 123),
+                arguments("-1/0", "-1\n0\n\n123\n456", 456)
+        );
+    }
+
+    @DisplayName("divide by zero")
+    @ParameterizedTest(name = "for {0} should be {2}")
+    @MethodSource("infiniteWithDefaultDataProvider")
+    void testInfiniteWithDefaultValue(String variation, String initText, double expectedValue) {
+        measurement = new RatioMeasurement(descriptor, null, initText);
+        assertEquals(expectedValue, measurement.getValue().doubleValue(), 0.01);
+    }
+
     static Stream<Arguments> zeroDividedByDataProvider() {
         return Stream.of(
                 arguments("0/1", "0\n1"),

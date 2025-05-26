@@ -60,6 +60,8 @@ public class RatioMeasurement extends ArithmeticMeasurement {
     private double dividerValue = Double.NaN;
 
     private double defaultForNaN = Double.NaN;
+    private double defaultForPositiveInfinity = Double.POSITIVE_INFINITY;
+    private double defaultForNegativeInfinity = Double.NEGATIVE_INFINITY;
 
     private double value = 0.0;
     
@@ -70,9 +72,22 @@ public class RatioMeasurement extends ArithmeticMeasurement {
             baseTerm = in.readLine().trim();
             dividerTerm = in.readLine().trim();
 
-            var defaultForNaNText = in.readLine();
-            if (defaultForNaNText != null) {
-                defaultForNaN = Double.parseDouble(defaultForNaNText);
+            try {
+                defaultForNaN = Double.parseDouble(in.readLine());
+            } catch (NullPointerException | NumberFormatException ex) {
+                defaultForNaN = Double.NaN;
+            }
+
+            try {
+                defaultForPositiveInfinity = Double.parseDouble(in.readLine());
+            } catch (NullPointerException | NumberFormatException ex) {
+                defaultForPositiveInfinity = Double.POSITIVE_INFINITY;
+            }
+
+            try {
+                defaultForNegativeInfinity = Double.parseDouble(in.readLine());
+            } catch (NullPointerException | NumberFormatException ex) {
+                defaultForNegativeInfinity = Double.NEGATIVE_INFINITY;
             }
         } catch (Exception ex) {
             LogManager.getLogger(getClass()).debug("Cannot initialize with \"{}\"", initText, ex);
@@ -121,6 +136,8 @@ public class RatioMeasurement extends ArithmeticMeasurement {
 
                 if (Double.isNaN(value)) {
                     value = defaultForNaN;
+                } else if (Double.isInfinite(value)) {
+                    value = value > 0 ? defaultForPositiveInfinity : defaultForNegativeInfinity;
                 }
             }
 
