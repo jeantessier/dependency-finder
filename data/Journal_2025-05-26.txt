@@ -1,0 +1,14 @@
+I refactored =RatioMeasurement= to reuse the "term" evaluation logic from
+=SumMeasurement= to handle constants and named measurements.  I also added
+parameters to set up alternative values when the ration evaluates to =NaN=
+or infinities.  This way, I can use a =RatioMeasurement= to compute the
+abstractness of a class as =nb abstract methods / nb methods= and use an
+alternative =1= when it encounters marker interfaces that don't have any
+methods.
+
+I added a new configuration for =OOMetrics= that computes three versions of
+abstractness.  There is one that simply counts classes and interfaces, taken
+from Robert C. Martin's work.  Another just counts methods and abstract
+methods.  The last one computes the abstractness of a class by counting methods
+and averages them at the package level.  You can use
+=etc/AbstractnessConfig.xml= to try it out on your own code.
