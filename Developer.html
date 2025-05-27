@@ -1560,7 +1560,7 @@ branch of the repository that has been tagged appropriately.
 <li><code>ant -Drelease=1.4.4 docs</code></li>
 <li><code>cp docs/{Manual,Tools,Developer}.html ../website</code></li>
 <li><code>cp -R docs/images/* ../website/images</code></li>
-<li>=(cd ../website; git commit -a -m "Release version 1.4.4)"</li>
+<li>=(cd ../website; git commit -a -m "Release version 1.4.4"; git push)</li>
 <li><code>gh release download 1.4.4 --dir /tmp</code> (copies the release files to <code>/tmp</code>)</li>
 <li>Go to <a href="https://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Files" &gt;&gt; "DependencyFinder".</li>
 <li>Create a new folder, upload all files from the GitHub release to the new folder.</li>
