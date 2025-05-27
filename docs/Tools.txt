@@ -2318,7 +2318,7 @@ To save the output to a text file:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ClosureToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/ClosureToText.xsl=
 
 </blockquote>
 
@@ -2435,7 +2435,7 @@ meaning that many other elements rely on it being stable.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependablesToHTML.xsl=
 
 </blockquote>
 
@@ -2594,7 +2594,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependablesToText.xsl=
 
 </blockquote>
 
@@ -4695,7 +4695,7 @@ Or, as a one-liner:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToDOT.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToDOT.xsl=
 
 </blockquote>
 
@@ -4852,7 +4852,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToFullyQualifiedNames.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToFullyQualifiedNames.xsl=
 
 </blockquote>
 
@@ -4964,7 +4964,7 @@ This GraphML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToGraphML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToGraphML.xsl=
 
 </blockquote>
 
@@ -5079,7 +5079,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToHTML.xsl=
 
 </blockquote>
 
@@ -5192,7 +5192,7 @@ This JSON file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToJSON.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToJSON.xsl=
 
 </blockquote>
 
@@ -5305,7 +5305,7 @@ This HTML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToRDF.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToRDF.xsl=
 
 </blockquote>
 
@@ -5467,7 +5467,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToText.xsl=
 
 </blockquote>
 
@@ -5673,7 +5673,7 @@ candidate JARs.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToUnconfirmedFullyQualifiedNames.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToUnconfirmedFullyQualifiedNames.xsl=
 
 </blockquote>
 
@@ -5786,7 +5786,7 @@ This YAML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToYAML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToYAML.xsl=
 
 </blockquote>
 
@@ -5908,7 +5908,7 @@ This GraphML file shows both outbound and inbound dependencies.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependencyGraphToyEd.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependencyGraphToyEd.xsl=
 
 </blockquote>
 
@@ -8514,7 +8514,7 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependentsToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependentsToHTML.xsl=
 
 </blockquote>
 
@@ -8673,7 +8673,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependentsToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DependentsToText.xsl=
 
 </blockquote>
 
@@ -8783,7 +8783,7 @@ See =-o= above.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DiffToFullyQualifiedNames.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DiffToFullyQualifiedNames.xsl=
 
 </blockquote>
 
@@ -8894,7 +8894,7 @@ To convert the difference report in =report.xml= to HTML:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DiffToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/DiffToHTML.xsl=
 
 </blockquote>
 
@@ -9011,7 +9011,7 @@ meaning that it relies on many other elements being stable.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/HideInboundDependenciesToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/HideInboundDependenciesToHTML.xsl=
 
 </blockquote>
 
@@ -9171,7 +9171,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/HideInboundDependenciesToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/HideInboundDependenciesToText.xsl=
 
 </blockquote>
 
@@ -9288,7 +9288,7 @@ meaning that many other elements rely on it being stable.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/HideOutboundDependenciesToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/HideOutboundDependenciesToHTML.xsl=
 
 </blockquote>
 
@@ -9448,7 +9448,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/HideOutboundDependenciesToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/HideOutboundDependenciesToText.xsl=
 
 </blockquote>
 
@@ -10413,7 +10413,7 @@ See =-o= above.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ListDiffToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/ListDiffToHTML.xsl=
 
 </blockquote>
 
@@ -10536,7 +10536,7 @@ See =-o= above.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ListDiffToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/ListDiffToText.xsl=
 
 </blockquote>
 
@@ -10874,7 +10874,7 @@ See =-o= above.
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ListInheritanceDiffToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/ListInheritanceDiffToText.xsl=
 
 </blockquote>
 
@@ -11602,7 +11602,7 @@ Running this tool on that graph yields this output:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/ListUnused.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/ListUnused.xsl=
 
 </blockquote>
 
@@ -11712,7 +11712,7 @@ To convert the metrics report in =metrics.xml= to a hyperlinked HTML file:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToHTML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/MetricsToHTML.xsl=
 
 </blockquote>
 
@@ -11821,7 +11821,7 @@ To convert the metrics report in =metrics.xml= to a JSON document:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToJSON.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/MetricsToJSON.xsl=
 
 </blockquote>
 
@@ -11933,7 +11933,7 @@ To convert the dependency graph in =metrics.xml= to a text file:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToText.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/MetricsToText.xsl=
 
 </blockquote>
 
@@ -12042,7 +12042,7 @@ To convert the metrics report in =metrics.xml= to a YAML file:
 
 <blockquote>
 
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsToYAML.xsl=
+=${DEPENDENCYFINDER_HOME}/etc/MetricsToYAML.xsl=
 
 </blockquote>
 
@@ -12162,7 +12162,7 @@ Microsoft Excel and for charting.
 The metrics configuration to use if the user does not specify one with
 =-configuration=.  The launching scripts use this switch to point to the
 default configuration in
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsConfig.xml=.
+=${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -12705,11 +12705,11 @@ To list all default metrics as text in =df.txt=:
 
 </div>
 
-To list only package-level metrics from =MartinConfig.xml= as CSV in =Ds_groups.csv=:
+To list only package-level metrics from =MartinConfig.xml= as CSV in =df_groups.csv=:
 
 <div class="highlight">
 
-    OOMetrics -configuration _&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MartinConfig.xml -groups -csv -out Ds DependencyFinder.jar
+    OOMetrics -configuration ${DEPENDENCYFINDER_HOME}/etc/MartinConfig.xml -groups -csv -out df DependencyFinder.jar
 
 </div>
 
@@ -12782,7 +12782,7 @@ It also includes instruction on how to customize it.
 The metrics configuration to use if the user does not specify one with
 =-configuration=.  The launching scripts use this switch to point to the
 default configuration in
-=_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/MetricsConfig.xml=.
+=${DEPENDENCYFINDER_HOME}/etc/MetricsConfig.xml=.
 
 <table border="0">
 <tr><td>Mandatory:</td><td>yes</td></tr>
@@ -12982,7 +12982,7 @@ Instead of using [[#ToolsinDependencyFinder%5FDependablesToHTML][DependablesToHT
 
 <div class="highlight">
 
-    XSLTProcess -xsl:_&lt;DEPENDENCYFINDER%5FHOME&gt;_/etc/DependablesToHTML.xsl -s:dg.xml -o:dependencies.html
+    XSLTProcess -xsl:${DEPENDENCYFINDER_HOME}/etc/DependablesToHTML.xsl -s:dg.xml -o:dependencies.html
 
 </div>
 
