@@ -12,3 +12,5 @@ from Robert C. Martin's work.  Another just counts methods and abstract
 methods.  The last one computes the abstractness of a class by counting methods
 and averages them at the package level.  You can use
 =etc/AbstractnessConfig.xml= to try it out on your own code.
+
+I pushed out version =1.4.3=.

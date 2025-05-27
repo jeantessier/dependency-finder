@@ -62,11 +62,11 @@ public abstract class ConstantPoolEntry implements com.jeantessier.classreader.C
     }
 
     public static String stringValueOf(byte tag) {
-<span class="pc bpc" id="L65" title="10 of 18 branches missed.">        return switch (tag) {</span>
+<span class="pc bpc" id="L65" title="6 of 18 branches missed.">        return switch (tag) {</span>
 <span class="fc" id="L66">            case CONSTANT_Class -&gt; &quot;CONSTANT_Class&quot;;</span>
 <span class="fc" id="L67">            case CONSTANT_Fieldref -&gt; &quot;CONSTANT_Fieldref&quot;;</span>
 <span class="fc" id="L68">            case CONSTANT_Methodref -&gt; &quot;CONSTANT_Methodref&quot;;</span>
-<span class="nc" id="L69">            case CONSTANT_InterfaceMethodref -&gt; &quot;CONSTANT_InterfaceMethodref&quot;;</span>
+<span class="fc" id="L69">            case CONSTANT_InterfaceMethodref -&gt; &quot;CONSTANT_InterfaceMethodref&quot;;</span>
 <span class="fc" id="L70">            case CONSTANT_String -&gt; &quot;CONSTANT_String&quot;;</span>
 <span class="fc" id="L71">            case CONSTANT_Integer -&gt; &quot;CONSTANT_Integer&quot;;</span>
 <span class="fc" id="L72">            case CONSTANT_Float -&gt; &quot;CONSTANT_Float&quot;;</span>
@@ -74,14 +74,14 @@ public abstract class ConstantPoolEntry implements com.jeantessier.classreader.C
 <span class="nc" id="L74">            case CONSTANT_Double -&gt; &quot;CONSTANT_Double&quot;;</span>
 <span class="fc" id="L75">            case CONSTANT_NameAndType -&gt; &quot;CONSTANT_NameAndType&quot;;</span>
 <span class="fc" id="L76">            case CONSTANT_Utf8 -&gt; &quot;CONSTANT_Utf8&quot;;</span>
-<span class="nc" id="L77">            case CONSTANT_MethodHandle -&gt; &quot;CONSTANT_MethodHandle&quot;;</span>
-<span class="nc" id="L78">            case CONSTANT_MethodType -&gt; &quot;CONSTANT_MethodType&quot;;</span>
+<span class="fc" id="L77">            case CONSTANT_MethodHandle -&gt; &quot;CONSTANT_MethodHandle&quot;;</span>
+<span class="fc" id="L78">            case CONSTANT_MethodType -&gt; &quot;CONSTANT_MethodType&quot;;</span>
 <span class="nc" id="L79">            case CONSTANT_Dynamic -&gt; &quot;CONSTANT_Dynamic&quot;;</span>
-<span class="nc" id="L80">            case CONSTANT_InvokeDynamic -&gt; &quot;CONSTANT_InvokeDynamic&quot;;</span>
+<span class="fc" id="L80">            case CONSTANT_InvokeDynamic -&gt; &quot;CONSTANT_InvokeDynamic&quot;;</span>
 <span class="nc" id="L81">            case CONSTANT_Module -&gt; &quot;CONSTANT_Module&quot;;</span>
 <span class="nc" id="L82">            case CONSTANT_Package -&gt; &quot;CONSTANT_Package&quot;;</span>
 <span class="nc" id="L83">            default -&gt; &quot;&lt;unidentified tag &quot; + tag + &quot;&gt;&quot;;</span>
         };
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

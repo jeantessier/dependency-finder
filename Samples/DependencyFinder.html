@@ -16,6 +16,7 @@
 <h1>Dependency Finder - API Change History</h1>
 
 <ul>
+<li><a href="#1.4.3">1.4.2 to 1.4.3</a></li>
 <li><a href="#1.4.2">1.4.1.1 to 1.4.2</a></li>
 <li><a href="#1.4.1.1">1.4.1 to 1.4.1.1</a></li>
 <li><a href="#1.4.1">1.4.0 to 1.4.1</a></li>
@@ -42,6 +43,178 @@
 <li><a href="#20020127">20020115 to 20020127</a></li>
 <li><a href="#20020115">20020111 to 20020115</a></li>
 <li><a href="#20020111">20011216 to 20020111</a></li>
+</ul>
+
+<hr>
+
+<a name="1.4.3"></a><h2>1.4.2 to 1.4.3</h2>
+<h3>Modified Classes:</h3>
+<blockquote>
+    <h4><code>com.jeantessier.diff.DifferencesFactory</code></h4>
+    <blockquote>
+        <h5>Removed Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private com.jeantessier.classreader.Classfile newClass</code></nobr>
+            </li>
+        </ul>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public com.jeantessier.diff.Differences createFeatureDifferences(java.lang.String,
+                    com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$createFeatureDifferences$14(java.lang.String, com.jeantessier.classreader.Field_info)</code> <b>[synthetic]</b></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$createFeatureDifferences$15(java.lang.String, com.jeantessier.classreader.Method_info)</code> <b>[synthetic]</b></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public com.jeantessier.diff.Differences createFeatureDifferences(com.jeantessier.classreader.Classfile,
+                    java.lang.String, com.jeantessier.classreader.Feature_info, com.jeantessier.classreader.Feature_info)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$createFeatureDifferences$14(com.jeantessier.classreader.Feature_info,
+                    com.jeantessier.classreader.Field_info)</code> <b>[synthetic]</b></nobr>
+            </li>
+            <li>
+                <nobr><code>private static boolean lambda$createFeatureDifferences$15(com.jeantessier.classreader.Feature_info,
+                    com.jeantessier.classreader.Method_info)</code> <b>[synthetic]</b></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.MetricsGatherer</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private void computeEffectiveMethodLength(com.jeantessier.classreader.LineNumberTable_attribute)</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private void computeRawMethodLength(com.jeantessier.classreader.LineNumberTable_attribute)</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.NbSubMetricsMeasurement</code></h4>
+    <blockquote>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private static boolean lambda$new$0(java.lang.String)</code> <b>[synthetic]</b></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.RatioMeasurement</code></h4>
+    <blockquote>
+        <h5>Declaration Changes:</h5>
+        <blockquote>
+            <nobr><code><b>old:</b> public class com.jeantessier.metrics.RatioMeasurement extends com.jeantessier.metrics.MeasurementBase</code><br><code><b>new:</b> public class com.jeantessier.metrics.RatioMeasurement extends com.jeantessier.metrics.ArithmeticMeasurement</code></nobr>
+        </blockquote>
+        <h5>Removed Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private int baseDispose</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String baseName</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private int dividerDispose</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String dividerName</code></nobr>
+            </li>
+        </ul>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public int getBaseDispose()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.lang.String getBaseName()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public int getDividerDispose()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.lang.String getDividerName()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private int lambda$new$0(java.lang.String, com.jeantessier.metrics.MeasurementDescriptor)</code> <b>[synthetic]</b></nobr>
+            </li>
+            <li>
+                <nobr><code>private int lambda$new$1(java.lang.String, com.jeantessier.metrics.MeasurementDescriptor)</code> <b>[synthetic]</b></nobr>
+            </li>
+        </ul>
+        <h5>New Fields:</h5>
+        <ul>
+            <li>
+                <nobr><code>private java.lang.String baseTerm</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double baseValue</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double defaultForNaN</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double defaultForNegativeInfinity</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double defaultForPositiveInfinity</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private java.lang.String dividerTerm</code></nobr>
+            </li>
+            <li>
+                <nobr><code>private double dividerValue</code></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>public java.lang.String getBaseTerm()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public double getBaseValue()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public java.lang.String getDividerTerm()</code></nobr>
+            </li>
+            <li>
+                <nobr><code>public double getDividerValue()</code></nobr>
+            </li>
+        </ul>
+    </blockquote>
+    <h4><code>com.jeantessier.metrics.SumMeasurement</code></h4>
+    <blockquote>
+        <h5>Declaration Changes:</h5>
+        <blockquote>
+            <nobr><code><b>old:</b> public class com.jeantessier.metrics.SumMeasurement extends com.jeantessier.metrics.MeasurementBase</code><br><code><b>new:</b> public class com.jeantessier.metrics.SumMeasurement extends com.jeantessier.metrics.ArithmeticMeasurement</code></nobr>
+        </blockquote>
+        <h5>Removed Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private double evaluateMeasurement(java.lang.String)</code> <b>[inherited]</b></nobr>
+            </li>
+        </ul>
+        <h5>New Methods:</h5>
+        <ul>
+            <li>
+                <nobr><code>private static boolean lambda$new$0(java.lang.String)</code> <b>[synthetic]</b></nobr>
+            </li>
+        </ul>
+    </blockquote>
+</blockquote>
+<h3>New Classes:</h3>
+<ul>
+    <li>
+        <nobr><code>com.jeantessier.metrics.ArithmeticMeasurement</code></nobr>
+    </li>
 </ul>
 
 <hr>

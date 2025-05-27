@@ -28,16 +28,21 @@
 
 <pre class="highlight">
     
-    C:\> DependencyExtractor -xml -out DependencyFinder-graph-1.4.2.xml DependencyFinder-1.4.2/lib/DependencyFinder.jar
+    C:\> DependencyExtractor -xml -out DependencyFinder-graph-1.4.3.xml DependencyFinder-1.4.3/lib/DependencyFinder.jar
     
-    C:\> DependencyGraphToHTML -s:DependencyFinder-graph-1.4.2.xml     \
-                               -o:DependencyFinder-graph-1.4.2.html
+    C:\> DependencyGraphToHTML -s:DependencyFinder-graph-1.4.3.xml     \
+                               -o:DependencyFinder-graph-1.4.3.html
     
 </pre>
 
 <p><font color="red"><b>Warning</b>:</font> <i>each one of these files is about 4MB.</i></p>
 
 <table cellspacing="3">
+    <tr>
+        <td>1.4.3</td>
+        <td><a target="_blank" href="143.xml.gz">XML</a> (compressed)</td>
+        <td><a target="_blank" href="143.html">HTML</a></td>
+    </tr>
     <tr>
         <td>1.4.2</td>
         <td><a target="_blank" href="142.xml.gz">XML</a> (compressed)</td>
@@ -155,12 +160,12 @@ software packages, including Dependency Finder itself.</p>
 <pre class="highlight">
     
     JarJarDiff -name "Dependency Finder"                                              \
-               -old-label 1.4.1.1 -old DependencyFinder-1.4.1.1/lib/DependencyFinder.jar  \
-               -new-label 1.4.2 -new DependencyFinder-1.4.2/lib/DependencyFinder.jar  \
-               -out DependencyFinder-diff-1.4.1.1-1.4.2.xml
+               -old-label 1.4.2 -old DependencyFinder-1.4.2/lib/DependencyFinder.jar  \
+               -new-label 1.4.3 -new DependencyFinder-1.4.3/lib/DependencyFinder.jar  \
+               -out DependencyFinder-diff-1.4.2-1.4.3.xml
     
-    DiffToHTML -s:DependencyFinder-diff-1.4.1.1-1.4.2.xml   \
-               -o:DependencyFinder-diff-1.4.1.1-1.4.2.html
+    DiffToHTML -s:DependencyFinder-diff-1.4.2-1.4.3.xml   \
+               -o:DependencyFinder-diff-1.4.2-1.4.3.html
     
 </pre>
 
@@ -181,6 +186,7 @@ software packages, including Dependency Finder itself.</p>
 Dependency Finder.</p>
 
 <ul>
+    <li><a target="_blank" href="142-143.xml">1.4.2 - 1.4.3</a></li>
     <li><a target="_blank" href="1411-142.xml">1.4.1.1 - 1.4.2</a></li>
     <li><a target="_blank" href="141-1411.xml">1.4.1 - 1.4.1.1</a></li>
     <li><a target="_blank" href="140-141.xml">1.4.0 - 1.4.1</a></li>
@@ -211,18 +217,18 @@ Dependency Finder.</p>
 
 <pre class="highlight">
     
-    OOMetrics DependencyFinder-1.4.2/lib/DependencyFinder.jar \
+    OOMetrics DependencyFinder-1.4.3/lib/DependencyFinder.jar \
               -project-name "Dependency Finder"               \
-              -out DependencyFinder-metrics-1.4.2.txt         \
+              -out DependencyFinder-metrics-1.4.3.txt         \
               -txt
     
-    OOMetrics DependencyFinder-1.4.2/lib/DependencyFinder.jar \
+    OOMetrics DependencyFinder-1.4.3/lib/DependencyFinder.jar \
               -project-name "Dependency Finder"               \
-              -out DependencyFinder-metrics-1.4.2.xml         \
+              -out DependencyFinder-metrics-1.4.3.xml         \
               -xml
 
-    MetricsToHTML -s:DependencyFinder-metrics-1.4.2.xml       \
-                  -o:DependencyFinder-metrics-1.4.2.html
+    MetricsToHTML -s:DependencyFinder-metrics-1.4.3.xml       \
+                  -o:DependencyFinder-metrics-1.4.3.html
     
 </pre>
 
@@ -230,9 +236,15 @@ Dependency Finder.</p>
 
 <table cellspacing="3">
     <tr>
+        <td>1.4.3</td>
+        <td><a target="_blank" href="143.metrics.xml.gz">XML</a> (compressed)</td>
+        <td><a target="_blank" href="143.metrics.html">HTML</a></td>
+        <td><a target="_blank" href="143.metrics.txt">TXT</a></td>
+    </tr>
+    <tr>
         <td>1.4.2</td>
-        <td><a target="_blank" href="142.metrics.xml.gz">XML</a> (compressed)</td>
-        <td><a target="_blank" href="142.metrics.html">HTML</a></td>
+        <td>XML</td>
+        <td>HTML</td>
         <td><a target="_blank" href="142.metrics.txt">TXT</a></td>
     </tr>
     <tr>

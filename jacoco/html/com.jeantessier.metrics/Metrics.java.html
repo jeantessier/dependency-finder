@@ -107,12 +107,12 @@ public class Metrics {
     }
 
     public Metrics addToMeasurement(BasicMeasurements name, long delta) {
-<span class="nc" id="L110">        return addToMeasurement(name.getAbbreviation(), delta);</span>
+<span class="fc" id="L110">        return addToMeasurement(name.getAbbreviation(), delta);</span>
     }
 
     public Metrics addToMeasurement(String name, long delta) {
-<span class="nc" id="L114">        getMeasurement(name).add(delta);</span>
-<span class="nc" id="L115">        return this;</span>
+<span class="fc" id="L114">        getMeasurement(name).add(delta);</span>
+<span class="fc" id="L115">        return this;</span>
     }
     
     public Metrics addToMeasurement(BasicMeasurements name, float delta) {
@@ -196,4 +196,4 @@ public class Metrics {
 <span class="nc" id="L196">        return result.toString();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

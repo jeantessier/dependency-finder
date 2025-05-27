@@ -41,191 +41,184 @@ import org.apache.logging.log4j.*;
 import com.jeantessier.classreader.*;
 
 public class DifferencesFactory {
-    private Classfile newClass;
-
     private final DifferenceStrategy strategy;
 
     /**
      * For tests only.
      */
     DifferencesFactory() {
-<span class="fc" id="L52">        this(new APIDifferenceStrategy(new CodeDifferenceStrategy()));</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L50">        this(new APIDifferenceStrategy(new CodeDifferenceStrategy()));</span>
+<span class="fc" id="L51">    }</span>
 
-<span class="fc" id="L55">    public DifferencesFactory(DifferenceStrategy strategy) {</span>
-<span class="fc" id="L56">        this.strategy = strategy;</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L53">    public DifferencesFactory(DifferenceStrategy strategy) {</span>
+<span class="fc" id="L54">        this.strategy = strategy;</span>
+<span class="fc" id="L55">    }</span>
 
     public Differences createProjectDifferences(String name, String oldVersion, PackageMapper oldPackages, String newVersion, PackageMapper newPackages) {
-<span class="fc" id="L60">        LogManager.getLogger(getClass()).debug(&quot;Begin {} ({} -&gt; {})&quot;, name, oldVersion, newVersion);</span>
+<span class="fc" id="L58">        LogManager.getLogger(getClass()).debug(&quot;Begin {} ({} -&gt; {})&quot;, name, oldVersion, newVersion);</span>
 
-<span class="fc" id="L62">        ProjectDifferences projectDifferences = new ProjectDifferences(name, oldVersion, newVersion);</span>
+<span class="fc" id="L60">        ProjectDifferences projectDifferences = new ProjectDifferences(name, oldVersion, newVersion);</span>
 
-<span class="fc" id="L64">        LogManager.getLogger(getClass()).debug(&quot;      Collecting packages ...&quot;);</span>
+<span class="fc" id="L62">        LogManager.getLogger(getClass()).debug(&quot;      Collecting packages ...&quot;);</span>
 
-<span class="fc" id="L66">        var packageNames = Stream.concat(</span>
-<span class="fc" id="L67">                oldPackages.getPackageNames().stream(),</span>
-<span class="fc" id="L68">                newPackages.getPackageNames().stream())</span>
-<span class="fc" id="L69">                .distinct()</span>
-<span class="fc" id="L70">                .sorted()</span>
-<span class="fc" id="L71">                .toList();</span>
+<span class="fc" id="L64">        var packageNames = Stream.concat(</span>
+<span class="fc" id="L65">                oldPackages.getPackageNames().stream(),</span>
+<span class="fc" id="L66">                newPackages.getPackageNames().stream())</span>
+<span class="fc" id="L67">                .distinct()</span>
+<span class="fc" id="L68">                .sorted()</span>
+<span class="fc" id="L69">                .toList();</span>
 
-<span class="fc" id="L73">        LogManager.getLogger(getClass()).debug(&quot;      Diff'ing packages ...&quot;);</span>
+<span class="fc" id="L71">        LogManager.getLogger(getClass()).debug(&quot;      Diff'ing packages ...&quot;);</span>
 
-<span class="fc" id="L75">        packageNames.forEach(packageName -&gt; {</span>
-<span class="fc" id="L76">            Map&lt;String, Classfile&gt; oldPackage = oldPackages.getPackage(packageName);</span>
-<span class="fc" id="L77">            Map&lt;String, Classfile&gt; newPackage = newPackages.getPackage(packageName);</span>
+<span class="fc" id="L73">        packageNames.forEach(packageName -&gt; {</span>
+<span class="fc" id="L74">            Map&lt;String, Classfile&gt; oldPackage = oldPackages.getPackage(packageName);</span>
+<span class="fc" id="L75">            Map&lt;String, Classfile&gt; newPackage = newPackages.getPackage(packageName);</span>
 
-<span class="fc bfc" id="L79" title="All 2 branches covered.">            if (strategy.isPackageDifferent(oldPackage, newPackage)) {</span>
-<span class="fc" id="L80">                projectDifferences.getPackageDifferences().add(createPackageDifferences(packageName, oldPackage, newPackage));</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (strategy.isPackageDifferent(oldPackage, newPackage)) {</span>
+<span class="fc" id="L78">                projectDifferences.getPackageDifferences().add(createPackageDifferences(packageName, oldPackage, newPackage));</span>
             }
-<span class="fc" id="L82">        });</span>
+<span class="fc" id="L80">        });</span>
 
-<span class="fc" id="L84">        LogManager.getLogger(getClass()).debug(&quot;End   {} ({} -&gt; {})&quot;, name, oldVersion, newVersion);</span>
+<span class="fc" id="L82">        LogManager.getLogger(getClass()).debug(&quot;End   {} ({} -&gt; {})&quot;, name, oldVersion, newVersion);</span>
 
-<span class="fc" id="L86">        return projectDifferences;</span>
+<span class="fc" id="L84">        return projectDifferences;</span>
     }
 
     public Differences createPackageDifferences(String name, Map&lt;String, Classfile&gt; oldPackage, Map&lt;String, Classfile&gt; newPackage) {
-<span class="fc" id="L90">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
+<span class="fc" id="L88">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
 
-<span class="fc" id="L92">        PackageDifferences packageDifferences = new PackageDifferences(name, oldPackage, newPackage);</span>
+<span class="fc" id="L90">        PackageDifferences packageDifferences = new PackageDifferences(name, oldPackage, newPackage);</span>
 
-<span class="pc bpc" id="L94" title="2 of 8 branches missed.">        if (oldPackage != null &amp;&amp; !oldPackage.isEmpty() &amp;&amp; newPackage != null &amp;&amp; !newPackage.isEmpty()) {</span>
-<span class="fc" id="L95">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing classes ...&quot;);</span>
+<span class="pc bpc" id="L92" title="2 of 8 branches missed.">        if (oldPackage != null &amp;&amp; !oldPackage.isEmpty() &amp;&amp; newPackage != null &amp;&amp; !newPackage.isEmpty()) {</span>
+<span class="fc" id="L93">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing classes ...&quot;);</span>
 
-<span class="fc" id="L97">            Stream.concat(</span>
-<span class="fc" id="L98">                    oldPackage.keySet().stream(),</span>
-<span class="fc" id="L99">                    newPackage.keySet().stream())</span>
-<span class="fc" id="L100">                    .distinct()</span>
-<span class="fc" id="L101">                    .forEach(className -&gt; {</span>
-<span class="fc" id="L102">                        Classfile oldClass = oldPackage.get(className);</span>
-<span class="fc" id="L103">                        Classfile newClass = newPackage.get(className);</span>
+<span class="fc" id="L95">            Stream.concat(</span>
+<span class="fc" id="L96">                    oldPackage.keySet().stream(),</span>
+<span class="fc" id="L97">                    newPackage.keySet().stream())</span>
+<span class="fc" id="L98">                    .distinct()</span>
+<span class="fc" id="L99">                    .forEach(className -&gt; {</span>
+<span class="fc" id="L100">                        Classfile oldClass = oldPackage.get(className);</span>
+<span class="fc" id="L101">                        Classfile newClass = newPackage.get(className);</span>
 
-<span class="fc bfc" id="L105" title="All 2 branches covered.">                        if (strategy.isClassDifferent(oldClass, newClass)) {</span>
-<span class="fc" id="L106">                            packageDifferences.getClassDifferences().add(createClassDifferences(className, oldClass, newClass));</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">                        if (strategy.isClassDifferent(oldClass, newClass)) {</span>
+<span class="fc" id="L104">                            packageDifferences.getClassDifferences().add(createClassDifferences(className, oldClass, newClass));</span>
                         }
-<span class="fc" id="L108">                    });</span>
+<span class="fc" id="L106">                    });</span>
 
-<span class="pc" id="L110">            LogManager.getLogger(getClass()).debug(&quot;      {} has {} class(es) that changed.&quot;, () -&gt; name, () -&gt; packageDifferences.getClassDifferences().size());</span>
+<span class="pc" id="L108">            LogManager.getLogger(getClass()).debug(&quot;      {} has {} class(es) that changed.&quot;, () -&gt; name, () -&gt; packageDifferences.getClassDifferences().size());</span>
         }
 
-<span class="fc" id="L113">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
+<span class="fc" id="L111">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
 
-<span class="fc" id="L115">        return packageDifferences;</span>
+<span class="fc" id="L113">        return packageDifferences;</span>
     }
 
     public Differences createClassDifferences(String name, Classfile oldClass, Classfile newClass) {
-<span class="fc" id="L119">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
+<span class="fc" id="L117">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
 
         ClassDifferences classDifferences;
-<span class="fc bfc" id="L122" title="All 8 branches covered.">        if (((oldClass != null) &amp;&amp; oldClass.isInterface()) || ((newClass != null) &amp;&amp; newClass.isInterface())) {</span>
-<span class="fc" id="L123">            classDifferences = new InterfaceDifferences(name, oldClass, newClass);</span>
+<span class="fc bfc" id="L120" title="All 8 branches covered.">        if (((oldClass != null) &amp;&amp; oldClass.isInterface()) || ((newClass != null) &amp;&amp; newClass.isInterface())) {</span>
+<span class="fc" id="L121">            classDifferences = new InterfaceDifferences(name, oldClass, newClass);</span>
         } else {
-<span class="fc" id="L125">            classDifferences = new ClassDifferences(name, oldClass, newClass);</span>
+<span class="fc" id="L123">            classDifferences = new ClassDifferences(name, oldClass, newClass);</span>
         }
 
-<span class="fc bfc" id="L128" title="All 6 branches covered.">        if (!classDifferences.isRemoved() &amp;&amp; !classDifferences.isNew() &amp;&amp; strategy.isDeclarationModified(oldClass, newClass)) {</span>
-<span class="fc" id="L129">            classDifferences.setDeclarationModified(true);</span>
+<span class="fc bfc" id="L126" title="All 6 branches covered.">        if (!classDifferences.isRemoved() &amp;&amp; !classDifferences.isNew() &amp;&amp; strategy.isDeclarationModified(oldClass, newClass)) {</span>
+<span class="fc" id="L127">            classDifferences.setDeclarationModified(true);</span>
         }
 
-<span class="fc" id="L132">        Differences result = classDifferences;</span>
+<span class="fc" id="L130">        Differences result = classDifferences;</span>
 
-<span class="fc" id="L134">        this.newClass = newClass;</span>
+<span class="fc bfc" id="L132" title="All 4 branches covered.">        if (oldClass != null &amp;&amp; newClass != null) {</span>
+<span class="fc" id="L133">            LogManager.getLogger(getClass()).debug(&quot;      Collecting fields ...&quot;);</span>
 
-<span class="fc bfc" id="L136" title="All 4 branches covered.">        if (oldClass != null &amp;&amp; newClass != null) {</span>
-<span class="fc" id="L137">            LogManager.getLogger(getClass()).debug(&quot;      Collecting fields ...&quot;);</span>
+<span class="fc" id="L135">            Map&lt;String, String&gt; fieldLevel = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L136">            oldClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getUniqueName(), field.getFullUniqueName()));</span>
+<span class="fc" id="L137">            newClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getUniqueName(), field.getFullUniqueName()));</span>
 
-<span class="fc" id="L139">            Map&lt;String, String&gt; fieldLevel = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L140">            oldClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getUniqueName(), field.getFullSignature()));</span>
-<span class="fc" id="L141">            newClass.getAllFields().forEach(field -&gt; fieldLevel.put(field.getUniqueName(), field.getFullSignature()));</span>
+<span class="fc" id="L139">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing fields ...&quot;);</span>
 
-<span class="fc" id="L143">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing fields ...&quot;);</span>
+<span class="fc" id="L141">            fieldLevel.forEach((uniqueName, fullUniqueName) -&gt; {</span>
+<span class="fc" id="L142">                Predicate&lt;Field_info&gt; predicate = field -&gt; field.getUniqueName().equals(uniqueName);</span>
+<span class="fc" id="L143">                Field_info oldField = oldClass.getField(predicate);</span>
+<span class="fc" id="L144">                Field_info newField = newClass.getField(predicate);</span>
 
-<span class="fc" id="L145">            fieldLevel.forEach((uniqueName, fullSignature) -&gt; {</span>
-<span class="fc" id="L146">                Predicate&lt;Field_info&gt; predicate = field -&gt; field.getUniqueName().equals(uniqueName);</span>
-<span class="fc" id="L147">                Field_info oldField = oldClass.getField(predicate);</span>
-<span class="fc" id="L148">                Field_info newField = newClass.getField(predicate);</span>
-
-<span class="fc bfc" id="L150" title="All 2 branches covered.">                if (strategy.isFieldDifferent(oldField, newField)) {</span>
-<span class="fc" id="L151">                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldField, newField));</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">                if (strategy.isFieldDifferent(oldField, newField)) {</span>
+<span class="fc" id="L147">                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(newClass, fullUniqueName, oldField, newField));</span>
                 }
-<span class="fc" id="L153">            });</span>
+<span class="fc" id="L149">            });</span>
 
-<span class="fc" id="L155">            LogManager.getLogger(getClass()).debug(&quot;      Collecting methods ...&quot;);</span>
+<span class="fc" id="L151">            LogManager.getLogger(getClass()).debug(&quot;      Collecting methods ...&quot;);</span>
 
-<span class="fc" id="L157">            Map&lt;String, String&gt; methodLevel = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L158">            oldClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getUniqueName(), method.getFullSignature()));</span>
-<span class="fc" id="L159">            newClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getUniqueName(), method.getFullSignature()));</span>
+<span class="fc" id="L153">            Map&lt;String, String&gt; methodLevel = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L154">            oldClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getUniqueName(), method.getFullUniqueName()));</span>
+<span class="fc" id="L155">            newClass.getAllMethods().forEach(method -&gt; methodLevel.put(method.getUniqueName(), method.getFullUniqueName()));</span>
 
-<span class="fc" id="L161">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing methods ...&quot;);</span>
+<span class="fc" id="L157">            LogManager.getLogger(getClass()).debug(&quot;      Diff'ing methods ...&quot;);</span>
 
-<span class="fc" id="L163">            methodLevel.forEach((uniqueName, fullSignature) -&gt; {</span>
-<span class="fc" id="L164">                Predicate&lt;Method_info&gt; predicate = method -&gt; method.getUniqueName().equals(uniqueName);</span>
-<span class="fc" id="L165">                Method_info oldMethod = oldClass.getMethod(predicate);</span>
-<span class="fc" id="L166">                Method_info newMethod = newClass.getMethod(predicate);</span>
+<span class="fc" id="L159">            methodLevel.forEach((uniqueName, fullUniqueName) -&gt; {</span>
+<span class="fc" id="L160">                Predicate&lt;Method_info&gt; predicate = method -&gt; method.getUniqueName().equals(uniqueName);</span>
+<span class="fc" id="L161">                Method_info oldMethod = oldClass.getMethod(predicate);</span>
+<span class="fc" id="L162">                Method_info newMethod = newClass.getMethod(predicate);</span>
 
-<span class="fc bfc" id="L168" title="All 2 branches covered.">                if (strategy.isMethodDifferent(oldMethod, newMethod)) {</span>
-<span class="fc" id="L169">                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(fullSignature, oldMethod, newMethod));</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                if (strategy.isMethodDifferent(oldMethod, newMethod)) {</span>
+<span class="fc" id="L165">                    classDifferences.getFeatureDifferences().add(createFeatureDifferences(newClass, fullUniqueName, oldMethod, newMethod));</span>
                 }
-<span class="fc" id="L171">            });</span>
+<span class="fc" id="L167">            });</span>
 
-<span class="pc" id="L173">            LogManager.getLogger(getClass()).debug(&quot;{} has {} feature(s) that changed.&quot;, () -&gt; name, () -&gt; classDifferences.getFeatureDifferences().size());</span>
+<span class="pc" id="L169">            LogManager.getLogger(getClass()).debug(&quot;{} has {} feature(s) that changed.&quot;, () -&gt; name, () -&gt; classDifferences.getFeatureDifferences().size());</span>
 
-<span class="fc bfc" id="L175" title="All 2 branches covered.">            if (oldClass.isDeprecated() != newClass.isDeprecated()) {</span>
-<span class="fc" id="L176">                result = new DeprecatableDifferences(result, oldClass, newClass);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if (oldClass.isDeprecated() != newClass.isDeprecated()) {</span>
+<span class="fc" id="L172">                result = new DeprecatableDifferences(result, oldClass, newClass);</span>
             }
         }
 
-<span class="fc" id="L180">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
+<span class="fc" id="L176">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
 
-<span class="fc" id="L182">        return result;</span>
+<span class="fc" id="L178">        return result;</span>
     }
 
-    public Differences createFeatureDifferences(String name, Feature_info oldFeature, Feature_info newFeature) {
-<span class="fc" id="L186">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, name);</span>
+    public Differences createFeatureDifferences(Classfile newClass, String fullUniqueName, Feature_info oldFeature, Feature_info newFeature) {
+<span class="fc" id="L182">        LogManager.getLogger(getClass()).debug(&quot;Begin {}&quot;, fullUniqueName);</span>
 
         FeatureDifferences featureDifferences;
-<span class="fc bfc" id="L189" title="All 4 branches covered.">        if (oldFeature instanceof Field_info || newFeature instanceof Field_info) {</span>
-<span class="fc" id="L190">            featureDifferences = new FieldDifferences(name, (Field_info) oldFeature, (Field_info) newFeature);</span>
+<span class="fc bfc" id="L185" title="All 4 branches covered.">        if (oldFeature instanceof Field_info || newFeature instanceof Field_info) {</span>
+<span class="fc" id="L186">            featureDifferences = new FieldDifferences(fullUniqueName, (Field_info) oldFeature, (Field_info) newFeature);</span>
 
-<span class="fc bfc" id="L192" title="All 6 branches covered.">            if (!featureDifferences.isRemoved() &amp;&amp; !featureDifferences.isNew() &amp;&amp; strategy.isConstantValueDifferent(((Field_info) oldFeature).getConstantValue(), ((Field_info) newFeature).getConstantValue())) {</span>
-<span class="fc" id="L193">                ((FieldDifferences) featureDifferences).setConstantValueDifference(true);</span>
+<span class="fc bfc" id="L188" title="All 6 branches covered.">            if (!featureDifferences.isRemoved() &amp;&amp; !featureDifferences.isNew() &amp;&amp; strategy.isConstantValueDifferent(((Field_info) oldFeature).getConstantValue(), ((Field_info) newFeature).getConstantValue())) {</span>
+<span class="fc" id="L189">                ((FieldDifferences) featureDifferences).setConstantValueDifference(true);</span>
             }
 
-<span class="pc bpc" id="L196" title="1 of 4 branches missed.">            if (featureDifferences.isRemoved() &amp;&amp; newClass.locateField(field -&gt; field.getName().equals(name)) != null) {</span>
-<span class="nc" id="L197">                featureDifferences.setInherited(true);</span>
+<span class="pc bpc" id="L192" title="1 of 4 branches missed.">            if (featureDifferences.isRemoved() &amp;&amp; newClass.locateField(field -&gt; field.getUniqueName().equals(oldFeature.getUniqueName())) != null) {</span>
+<span class="nc" id="L193">                featureDifferences.setInherited(true);</span>
             }
         } else {
-<span class="fc bfc" id="L200" title="All 8 branches covered.">            if (((oldFeature instanceof Method_info) &amp;&amp; ((Method_info) oldFeature).isConstructor()) || ((newFeature instanceof Method_info) &amp;&amp; ((Method_info) newFeature).isConstructor())) {</span>
-<span class="fc" id="L201">                featureDifferences = new ConstructorDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);</span>
+<span class="fc bfc" id="L196" title="All 8 branches covered.">            if (((oldFeature instanceof Method_info) &amp;&amp; ((Method_info) oldFeature).isConstructor()) || ((newFeature instanceof Method_info) &amp;&amp; ((Method_info) newFeature).isConstructor())) {</span>
+<span class="fc" id="L197">                featureDifferences = new ConstructorDifferences(fullUniqueName, (Method_info) oldFeature, (Method_info) newFeature);</span>
             } else {
-<span class="fc" id="L203">                featureDifferences = new MethodDifferences(name, (Method_info) oldFeature, (Method_info) newFeature);</span>
+<span class="fc" id="L199">                featureDifferences = new MethodDifferences(fullUniqueName, (Method_info) oldFeature, (Method_info) newFeature);</span>
             }
 
-<span class="fc bfc" id="L206" title="All 6 branches covered.">            if (!featureDifferences.isRemoved() &amp;&amp; !featureDifferences.isNew() &amp;&amp; strategy.isCodeDifferent(((Method_info) oldFeature).getCode(), ((Method_info) newFeature).getCode())) {</span>
-<span class="fc" id="L207">                ((CodeDifferences) featureDifferences).setCodeDifference(true);</span>
+<span class="fc bfc" id="L202" title="All 6 branches covered.">            if (!featureDifferences.isRemoved() &amp;&amp; !featureDifferences.isNew() &amp;&amp; strategy.isCodeDifferent(((Method_info) oldFeature).getCode(), ((Method_info) newFeature).getCode())) {</span>
+<span class="fc" id="L203">                ((CodeDifferences) featureDifferences).setCodeDifference(true);</span>
             }
 
-<span class="fc bfc" id="L210" title="All 2 branches covered.">            if (featureDifferences.isRemoved()) {</span>
-<span class="fc" id="L211">                Method_info attempt = newClass.locateMethod(method -&gt; method.getSignature().equals(name));</span>
-<span class="pc bpc" id="L212" title="3 of 4 branches missed.">                if ((attempt != null) &amp;&amp; (oldFeature.getClassfile().isInterface() == attempt.getClassfile().isInterface())) {</span>
-<span class="nc" id="L213">                    featureDifferences.setInherited(true);</span>
-                }
+<span class="fc bfc" id="L206" title="All 4 branches covered.">            if (featureDifferences.isRemoved() &amp;&amp; newClass.locateMethod(method -&gt; method.getUniqueName().equals(oldFeature.getUniqueName())) != null) {</span>
+<span class="fc" id="L207">                featureDifferences.setInherited(true);</span>
             }
         }
 
-<span class="fc" id="L218">        Differences result = featureDifferences;</span>
+<span class="fc" id="L211">        Differences result = featureDifferences;</span>
         
-<span class="fc bfc" id="L220" title="All 4 branches covered.">        if (oldFeature != null &amp;&amp; newFeature != null) {</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">            if (oldFeature.isDeprecated() != newFeature.isDeprecated()) {</span>
-<span class="fc" id="L222">                result = new DeprecatableDifferences(result, oldFeature, newFeature);</span>
+<span class="fc bfc" id="L213" title="All 4 branches covered.">        if (oldFeature != null &amp;&amp; newFeature != null) {</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">            if (oldFeature.isDeprecated() != newFeature.isDeprecated()) {</span>
+<span class="fc" id="L215">                result = new DeprecatableDifferences(result, oldFeature, newFeature);</span>
             }
         }
 
-<span class="fc" id="L226">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, name);</span>
+<span class="fc" id="L219">        LogManager.getLogger(getClass()).debug(&quot;End   {}&quot;, fullUniqueName);</span>
 
-<span class="fc" id="L228">        return result;</span>
+<span class="fc" id="L221">        return result;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

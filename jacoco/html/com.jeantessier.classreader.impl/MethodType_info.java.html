@@ -43,10 +43,10 @@ public class MethodType_info extends ConstantPoolEntry implements com.jeantessie
     private final int descriptorIndex;
 
     public MethodType_info(ConstantPool constantPool, DataInput in) throws IOException {
-<span class="nc" id="L46">        super(constantPool);</span>
+<span class="fc" id="L46">        super(constantPool);</span>
 
-<span class="nc" id="L48">        descriptorIndex = in.readUnsignedShort();</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L48">        descriptorIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L49">    }</span>
 
 <span class="nc" id="L51">    public int getDescriptorIndex() { return descriptorIndex; }</span>
 
@@ -78,6 +78,6 @@ public class MethodType_info extends ConstantPoolEntry implements com.jeantessie
 <span class="nc" id="L78">        return result;</span>
     }
 
-<span class="nc" id="L81">    public void accept(Visitor visitor) { visitor.visitMethodType_info(this); }</span>
+<span class="fc" id="L81">    public void accept(Visitor visitor) { visitor.visitMethodType_info(this); }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

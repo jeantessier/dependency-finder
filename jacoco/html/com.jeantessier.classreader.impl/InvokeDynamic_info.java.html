@@ -44,11 +44,11 @@ public class InvokeDynamic_info extends ConstantPoolEntry implements com.jeantes
     private final int nameAndTypeIndex;
 
     public InvokeDynamic_info(ConstantPool constantPool, DataInput in) throws IOException {
-<span class="nc" id="L47">        super(constantPool);</span>
+<span class="fc" id="L47">        super(constantPool);</span>
 
-<span class="nc" id="L49">        bootstrapMethodAttrIndex = in.readUnsignedShort();</span>
-<span class="nc" id="L50">        nameAndTypeIndex = in.readUnsignedShort();</span>
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L49">        bootstrapMethodAttrIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L50">        nameAndTypeIndex = in.readUnsignedShort();</span>
+<span class="fc" id="L51">    }</span>
 
 <span class="nc" id="L53">    public int getBootstrapMethodAttrIndex() { return bootstrapMethodAttrIndex; }</span>
 
@@ -133,4 +133,4 @@ public class InvokeDynamic_info extends ConstantPoolEntry implements com.jeantes
 <span class="nc" id="L133">        return result.toString();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

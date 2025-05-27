@@ -53,12 +53,12 @@ public class BootstrapMethods_attribute extends Attribute_info implements com.je
 <span class="fc" id="L53">        LogManager.getLogger(getClass()).debug(&quot;Reading {} bootstrap method(s) ...&quot;, numBootstrapMethods);</span>
 <span class="fc" id="L54">        IntStream.range(0, numBootstrapMethods).forEach(i -&gt; {</span>
             try {
-<span class="nc" id="L56">                LogManager.getLogger(getClass()).debug(&quot;bootstrap method {}:&quot;, i);</span>
-<span class="nc" id="L57">                bootstrapMethods.add(new BootstrapMethod(this, in));</span>
+<span class="fc" id="L56">                LogManager.getLogger(getClass()).debug(&quot;bootstrap method {}:&quot;, i);</span>
+<span class="fc" id="L57">                bootstrapMethods.add(new BootstrapMethod(this, in));</span>
 <span class="nc" id="L58">            } catch (IOException e) {</span>
 <span class="nc" id="L59">                throw new RuntimeException(e);</span>
-<span class="nc" id="L60">            }</span>
-<span class="nc" id="L61">        });</span>
+<span class="fc" id="L60">            }</span>
+<span class="fc" id="L61">        });</span>
 <span class="fc" id="L62">    }</span>
 
     public Collection&lt;? extends BootstrapMethod&gt; getBootstrapMethods() {
@@ -73,4 +73,4 @@ public class BootstrapMethods_attribute extends Attribute_info implements com.je
 <span class="fc" id="L73">        visitor.visitBootstrapMethods_attribute(this);</span>
 <span class="fc" id="L74">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

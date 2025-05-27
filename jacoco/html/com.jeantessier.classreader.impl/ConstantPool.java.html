@@ -63,7 +63,7 @@ public class ConstantPool extends ArrayList&lt;com.jeantessier.classreader.Const
 
 <span class="fc" id="L64">            LogManager.getLogger(getClass()).info(&quot;Entry {} has tag {} ({})&quot;, i, tag, ConstantPoolEntry.stringValueOf(tag));</span>
 
-<span class="pc bpc" id="L66" title="10 of 18 branches missed.">            switch(tag) {</span>
+<span class="pc bpc" id="L66" title="6 of 18 branches missed.">            switch(tag) {</span>
                 case ConstantPoolEntry.CONSTANT_Class:
 <span class="fc" id="L68">                    add(new Class_info(this, in));</span>
 <span class="fc" id="L69">                    break;</span>
@@ -74,8 +74,8 @@ public class ConstantPool extends ArrayList&lt;com.jeantessier.classreader.Const
 <span class="fc" id="L74">                    add(new MethodRef_info(this, in));</span>
 <span class="fc" id="L75">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_InterfaceMethodref:
-<span class="nc" id="L77">                    add(new InterfaceMethodRef_info(this, in));</span>
-<span class="nc" id="L78">                    break;</span>
+<span class="fc" id="L77">                    add(new InterfaceMethodRef_info(this, in));</span>
+<span class="fc" id="L78">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_String:
 <span class="fc" id="L80">                    add(new String_info(this, in));</span>
 <span class="fc" id="L81">                    break;</span>
@@ -104,17 +104,17 @@ public class ConstantPool extends ArrayList&lt;com.jeantessier.classreader.Const
 <span class="fc" id="L104">                    add(new UTF8_info(this, in));</span>
 <span class="fc" id="L105">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_MethodHandle:
-<span class="nc" id="L107">                    add(new MethodHandle_info(this, in));</span>
-<span class="nc" id="L108">                    break;</span>
+<span class="fc" id="L107">                    add(new MethodHandle_info(this, in));</span>
+<span class="fc" id="L108">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_MethodType:
-<span class="nc" id="L110">                    add(new MethodType_info(this, in));</span>
-<span class="nc" id="L111">                    break;</span>
+<span class="fc" id="L110">                    add(new MethodType_info(this, in));</span>
+<span class="fc" id="L111">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_Dynamic:
 <span class="nc" id="L113">                    add(new Dynamic_info(this, in));</span>
 <span class="nc" id="L114">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_InvokeDynamic:
-<span class="nc" id="L116">                    add(new InvokeDynamic_info(this, in));</span>
-<span class="nc" id="L117">                    break;</span>
+<span class="fc" id="L116">                    add(new InvokeDynamic_info(this, in));</span>
+<span class="fc" id="L117">                    break;</span>
                 case ConstantPoolEntry.CONSTANT_Module:
 <span class="nc" id="L119">                    add(new Module_info(this, in));</span>
 <span class="nc" id="L120">                    break;</span>
@@ -148,4 +148,4 @@ public class ConstantPool extends ArrayList&lt;com.jeantessier.classreader.Const
 <span class="nc" id="L148">        return out.toString();</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
