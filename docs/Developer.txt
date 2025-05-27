@@ -1139,7 +1139,7 @@ branch of the repository that has been tagged appropriately.
     1 =ant -Drelease%3D<NEXTVERSION /> docs=
     1 =cp docs/{Manual,Tools,Developer}.html ../website=
     1 =cp -R docs/images/* ../website/images=
-    1 =(cd ../website; git commit -a -m "Release version <NEXTVERSION />)"
+    1 =(cd ../website; git commit -a -m "Release version <NEXTVERSION />"; git push)
     1 =gh release download <NEXTVERSION /> --dir /tmp= (copies the release files to =/tmp=)
     1 Go to [[https://sourceforge.net/projects/depfind/][SourceForge project page]], click "Files" &gt;&gt; "DependencyFinder".
     1 Create a new folder, upload all files from the GitHub release to the new folder.
