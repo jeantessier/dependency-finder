@@ -25,7 +25,7 @@
 <h1>The Dependency Finder Developer Guide</h1>
 
 <p>
-For Dependency Finder version 1.4.2.
+For Dependency Finder version 1.4.3.
 </p>
 
 <p>
@@ -1300,21 +1300,86 @@ measurements through their descriptor and in the configuration file.
 <h2>API Differences</h2>
 
 <p>
-You can use <code>com.jeantessier.classreader.ClassfileLoader</code> classes to
-examine the baseline of your codebase; be they in JAR files, loose
-class files, or a combination of both.  You can apply the same treatment
-to your latest codebase.  You now have two sets <code>Classfile</code> instances.
+You can use two <code>AggregatingClassfileLoader</code> instances to examine separate
+versions of your codebase, either in JAR files, loose class files, or a
+combination of both.  One is the <i>old</i> or <i>previous</i> version.  The other is the
+<i>new</i> or <i>next</i> version.  You now have two sets of <code>Classfile</code> instances.
 </p>
 
 <p>
-You can use <code>com.jeantessier.dependency.NodeFactory</code> to create a tree
-of packages, classes, and features from each codebase.  You can then
-start to compare them to each other.  If a package is in the old
-codebase but not in the new one, you can mark it as having been removed.
-If it is not in the old codebase, but it is in new one, then you can
-mark it as having been recently added.  For packages that are present
-in both codebase, you can repeat this analysis at the class level, and
-then at the feature level.
+You pass these two loaders to a <code>com.jeantessier.diff.DifferenceFactory</code> that
+will drill down packages, classes, and features and find all relevant
+differences: elements that were removed, elements that were added, elements
+that were modified, elements that have been deprecated.
+</p>
+
+<p>
+<code>DifferenceFactory</code> uses a chain of <i>strategies</i> to decide if a given change is
+relevant or not.
+</p>
+
+<div align="center">
+    <img src="images/DifferenceStrategyClassHierarchy.png" /><br />
+</div>
+
+<p>
+Tools like <code>JarJarDiff</code> build the chain of strategies based on switches.
+</p>
+
+<p>
+At the tail of the chain is the base strategy.  It is a <code>NoDifferenceStrategy</code>
+by default, or a <code>CodeDifferenceStrategy</code> if you also use the <code>-code</code> switch.
+</p>
+
+<p>
+The base strategy is wrapped in what is usually the main strategy.  By default,
+it is an <code>APIDifferenceStrategy</code>, but you can change it with the <code>-level</code>
+switch.  It recognizes some pre-defined values.
+</p>
+
+<blockquote>
+<dl>
+    <dt><code>api</code></dt>
+    <dd>Use <code>APIDifferenceStrategy</code> as the main strategy.</dd>
+    <dt><code>incompatible</code></dt>
+    <dd>Use <code>IncompatibleDifferenceStrategy</code> as the main strategy.</dd>
+</dl>
+</blockquote>
+
+<div align="center">
+    <img src="images/DefaultChainOfDifferenceStrategy.png" /><br />
+    <img src="images/ChainOfDifferenceStrategyWithCode.png" /><br />
+</div>
+
+<p>
+You can provide your own implementation of <code>DifferenceStrategy</code> using the
+<code>-level</code> switch.  If you give it the name of a class on your <code>CLASSPATH</code> that
+extends <code>DifferenceStrategy</code>, it will try to instantiate it.  If your class has
+a constructor that itself takes a <code>DifferenceStrategy</code>, this is the constructor
+that will be used with the base strategy as a parameter.  Otherwise, your class
+needs a no-arg constructor or the tools will revert to the default chain.
+</p>
+
+<p>
+You can wrap the chain in a <code>ListBasedDifferenceStrategy</code> to limit the analysis
+to specific elements.  You use the <code>-filter</code> switch with the name of a file
+containing the names of programming elements of interest, one per line.
+</p>
+
+<div align="center">
+    <img src="images/ChainOfDifferenceStrategyWithFilter.png" /><br />
+</div>
+
+<p>
+For example, you can generate a list of everything on your published API and
+limit the difference report to what is on this list.
+</p>
+
+<p>
+In another example, you can use Dependency Finder to list the elements of a
+third-party library that your code references.  You can compare two versions of
+this library, limited to the parts you are using, to see if switching to the
+newer version will break your code,
 </p>
 
 <hr />
@@ -1490,16 +1555,17 @@ branch of the repository that has been tagged appropriately.
 </p>
 
 <ol>
-<li><code>git tag -m "Tagging the 1.4.3 release of Dependency Finder" 1.4.3</code></li>
+<li><code>git tag -m "Tagging the 1.4.4 release of Dependency Finder" 1.4.4</code></li>
 <li><code>git push --tags</code> (a workflow on GitHub will create the release there)</li>
-<li><code>ant -Drelease=1.4.3 docs</code></li>
+<li><code>ant -Drelease=1.4.4 docs</code></li>
 <li><code>cp docs/{Manual,Tools,Developer}.html ../website</code></li>
 <li><code>cp -R docs/images/* ../website/images</code></li>
-<li><code>gh release download 1.4.3 --dir /tmp</code> (copies the release files to <code>/tmp</code>)</li>
+<li>=(cd ../website; git commit -a -m "Release version 1.4.4)"</li>
+<li><code>gh release download 1.4.4 --dir /tmp</code> (copies the release files to <code>/tmp</code>)</li>
 <li>Go to <a href="https://sourceforge.net/projects/depfind/">SourceForge project page</a>, click "Files" &gt;&gt; "DependencyFinder".</li>
 <li>Create a new folder, upload all files from the GitHub release to the new folder.</li>
-<li>Make <code>DependencyFinder-1.4.3.zip</code> the default download for Windows.</li>
-<li>Make <code>DependencyFinder-1.4.3.tar.gz</code> the default download for all others.</li>
+<li>Make <code>DependencyFinder-1.4.4.zip</code> the default download for Windows.</li>
+<li>Make <code>DependencyFinder-1.4.4.tar.gz</code> the default download for all others.</li>
 <li>Close issues</li>
 <li>Generate sample files</li>
 </ol>
