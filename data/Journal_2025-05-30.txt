@@ -1,0 +1,10 @@
+Back on 2025-05-26, the continuous build started taking much longer than usual.
+It usually takes about 4.5 minutes, but on that day I killed one after 15
+minutes and another one after 9 minutes.  I hoped it was some factor beyond my
+control in the GitHub cloud, or something.
+
+Today, I upgraded Gradle to =8.14.1= and the CI stalled again while setting up
+Gradle.  I noticed the =gradle/actions/*= actions had had a major version
+number update.  Maybe the newer version would work better.  While I was
+researching this, the CI actually finished.  It had taken more than 30 minutes.
+With the updated action, it's back to around 4 minutes.  Coincidence?!?
