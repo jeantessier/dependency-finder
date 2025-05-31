@@ -8,3 +8,15 @@ Gradle.  I noticed the =gradle/actions/*= actions had had a major version
 number update.  Maybe the newer version would work better.  While I was
 researching this, the CI actually finished.  It had taken more than 30 minutes.
 With the updated action, it's back to around 4 minutes.  Coincidence?!?
+
+Some researchers in New Zealand wrote a
+[[https://www.researchgate.net/publication/277020737_Combining_Dynamic_Analysis_and_Visualization_to_Explore_the_Distribution_of_Unit_Test_Suites][paper]]
+analysing unit test coverage in Dependency Finder, one of five OSS software,
+back in 2015.  They compute a Centrality metric for each class that indicates
+classes that are core to the library.  Then, they see if high Centrality
+classes have dedicated unit tests.  I guess their hypothesis is that central
+classes are more important and warrant dedicated unit tests.  One central
+class they identified in Dependency Finder is
+=com.jeantessier.dependency.Printer=.  It does not have dedicated unit tests.
+It is an abstract base class, and it gets tested through the tests of its
+concrete subclasses.
