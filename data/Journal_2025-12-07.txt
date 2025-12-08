@@ -1,0 +1,4 @@
+Finally figured out how to make clicking on a query result update the state of
+the React app.  I had to consolidate the form state into a single object and
+move it to the parent component.  I used the opportunity to clean up the React
+code to use more barrel files.
