@@ -1,13 +1,13 @@
 [versions]
 ant = "1.10.15"
-byte-buddy = "1.17.7"
+byte-buddy = "1.18.2"
 fitlibrary = "20070619"
 #fitlibrary = "20080702"
 #fitlibrary = "20080812"
 httpunit = "1.7.3"
 jmock = "2.13.1"
 junit-jupiter = "6.0.1"
-log4j = "2.25.2"
+log4j = "2.25.3"
 oro = "2.0.8"
 saxon-he = "12.9"
 

@@ -17,6 +17,8 @@ dependencies {
     runtimeOnly(libs.log4j.core)
     runtimeOnly(libs.saxon.he)
 
+    // Use JUnit Jupiter test framework.
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.bundles.jmock)
     testImplementation(libs.ant)
 }

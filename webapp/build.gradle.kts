@@ -11,6 +11,8 @@ repositories {
 dependencies {
     implementation(project(":lib"))
 
+    // Use JUnit Jupiter test framework.
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.httpunit)
 }
 

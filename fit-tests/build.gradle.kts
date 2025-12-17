@@ -12,6 +12,8 @@ dependencies {
     implementation(project(":lib"))
     implementation(libs.fitlibrary)
 
+    // Use JUnit Jupiter test framework.
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.oro)
     testImplementation(project("metrics"))
 }

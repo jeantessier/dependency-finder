@@ -12,6 +12,8 @@ dependencies {
     implementation(project(":lib"))
     implementation(libs.oro)
 
+    // Use JUnit Jupiter test framework.
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.bundles.jmock)
     testImplementation(project("jarjardiff"))
     testImplementation(project("metrics"))
