@@ -28,10 +28,12 @@
 
 <pre class="highlight">
     
-    C:\> DependencyExtractor -xml -out DependencyFinder-graph-1.4.3.xml DependencyFinder-1.4.3/lib/DependencyFinder.jar
+    DependencyExtractor DependencyFinder-1.4.3/lib/DependencyFinder.jar  \
+                        -out DependencyFinder-graph-1.4.3.xml            \
+                        -xml
     
-    C:\> DependencyGraphToHTML -s:DependencyFinder-graph-1.4.3.xml     \
-                               -o:DependencyFinder-graph-1.4.3.html
+    DependencyGraphToHTML -s:DependencyFinder-graph-1.4.3.xml   \
+                          -o:DependencyFinder-graph-1.4.3.html
     
 </pre>
 
