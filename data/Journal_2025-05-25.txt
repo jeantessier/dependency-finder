@@ -2,22 +2,22 @@ I was looking at the idea of the _abstractness_ of a package, as described by
 Robert C. Martin.  He describes it as the number of interfaces and abstract
 classes in a package over the total number of classes in this package.  The
 idea is that when developers make a change, the impact of its implementation
-on a given package should be inversely related to the abstractness of this
+on a given package should be inversely related to the abstractness of that
 package.  The change is more likely to modify concrete classes, in packages
 with low abstractness.
 
 To keep things simple, let's look at methods.  A method either has an
 implementation or it doesn't (and is abstract).  A software change will have an
 implementation, so it is more likely to impact concrete methods.  It would only
-impact an abstract method if it were to change its signature.  SO, a method's
+impact an abstract method if it were to change its signature.  So, a method's
 abstractness is either 0% (concrete) or 100% (abstract).
 
 Rolling this up to classes, a concrete class has only concrete methods, so its
 abstractedness is 0%.  Prior to Java 8, interfaces could only have abstract
-methods, so their abstractness would be 100%.  Unless we count static methods<label for%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle sidenote-number"></label>
-<input type%3D"checkbox" id%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle">
+methods, so their abstractness would be 100%, unless we count static methods<label for%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle">.
 <span class%3D"sidenote">I don't remember if interfaces were prohibited from
-having static methods back then.</span>.  Abstract methods are wildcards; all
+having static methods back then.</span>  Abstract classes are wildcards; all
 their methods might be abstract, all their methods might be concrete, or
 anywhere in between.  In Martin's definition, he gives all interfaces and
 abstract classes an abstractness of 100%.
@@ -32,10 +32,10 @@ better accuracy than the rough estimate of Martin's definition.
 When I tried this out, the abstractness values decreased by an order of
 magnitude.  This is because there are many, many more methods than classes.
 Some concrete classes can have *a lot* of methods, which skews the abstractness
-of the package down.  And a side effect is that marked interfaces, those with
+of the package down.  And a side effect is that marker interfaces, those with
 no methods, get ignored altogether.  Their =AM / M= is =0 / 0 %3D NaN=.
 
-I tried to modify =RationMeasurement= to return =1= instead of =0 / 0=, and I
+I tried to modify =RatioMeasurement= to return =1= instead of =0 / 0=, and I
 modified the abstractness of a package to be the average of the abstractness of
 its classes.  This helped reduce the impact of large concrete classes.  Over
 large bodies of code, this new abstractness gets close to Martin's
@@ -71,12 +71,12 @@ Has the following =LineNumberTable= attribute according to =javap -c -l=:
 The first entry deals with the call to =Stream.of()=.  The next entry deals
 with =mapToInt()=, and the third one with =sum()=.  The last instruction, at
 =pc: 37=, is an =ireturn= instruction for the =return= keyword at the top of
-the method.  It shares line number =5= with the entry.
+the method.  It shares line number =5= with the first entry.
 
 The =SLOC= measurement counts the entries in the =LineNumberTable= attribute
 and adds 1 for the method's declaration.  Here, it will be =4 + 1 %3D 5=.
 
-The raw method length simply looks at the line numbers are returns
+The raw method length simply looks at the line numbers and returns
 =max - min + 1=.  Here, it will be =7 - 5 + 1 %3D 3=.
 
 The effective method length would simply count entries in the =LineNumberTable=
