@@ -114,3 +114,6 @@ build.example.xml
 
 # Code coverage byproducts
 cobertura
+
+# Ignore Kotlin plugin data
+.kotlin
