@@ -1,0 +1,15 @@
+I've been thinking of replacing Jakarta ORO with Java's built-in regular
+expressions in =java.util.regex=.  I like Jarkata ORO.  I like how it requires
+the regular expressions to be surrounded by "=/="; it's a nice reminder that
+they are Perl regular expressions.  But Jakarta ORO was retired in 2010.  It is
+high time I moved on.
+
+I will have to edit all the documentation to remove the requirement for
+surrounding "=/=".  And users will have to use the =(?i)= prefix instead of the
+=/i= suffix.  Everything else should be able to remain the same.
+
+I was looking at the Dependency Finder documentation, and I realized many of the
+links describing regular expressions were broken.  The documentation for Jakarta
+ORO is gone.  I updated the link to =java.util.regex= to point to Java 17, the
+version Java version I'm currently supporting.  Even the Perl documentation has
+moved in the years since I first wrote the User Manual.
