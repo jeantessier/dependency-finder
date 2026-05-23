@@ -2164,9 +2164,9 @@ and filtered dependencies.
 I will give here a brief introduction to regular expression syntax here.  Here
 are links to pages that explain Perl regular expressions in more details:
 
-   * [[http://jakarta.apache.org/oro/api/org/apache/oro/text/regex/package-summary.html#package%5Fdescription][Jakarta ORO]] (_Dependency Finder uses this one_)
-   * [[http://java.sun.com/j2se/1.4/docs/api/java/util/regex/Pattern.html#sum][JDK 1.4]]
-   * [[http://www.perldoc.com/perl5.6/pod/perlre.html][Perldoc.com]]
+   * [[https://jakarta.apache.org/oro/][Jakarta ORO]] (_Dependency Finder uses this one_)
+   * [[https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/regex/Pattern.html#sum][Java 17]]
+   * [[https://perldoc.perl.org/perlre][Perldoc.com]]
 
 Regular expressions are strings that get matched against package, class, and
 feature names.  They must be surrounded by a "=/=" on each side.  This is in
