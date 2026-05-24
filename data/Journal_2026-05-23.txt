@@ -4,3 +4,13 @@ that is the GUI where we put multiple regular expressions in a single text
 field and parse them with =RegularExpressionParser=.  The surrounding =/=
 characters make for handy delimiters when parsing the text.  I cannot rely on
 =,= as a delimiter because it shows up in method signatures.
+
+I came across an interesting problem.  The React app calls the Micronaut app
+every time the inputs change.  As you type in a regular expression, it calls
+the backend for each keystroke.  This means it is sending incomplete regex to
+the backend, which chokes on it.  The React app was showing an error message
+when it received an =500= error from the backend.  I added code to ignore these
+errors in the frontend, but the real fix would be to not send incomplete regex
+to the backend in the first place.  I would have to replicate
+=RegularExpressionParser= in the frontend, in JavaScript, for that to happen.
+It is too much work for now.
