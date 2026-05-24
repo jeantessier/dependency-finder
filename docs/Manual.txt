@@ -2161,8 +2161,8 @@ switches.
 The selective graph copier uses Perl regular expressions to select scoped nodes
 and filtered dependencies.
 
-I will give here a brief introduction to regular expression syntax here.  Here
-are links to pages that explain Perl regular expressions in more details:
+I will give a brief introduction to regular expression syntax here.  These links
+explain Perl regular expressions in more details:
 
    * [[https://jakarta.apache.org/oro/][Jakarta ORO]] (_Dependency Finder uses this one_)
    * [[https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/regex/Pattern.html#sum][Java 17]]
