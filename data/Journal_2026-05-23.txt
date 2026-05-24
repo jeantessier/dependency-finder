@@ -1,0 +1,6 @@
+As I'm thinking of replacing Jakarta ORO with =java.util.regex=, I'm trying to
+come to grips with removing =/= around regular expressions.  One problem with
+that is the GUI where we put multiple regular expressions in a single text
+field and parse them with =RegularExpressionParser=.  The surrounding =/=
+characters make for handy delimiters when parsing the text.  I cannot rely on
+=,= as a delimiter because it shows up in method signatures.
