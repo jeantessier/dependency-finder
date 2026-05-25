@@ -1,7 +1,7 @@
 More thoughts about replacing Jakarta ORO with =java.util.regex=.  If I remove
 the "=/=" around regular expressions, it makes it hard to find where one
 regular expression stops and the next one begins when they are in the same
-string.  I cannot use "=,=" as a separator, because it shows up legitimately in
+string.  I cannot use "=,=" as a separator because it shows up legitimately in
 method signatures.  But what about newlines?  I don't need multi-line regular
 expressions, so I could use "one expression per line" in the UI.  I would need
 to use textareas instead of textfields.  Ideally, the textareas would grow and
@@ -13,4 +13,4 @@ In the backend, I can parse the regular expressions with:
         .map(String::strip)
         .toList()
 
-And treat the resulting lisf of strings as a list of regular expressions.
+And treat the resulting list of strings as a list of regular expressions.
