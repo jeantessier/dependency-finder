@@ -1,0 +1,11 @@
+I replaced the =&lt;input&gt;= tags in the React app that were used to enter
+regular expressions with =&lt;textarea&gt;= tags.  I used
+[[https://claude.ai/][Claude]] to figure out how to have the tags auto-expand
+when I enter multiple lines of text.  This will open the door to using newlines
+to separate regular expressions if/when I move off of Jakarta ORO.
+
+If I were to move off of Jakarta ORO and use newlines to separate regular
+expressions, it would impact the Servlet-based webapp configuration file and the
+attributes of the Ant tasks.  The CLI would not be affected because it uses
+switches that can be repeated as many times as needed.  I am not sure how to do
+the same for the Swing-based GUI, or if it is even possible.
