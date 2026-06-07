@@ -50,7 +50,7 @@ public class RegularExpressionParser {
         while (start < length) {
             String separator = null;
 
-            // Locate begining & determine separator
+            // Locate beginning & determine separator
             while (start < length && stop < start) {
                 if (re.charAt(start) == 'm' && (start + 1) < length) {
                     separator = re.substring(start + 1, start + 2);
