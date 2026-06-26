@@ -18,7 +18,7 @@ dependencies {
 
 testing {
     suites {
-        val test by getting(JvmTestSuite::class) {
+        val test = getByName<JvmTestSuite>("test") {
             useJUnitJupiter()
         }
     }

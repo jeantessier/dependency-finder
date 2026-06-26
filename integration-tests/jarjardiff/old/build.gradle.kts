@@ -2,9 +2,9 @@ plugins {
     id("java")
 }
 
-val compileJava by tasks.existing {}
+val compileJava = tasks.named("compileJava") {}
 
-val onelevelZip by tasks.register<Zip>("onelevel-zip") {
+val onelevelZip = tasks.register<Zip>("onelevel-zip") {
     dependsOn(compileJava)
 
     archiveFileName = "onelevel.zip"
@@ -16,7 +16,7 @@ val onelevelZip by tasks.register<Zip>("onelevel-zip") {
     )
 }
 
-val onelevelJar by tasks.register<Jar>("onelevel-jar") {
+val onelevelJar = tasks.register<Jar>("onelevel-jar") {
     dependsOn(compileJava)
 
     archiveFileName = "onelevel.jar"
@@ -28,7 +28,7 @@ val onelevelJar by tasks.register<Jar>("onelevel-jar") {
     )
 }
 
-val onelevelMisc by tasks.register<Zip>("onelevel-mis") {
+val onelevelMisc = tasks.register<Zip>("onelevel-mis") {
     dependsOn(compileJava)
 
     archiveFileName = "onelevel.mis"
@@ -40,7 +40,7 @@ val onelevelMisc by tasks.register<Zip>("onelevel-mis") {
     )
 }
 
-val twolevelZip by tasks.register<Zip>("twolevel-zip") {
+val twolevelZip = tasks.register<Zip>("twolevel-zip") {
     dependsOn(onelevelZip)
 
     archiveFileName = "twolevel.zip"
@@ -49,7 +49,7 @@ val twolevelZip by tasks.register<Zip>("twolevel-zip") {
     from(layout.buildDirectory.file("archives/onelevel.zip"))
 }
 
-val twolevelJar by tasks.register<Jar>("twolevel-jar") {
+val twolevelJar = tasks.register<Jar>("twolevel-jar") {
     dependsOn(onelevelZip)
 
     archiveFileName = "twolevel.jar"
@@ -58,7 +58,7 @@ val twolevelJar by tasks.register<Jar>("twolevel-jar") {
     from(layout.buildDirectory.file("archives/onelevel.zip"))
 }
 
-val twolevelMisc by tasks.register<Zip>("twolevel-mis") {
+val twolevelMisc = tasks.register<Zip>("twolevel-mis") {
     dependsOn(onelevelZip)
 
     archiveFileName = "twolevel.mis"
@@ -67,7 +67,7 @@ val twolevelMisc by tasks.register<Zip>("twolevel-mis") {
     from(layout.buildDirectory.file("archives/onelevel.zip"))
 }
 
-val classes by tasks.existing {
+val classes = tasks.named("classes") {
     dependsOn(
             onelevelZip,
             onelevelJar,

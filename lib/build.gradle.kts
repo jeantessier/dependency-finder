@@ -51,7 +51,7 @@ tasks.jar {
     }
 }
 
-val copyJarsForDependencies by tasks.register<Copy>("copyJarsForDependencies") {
+val copyJarsForDependencies = tasks.register<Copy>("copyJarsForDependencies") {
     from(configurations.runtimeClasspath)
     into(projectDir)
 }
@@ -64,7 +64,7 @@ java {
 
 testing {
     suites {
-        val test by getting(JvmTestSuite::class) {
+        val test = getByName<JvmTestSuite>("test") {
             useJUnitJupiter()
         }
     }
