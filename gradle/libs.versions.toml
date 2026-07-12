@@ -1,15 +1,15 @@
 [versions]
-ant = "1.10.15"
-byte-buddy = "1.18.2"
+ant = "1.10.17"
+byte-buddy = "1.18.11"
 fitlibrary = "20070619"
 #fitlibrary = "20080702"
 #fitlibrary = "20080812"
 httpunit = "1.7.3"
 jmock = "2.13.1"
-junit-jupiter = "6.0.1"
-log4j = "2.25.3"
+junit-jupiter = "6.1.1"
+log4j = "2.26.1"
 oro = "2.0.8"
-saxon-he = "12.9"
+saxon-he = "13.0"
 
 [libraries]
 ant = { module = "org.apache.ant:ant", version.ref = "ant" }
