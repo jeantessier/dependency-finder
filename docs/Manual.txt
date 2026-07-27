@@ -442,13 +442,13 @@ tools and end with the Ant tasks.
             =ClassDump=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -456,13 +456,13 @@ tools and end with the Ant tasks.
             =ClassList=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -473,10 +473,10 @@ tools and end with the Ant tasks.
             =&lt;classmetrics&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -484,13 +484,13 @@ tools and end with the Ant tasks.
             =ClassReader=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -501,10 +501,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/ClosureToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -515,10 +515,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -529,10 +529,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependablesToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -543,7 +543,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyclosure&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Closure
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Closure
         </td>
         <td>
             =closure.jsp= &amp; =advancedclosure.jsp=
@@ -557,7 +557,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyextractor&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Extract
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Extract
         </td>
         <td>
             =extract.jsp=
@@ -568,13 +568,13 @@ tools and end with the Ant tasks.
             =DependencyFinder=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -585,10 +585,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -599,10 +599,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependencyGraphToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -613,10 +613,10 @@ tools and end with the Ant tasks.
             =&lt;dependencymetrics&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Metrics
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Metrics
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -627,7 +627,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyreporter&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Dependency
         </td>
         <td>
             =query.jsp= &amp; =advancedquery.jsp=
@@ -641,10 +641,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -655,10 +655,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DependentsToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -669,10 +669,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/DiffToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -683,10 +683,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -697,10 +697,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideOutboundDependencyGraphToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -711,10 +711,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -725,10 +725,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/HideInboundDependencyGraphToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -739,10 +739,10 @@ tools and end with the Ant tasks.
             =&lt;jarjardiff&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -753,10 +753,10 @@ tools and end with the Ant tasks.
             =&lt;listdiff&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -767,10 +767,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -781,10 +781,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListDiffToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -795,10 +795,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListInheritanceDiffToText.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -809,10 +809,10 @@ tools and end with the Ant tasks.
             =&lt;listsymbols&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -823,10 +823,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/ListUnused.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -840,7 +840,7 @@ tools and end with the Ant tasks.
             =OOMetricsGUI=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -851,10 +851,10 @@ tools and end with the Ant tasks.
             =&lt;xslt style%3D"${dependencyfinder.home}/etc/PublishedDiffToHTML.xsl"&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -865,10 +865,10 @@ tools and end with the Ant tasks.
             =&lt;xslt&gt;=
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
         <td>
-            _n/a_
+            &mdash;
         </td>
     </tr>
     <tr>
@@ -879,7 +879,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyreporter c2c%3D"yes"&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Dependency
         </td>
         <td>
             =query.jsp= &amp; =advancedquery.jsp=
@@ -893,7 +893,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyreporter c2p%3D"yes"&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Dependency
         </td>
         <td>
             =query.jsp= &amp; =advancedquery.jsp=
@@ -907,7 +907,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyreporter f2f%3D"yes"&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Dependency
         </td>
         <td>
             =query.jsp= &amp; =advancedquery.jsp=
@@ -921,7 +921,7 @@ tools and end with the Ant tasks.
             =&lt;dependencyreporter p2p%3D"yes"&gt;=
         </td>
         <td>
-            =DependencyFinder= &gt;&gt;&nbsp;File &gt;&gt;&nbsp;Dependency
+            =DependencyFinder= &raquo;&nbsp;File &raquo;&nbsp;Dependency
         </td>
         <td>
             =query.jsp= &amp; =advancedquery.jsp=
