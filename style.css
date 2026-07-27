@@ -1,10 +1,26 @@
 .lowlight {
+    border-radius: 1rem;
     background: rgb(204, 204, 255);
+    overflow-x: clip;
+    min-width: 100%;
+}
+
+.lowlight:hover {
+    overflow-x: visible;
+    min-width: max-content;
 }
 
 .highlight {
-    border: thin dashed gray;
-    background: rgb(255, 255, 136);
+    border: medium dashed gray;
+    border-radius: 1rem;
+    /*background: rgb(255, 255, 136);*/
+    overflow-x: clip;
+    min-width: 100%;
+}
+
+.highlight:hover {
+    overflow-x: visible;
+    min-width: max-content;
 }
 
 .description {
@@ -56,4 +72,14 @@ code {
     font-size: xx-large;
     font-weight: bold;
     margin-left: 1rem;
+}
+
+.dates {
+    background: rgb(204, 204, 255);
+}
+
+@media screen and (width > 800px) {
+    body {
+        max-width: 800px;
+    }
 }
