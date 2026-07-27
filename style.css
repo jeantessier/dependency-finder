@@ -15,7 +15,6 @@
     border-radius: 1rem;
     /*background: rgb(255, 255, 136);*/
     overflow-x: clip;
-    min-width: 100%;
 }
 
 .highlight:hover {
