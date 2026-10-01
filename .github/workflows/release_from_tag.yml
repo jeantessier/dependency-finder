@@ -16,10 +16,10 @@ jobs:
         with:
           ref: ${{ github.event.head_commit.id }}
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v5
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
@@ -37,7 +37,7 @@ jobs:
 
             **Full Changelog**: https://github.com/jeantessier/dependency-finder/compare/${{ github.ref_name }}...${{ github.ref_name }}
 
-            Compiled for Java 17.
+            Compiled for Java 21.
           files: dist/*
 
       - name: URL to new release

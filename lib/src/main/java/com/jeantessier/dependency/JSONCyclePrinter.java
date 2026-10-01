@@ -29,24 +29,12 @@ public class JSONCyclePrinter implements CyclePrinter {
     }
 
     private String printNode(Node node) {
-        String type;
-        if (node instanceof PackageNode) {
-            type = "package";
-        } else if (node instanceof ClassNode) {
-            type = "class";
-        } else if (node instanceof FeatureNode) {
-            type = "feature";
-        } else {
-            throw new IllegalStateException("Unexpected node type " + node.getClass().getName());
-        }
-
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // String type = switch (node) {
-        //     case PackageNode packageNode -> "package";
-        //     case ClassNode classNode -> "class";
-        //     case FeatureNode featureNode -> "feature";
-        //     default -> throw new IllegalStateException("Unexpected node type " + node.getClass().getName());
-        // };
+        String type = switch (node) {
+            case PackageNode packageNode -> "package";
+            case ClassNode classNode -> "class";
+            case FeatureNode featureNode -> "feature";
+            default -> throw new IllegalStateException("Unexpected node type " + node.getClass().getName());
+        };
 
         return "{\"type\":\"" + type + "\",\"name\":\"" + node.getName() + "\"}";
     }

@@ -38,6 +38,7 @@ import com.jeantessier.classreader.Visitor;
 import org.apache.logging.log4j.*;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Instruction implements com.jeantessier.classreader.Instruction {
     private static final int NB_OPCODES = 0x100;
@@ -850,48 +851,22 @@ public class Instruction implements com.jeantessier.classreader.Instruction {
     }
 
     public Collection<? extends ConstantPoolEntry> getDynamicConstantPoolEntries() {
-        return switch (getOpcode()) {
-            case 0xba: // invokedynamic
-                LogManager.getLogger(getClass()).debug("getDynamicConstantPoolEntries()");
-                if (getIndexedConstantPoolEntry() instanceof Dynamic_info entry) {
-                    BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
-                    code.getConstantPool().getClassfile().accept(finder);
-                    yield finder.getBootstrapMethod().getArguments().stream()
-                            .filter(argument -> argument instanceof MethodHandle_info)
-                            .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
-                            .toList();
-                } else if (getIndexedConstantPoolEntry() instanceof InvokeDynamic_info entry) {
-                    BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
-                    code.getConstantPool().getClassfile().accept(finder);
-                    yield finder.getBootstrapMethod().getArguments().stream()
-                            .filter(argument -> argument instanceof MethodHandle_info)
-                            .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
-                            .toList();
-                } else {
-                    yield Collections.emptyList();
-                }
-            default:
-                yield Collections.emptyList();
-        };
+        return Optional.ofNullable(getIndexedConstantPoolEntry())
+                .<Collection<? extends ConstantPoolEntry>>map(indexed -> switch (indexed) {
+                    case Dynamic_info entry -> findMethodHandleReferences(entry.getBootstrapMethodAttrIndex());
+                    case InvokeDynamic_info entry -> findMethodHandleReferences(entry.getBootstrapMethodAttrIndex());
+                    default -> Collections.emptyList();
+                })
+                .orElse(Collections.emptyList());
+    }
 
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // return switch (getIndexedConstantPoolEntry()) {
-        //     case Dynamic_info entry -> {
-        //         BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
-        //         code.getConstantPool().getClassfile().accept(finder);
-        //         yield finder.getBootstrapMethod().getArguments().stream()
-        //                 .filter(argument -> argument instanceof MethodHandle_info)
-        //                 .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference());
-        //     }
-        //     case InvokeDynamic_info entry -> {
-        //         BootstrapMethodFinder finder = new BootstrapMethodFinder(entry.getBootstrapMethodAttrIndex());
-        //         code.getConstantPool().getClassfile().accept(finder);
-        //         yield finder.getBootstrapMethod().getArguments().stream()
-        //                 .filter(argument -> argument instanceof MethodHandle_info)
-        //                 .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference());
-        //     }
-        //     default -> Stream.empty();
-        // };
+    private List<? extends ConstantPoolEntry> findMethodHandleReferences(int bootstrapMethodAttrIndex) {
+        BootstrapMethodFinder finder = new BootstrapMethodFinder(bootstrapMethodAttrIndex);
+        code.getConstantPool().getClassfile().accept(finder);
+        return finder.getBootstrapMethod().getArguments().stream()
+                .filter(argument -> argument instanceof MethodHandle_info)
+                .map(methodHandle -> ((MethodHandle_info) methodHandle).getReference())
+                .toList();
     }
 
     public com.jeantessier.classreader.LocalVariable getIndexedLocalVariable() {

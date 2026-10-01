@@ -1043,18 +1043,11 @@ public class XMLPrinter extends Printer {
             case 0xba: // invokedynamic
                 append(" index=\"").append(instruction.getIndex()).append("\">");
                 append(instruction);
-                var indexedEntry = instruction.getIndexedConstantPoolEntry();
-                if (indexedEntry instanceof Dynamic_info dynamic_info) {
-                    append(" ").append(dynamic_info.getName());
-                } else if (indexedEntry instanceof InvokeDynamic_info invokeDynamic_info) {
-                    append(" ").append(invokeDynamic_info.getName());
+                switch (instruction.getIndexedConstantPoolEntry()) {
+                    case Dynamic_info entry -> append(" ").append(entry.getName());
+                    case InvokeDynamic_info entry -> append(" ").append(entry.getName());
+                    default -> append("");
                 }
-                // TODO: Replace with type pattern matching in switch expression in Java 21
-                // switch (instruction.getIndexedConstantPoolEntry()) {
-                //     case Dynamic_info entry -> append(" ").append(entry.getName());
-                //     case InvokeDynamic_info entry -> append(" ").append(entry.getName());
-                //     default -> append("");
-                // }
                 instruction.getDynamicConstantPoolEntries().forEach(entry -> {
                     append(" ");
                     entry.accept(this);

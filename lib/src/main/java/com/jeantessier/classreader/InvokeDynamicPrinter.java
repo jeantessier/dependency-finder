@@ -245,18 +245,11 @@ public class InvokeDynamicPrinter extends Printer {
 
             raiseIndent();
             indent().append("pc=").append(helper.getStart()).append(" : ").append(helper.getMnemonic());
-            var indexedEntry = helper.getIndexedConstantPoolEntry();
-            if (indexedEntry instanceof Dynamic_info dynamic_info) {
-                append(" ").append(dynamic_info.getName());
-            } else if (indexedEntry instanceof InvokeDynamic_info invokeDynamic_info) {
-                append(" ").append(invokeDynamic_info.getName());
+            switch (helper.getIndexedConstantPoolEntry()) {
+                case Dynamic_info entry -> append(" ").append(entry.getName());
+                case InvokeDynamic_info entry -> append(" ").append(entry.getName());
+                default -> append("");
             }
-            // TODO: Replace with type pattern matching in switch expression in Java 21
-            // switch (helper.getIndexedConstantPoolEntry()) {
-            //     case Dynamic_info entry -> append(" ").append(entry.getName());
-            //     case InvokeDynamic_info entry -> append(" ").append(entry.getName());
-            //     default -> append("");
-            // }
             eol();
 
             raiseIndent();

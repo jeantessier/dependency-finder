@@ -2165,7 +2165,7 @@ I will give a brief introduction to regular expression syntax here.  These links
 explain Perl regular expressions in more details:
 
    * [[https://jakarta.apache.org/oro/][Jakarta ORO]] (_Dependency Finder uses this one_)
-   * [[https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/regex/Pattern.html#sum][Java 17]]
+   * [[https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#sum][Java 21]]
    * [[https://perldoc.perl.org/perlre][Perldoc.com]]
 
 Regular expressions are strings that get matched against package, class, and

@@ -34,38 +34,27 @@ package com.jeantessier.classreader;
 
 import java.io.*;
 
+import org.apache.logging.log4j.*;
+
 public class DeprecationPrinter extends Printer {
     public DeprecationPrinter(PrintWriter out) {
         super(out);
     }
     
     public void visitDeprecated_attribute(Deprecated_attribute attribute) {
-        Object owner = attribute.getOwner();
-
-        if (owner instanceof Feature_info feature_info) {
-            if (!feature_info.getClassfile().isDeprecated()) {
-                append(feature_info.getFullSignature()).eol();
+        switch (attribute.getOwner()) {
+            case Feature_info feature_info -> {
+                // There is probably a way to fold the if statement in the case above
+                if (!feature_info.getClassfile().isDeprecated()) {
+                    append(feature_info.getFullSignature()).eol();
+                }
             }
-        } else if (owner instanceof Classfile classfile) {
-            append(classfile).eol();
-            classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
-            classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
-        }
-
-        // TODO: Replace with type pattern matching in switch expression in Java 21
-        // switch (attribute.getOwner()) {
-        //     case Feature_info feature_info -> {
-        //         // There is probably a way to fold the if statement in the case above
-        //         if (!feature_info.getClassfile().isDeprecated()) {
-        //             append(feature_info.getFullSignature()).eol();
-        //         }
-        //     }
-        //     case Classfile classfile -> {
-        //         append(classfile).eol();
-        //         classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
-        //         classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
-        //     }
-        //     default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", owner.getClass().getName());
-        // }
+            case Classfile classfile -> {
+                append(classfile).eol();
+                classfile.getAllFields().forEach(field -> append(field.getFullSignature()).eol());
+                classfile.getAllMethods().forEach(method -> append(method.getFullSignature()).eol());
+            }
+            default -> LogManager.getLogger(getClass()).warn("Deprecated attribute on unknown Visitable: {}", attribute.getOwner().getClass().getName());
+         }
     }
 }
