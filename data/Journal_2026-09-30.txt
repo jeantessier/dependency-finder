@@ -1,0 +1,14 @@
+Support for Java 17 is waning<label for%3D"sn-2026-09-30-java-support" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2026-09-30-java-support" class%3D"margin-toggle">.
+<span class%3D"sidenote">The Oracle
+[[https://www.oracle.com/java/technologies/java-se-support-roadmap.html][roadmap]]
+ends _premier_ support for Java 17 in September 2026.  There will be _extended_
+support for some time after that.  Still, Java 17 is on its way out.</span>
+Surveys are showing that Java 21 has overtaken Java 17.<label for%3D"sn-2026-09-30-java-21-overtake" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2026-09-30-java-21-overtake" class%3D"margin-toggle">.
+<span class%3D"sidenote">The big surveys date back to
+[[https://www.secondtalent.com/resources/domain-java-statistics/][2025]], and
+the numbers for 2026 are not out yet.</span>  Three years ago, back on
+[[2023-11-06]], I committed to supporting Java 17.  But I feel it's been long
+enough, and it is time to move up to the next LTS, Java 21.  It allows me to
+use switch expressions with pattern matching in a bunch of places.
