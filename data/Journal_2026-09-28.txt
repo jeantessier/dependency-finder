@@ -1,0 +1,4 @@
+I noticed that the Journal is not being pushed to the website.  There are no
+errors in the build logs.  I re-ran the website build, just in case, but it did
+not help.  No failures either.  I suspect that the upload and deployment steps
+might be limiting themselves to what's in Git and ignoring the build output.
