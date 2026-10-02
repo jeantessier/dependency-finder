@@ -1,4 +1,10 @@
-I noticed that the Journal is not being pushed to the website.  There are no
-errors in the build logs.  I re-ran the website build, just in case, but it did
-not help.  No failures either.  I suspect that the upload and deployment steps
-might be limiting themselves to what's in Git and ignoring the build output.
+I noticed that the Journal is not being pushed to the website.
+<label for%3D"mn-2026-09-28-missing-journal" class%3D"margin-toggle">&#8853;</label>
+<input type="checkbox" id%3D"mn-2026-09-28-missing-journal" class%3D"margin-toggle"/>
+<span class%3D"marginnote">I mistakenly went to the SourceForge version of the
+website, which is obsolete.  I am not maintaining it anymore.  The official
+website on GitHub receives the updates just fine.</span>
+There are no errors in the build logs.  I re-ran the website build, just in
+case, but it did not help.  No failures either.  I suspect that the upload and
+deployment steps might be limiting themselves to what's in Git and ignoring the
+build output.
