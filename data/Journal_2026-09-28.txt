@@ -3,7 +3,7 @@ I noticed that the Journal is not being pushed to the website.
 <input type="checkbox" id%3D"mn-2026-09-28-missing-journal" class%3D"margin-toggle"/>
 <span class%3D"marginnote">I mistakenly went to the SourceForge version of the
 website, which is obsolete.  I am not maintaining it anymore.  The official
-website on GitHub receives the updates just fine.</span>
+website on GitHub is receiving the updates just fine.</span>
 There are no errors in the build logs.  I re-ran the website build, just in
 case, but it did not help.  No failures either.  I suspect that the upload and
 deployment steps might be limiting themselves to what's in Git and ignoring the
