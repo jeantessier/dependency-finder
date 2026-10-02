@@ -14,8 +14,8 @@ abstractness is either 0% (concrete) or 100% (abstract).
 
 Rolling this up to classes, a concrete class has only concrete methods, so its
 abstractedness is 0%.  Prior to Java 8, interfaces could only have abstract
-methods, so their abstractness would be 100%, unless we count static methods<label for%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle sidenote-number"></label>
-<input type%3D"checkbox" id%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle">.
+methods, so their abstractness would be 100%, unless we count static methods.<label for%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle sidenote-number"></label>
+<input type%3D"checkbox" id%3D"sn-2025-05-25-static-methods-in-interfaces" class%3D"margin-toggle">
 <span class%3D"sidenote">I don't remember if interfaces were prohibited from
 having static methods back then.</span>  Abstract classes are wildcards; all
 their methods might be abstract, all their methods might be concrete, or

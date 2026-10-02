@@ -10,13 +10,13 @@ up on [[2024-07-04]], imagine the following interfaces:
     }
 
 And the initial implementation below.  They chose to name their classes exactly
-like the interface they implement, _because reasons_<label for%3D"sn-2024-09-04-because-reasons" class%3D"margin-toggle sidenote-number"></label>
+like the interface they implement, _because reasons_.<label for%3D"sn-2024-09-04-because-reasons" class%3D"margin-toggle sidenote-number"></label>
 <input type%3D"checkbox" id%3D"sn-2024-09-04-because-reasons" class%3D"margin-toggle">
 <span class%3D"sidenote">Maybe they like to keep names simple, like _Foo_.  The
 alternative is to distinguish them artificially, either as =FooInterface= and
 =Foo=, or else as =Foo= and =FooImpl=.  Nobody in their right mind would use
 something as silly as =IFoo= and =FooImpl=, though.  Right?!?  Regardless of
-the names, the compiler *will* create a bridge method.</span>.
+the names, the compiler *will* create a bridge method.</span>
 
     package com.acme.impl;
     &nbsp;
