@@ -1,0 +1,15 @@
+I saw a post on Mastodon that mentioned
+[[https://enofex.github.io/taikai/][Taikai]].  It is a testing tool that
+verifies that your code follows a given set of rules.  It's like a linter where
+the rules are specified in Java instead of some external notation.  And it
+evaluates them in a JUnit test.  It comes with a lot of pre-defined rules like
+=fieldsShouldNotBePublic= or (test) =methodsShouldBePackagePrivate=.  It calls
+them _architectural rules_.
+
+I tried it out and it found some problems.  But it does not recognize
+[[http://jmock.org/][jMock]] when it checks that tests actually have
+assertions, and I don't see an easy way to fix that.  It can check that test
+methods do not =throw Exception=, which is good in principle.  But this would
+force you to wrap the body of the test in a try-catch block and make the test
+less readable.  I like that it moves you off of =System.out=, but I didn't see
+any mechanism to suspend it in the few special cases where it's needed.
