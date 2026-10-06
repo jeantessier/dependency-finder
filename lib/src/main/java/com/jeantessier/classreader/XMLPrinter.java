@@ -41,7 +41,7 @@ public class XMLPrinter extends Printer {
     public static final String DEFAULT_ENCODING   = "utf-8";
     public static final String DEFAULT_DTD_PREFIX = "https://jeantessier.github.io/dependency-finder/dtd";
 
-    private static final BitFormat format = new BitFormat(16);
+    private static final BitFormat BIT_FORMAT = new BitFormat(16);
 
     private boolean top = true;
 
@@ -76,7 +76,7 @@ public class XMLPrinter extends Printer {
     
     public void visitClassfile(Classfile classfile) {
         indent().append("<!-- ").append(classfile.getClassName()).append(" -->").eol();
-        indent().append("<classfile magic-number=\"0x").append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flags=\"").append(format.format(classfile.getAccessFlags())).append("\">").eol();
+        indent().append("<classfile magic-number=\"0x").append(Integer.toHexString(classfile.getMagicNumber()).toUpperCase()).append("\" minor-version=\"").append(classfile.getMinorVersion()).append("\" major-version=\"").append(classfile.getMajorVersion()).append("\" access-flags=\"").append(BIT_FORMAT.format(classfile.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         top = true;
@@ -471,7 +471,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitField_info(Field_info entry) {
-        indent().append("<field-info access-flags=\"").append(format.format(entry.getAccessFlags())).append("\">").eol();
+        indent().append("<field-info access-flags=\"").append(BIT_FORMAT.format(entry.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (entry.isPublic())    indent().append("<public/>").eol();
@@ -504,7 +504,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitMethod_info(Method_info entry) {
-        indent().append("<method-info access-flags=\"").append(format.format(entry.getAccessFlags())).append("\">").eol();
+        indent().append("<method-info access-flags=\"").append(BIT_FORMAT.format(entry.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (entry.isPublic())       indent().append("<public/>").eol();
@@ -819,7 +819,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitModule_attribute(Module_attribute attribute) {
-        indent().append("<module-attribute module-flags=\"").append(format.format(attribute.getModuleFlags())).append("\">").eol();
+        indent().append("<module-attribute module-flags=\"").append(BIT_FORMAT.format(attribute.getModuleFlags())).append("\">").eol();
         raiseIndent();
 
         indent();
@@ -1087,7 +1087,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitInnerClass(InnerClass helper) {
-        indent().append("<inner-class access-flags=\"").append(format.format(helper.getAccessFlags())).append("\">").eol();
+        indent().append("<inner-class access-flags=\"").append(BIT_FORMAT.format(helper.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (helper.isPublic())     indent().append("<public/>").eol();
@@ -1184,7 +1184,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitMethodParameter(MethodParameter helper) {
-        indent().append("<method-parameter access-flags=\"").append(format.format(helper.getAccessFlags())).append("\">").eol();
+        indent().append("<method-parameter access-flags=\"").append(BIT_FORMAT.format(helper.getAccessFlags())).append("\">").eol();
         raiseIndent();
 
         if (helper.hasName()) {
@@ -1203,7 +1203,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitModuleRequires(ModuleRequires helper) {
-        indent().append("<module-requires requires-flags=\"").append(format.format(helper.getRequiresFlags())).append("\">").eol();
+        indent().append("<module-requires requires-flags=\"").append(BIT_FORMAT.format(helper.getRequiresFlags())).append("\">").eol();
         raiseIndent();
 
         indent();
@@ -1228,7 +1228,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitModuleExports(ModuleExports helper) {
-        indent().append("<module-exports exports-flags=\"").append(format.format(helper.getExportsFlags())).append("\">").eol();
+        indent().append("<module-exports exports-flags=\"").append(BIT_FORMAT.format(helper.getExportsFlags())).append("\">").eol();
         raiseIndent();
 
         indent();
@@ -1259,7 +1259,7 @@ public class XMLPrinter extends Printer {
     }
 
     public void visitModuleOpens(ModuleOpens helper) {
-        indent().append("<module-opens opens-flags=\"").append(format.format(helper.getOpensFlags())).append("\">").eol();
+        indent().append("<module-opens opens-flags=\"").append(BIT_FORMAT.format(helper.getOpensFlags())).append("\">").eol();
         raiseIndent();
 
         indent();

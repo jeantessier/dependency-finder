@@ -66,7 +66,7 @@ public class TestModule_attribute_moduleFlags {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="isOpen for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testIsOpen(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsOpen(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(moduleFlags);
         assertEquals(isOpen, sut.isOpen());
     }
@@ -74,7 +74,7 @@ public class TestModule_attribute_moduleFlags {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="isSynthetic for {0} should be {3}")
     @MethodSource("dataProvider")
-    public void testIsSynthetic(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsSynthetic(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(moduleFlags);
         assertEquals(isSynthetic, sut.isSynthetic());
     }
@@ -82,7 +82,7 @@ public class TestModule_attribute_moduleFlags {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="isMandated for {0} should be {4}")
     @MethodSource("dataProvider")
-    public void testIsMandated(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsMandated(String variation, int moduleFlags, boolean isOpen, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(moduleFlags);
         assertEquals(isMandated, sut.isMandated());
     }

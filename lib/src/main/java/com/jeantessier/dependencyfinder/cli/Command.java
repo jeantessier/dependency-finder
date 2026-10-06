@@ -60,6 +60,7 @@ public abstract class Command {
     private CommandLineUsage commandLineUsage;
 
     private Date startTime;
+    private Date stopTime;
     private VerboseListener verboseListener;
     private PrintWriter out;
 
@@ -189,6 +190,11 @@ public abstract class Command {
 
     private void stopProcessing() {
         stopTimer();
+
+        if (commandLine.getToggleSwitch("time")) {
+            System.err.println(getClass().getName() + ": " + ((stopTime.getTime() - (double) startTime.getTime()) / 1000) + " secs.");
+        }
+
         stopOutput();
         stopVerboseListener();
     }
@@ -213,10 +219,7 @@ public abstract class Command {
     }
 
     private void stopTimer() {
-        if (commandLine.getToggleSwitch("time")) {
-            Date end = new Date();
-            System.err.println(getClass().getName() + ": " + ((end.getTime() - (double) startTime.getTime()) / 1000) + " secs.");
-        }
+        stopTime = new Date();
     }
 
     private void startOutput() throws IOException {

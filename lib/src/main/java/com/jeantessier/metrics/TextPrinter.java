@@ -39,8 +39,8 @@ import java.util.*;
 import static java.util.stream.Collectors.*;
 
 public class TextPrinter extends Printer {
-    private static final NumberFormat valueFormat = new DecimalFormat("#.##");
-    private static final NumberFormat ratioFormat = new DecimalFormat("#%");
+    private static final NumberFormat VALUE_FORMAT = new DecimalFormat("#.##");
+    private static final NumberFormat RATIO_FORMAT = new DecimalFormat("#%");
 
     private final List<MeasurementDescriptor> descriptors;
 
@@ -68,11 +68,11 @@ public class TextPrinter extends Printer {
     }
 
     public void visitStatisticalMeasurement(StatisticalMeasurement measurement) {
-        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(VALUE_FORMAT.format(measurement.getValue()));
 
         try {
             RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
-            append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
+            append(" (").append(RATIO_FORMAT.format(ratio.getValue())).append(")");
         } catch (ClassCastException ex) {
             // Do nothing, no ratio for this measurement
         }
@@ -116,7 +116,7 @@ public class TextPrinter extends Printer {
     }
 
     public void visitHistogramMeasurement(HistogramMeasurement measurement) {
-        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(VALUE_FORMAT.format(measurement.getValue()));
 
         append(" [");
 
@@ -140,11 +140,11 @@ public class TextPrinter extends Printer {
     }
     
     protected void visitMeasurement(Measurement measurement) {
-        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(valueFormat.format(measurement.getValue()));
+        indent().append(measurement.getLongName()).append(" (").append(measurement.getShortName()).append("): ").append(VALUE_FORMAT.format(measurement.getValue()));
 
         try {
             RatioMeasurement ratio = (RatioMeasurement) currentMetrics.getMeasurement(measurement.getShortName() + "R");
-            append(" (").append(ratioFormat.format(ratio.getValue())).append(")");
+            append(" (").append(RATIO_FORMAT.format(ratio.getValue())).append(")");
         } catch (ClassCastException ex) {
             // Do nothing, no ratio for this measurement
         }

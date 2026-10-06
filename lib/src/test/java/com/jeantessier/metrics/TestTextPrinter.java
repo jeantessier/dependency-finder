@@ -16,7 +16,7 @@ public class TestTextPrinter {
     private final List<MeasurementDescriptor> descriptors = new ArrayList<>();
 
     @Test
-    public void testVisitMetrics_NoDescriptors() {
+    void testVisitMetrics_NoDescriptors() {
         // Given
         var printer = new TextPrinter(new PrintWriter(buffer), descriptors);
 
@@ -35,7 +35,7 @@ public class TestTextPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForHiddenMeasurement() throws Exception {
+    void testVisitMetrics_DescriptorForHiddenMeasurement() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -73,7 +73,7 @@ public class TestTextPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForSingleValueMeasurement() throws Exception {
+    void testVisitMetrics_DescriptorForSingleValueMeasurement() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -114,7 +114,7 @@ public class TestTextPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -154,7 +154,7 @@ public class TestTextPrinter {
     }
 
     @Test
-    public void testReport_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
+    void testReport_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)

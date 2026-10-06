@@ -38,7 +38,7 @@ import org.apache.oro.text.perl.Perl5Util;
 import java.util.*;
 
 public class FilteringLoadListener extends LoadListenerDecorator {
-    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util PERL = new Perl5Util(new MaximumCapacityPatternCache());
 
     protected Collection<String> includes;
     protected Collection<String> excludes;
@@ -55,6 +55,6 @@ public class FilteringLoadListener extends LoadListenerDecorator {
     }
 
     private boolean matches(Collection<String> regularExpressions, String name) {
-        return regularExpressions.stream().anyMatch(condition -> perl.match(condition, name));
+        return regularExpressions.stream().anyMatch(condition -> PERL.match(condition, name));
     }
 }

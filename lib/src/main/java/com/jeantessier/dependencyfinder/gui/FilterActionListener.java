@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 public class FilterActionListener implements Runnable, ActionListener {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private final OOMetrics model;
 
@@ -81,7 +81,7 @@ public class FilterActionListener implements Runnable, ActionListener {
 
     private Collection<Metrics> getFilterMetrics(Collection<Metrics> metricsList) {
         return metricsList.stream()
-                .filter(metrics -> perl.match(model.getFilterField().getText(), metrics.getName()))
+                .filter(metrics -> PERL.match(model.getFilterField().getText(), metrics.getName()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

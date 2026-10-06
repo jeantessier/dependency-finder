@@ -39,7 +39,7 @@ import org.apache.oro.text.perl.*;
 import static java.util.stream.Collectors.*;
 
 public class LCOM4Gatherer implements Visitor {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private final Map<ClassNode, Collection<Collection<FeatureNode>>> results = new HashMap<>();
     private Collection<FeatureNode> currentComponent;
@@ -108,6 +108,6 @@ public class LCOM4Gatherer implements Visitor {
     }
 
     private boolean isConstructor(FeatureNode node) {
-        return perl.match("/(\\w+)\\.\\1\\(/", node.getName());
+        return PERL.match("/(\\w+)\\.\\1\\(/", node.getName());
     }
 }

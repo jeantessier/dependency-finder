@@ -59,7 +59,7 @@ public class TestSignatureHelper_convert {
     @DisplayName("SignatureHelper")
     @ParameterizedTest(name="conversion of \"{0}\" should be \"{1}\"")
     @MethodSource("dataProvider")
-    public void testConvert(String descriptor, String expectedSignature) {
+    void testConvert(String descriptor, String expectedSignature) {
         assertEquals(expectedSignature, SignatureHelper.convert(descriptor));
     }
 }

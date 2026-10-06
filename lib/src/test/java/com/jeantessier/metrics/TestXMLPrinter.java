@@ -16,7 +16,7 @@ public class TestXMLPrinter {
     private final StringWriter buffer = new StringWriter();
 
     @Test
-    public void testVisitMetrics_NoDescriptors() {
+    void testVisitMetrics_NoDescriptors() {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -45,7 +45,7 @@ public class TestXMLPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForHiddenMeasurement() throws Exception {
+    void testVisitMetrics_DescriptorForHiddenMeasurement() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -138,7 +138,7 @@ public class TestXMLPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForSingleValueMeasurement() throws Exception {
+    void testVisitMetrics_DescriptorForSingleValueMeasurement() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -262,7 +262,7 @@ public class TestXMLPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -407,7 +407,7 @@ public class TestXMLPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)

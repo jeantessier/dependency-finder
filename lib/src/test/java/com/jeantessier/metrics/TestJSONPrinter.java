@@ -19,7 +19,7 @@ public class TestJSONPrinter {
     private final StringWriter buffer = new StringWriter();
 
     @Test
-    public void testVisitMetrics_NoDescriptors() {
+    void testVisitMetrics_NoDescriptors() {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -43,7 +43,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForHiddenMeasurement() throws Exception {
+    void testVisitMetrics_DescriptorForHiddenMeasurement() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -131,7 +131,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForSingleValueMeasurement() throws Exception {
+    void testVisitMetrics_DescriptorForSingleValueMeasurement() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -278,7 +278,7 @@ public class TestJSONPrinter {
     @DisplayName("RatioMeasurement")
     @ParameterizedTest(name = "with {0} should have value {3}")
     @MethodSource("ratioDataProvider")
-    public void testVisitMetrics_DescriptorForRatioMeasurement(String variation, int numeratorValue, int denominatorValue, String expectedValue) throws Exception {
+    void testVisitMetrics_DescriptorForRatioMeasurement(String variation, int numeratorValue, int denominatorValue, String expectedValue) throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -363,7 +363,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoValues_NoPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_NoValues_NoPercentiles() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -424,7 +424,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_NoValues_WithPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_NoValues_WithPercentiles() throws Exception {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)
@@ -505,7 +505,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_WithValues_NoPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_WithValues_NoPercentiles() throws Exception {
         // Given
         var configuration = new MetricsConfiguration();
 
@@ -660,7 +660,7 @@ public class TestJSONPrinter {
     }
 
     @Test
-    public void testVisitMetrics_DescriptorForStatisticalMeasurement_WithValues_WithPercentiles() throws Exception {
+    void testVisitMetrics_DescriptorForStatisticalMeasurement_WithValues_WithPercentiles() throws Exception {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)

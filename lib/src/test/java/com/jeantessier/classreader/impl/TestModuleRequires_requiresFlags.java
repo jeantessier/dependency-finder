@@ -65,7 +65,7 @@ public class TestModuleRequires_requiresFlags {
     @DisplayName("ModuleRequires")
     @ParameterizedTest(name="isTransitive for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testIsTransitive(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsTransitive(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(requiresFlags);
         assertEquals(isTransitive, sut.isTransitive());
     }
@@ -73,7 +73,7 @@ public class TestModuleRequires_requiresFlags {
     @DisplayName("ModuleRequires")
     @ParameterizedTest(name="isStaticPhase for {0} should be {3}")
     @MethodSource("dataProvider")
-    public void testIsStaticPhase(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsStaticPhase(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(requiresFlags);
         assertEquals(isStaticPhase, sut.isStaticPhase());
     }
@@ -81,7 +81,7 @@ public class TestModuleRequires_requiresFlags {
     @DisplayName("ModuleRequires")
     @ParameterizedTest(name="isSynthetic for {0} should be {4}")
     @MethodSource("dataProvider")
-    public void testIsSynthetic(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsSynthetic(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(requiresFlags);
         assertEquals(isSynthetic, sut.isSynthetic());
     }
@@ -89,7 +89,7 @@ public class TestModuleRequires_requiresFlags {
     @DisplayName("ModuleRequires")
     @ParameterizedTest(name="isMandated for {0} should be {5}")
     @MethodSource("dataProvider")
-    public void testIsMandated(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsMandated(String variation, int requiresFlags, boolean isTransitive, boolean isStaticPhase, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(requiresFlags);
         assertEquals(isMandated, sut.isMandated());
     }

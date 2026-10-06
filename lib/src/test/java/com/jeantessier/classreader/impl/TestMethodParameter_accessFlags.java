@@ -64,7 +64,7 @@ public class TestMethodParameter_accessFlags {
     @DisplayName("MethodParameter")
     @ParameterizedTest(name="isFinal with access flags {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testIsFinal(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsFinal(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(accessFlags);
         assertEquals(isFinal, sut.isFinal());
     }
@@ -72,7 +72,7 @@ public class TestMethodParameter_accessFlags {
     @DisplayName("MethodParameter")
     @ParameterizedTest(name="isSynthetic with access flags {0} should be {3}")
     @MethodSource("dataProvider")
-    public void testIsSynthetic(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsSynthetic(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(accessFlags);
         assertEquals(isSynthetic, sut.isSynthetic());
     }
@@ -80,7 +80,7 @@ public class TestMethodParameter_accessFlags {
     @DisplayName("MethodParameter")
     @ParameterizedTest(name="isMandated with access flags {0} should be {4}")
     @MethodSource("dataProvider")
-    public void testIsMandated(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsMandated(String variation, int accessFlags, boolean isFinal, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(accessFlags);
         assertEquals(isMandated, sut.isMandated());
     }

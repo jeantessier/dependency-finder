@@ -63,7 +63,7 @@ public class TestModuleRequires_requiresVersion {
     @DisplayName("MethodRequires")
     @ParameterizedTest(name="requiresVersionIndex for {0} should be {1}")
     @MethodSource("dataProvider")
-    public void testGetRequiresVersionIndex(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+    void testGetRequiresVersionIndex(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
         var sut = createSut(requiresVersionIndex, requiresVersion);
         assertEquals(requiresVersionIndex, sut.getRequiresVersionIndex());
     }
@@ -71,7 +71,7 @@ public class TestModuleRequires_requiresVersion {
     @DisplayName("MethodRequires")
     @ParameterizedTest(name="hasRequiresVersion for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testHasRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+    void testHasRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
         var sut = createSut(requiresVersionIndex, requiresVersion);
         assertEquals(hasRequiresVersion, sut.hasRequiresVersion());
     }
@@ -79,7 +79,7 @@ public class TestModuleRequires_requiresVersion {
     @DisplayName("MethodRequires")
     @ParameterizedTest(name="raw requiresVersion for {0} should be present if {2}")
     @MethodSource("dataProvider")
-    public void testGetRawRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+    void testGetRawRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
         var sut = createSut(requiresVersionIndex, requiresVersion);
 
         var actualRawRequiresVersion = Optional.ofNullable(sut.getRawRequiresVersion());
@@ -89,7 +89,7 @@ public class TestModuleRequires_requiresVersion {
     @DisplayName("MethodRequires")
     @ParameterizedTest(name="requiresVersion for {0} should be {3}")
     @MethodSource("dataProvider")
-    public void testGetRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
+    void testGetRequiresVersion(String variation, int requiresVersionIndex, boolean hasRequiresVersion, String requiresVersion) throws IOException {
         var sut = createSut(requiresVersionIndex, requiresVersion);
         assertEquals(requiresVersion, sut.getRequiresVersion());
     }

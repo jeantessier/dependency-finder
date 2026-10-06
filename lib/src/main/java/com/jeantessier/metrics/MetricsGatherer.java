@@ -46,7 +46,7 @@ import java.util.stream.Stream;
  *  by the compiler.</p>
  */
 public class MetricsGatherer extends VisitorBase {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private final MetricsFactory factory;
 
@@ -563,7 +563,7 @@ public class MetricsGatherer extends VisitorBase {
         if (helper.hasOuterClassInfo()) {
             result = helper.getOuterClassInfo().equals(getCurrentClass().getName());
         } else {
-            result = perl.match("/^" + getCurrentClass().getName() + "\\$\\d+$/", helper.getInnerClassInfo());
+            result = PERL.match("/^" + getCurrentClass().getName() + "\\$\\d+$/", helper.getInnerClassInfo());
         }
 
         return result;

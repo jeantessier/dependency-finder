@@ -40,7 +40,9 @@ import org.apache.oro.text.*;
 import com.jeantessier.text.*;
 
 public class RegularExpressionSelectionCriteria implements SelectionCriteria {
-    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util PERL = new Perl5Util(new MaximumCapacityPatternCache());
+
+    private final RegularExpressionParser parser;
 
     private List<String> globalIncludes = new LinkedList<>();
     private List<String> globalExcludes = new LinkedList<>();
@@ -53,12 +55,24 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     private boolean matchingFeatures = true;
     private List<String> featureIncludes = new LinkedList<>();
     private List<String> featureExcludes = new LinkedList<>();
-    
+
     public RegularExpressionSelectionCriteria() {
-        // Do nothing
+        this(new SimpleRegularExpressionParser());
+    }
+
+    public RegularExpressionSelectionCriteria(RegularExpressionParser parser) {
+        this.parser = parser;
     }
 
     public RegularExpressionSelectionCriteria(String initialGlobalIncludes) {
+        this();
+
+        setGlobalIncludes(initialGlobalIncludes);
+    }
+
+    public RegularExpressionSelectionCriteria(RegularExpressionParser parser, String initialGlobalIncludes) {
+        this(parser);
+
         setGlobalIncludes(initialGlobalIncludes);
     }
 
@@ -67,7 +81,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setGlobalIncludes(String globalIncludes) {
-        setGlobalIncludes(RegularExpressionParser.parseRE(globalIncludes));
+        setGlobalIncludes(parser.parseRE(globalIncludes));
     }
     
     public void setGlobalIncludes(List<String> globalIncludes) {
@@ -79,7 +93,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setGlobalExcludes(String globalExcludes) {
-        setGlobalExcludes(RegularExpressionParser.parseRE(globalExcludes));
+        setGlobalExcludes(parser.parseRE(globalExcludes));
     }
 
     public void setGlobalExcludes(List<String> globalExcludes) {
@@ -99,7 +113,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setPackageIncludes(String packageIncludes) {
-        setPackageIncludes(RegularExpressionParser.parseRE(packageIncludes));
+        setPackageIncludes(parser.parseRE(packageIncludes));
     }
 
     public void setPackageIncludes(List<String> packageIncludes) {
@@ -111,7 +125,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setPackageExcludes(String packageExcludes) {
-        setPackageExcludes(RegularExpressionParser.parseRE(packageExcludes));
+        setPackageExcludes(parser.parseRE(packageExcludes));
     }
 
     public void setPackageExcludes(List<String> packageExcludes) {
@@ -131,7 +145,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setClassIncludes(String classIncludes) {
-        setClassIncludes(RegularExpressionParser.parseRE(classIncludes));
+        setClassIncludes(parser.parseRE(classIncludes));
     }
 
     public void setClassIncludes(List<String> classIncludes) {
@@ -143,7 +157,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setClassExcludes(String classExcludes) {
-        setClassExcludes(RegularExpressionParser.parseRE(classExcludes));
+        setClassExcludes(parser.parseRE(classExcludes));
     }
 
     public void setClassExcludes(List<String> classExcludes) {
@@ -163,7 +177,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setFeatureIncludes(String featureIncludes) {
-        setFeatureIncludes(RegularExpressionParser.parseRE(featureIncludes));
+        setFeatureIncludes(parser.parseRE(featureIncludes));
     }
 
     public void setFeatureIncludes(List<String> featureIncludes) {
@@ -175,7 +189,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
     }
 
     public void setFeatureExcludes(String featureExcludes) {
-        setFeatureExcludes(RegularExpressionParser.parseRE(featureExcludes));
+        setFeatureExcludes(parser.parseRE(featureExcludes));
     }
 
     public void setFeatureExcludes(List<String> featureExcludes) {
@@ -217,7 +231,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         while (!found && i.hasNext()) {
             String regex = i.next();
             try {
-                found = perl.match(regex, name);
+                found = PERL.match(regex, name);
             } catch (MalformedCachePatternException ex) {
                 throw new MatchException(regex, ex);
             }
@@ -227,7 +241,7 @@ public class RegularExpressionSelectionCriteria implements SelectionCriteria {
         while (!found && i.hasNext()) {
             String regex = i.next();
             try {
-                found = perl.match(regex, name);
+                found = PERL.match(regex, name);
             } catch (MalformedCachePatternException ex) {
                 throw new MatchException(regex, ex);
             }

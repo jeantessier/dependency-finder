@@ -39,10 +39,10 @@ import com.jeantessier.text.*;
 import java.util.*;
 
 public abstract class MeasurementBase implements Measurement {
-    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util PERL = new Perl5Util(new MaximumCapacityPatternCache());
 
     protected static Perl5Util perl() {
-        return perl;
+        return PERL;
     }
     
     private MeasurementDescriptor descriptor = null;

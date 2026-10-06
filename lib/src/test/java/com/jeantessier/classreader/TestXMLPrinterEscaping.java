@@ -59,7 +59,7 @@ public class TestXMLPrinterEscaping {
     @DisplayName("XMLPrinter")
     @ParameterizedTest(name="with {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testEscapeXMLCharacters(String variation, String text, String expectedResult) {
+    void testEscapeXMLCharacters(String variation, String text, String expectedResult) {
         assertEquals(expectedResult, sut.escapeXMLCharacters(text));
     }
 }

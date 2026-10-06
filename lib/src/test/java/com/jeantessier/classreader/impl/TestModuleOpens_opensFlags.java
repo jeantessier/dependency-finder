@@ -63,7 +63,7 @@ public class TestModuleOpens_opensFlags {
     @DisplayName("ModuleOpens")
     @ParameterizedTest(name="isSynthetic for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testIsSynthetic(String variation, int opensFlags, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsSynthetic(String variation, int opensFlags, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(opensFlags);
         assertEquals(isSynthetic, sut.isSynthetic());
     }
@@ -71,7 +71,7 @@ public class TestModuleOpens_opensFlags {
     @DisplayName("ModuleOpens")
     @ParameterizedTest(name="isMandated for {0} should be {3}")
     @MethodSource("dataProvider")
-    public void testIsMandated(String variation, int opensFlags, boolean isSynthetic, boolean isMandated) throws IOException {
+    void testIsMandated(String variation, int opensFlags, boolean isSynthetic, boolean isMandated) throws IOException {
         var sut = createSut(opensFlags);
         assertEquals(isMandated, sut.isMandated());
     }

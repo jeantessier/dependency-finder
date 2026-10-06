@@ -37,10 +37,10 @@ import java.io.*;
 import org.apache.oro.text.perl.*;
 
 public class HTMLCyclePrinter extends TextCyclePrinter {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     protected static Perl5Util perl() {
-        return perl;
+        return PERL;
     }
 
     private final String urlFormat;

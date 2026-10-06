@@ -47,7 +47,7 @@ import static java.util.stream.Collectors.toCollection;
 public class MetricsFactory {
     private static final String EOL = System.getProperty("line.separator", "\n");
 
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private final String projectName;
     private final MetricsConfiguration configuration;
@@ -264,15 +264,15 @@ public class MetricsFactory {
     private Metrics buildMethodMetrics(String name) {
         String className = "";
         String featureName = "";
-        if (perl.match("/^(.*)\\.([^\\.]*)\\(.*\\)(: \\S.*)?$/", name)) {
-            className = perl.group(1);
-            featureName = perl.group(2);
-        } else if (perl.match("/^(.*)\\.(static) {}(: \\S.*)?$/", name)) {
-            className = perl.group(1);
-            featureName = perl.group(2);
-        } else if (perl.match("/^(.*)\\.([\\^.]*)$/", name)) {
-            className = perl.group(1);
-            featureName = perl.group(2);
+        if (PERL.match("/^(.*)\\.([^\\.]*)\\(.*\\)(: \\S.*)?$/", name)) {
+            className = PERL.group(1);
+            featureName = PERL.group(2);
+        } else if (PERL.match("/^(.*)\\.(static) {}(: \\S.*)?$/", name)) {
+            className = PERL.group(1);
+            featureName = PERL.group(2);
+        } else if (PERL.match("/^(.*)\\.([\\^.]*)$/", name)) {
+            className = PERL.group(1);
+            featureName = PERL.group(2);
         }
         Metrics classMetrics = createClassMetrics(className);
         Metrics result = new Metrics(classMetrics, name);

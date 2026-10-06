@@ -38,7 +38,7 @@ import org.apache.oro.text.perl.Perl5Util;
 import java.util.*;
 
 public class ClassReport extends Printer implements Comparable<ClassReport>, com.jeantessier.classreader.Visitor {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private ClassDifferences differences;
 
@@ -618,9 +618,9 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     private String escapeXMLCharactersInTagContent(String text) {
         String result = text;
 
-        result = perl.substitute("s/&/&amp;/g", result);
-        result = perl.substitute("s/</&lt;/g", result);
-        result = perl.substitute("s/>/&gt;/g", result);
+        result = PERL.substitute("s/&/&amp;/g", result);
+        result = PERL.substitute("s/</&lt;/g", result);
+        result = PERL.substitute("s/>/&gt;/g", result);
 
         return result;
     }
@@ -628,8 +628,8 @@ public class ClassReport extends Printer implements Comparable<ClassReport>, com
     private String escapeXMLCharactersInAttributeValue(String text) {
         String result = escapeXMLCharactersInTagContent(text);
 
-        result = perl.substitute("s/\"/&quot;/g", result);
-        result = perl.substitute("s/'/&apos;/g", result);
+        result = PERL.substitute("s/\"/&quot;/g", result);
+        result = PERL.substitute("s/'/&apos;/g", result);
 
         return result;
     }

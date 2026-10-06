@@ -65,7 +65,7 @@ public class TestModule_attribute_moduleVersion {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="moduleVersionIndex for {0} should be {1}")
     @MethodSource("dataProvider")
-    public void testGetModuleVersionIndex(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+    void testGetModuleVersionIndex(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
         var sut = createSut(moduleVersionIndex, moduleVersion);
         assertEquals(moduleVersionIndex, sut.getModuleVersionIndex());
     }
@@ -73,7 +73,7 @@ public class TestModule_attribute_moduleVersion {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="hasModuleVersion for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testHasModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+    void testHasModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
         var sut = createSut(moduleVersionIndex, moduleVersion);
         assertEquals(hasModuleVersion, sut.hasModuleVersion());
     }
@@ -81,7 +81,7 @@ public class TestModule_attribute_moduleVersion {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="raw moduleVersion for {0} should be present if {2}")
     @MethodSource("dataProvider")
-    public void testGetRawModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+    void testGetRawModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
         var sut = createSut(moduleVersionIndex, moduleVersion);
 
         var actualRawModuleVersion = Optional.ofNullable(sut.getRawModuleVersion());
@@ -91,7 +91,7 @@ public class TestModule_attribute_moduleVersion {
     @DisplayName("Module_attribute")
     @ParameterizedTest(name="moduleVersion for {0} should be {3}")
     @MethodSource("dataProvider")
-    public void testGetModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
+    void testGetModuleVersion(String variation, int moduleVersionIndex, boolean hasModuleVersion, String moduleVersion) throws IOException {
         var sut = createSut(moduleVersionIndex, moduleVersion);
         assertEquals(moduleVersion, sut.getModuleVersion());
     }

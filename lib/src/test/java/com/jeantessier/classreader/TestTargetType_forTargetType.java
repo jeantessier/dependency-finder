@@ -72,7 +72,7 @@ public class TestTargetType_forTargetType {
     @DisplayName("TargetType")
     @ParameterizedTest(name="enum value for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testEnumValue(String variation, int targetType, TargetType expectedResult) {
+    void testEnumValue(String variation, int targetType, TargetType expectedResult) {
         var sut = TargetType.forTargetType(targetType);
         assertEquals(expectedResult, sut);
     }
@@ -80,7 +80,7 @@ public class TestTargetType_forTargetType {
     @DisplayName("TargetType")
     @ParameterizedTest(name="raw value for {0} should be {1}")
     @MethodSource("dataProvider")
-    public void testRawValue(String variation, int targetType, TargetType expectedResult) {
+    void testRawValue(String variation, int targetType, TargetType expectedResult) {
         var sut = TargetType.forTargetType(targetType);
         assertEquals(targetType, sut.getTargetType());
     }
@@ -88,7 +88,7 @@ public class TestTargetType_forTargetType {
     @DisplayName("TargetType")
     @ParameterizedTest(name="hex value for {0} should be {0}")
     @MethodSource("dataProvider")
-    public void testHexValue(String variation, int targetType, TargetType expectedResult) {
+    void testHexValue(String variation, int targetType, TargetType expectedResult) {
         var sut = TargetType.forTargetType(targetType);
         assertEquals(variation, sut.getHexTargetType());
     }

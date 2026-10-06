@@ -46,7 +46,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toCollection;
 
 public class MetricsConfiguration {
-    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util PERL = new Perl5Util(new MaximumCapacityPatternCache());
     
     private final List<MeasurementDescriptor> projectMeasurements = new LinkedList<>();
     private final List<MeasurementDescriptor> groupMeasurements = new LinkedList<>();
@@ -92,7 +92,7 @@ public class MetricsConfiguration {
 
     public Collection<String> getGroups(String name) {
         return groupDefinitions.entrySet().stream()
-                .filter(entry -> entry.getValue().stream().anyMatch(pattern -> perl.match(pattern, name)))
+                .filter(entry -> entry.getValue().stream().anyMatch(pattern -> PERL.match(pattern, name)))
                 .map(Map.Entry::getKey)
                 .collect(toCollection(HashSet::new));
     }

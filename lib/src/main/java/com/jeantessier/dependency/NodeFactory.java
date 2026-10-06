@@ -38,7 +38,7 @@ import org.apache.logging.log4j.*;
 import org.apache.oro.text.perl.*;
 
 public class NodeFactory {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private final Map<String, PackageNode> packages = new HashMap<>();
     private final Map<String, ClassNode> classes = new HashMap<>();
@@ -132,10 +132,10 @@ public class NodeFactory {
         if (result == null) {
             String parentName;
 
-            if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?$/", featureName)) {
-                parentName = perl.group(1);
-            } else if (perl.match("/^(.*)\\.[^\\.]*$/", featureName)) {
-                parentName = perl.group(1);
+            if (PERL.match("/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?$/", featureName)) {
+                parentName = PERL.group(1);
+            } else if (PERL.match("/^(.*)\\.[^\\.]*$/", featureName)) {
+                parentName = PERL.group(1);
             } else {
                 parentName = "";
             }

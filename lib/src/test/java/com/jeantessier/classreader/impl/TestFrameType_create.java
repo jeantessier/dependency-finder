@@ -76,7 +76,7 @@ public class TestFrameType_create {
     @DisplayName("create")
     @ParameterizedTest(name="from tag {0}")
     @MethodSource("dataProvider")
-    public void testCreate(String variation, int frameType, Integer offsetDelta, Integer numberOfLocals, Collection<String> locals, Integer numberOfStackItems, Collection<String> stacks, Class<? extends StackMapFrame> expectedClass) throws IOException {
+    void testCreate(String variation, int frameType, Integer offsetDelta, Integer numberOfLocals, Collection<String> locals, Integer numberOfStackItems, Collection<String> stacks, Class<? extends StackMapFrame> expectedClass) throws IOException {
         // Given
         var mockVerificationTypeInfoFactory = context.mock(VerificationTypeInfoFactory.class);
         var mockConstantPool = context.mock(ConstantPool.class);

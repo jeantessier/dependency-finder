@@ -44,13 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestBootstrapMethodFinder extends MockObjectTestCase {
     private static final int BOOTSTRAP_METHOD_INDEX = 1;
 
-    BootstrapMethodFinder sut;
-
-    @BeforeEach
-    void setUp() throws Exception {
-
-        sut = new BootstrapMethodFinder(BOOTSTRAP_METHOD_INDEX);
-    }
+    private final BootstrapMethodFinder sut = new BootstrapMethodFinder(BOOTSTRAP_METHOD_INDEX);
 
     @Test
     void testVisitBootstrapMethods_attribute() {

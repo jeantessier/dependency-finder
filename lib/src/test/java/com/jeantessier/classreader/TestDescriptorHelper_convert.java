@@ -59,7 +59,7 @@ public class TestDescriptorHelper_convert {
     @DisplayName("DescriptorHelper")
     @ParameterizedTest(name="conversion of \"{0}\" should be \"{1}\"")
     @MethodSource("dataProvider")
-    public void testConvert(String descriptor, String expectedConversion) {
+    void testConvert(String descriptor, String expectedConversion) {
         assertEquals(expectedConversion, DescriptorHelper.convert(descriptor));
     }
 }

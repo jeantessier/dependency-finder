@@ -20,7 +20,7 @@ public class TestCSVPrinter {
     private final List<MeasurementDescriptor> descriptors = new ArrayList<>();
 
     @Test
-    public void testHeaders_NoDescriptors() {
+    void testHeaders_NoDescriptors() {
         // Given
         var expectedLongNames = Stream.of("name").map(this::formatName).collect(joining(", "));
         var expectedShortNames = Stream.of("").map(this::formatName).collect(joining(", "));
@@ -41,7 +41,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testHeaders_DescriptorForHiddenMeasurement() {
+    void testHeaders_DescriptorForHiddenMeasurement() {
         // Given
         var descriptor = new MeasurementDescriptor();
         descriptor.setVisible(false);
@@ -69,7 +69,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testHeaders_DescriptorForSingleValueMeasurement() {
+    void testHeaders_DescriptorForSingleValueMeasurement() {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -103,7 +103,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testHeaders_DescriptorForStatisticalMeasurement_NoPercentiles() {
+    void testHeaders_DescriptorForStatisticalMeasurement_NoPercentiles() {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -162,7 +162,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testHeaders_DescriptorForStatisticalMeasurement_WithPercentiles() {
+    void testHeaders_DescriptorForStatisticalMeasurement_WithPercentiles() {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)
@@ -229,7 +229,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testReport_DescriptorForHiddenMeasurement() throws Exception {
+    void testReport_DescriptorForHiddenMeasurement() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -267,7 +267,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testReport_DescriptorForSingleValueMeasurement() throws Exception {
+    void testReport_DescriptorForSingleValueMeasurement() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -315,7 +315,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testReport_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
+    void testReport_DescriptorForStatisticalMeasurement_NoPercentiles() throws Exception {
         // Given
         var longName = "long name " + random.nextInt(1_000);
         var shortName = "SN" + random.nextInt(1_000);
@@ -364,7 +364,7 @@ public class TestCSVPrinter {
     }
 
     @Test
-    public void testReport_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
+    void testReport_DescriptorForStatisticalMeasurement_WithPercentiles() throws Exception {
         // Given
         var numPercentiles = random.nextInt(10) + 1;
         var percentiles = IntStream.rangeClosed(1, numPercentiles)

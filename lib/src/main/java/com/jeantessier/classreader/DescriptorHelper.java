@@ -39,7 +39,7 @@ import java.util.stream.*;
 import org.apache.logging.log4j.*;
 
 public final class DescriptorHelper {
-    private static final Map<String, String> conversion = Map.of(
+    private static final Map<String, String> CONVERSION = Map.of(
             "B", "byte",
             "C", "char",
             "D", "double",
@@ -61,7 +61,7 @@ public final class DescriptorHelper {
         LogManager.getLogger(DescriptorHelper.class).debug("Begin Convert(\"{}\")", type);
 
         if (type.length() == 1) {
-            result = conversion.get(type);
+            result = CONVERSION.get(type);
         } else if (type.charAt(0) == 'L' && type.indexOf(';') != -1) {
             result = ClassNameHelper.path2ClassName(type.substring(1, type.indexOf(';')));
         } else if (type.charAt(0) == 'T' && type.indexOf(';') != -1) {

@@ -69,7 +69,7 @@ public class TestVerificationTypeInfoFactory_create {
     @DisplayName("VerificationTypeInfoFactory")
     @ParameterizedTest(name="for {0} should be {4} with tag {1}")
     @MethodSource("dataProvider")
-    public void testCreate(String variation, int tag, Integer indexOrOffset, Class<? extends ConstantPoolEntry> constantPoolEntryClass, Class<? extends VerificationTypeInfo> expectedClass) throws IOException {
+    void testCreate(String variation, int tag, Integer indexOrOffset, Class<? extends ConstantPoolEntry> constantPoolEntryClass, Class<? extends VerificationTypeInfo> expectedClass) throws IOException {
         // Given
         var mockConstantPool = context.mock(ConstantPool.class);
         var mockIn = context.mock(DataInput.class);

@@ -1,6 +1,5 @@
 package com.jeantessier.metrics;
 
-import com.jeantessier.classreader.AttributeType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.oro.text.perl.Perl5Util;
 
@@ -46,7 +45,7 @@ public class HistogramMeasurement extends MeasurementBase {
          */
         LOG_LOG("log-log", "/plot_log_log$/i");
 
-        private final static Perl5Util perl = new Perl5Util();
+        private final static Perl5Util PERL = new Perl5Util();
 
         private final String label;
         private final String regex;
@@ -62,7 +61,7 @@ public class HistogramMeasurement extends MeasurementBase {
 
         public static Plot forName(String name) {
             return Arrays.stream(values())
-                    .filter(plot -> perl.match(plot.regex, name))
+                    .filter(plot -> PERL.match(plot.regex, name))
                     .findFirst()
                     .orElse(null);
         }

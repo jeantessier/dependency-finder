@@ -42,7 +42,7 @@ import java.util.stream.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.*;
 
-public class TestRegularExpressionParser {
+public class TestSimpleRegularExpressionParser {
     static Stream<Arguments> dataProvider() {
         return Stream.of(
                 arguments("normal RE", "/test/", List.of("/test/")),
@@ -63,11 +63,13 @@ public class TestRegularExpressionParser {
         );
     }
 
+    private final RegularExpressionParser parser = new SimpleRegularExpressionParser();
+
     @DisplayName("RegularExpressionParser")
     @ParameterizedTest(name="when the input is {0}")
     @MethodSource("dataProvider")
     void test(String variation, String inputs, List<String> expected) {
-        var actual = RegularExpressionParser.parseRE(inputs);
+        var actual = parser.parseRE(inputs);
 
         assertLinesMatch(expected, actual);
     }

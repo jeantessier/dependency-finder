@@ -59,7 +59,7 @@ public class TestVerificationType_forTag {
     @DisplayName("VerificationType")
     @ParameterizedTest(name="for {0} should be {2} and tag {1}")
     @MethodSource("dataProvider")
-    public void test(String variation, int tag, VerificationType expectedResult) {
+    void test(String variation, int tag, VerificationType expectedResult) {
         assertEquals(expectedResult, VerificationType.forTag(tag));
         assertEquals(tag, VerificationType.forTag(tag).getTag());
     }

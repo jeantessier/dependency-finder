@@ -45,7 +45,7 @@ public class ListDiffPrinter {
     public static final String DEFAULT_DTD_PREFIX  = "https://jeantessier.github.io/dependency-finder/dtd";
     public static final String DEFAULT_INDENT_TEXT = PrinterBuffer.DEFAULT_INDENT_TEXT;
 
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
     
     private final boolean compress;
     private final PrinterBuffer buffer;
@@ -261,11 +261,11 @@ public class ListDiffPrinter {
     private String extractClassName(String featureName) {
         String result = "";
 
-        synchronized (perl) {
-            if (perl.match("/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?/", featureName)) {
-                result = perl.group(1);
-            } else if (perl.match("/^(.*)\\.[\\^.]*/", featureName)) {
-                result = perl.group(1);
+        synchronized (PERL) {
+            if (PERL.match("/^(.*)\\.[^\\.]*\\(.*\\)(: \\S.*)?/", featureName)) {
+                result = PERL.group(1);
+            } else if (PERL.match("/^(.*)\\.[\\^.]*/", featureName)) {
+                result = PERL.group(1);
             }
         }
         

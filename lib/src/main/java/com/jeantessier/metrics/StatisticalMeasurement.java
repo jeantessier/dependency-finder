@@ -91,7 +91,7 @@ import java.util.regex.*;
  *  default is {@link #DISPOSE_AVERAGE}.</p>
  */
 public class StatisticalMeasurement extends MeasurementBase {
-    private static final NumberFormat valueFormat = new DecimalFormat("#.##");
+    private static final NumberFormat VALUE_FORMAT = new DecimalFormat("#.##");
 
     private static final Pattern PERCENTILE_LINE_REGEX = Pattern.compile("\\s*P\\s+\\d+.*", Pattern.CASE_INSENSITIVE);
     private static final Pattern PERCENTILE_REGEX = Pattern.compile("(\\d+)");
@@ -439,12 +439,12 @@ public class StatisticalMeasurement extends MeasurementBase {
     }
 
     public String toString() {
-        return "[" + valueFormat.format(getMinimum()) +
-                " " + valueFormat.format(getMedian()) +
-                "/" + valueFormat.format(getAverage()) +
-                " " + valueFormat.format(getStandardDeviation()) +
-                " " + valueFormat.format(getMaximum()) +
-                " " + valueFormat.format(getSum()) +
-                " (" + valueFormat.format(getNbDataPoints()) + ")]";
+        return "[" + VALUE_FORMAT.format(getMinimum()) +
+                " " + VALUE_FORMAT.format(getMedian()) +
+                "/" + VALUE_FORMAT.format(getAverage()) +
+                " " + VALUE_FORMAT.format(getStandardDeviation()) +
+                " " + VALUE_FORMAT.format(getMaximum()) +
+                " " + VALUE_FORMAT.format(getSum()) +
+                " (" + VALUE_FORMAT.format(getNbDataPoints()) + ")]";
     }
 }

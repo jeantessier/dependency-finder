@@ -73,7 +73,7 @@ public class TestHistogramMeasurement {
     @DisplayName("Histogram Plot")
     @ParameterizedTest(name = "for name \"{0}\" should have value {1}")
     @MethodSource("plotDataProvider")
-    public void testPlotValue(String name, HistogramMeasurement.Plot expectedValue) throws Exception {
+    void testPlotValue(String name, HistogramMeasurement.Plot expectedValue) throws Exception {
         // Given
 
         // When

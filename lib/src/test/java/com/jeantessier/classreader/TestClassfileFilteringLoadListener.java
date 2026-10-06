@@ -37,7 +37,6 @@ import java.util.*;
 import org.jmock.*;
 import org.junit.jupiter.api.*;
 
-
 import com.jeantessier.MockObjectTestCase;
 
 public class TestClassfileFilteringLoadListener extends MockObjectTestCase {

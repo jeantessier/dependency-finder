@@ -33,7 +33,7 @@
 package com.jeantessier.dependencyfinder.ant;
 
 import com.jeantessier.classreader.*;
-import com.jeantessier.text.RegularExpressionParser;
+import com.jeantessier.text.*;
 import org.apache.logging.log4j.*;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -45,6 +45,8 @@ import java.util.*;
 import java.util.stream.*;
 
 public class ListSymbols extends Task {
+    private final RegularExpressionParser parser = new SimpleRegularExpressionParser();
+
     private boolean classes = false;
     private boolean fields = false;
     private boolean methods = false;
@@ -164,7 +166,7 @@ public class ListSymbols extends Task {
     }
 
     public void setIncludes(String includes) {
-        this.includes = RegularExpressionParser.parseRE(includes);
+        this.includes = parser.parseRE(includes);
     }
 
     public Path createIncludeslist() {
@@ -184,7 +186,7 @@ public class ListSymbols extends Task {
     }
 
     public void setExcludes(String excludes) {
-        this.excludes = RegularExpressionParser.parseRE(excludes);
+        this.excludes = parser.parseRE(excludes);
     }
 
     public Path createExcludeslist() {

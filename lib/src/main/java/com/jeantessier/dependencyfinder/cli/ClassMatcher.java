@@ -40,7 +40,7 @@ import com.jeantessier.classreader.*;
 import com.jeantessier.text.*;
 
 public class ClassMatcher extends LoadListenerBase {
-    private static final Perl5Util perl = new Perl5Util(new MaximumCapacityPatternCache());
+    private static final Perl5Util PERL = new Perl5Util(new MaximumCapacityPatternCache());
 
     private final Collection<String> includes;
     private final Collection<String> excludes;
@@ -72,6 +72,6 @@ public class ClassMatcher extends LoadListenerBase {
     }
 
     private boolean matches(Collection<String> regularExpressions, String name) {
-        return regularExpressions.stream().anyMatch(condition -> perl.match(condition, name));
+        return regularExpressions.stream().anyMatch(condition -> PERL.match(condition, name));
     }
 }

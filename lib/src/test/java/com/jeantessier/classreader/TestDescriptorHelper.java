@@ -56,14 +56,14 @@ public class TestDescriptorHelper {
     @DisplayName("DescriptorHelper")
     @ParameterizedTest(name="signature for \"{0}\" should be \"{1}\"")
     @MethodSource("dataProvider")
-    public void testGetSignature(String descriptor, String expectedSignature, int expectedParameterCount) {
+    void testGetSignature(String descriptor, String expectedSignature, int expectedParameterCount) {
         assertEquals(expectedSignature, DescriptorHelper.getSignature(descriptor));
     }
 
     @DisplayName("DescriptorHelper")
     @ParameterizedTest(name="parameter count for \"{0}\" should be {2}")
     @MethodSource("dataProvider")
-    public void testGetParameterCount(String descriptor, String expectedSignature, int expectedParameterCount) {
+    void testGetParameterCount(String descriptor, String expectedSignature, int expectedParameterCount) {
         assertEquals(expectedParameterCount, DescriptorHelper.getParameterCount(descriptor));
     }
 }

@@ -34,24 +34,24 @@ package com.jeantessier.classreader;
 
 import org.apache.oro.text.perl.*;
 
-public class ClassNameHelper {
-    public static final Perl5Util perl = new Perl5Util();
+public final class ClassNameHelper {
+    private static final Perl5Util PERL = new Perl5Util();
+
+    private ClassNameHelper() {
+        // Prevent instantiation
+    }
 
     public static String path2ClassName(String path) {
-        return perl.substitute("s/\\//./g", path);
+        return PERL.substitute("s/\\//./g", path);
     }
 
     public static String convertClassName(String type) {
-        String result;
-
         if (type.charAt(0) == 'L' && type.indexOf(';') > 0) {
-            result = path2ClassName(type.substring(1, type.indexOf(';')));
+            return path2ClassName(type.substring(1, type.indexOf(';')));
         } else if (type.charAt(0) == '[') {
-            result = convertClassName(type.substring(1)) + "[]";
+            return convertClassName(type.substring(1)) + "[]";
         } else {
-            result = path2ClassName(type);
+            return path2ClassName(type);
         }
-
-        return result;
     }
 }

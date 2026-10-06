@@ -46,7 +46,7 @@ public class TestSignatureFinder {
     JUnit5Mockery context = new JUnit5Mockery();
 
     @Test
-    public void testVisitCode_attribute() {
+    void testVisitCode_attribute() {
         Code_attribute mockCode_attribute = context.mock(Code_attribute.class);
 
         SignatureFinder sut = new SignatureFinder();
@@ -55,7 +55,7 @@ public class TestSignatureFinder {
     }
 
     @Test
-    public void testVisitSignature_attribute() {
+    void testVisitSignature_attribute() {
         final Signature_attribute mockSignature_attribute = context.mock(Signature_attribute.class);
 
         context.checking(new Expectations() {{

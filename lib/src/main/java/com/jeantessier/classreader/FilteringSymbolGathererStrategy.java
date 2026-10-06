@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecorator {
-    private static final Perl5Util perl = new Perl5Util();
+    private static final Perl5Util PERL = new Perl5Util();
 
     private final List<String> includes;
     private final Collection<String> includesList;
@@ -130,7 +130,7 @@ public class FilteringSymbolGathererStrategy extends SymbolGathererStrategyDecor
 
         Iterator<String> i = regularExpressions.iterator();
         while (!result && i.hasNext()) {
-            result = perl.match(i.next(), name);
+            result = PERL.match(i.next(), name);
         }
 
         if (!result && valueList != null) {

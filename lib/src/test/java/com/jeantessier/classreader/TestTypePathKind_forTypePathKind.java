@@ -54,7 +54,7 @@ public class TestTypePathKind_forTypePathKind {
     @DisplayName("TargetType")
     @ParameterizedTest(name="enum value for {0} should be {2}")
     @MethodSource("dataProvider")
-    public void testEnumValue(String variation, int typePathKind, TypePathKind expectedResult) {
+    void testEnumValue(String variation, int typePathKind, TypePathKind expectedResult) {
         var sut = TypePathKind.forTypePathKind(typePathKind);
         assertEquals(expectedResult, sut);
     }
@@ -62,7 +62,7 @@ public class TestTypePathKind_forTypePathKind {
     @DisplayName("TargetType")
     @ParameterizedTest(name="raw value for {0} should be {1}")
     @MethodSource("dataProvider")
-    public void testRawValue(String variation, int typePathKind, TypePathKind expectedResult) {
+    void testRawValue(String variation, int typePathKind, TypePathKind expectedResult) {
         var sut = TypePathKind.forTypePathKind(typePathKind);
         assertEquals(typePathKind, sut.getTypePathKind());
     }
