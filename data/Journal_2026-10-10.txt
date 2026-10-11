@@ -1,0 +1,8 @@
+[[https://blogs.oracle.com/java/post/the-arrival-of-java-27][Java 27]] is out.
+I looked at the
+[[https://docs.oracle.com/javase/specs/index.html][JVM specification]], and I
+couldn't find any changes to the =.class= file format.  Good.
+
+I know it came out a few days ago, but I was waiting for the
+[[https://adoptium.net/temurin][Temurin]] build before committing to it and
+doing the research into any JVM differences.
