@@ -1,3 +1,16 @@
+@font-face {
+    font-family: 'Jean Handwriting Liga';
+    src: url(fonts/JeanHandwriting-Liga-Regular.otf) format("opentype");
+}
+
+.marginnote, .sidenote {
+    font-family: 'Jean Handwriting Liga';
+}
+
+article h2 {
+    font-family: 'Jean Handwriting Liga';
+}
+
 pre.code {
     width: 100%;
 }
