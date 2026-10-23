@@ -2,6 +2,10 @@ plugins {
     id("java")
 }
 
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.add("-Xlint:-dep-ann")
+}
+
 val compileJava = tasks.named("compileJava") {}
 
 val onelevelZip = tasks.register<Zip>("onelevel-zip") {
