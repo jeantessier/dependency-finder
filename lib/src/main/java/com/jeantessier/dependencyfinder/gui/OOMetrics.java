@@ -44,6 +44,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
@@ -163,7 +164,7 @@ public class OOMetrics extends JFrame {
 
         action = new MetricsExtractAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('e');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
@@ -173,7 +174,7 @@ public class OOMetrics extends JFrame {
 
         action = new NewMetricsAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('n');
         button = toolbar.add(action);
         button.setToolTipText((String) action.getValue(Action.LONG_DESCRIPTION));
@@ -183,7 +184,7 @@ public class OOMetrics extends JFrame {
 
         action = new ExitAction(this);
         menuItem = fileMenu.add(action);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK));
         menuItem.setMnemonic('x');
 
         this.setJMenuBar(menuBar);
