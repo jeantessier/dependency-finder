@@ -73,7 +73,7 @@ public class MeasurementDescriptor {
     }
 
     public void getClassForByName(String className) throws ClassNotFoundException {
-        this.classFor = (Class<? extends Measurement>) Class.forName(className);
+        this.classFor = Class.forName(className).asSubclass(Measurement.class);
     }
 
     public String getInitText() {
