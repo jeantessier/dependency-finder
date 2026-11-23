@@ -1,0 +1,59 @@
+I saw a nice example of [[https://openjdk.org/jeps/512][compact source files]].
+They've been in the language since Java 25,<label for%3D"mn-2026-11-22-java-changes-by-release" class%3D"margin-toggle">&#8853;</label>
+<input type%3D"checkbox" id%3D"mn-2026-11-22-java-changes-by-release" class%3D"margin-toggle">
+<span class%3D"marginnote">With each Java release, there is a page that collects
+language
+[[https://docs.oracle.com/en/java/javase/27/language/java-language-changes-release.html][changes by release]].</span>
+but I haven't been paying
+attention.  I could use it to shrink some of the examples in the Manual.
+
+The original =test.java=:
+
+    import java.util.*;
+    &nbsp;
+    public class test {
+        public static void main(String[] args) {
+            Collection c = Collections.singleton(new Object());
+        }
+    }
+
+Becomes:
+
+    void main() {
+        Collection c = Collections.singleton(new Object());
+    }
+
+And it loses the explicit dependency on =java.lang.String=.
+
+    &nbsp;
+        test
+            --> java.lang.Object *
+            main(): void
+                --> java.lang.Object *
+                --> java.lang.Object.Object() *
+                --> java.util.Collections.singleton(java.lang.Object): java.util.Set *
+                --> java.util.Set *
+            test()
+                --> java.lang.Object.Object() *
+    java.lang *
+        Object *
+            <-- test
+            <-- test.main(): void
+            Object() *
+                <-- test.main(): void
+                <-- test.test()
+    java.util *
+        Collections *
+            singleton(java.lang.Object): java.util.Set *
+                <-- test.main(): void
+        Set *
+            <-- test.main(): void
+
+The new class diagram looks like this:
+
+[[../images/2026-11-22-test-df.png]]
+
+These are shortcuts for beginner programmers learning Java.  I wouldn't write a
+large application in compact source files.  The Manual's examples are
+deliberately simple so they can show how the tools track dependencies, but they
+should still be representative of the code that users actually write.

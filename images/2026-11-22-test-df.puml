@@ -1,0 +1,25 @@
+@startuml
+
+skin rose
+skinparam style strictuml
+hide empty members
+set separator none
+
+package java.lang {
+    class Object
+}
+
+package java.utils {
+    class Collections
+    interface Set
+}
+
+package default {
+    class test
+}
+
+Object <.. test
+Collections <.. test
+Set <.. test
+
+@enduml
